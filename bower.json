@@ -1,0 +1,23 @@
+{
+	"name": "adriancmiranda.github.io",
+	"version": "0.0.0",
+	"license": "MIT",
+	"private": true,
+	"dependencies": {},
+	"devDependencies": {
+		"am": "https://github.com/adriancmiranda/am.js.git"
+	},
+	"keywords": [
+		"adriancmiranda",
+		"blog"
+	],
+	"ignore": [
+		"node_modules",
+		"package.json",
+		"gulpfile.js",
+		"bower.json",
+		"source",
+		"test",
+		"**/.*"
+	]
+}
