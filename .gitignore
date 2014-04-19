@@ -1,0 +1,31 @@
+# BOWER
+source/scripts/vendor/
+
+# NPM
+node_modules/
+npm-debug.log
+
+# VIM
+Session.vim
+*.s[a-w][a-z]
+!*.swc
+!*.swf
+*.un~
+*.vi
+
+# UNIX
+.*
+!.slugignore
+!.gitattributes
+!.editorconfig
+!.gitignore
+!.jshintrc
+!.jscs.json
+!.bowerrc
+!.npmignore
+!.npmrc
+*~
+*#*
+
+# MAC
+Icon
