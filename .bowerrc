@@ -1,7 +1,0 @@
-{
-	"directory": "source/scripts/vendor",
-	"json": "bower.json",
-	"searchpath": [
-		"https://github.com/adriancmiranda/adriancmiranda.github.io"
-	]
-}
