@@ -79,15 +79,12 @@ var Shell = function (cfg) {
 		});
 	}
 
-	function removeID(query) {
-		var element = $.holder.querySelector(query);
-		if (element) {
-			element.removeAttribute('id');
-		}
+	function execute() {
+		return null;
 	}
 
 	function prompt() {
-		var ps1 = createElement('div'),
+		var ps = createElement('div'),
 		prompt = createElement('span'),
 		cursor = createElement('span');
 
@@ -96,14 +93,14 @@ var Shell = function (cfg) {
 		
 		prompt.id = 'prompt';
 		prompt.classList.add('prompt');
-		ps1.appendChild(prompt);
+		ps.appendChild(prompt);
 
 		cursor.id = 'cursor';
 		cursor.classList.add('cursor');
-		ps1.appendChild(cursor);
+		ps.appendChild(cursor);
 
-		$.holder.appendChild(ps1);
-		blinkPointer(0);
+		$.holder.appendChild(ps);
+		blinkPointer(600);
 	}
 
 	function blinkPointer(milliseconds) {
@@ -125,4 +122,11 @@ var Shell = function (cfg) {
             }.bind($), milliseconds);
         }
     }
+
+	function removeID(query) {
+		var element = $.holder.querySelector(query);
+		if (element) {
+			element.removeAttribute('id');
+		}
+	}
 };

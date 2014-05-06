@@ -7,6 +7,9 @@ var Commands = (this.Commands || {
     
     gimp: function(argv, cb) {
     },
+
+    open: function(argv, cb) {
+    },
     
     sudo: function(argv, cb) {
     },
