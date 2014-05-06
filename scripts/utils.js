@@ -35,7 +35,9 @@ function require(path, cb, postData) {
 		if (request.status != 200 && request.status != 304) {
 			return;
 		}
-		cb(request.responseText);
+		if (typeOf(cb) === 'function') {
+			cb(request.responseText);
+		}
 	}
 	if (request.readyState == 4) {
 		return;
@@ -87,4 +89,15 @@ function typeOf(value, strict) {
 		return 'number';
 	}
 	return value ? type : value;
+}
+
+function createElement(nodeName, name) {
+	var node;
+	try {
+		node = window.document.createElement('<'+nodeName+' name='+name+'>');
+	} catch (error) {
+		node = window.document.createElement(nodeName);
+		node.name = name;
+	}
+	return node;
 }

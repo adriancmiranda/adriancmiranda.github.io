@@ -1,56 +1,62 @@
 var Shell = function (cfg) {
+	var $ = this;
+	var _historyIndex = -1;
 	var _history = [];
 	var _queue = [];
 
-	this.startup = function (cb) {
-		this.loadProfile(cfg.profile);
-		this.loadCommands(cfg.commands);
-		this.loadFileSystem(cfg.fs, cb);
+	$.startup = function (cb) {
+		$.loadProfile(cfg.profile);
+		$.loadCommands(cfg.commands);
+		$.loadFileSystem(cfg.fs, cb);
 	};
 	
-	this.loadProfile = function (profile) {
+	$.loadProfile = function (profile) {
 		if (typeOf(profile) === 'object') {
-			this.profile = profile;
+			$.profile = profile;
 		}
 	};
 	
-	this.loadCommands = function (commands) {
+	$.loadCommands = function (commands) {
 		if (typeOf(commands) === 'object') {
-			this.commands = commands;
-			this.commands._prompt = this;
+			$.commands = commands;
+			$.commands._shell = $;
 		}
 	};
 
-	this.loadFileSystem = function (fs, cb) {
+	$.loadFileSystem = function (fs, cb) {
 		if (typeOf(fs) === 'string') {
 			require(fs, function (response) {
-				this.fs = JSON.parse(response);
-				attachDir(this.fs, this.fs);
+				$.fs = JSON.parse(response);
+				attachDir($.fs, $.fs);
 				if (typeOf(cb) === 'function') {
-					cb.apply(this, [this.fs]);
+					cb.apply($, [$.fs]);
 				}
-			}.bind(this));
+			}.bind($));
 		} else if (typeof cb === 'function') {
-			cb.apply(this, []);
+			cb.apply($, []);
 		}
 	};
 
-	this.queue = function (command) {
+	$.queue = function (command) {
 		_queue.push(command);
-		return this;
+		return $;
 	};
 
-	this.run = function (element) {
+	$.run = function (element) {
 		var parentElement = element || window.document.body;
-		this.holder = window.document.createElement('div');
-		this.holder.classList.add('terminal');
-		parentElement.appendChild(this.holder);
-		this.cwd = this.fs;
+		$.holder = createElement('div');
+		$.holder.classList.add('terminal');
+		parentElement.appendChild($.holder);
+		$.cwd = $.fs;
 		prompt();
 	};
 
-	this.scroll = function () {
+	$.scroll = function () {
 		window.scrollTo(0, window.document.body.scrollHeight);
+	};
+	
+	$.cursor = function () {
+		return $.holder.querySelector('#cursor');
 	};
 
 	function attachDir(currentDir, parentDir) {
@@ -58,7 +64,7 @@ var Shell = function (cfg) {
 			if (entry.type == 'dir') {
 				attachDir(entry, currentDir);
 			}
-		}.bind(this));
+		}.bind($));
 		
 		currentDir.contents.unshift({
 			'name': '..',
@@ -73,11 +79,50 @@ var Shell = function (cfg) {
 		});
 	}
 
-	function prompt() {
-		var div = window.document.createElement('div'),
-		prompt = window.document.createElement('span'),
-		command = window.document.createElement('span');
-		div.appendChild(prompt);
-		div.appendChild(command);
+	function removeID(query) {
+		var element = $.holder.querySelector(query);
+		if (element) {
+			element.removeAttribute('id');
+		}
 	}
+
+	function prompt() {
+		var ps1 = createElement('div'),
+		prompt = createElement('span'),
+		cursor = createElement('span');
+
+		removeID('#prompt');
+		removeID('#cursor');
+		
+		prompt.id = 'prompt';
+		prompt.classList.add('prompt');
+		ps1.appendChild(prompt);
+
+		cursor.id = 'cursor';
+		cursor.classList.add('cursor');
+		ps1.appendChild(cursor);
+
+		$.holder.appendChild(ps1);
+		blinkPointer(0);
+	}
+
+	function blinkPointer(milliseconds) {
+        var cursor, caret = $.holder.querySelector('#caret');
+        if (caret) {
+            caret.parentNode.removeChild(caret);
+        } else {
+            cursor = $.cursor();
+            if (cursor) {
+                caret = createElement('span');
+                caret.id = 'caret';
+                caret.classList.add('caret');
+                cursor.parentNode.appendChild(caret);
+            }
+        }
+        if (typeOf(milliseconds) === 'number' && milliseconds) {
+            window.setTimeout(function () {
+                blinkPointer(milliseconds);
+            }.bind($), milliseconds);
+        }
+    }
 };

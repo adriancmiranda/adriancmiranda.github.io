@@ -1,14 +1,14 @@
 var Profile = (this.Profile || {
     PS1: function (user, cwd) {
-        var pointer = '$ ';
+        var prompt = '$ ';
         if (user) {
             return [
                   '<span class="user">' + user + '</span>.'
                 , '<span class="host">github.io</span> [master=] '
                 , '<span class="cwd">' + cwd + '</span>'
-                , '<br>' + pointer
+                , '<br>' + prompt
             ].join('');
         }
-        return pointer;
+        return prompt;
     }
 });
