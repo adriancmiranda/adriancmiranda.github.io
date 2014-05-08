@@ -1,10 +1,12 @@
 var Profile = (this.Profile || {
-    PS1: function (user, cwd) {
+    username: 'adriancmiranda',
+    PS1: function (cwd, username) {
         var prompt = '$ ';
-        if (user) {
+        if (username) {
             return [
-                  '<span class="user">' + user + '</span>.'
-                , '<span class="host">github.io</span> [master=] '
+                  '[<span class="branch">master =</span>] '
+                , '<span class="user">' + username + '</span>.'
+                , '<span class="host">github.io</span>/'
                 , '<span class="cwd">' + cwd + '</span>'
                 , '<br>' + prompt
             ].join('');

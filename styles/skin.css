@@ -1,4 +1,9 @@
 body {
+	padding-top: 5px;
+	white-space: pre-wrap;
+	color: rgb(255,255,255);
+	font-family: monospace;
+	font-size: 13px;
 	width: 100%;
 	height: 100%;
 }
@@ -25,9 +30,37 @@ a:hover {
 	white-space: pre-wrap;
 }
 
-.caret {
+.terminal .user,
+.terminal .user a {
+	color: rgb(207,83,118);
+	/*font-weight: bold;*/
+}
+
+.terminal .host,
+.terminal .host a {
+	color: rgb(162,144,247);
+	/*font-weight: bold;*/
+}
+.terminal .branch,
+.terminal .branch a {
+	color: rgb(225,215,129);
+	/*font-weight: bold;*/
+}
+
+.terminal .cwd,
+.terminal .cwd a {
+	color: rgb(202,250,24);
+	font-weight: bold;
+}
+
+.terminal .cursor {
 	float: left;
-    width: 7px;
-    height: 14px;
-    background: #fff;
+}
+
+.terminal .caret {
+	background: rgb(255,255,255);
+	line-height: .9em;
+	float: left;
+	width: 7px;
+	height: 14px;
 }
