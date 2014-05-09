@@ -128,6 +128,13 @@ var Shell = function (cfg) {
 
 	function typeSpecialKey(code) {
 		var stdout = $.stdout();
+		if (!stdout) {
+			return;
+		}
+		// Backspace/delete.
+		if ([8,46].indexOf(code) > -1) {
+            stdout.innerHTML = stdout.innerHTML.replace(/.$/, '');
+		}
 	}
 
 	function prompt() {
