@@ -131,8 +131,8 @@ var Shell = function (cfg) {
 		if (!stdout) {
 			return;
 		}
-		// Backspace/delete.
 		if ([8,46].indexOf(code) > -1) {
+			// Backspace/delete.
             stdout.innerHTML = stdout.innerHTML.replace(/.$/, '');
 		}
 	}
