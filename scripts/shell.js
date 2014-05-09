@@ -134,6 +134,14 @@ var Shell = function (cfg) {
 		if ([8,46].indexOf(code) > -1) {
 			// Backspace/delete.
             stdout.innerHTML = stdout.innerHTML.replace(/.$/, '');
+		} else if (code == 9) {
+			// Tab.
+		} else if (code == 13) {
+			// Enter.
+		} else if (code == 38) {
+			// Up
+		} else if (code == 40) {
+			// Down
 		}
 	}
 
