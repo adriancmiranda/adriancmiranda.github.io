@@ -19,7 +19,7 @@ var Shell = function (cfg) {
 	$.loadCommands = function (commands) {
 		if (typeOf(commands) === 'object') {
 			$.commands = commands;
-			$.commands._shell = $;
+			$.commands.Shell = $;
 		}
 	};
 
@@ -44,12 +44,20 @@ var Shell = function (cfg) {
 
 	$.run = function (element) {
 		var parentElement = element || window.document.body;
-		$.holder = createElement('div');
-		$.holder.classList.add('terminal');
-		parentElement.appendChild($.holder);
+		$.terminal = createElement('div');
+		$.terminal.classList.add('terminal');
+		parentElement.appendChild($.terminal);
 		window.onkeypress = function (event) {
-			event = event || window.event
-			type(event.which || event.keyCode);
+			event = event || window.event;
+			typeKey(event.which || event.keyCode);
+		}.bind($);
+		window.onkeydown = function(event) {
+			event = event || window.event;
+			var key = event.which || event.keyCode;
+			if (event.ctrlKey || [8,9,13,46,38,40].indexOf(key) > -1) {
+				event.preventDefault();
+			}
+			typeSpecialKey(event.which || event.keyCode);
 		}.bind($);
 		$.cwd = $.fs;
 		prompt();
@@ -74,20 +82,17 @@ var Shell = function (cfg) {
 	};
 
 	$.getPWD = function (dir) {
+		dir = (dir || $.cwd);
 		var pwd = '';
-		 while ($.getDir('..', dir.contents).contents !== dir.contents) {
+		while ($.getDir('..', dir.contents).contents !== dir.contents) {
 			pwd = '/' + dir.name + pwd;
 			dir = $.getDir('..', dir.contents);
-		 }
-		 return '~' + pwd;
-	};
-
-	$.getCWD = function () {
-		return $.getPWD($.cwd);
+		}
+		return '~' + pwd;
 	};
 	
-	$.cursor = function () {
-		return $.holder.querySelector('#cursor');
+	$.stdout = function () {
+		return $.terminal.querySelector('#stdout');
 	};
 
 	function attachDir(currentDir, parentDir) {
@@ -114,46 +119,50 @@ var Shell = function (cfg) {
 		return null;
 	}
 
-	function type(key) {
-		var cursor = $.cursor();
-		if (cursor) {
-			cursor.innerHTML += String.fromCharCode(key);
+	function typeKey(code) {
+		var stdout = $.stdout();
+		if (!(!stdout || code > 0x7E || code == 9 || code == 13 || code < 0x20)) {
+			stdout.innerHTML += String.fromCharCode(code);
 		}
+	}
+
+	function typeSpecialKey(code) {
+		var stdout = $.stdout();
 	}
 
 	function prompt() {
 		var ps = createElement('div'),
 		prompt = createElement('span'),
-		cursor = createElement('span');
+		stdout = createElement('span');
 
 		removeID('#prompt');
-		removeID('#cursor');
+		removeID('#stdout');
 		
 		prompt.id = 'prompt';
 		prompt.classList.add('prompt');
-		prompt.innerHTML = $.profile.PS1($.getCWD(), $.profile.username);
+		prompt.innerHTML = $.profile.PS1($.getPWD(), $.profile.username);
 		ps.appendChild(prompt);
 
-		cursor.id = 'cursor';
-		cursor.classList.add('cursor');
-		ps.appendChild(cursor);
+		stdout.id = 'stdout';
+		stdout.classList.add('stdout');
+		ps.appendChild(stdout);
 
-		$.holder.appendChild(ps);
+		$.terminal.appendChild(ps);
 		blinkPointer(0);
 		$.scroll();
 	}
 
 	function blinkPointer(milliseconds) {
-		var cursor, caret = $.holder.querySelector('#caret');
+		var stdout, caret = $.terminal.querySelector('#caret');
 		if (caret) {
 			caret.parentNode.removeChild(caret);
 		} else {
-			cursor = $.cursor();
-			if (cursor) {
+			stdout = $.stdout();
+			if (stdout) {
 				caret = createElement('span');
 				caret.id = 'caret';
 				caret.classList.add('caret');
-				cursor.parentNode.appendChild(caret);
+				stdout.parentNode.appendChild(caret);
 			}
 		}
 		if (typeOf(milliseconds) === 'number' && milliseconds) {
@@ -164,7 +173,7 @@ var Shell = function (cfg) {
 	}
 
 	function removeID(query) {
-		var element = $.holder.querySelector(query);
+		var element = $.terminal.querySelector(query);
 		if (element) {
 			element.removeAttribute('id');
 		}

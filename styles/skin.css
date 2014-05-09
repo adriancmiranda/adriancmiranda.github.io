@@ -1,23 +1,16 @@
 body {
-	padding-top: 5px;
 	white-space: pre-wrap;
 	color: rgb(255,255,255);
 	font-family: monospace;
+	font-weight: normal;
 	font-size: 13px;
 	width: 100%;
 	height: 100%;
 }
 
-a {
-	color: rgb(190,153,203);
-	text-decoration: none;
-}
-
-a:hover {
-	text-decoration: underline;
-}
-
 .terminal {
+	background: rgb(45,45,45);
+	white-space: pre-wrap;
 	position: absolute;
 	margin: auto;
 	width: 100%;
@@ -26,41 +19,48 @@ a:hover {
 	right: 0;
 	bottom: 0;
 	left: 0;
-	background: rgb(45,45,45);
-	white-space: pre-wrap;
+}
+
+.terminal a {
+	color: rgb(190,153,203);
+	text-decoration: none;
+}
+
+.terminal a:hover {
+	text-decoration: underline;
 }
 
 .terminal .user,
 .terminal .user a {
 	color: rgb(207,83,118);
-	/*font-weight: bold;*/
 }
 
 .terminal .host,
 .terminal .host a {
 	color: rgb(162,144,247);
-	/*font-weight: bold;*/
 }
+
 .terminal .branch,
 .terminal .branch a {
 	color: rgb(225,215,129);
-	/*font-weight: bold;*/
 }
 
 .terminal .cwd,
 .terminal .cwd a {
 	color: rgb(202,250,24);
-	font-weight: bold;
 }
 
-.terminal .cursor {
-	float: left;
+.terminal .pointer {
+	color: rgb(255,255,255);
 }
 
-.terminal .caret {
+.terminal .stdout {
+	line-height: 1.5em;
+}
+
+.terminal .caret:after {
+	content: '.';
 	background: rgb(255,255,255);
-	line-height: .9em;
-	float: left;
 	width: 7px;
-	height: 14px;
+	height: 17px;
 }

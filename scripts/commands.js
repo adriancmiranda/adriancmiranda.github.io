@@ -6,6 +6,7 @@ var Commands = (this.Commands || {
     },
     
     clear: function(argv, cb) {
+        $.commands.Shell.terminal.innerHTML = '';
         if (typeOf(cb) === 'function') {
             cb();
         }
