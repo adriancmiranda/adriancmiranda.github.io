@@ -57,7 +57,7 @@ var Shell = function (cfg) {
 			if (event.ctrlKey || [8,9,13,46,38,40].indexOf(key) > -1) {
 				event.preventDefault();
 			}
-			typeSpecialKey(event.which || event.keyCode);
+			typeSpecialKey(event.which || event.keyCode, event.ctrlKey);
 		}.bind($);
 		$.cwd = $.fs;
 		prompt();
@@ -126,7 +126,7 @@ var Shell = function (cfg) {
 		}
 	}
 
-	function typeSpecialKey(code) {
+	function typeSpecialKey(code, ctrl) {
 		var stdout = $.stdout();
 		if (!stdout) {
 			return;
@@ -134,10 +134,12 @@ var Shell = function (cfg) {
 		if ([8,46].indexOf(code) > -1) {
 			// Backspace/delete.
             stdout.innerHTML = stdout.innerHTML.replace(/.$/, '');
+		} else if (ctrl && [67,68].indexOf(code) > -1) {
+			// Ctrl+C, Ctrl+D
 		} else if (code == 9) {
-			// Tab.
+			// Tab
 		} else if (code == 13) {
-			// Enter.
+			// Enter
 		} else if (code == 38) {
 			// Up
 		} else if (code == 40) {
