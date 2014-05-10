@@ -121,7 +121,7 @@ var Shell = function (cfg) {
 
 	function typeKey(code) {
 		var stdout = $.stdout();
-		if (!(!stdout || code > 0x7E || code == 9 || code == 13 || code < 0x20)) {
+		if (!(!stdout || code > 126 || code < 32)) {
 			stdout.innerHTML += String.fromCharCode(code);
 		}
 	}
