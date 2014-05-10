@@ -1,3 +1,14 @@
+if (!Array.prototype.indexOf) {
+    Array.prototype.indexOf = function(object, start) {
+        for (var ia = (start || 0), ib = this.length; ia < ib; ia++) {
+            if (ia in this && this[ia] === object) {
+                return ia;
+            }
+        }
+        return -1;
+    };
+}
+
 if (typeof document !== 'undefined' && !('classList' in document.documentElement)) {
 
     (function (view) {
@@ -12,18 +23,7 @@ if (typeof document !== 'undefined' && !('classList' in document.documentElement
             , strTrim = String[protoProp].trim || function () {
                 return this.replace(/^\s+|\s+$/g, '');
             }
-            , arrIndexOf = Array[protoProp].indexOf || function (item) {
-                var
-                      i = 0
-                    , len = this.length
-                ;
-                for (; i < len; i++) {
-                    if (i in this && this[i] === item) {
-                        return i;
-                    }
-                }
-                return -1;
-            }
+            , arrIndexOf = Array[protoProp].indexOf
             , DOMEx = function (type, message) {
                 this.name = type;
                 this.code = DOMException[type];
