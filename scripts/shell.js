@@ -136,7 +136,6 @@ var Shell = function (cfg) {
 					prompt();
 				}]);
 			} else if (command.indexOf('#') == 0) {
-				// Commentary
 				prompt();
 			} else {
 				$.stdout('\nbash: ' + command + ': command not found');
@@ -151,6 +150,11 @@ var Shell = function (cfg) {
 		var stdout = $.stdout();
 		if (!(!stdout || code < 32 || code > 126)) {
 			stdout.innerHTML += String.fromCharCode(code);
+			if (stdout.innerHTML.indexOf('#') == 0) {
+				stdout.classList.add('commentary');
+			} else {
+				stdout.classList.remove('commentary');
+			}
 		}
 	}
 
