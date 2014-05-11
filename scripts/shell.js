@@ -127,7 +127,9 @@ var Shell = function (cfg) {
 		command = opts[0];
 		if (command && command.length) {
 			if (command in $.commands) {
-				console.log(command, params);
+				$.commands[command].apply($, [params, function() {
+					prompt();
+				}]);
 			}
 		} else {
 			prompt();
@@ -157,7 +159,7 @@ var Shell = function (cfg) {
 			// Tab
 		} else if (code == 13) {
 			// Enter
-			execute(stdout.innerHTML)
+			execute(stdout.innerHTML);
 		} else if (code == 38) {
 			// Up
 		} else if (code == 40) {
