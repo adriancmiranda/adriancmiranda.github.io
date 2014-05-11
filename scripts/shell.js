@@ -127,6 +127,7 @@ var Shell = function (cfg) {
 		command = opts[0];
 		if (command && command.length) {
 			if (command in $.commands) {
+				window.console.log('command', command);
 				$.commands[command].apply($, [params, function() {
 					prompt();
 				}]);
@@ -155,6 +156,7 @@ var Shell = function (cfg) {
 			// Ctrl+C, Ctrl+D
 		} else if (meta && code == 75) {
 			// Command+K
+			execute('clear');
 		} else if (code == 9) {
 			// Tab
 		} else if (code == 13) {
