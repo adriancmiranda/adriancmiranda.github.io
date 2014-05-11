@@ -135,6 +135,8 @@ var Shell = function (cfg) {
 				$.commands[command].apply($, [params, function() {
 					prompt();
 				}]);
+			} else if (command.indexOf('#') == 0) {
+				// Commentary
 			} else {
 				$.stdout('\nbash: ' + command + ': command not found');
 				prompt();
