@@ -99,7 +99,7 @@ var Shell = function (cfg) {
 	
 	$.stdout = function (text) {
 		var output = $.terminal.querySelector('#stdout');
-		if (output && text) {
+		if (output && typeOf(text) === 'string') {
 			output.innerHTML += text;
 		}
 		return output;
@@ -136,7 +136,7 @@ var Shell = function (cfg) {
 					prompt();
 				}]);
 			} else {
-				$.stdout(command + ': command not found');
+				$.stdout('\nbash: ' + command + ': command not found');
 				prompt();
 			}
 		} else {
