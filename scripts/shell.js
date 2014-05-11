@@ -97,8 +97,12 @@ var Shell = function (cfg) {
 		return '~' + pwd;
 	};
 	
-	$.stdout = function () {
-		return $.terminal.querySelector('#stdout');
+	$.stdout = function (text) {
+		var output = $.terminal.querySelector('#stdout');
+		if (output && text) {
+			output.innerHTML += text;
+		}
+		return output;
 	};
 
 	function attachDir(currentDir, parentDir) {
@@ -131,6 +135,9 @@ var Shell = function (cfg) {
 				$.commands[command].apply($, [params, function() {
 					prompt();
 				}]);
+			} else {
+				$.stdout(command + ': command not found');
+				prompt();
 			}
 		} else {
 			prompt();
