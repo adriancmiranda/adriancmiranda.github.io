@@ -55,7 +55,7 @@ body {
 }
 
 .terminal .commentary {
-	color: #999;
+	color: rgb(153,153,153);
 }
 
 .terminal .stdout {
