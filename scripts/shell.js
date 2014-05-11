@@ -121,8 +121,17 @@ var Shell = function (cfg) {
 		});
 	}
 
-	function execute() {
-		return null;
+	function execute(input) {
+		var opts = input.split(' '),
+		params = opts.slice(1, opts.length),
+		command = opts[0];
+		if (command && command.length) {
+			if (command in $.commands) {
+				console.log(command, params);
+			}
+		} else {
+			prompt();
+		}
 	}
 
 	function typeKey(code) {
@@ -148,6 +157,7 @@ var Shell = function (cfg) {
 			// Tab
 		} else if (code == 13) {
 			// Enter
+			execute(stdout.innerHTML)
 		} else if (code == 38) {
 			// Up
 		} else if (code == 40) {
