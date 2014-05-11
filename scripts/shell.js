@@ -57,7 +57,13 @@ var Shell = function (cfg) {
 			if (event.ctrlKey || [8,9,13,46,38,40].indexOf(key) > -1) {
 				event.preventDefault();
 			}
-			typeSpecialKey(event.which || event.keyCode, event.ctrlKey);
+			typeSpecialKey(
+				event.which || event.keyCode,
+				event.altKey,
+				event.ctrlKey,
+				event.shiftKey,
+				event.metaKey
+			);
 		}.bind($);
 		$.cwd = $.fs;
 		prompt();
@@ -126,7 +132,7 @@ var Shell = function (cfg) {
 		}
 	}
 
-	function typeSpecialKey(code, ctrl) {
+	function typeSpecialKey(code, alt, ctrl, shift, meta) {
 		var stdout = $.stdout();
 		if (!stdout) {
 			return;
@@ -136,6 +142,8 @@ var Shell = function (cfg) {
             stdout.innerHTML = stdout.innerHTML.replace(/.$/, '');
 		} else if (ctrl && [67,68].indexOf(code) > -1) {
 			// Ctrl+C, Ctrl+D
+		} else if (meta && code == 75) {
+			// Command+K
 		} else if (code == 9) {
 			// Tab
 		} else if (code == 13) {
