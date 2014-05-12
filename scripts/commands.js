@@ -58,5 +58,11 @@ var Commands = (this.Commands || {
         if (typeOf(cb) === 'function') {
             cb();
         }
+    },
+
+    du: function(argv, cb) {
+        if (typeOf(cb) === 'function') {
+            cb();
+        }
     }
 });
