@@ -3,13 +3,15 @@ define([
 	'../utils/Map',
 	'../utils/Type',
 	'../utils/Class',
-	'../utils/Vendor'
-], function(patterns, Map, Type, Class, Vendor){
+	'../utils/Vendor',
+	'../events/EventProxy'
+], function(patterns, Map, Type, Class, Vendor, EventProxy){
 	'use strict';
 
 	var Element = new Class(function Element(node){
 		this.node = this.ensureElement(node);
-	});
+		this.super.constructor.call(this, this.node);
+	}).extends(EventProxy);
 
 	Element.static('getWindow', function(node){
 		var ownerDoc = node.ownerDocument;
@@ -218,12 +220,13 @@ define([
 		return position;
 	});
 
-	Element.method('translate', function(axis, durationMS){
+	Element.method('translate', function(axis, durationMS, easing){
 		axis = Type.isObject(axis) ? axis : {};
 		axis.x = Type.toCSSMeasure(axis.x);
 		axis.y = Type.toCSSMeasure(axis.y);
 		axis.z = Type.toCSSMeasure(axis.z);
 		this.css('transitionDuration', (Type.isUint(durationMS) ? durationMS : 0)+'ms');
+		this.css('transitionTimingFunction', Type.isString(easing) ? easing : 'linear');
 		if(Element.supportTransform3D()){
 			this.css('transform', 'translate3d('+axis.x+', '+axis.y+', '+axis.z+')');
 		}else if(Element.supportTransform()){

@@ -1,15 +1,12 @@
-require.config
-({
+require.config({
 	waitSeconds:10,
 	baseUrl:'scripts',
-	paths:
-	{
+	paths:{
 		'library': 'am/library/',
 		'portifa': 'am/portifa/',
 		'scope': 'am/scope'
 	},
-	deps:
-	[
+	deps:[
 		'portifa/facade'
 	]
 });
