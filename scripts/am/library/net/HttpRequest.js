@@ -9,7 +9,16 @@ define([
 	});
 
 	HttpRequest.method('createXHR', function(method, url){
-		return new window.XMLHttpRequest();
+		if(window.XMLHttpRequest){
+			return new window.XMLHttpRequest();
+		}else if(window.ActiveXObject){
+			try{
+				return new window.ActiveXObject('Msxml2.XMLHTTP');
+			}catch(erro){
+				return new window.ActiveXObject('Microsoft.XMLHTTP');
+			}
+		}
+		return void 0;
 	});
 
 	HttpRequest.charge('jsonpRequest', function(url, callbackId, done){

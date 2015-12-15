@@ -1,6 +1,6 @@
 define([
 	'./Type',
-	'./Class'
+	'library/utils/Class'
 ], function(Type, Class){
 	'use strict';
 
