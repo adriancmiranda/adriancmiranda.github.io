@@ -9,7 +9,8 @@ define([
 		this.method = method;
 		this.params = Array.prototype.slice.call(arguments, 3);
 		this.groupName = Timeout.createGroup(groupName);
-		this.timer = new Timer(delay * 1000, 1);
+		this.delay = Type.isDefined(delay) ? Type.toFloat(delay) : 0;
+		this.timer = new Timer(this.delay * 1000, 1);
 		this.timer.on(Timer.COMPLETE, this.onTimerComplete, this);
 		this.timer.start();
 	});
