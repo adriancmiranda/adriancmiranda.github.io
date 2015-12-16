@@ -8,27 +8,60 @@ define([
 		this.setTo(x, y);
 	});
 
+	Point.define('x', {
+		set:function(value){
+			this._x = Type.toFloat(value);
+			this._length = Math.sqrt(this._x * this._x + this._y * this._y);
+		},
+		get:function(){
+			return this._x;
+		}
+	});
+
+	Point.define('y', {
+		set:function(value){
+			this._y = Type.toFloat(value);
+			this._length = Math.sqrt(this._x * this._x + this._y * this._y);
+		},
+		get:function(){
+			return this._y;
+		}
+	});
+
+	Point.define('length', {
+		get:function(){
+			return this._length;
+		}
+	});
+
 	Point.static('polar', function(length, angle){
-		length = Type.toFloat(length);
-		angle = Type.toFloat(angle);
 		return new Point(length * Math.cos(angle), length * Math.sin(angle));
 	});
 
 	Point.static('distance', function(pointA, pointB){
-		return Math.sqrt(Math.pow(pointA.x - pointB.x, 2) + Math.pow(pointA.y - pointB.y, 2));
+		return pointA.distanceTo(pointB);
 	});
 
 	Point.static('interpolate', function(pointA, pointB, f){
 		return pointA.interpolate(pointB, f);
 	});
 
-	Point.method('setTo', function(x, y){
-		this.x = Type.toFloat(x);
-		this.y = Type.isDefined(y)? Type.toFloat(y):this.x;
+	Point.method('interpolate', function(point, f){
+		return new Point(point.x + (this.x - point.x) * f, point.y + (this.y - point.y) * f);
 	});
 
-	Point.method('length', function(){
-		return Math.sqrt(this.x * this.x + this.y * this.y);
+	Point.method('setTo', function(x, y){
+		this.x = x;
+		this.y = Type.isDefined(y)? Type.toFloat(y):this.x;
+		return this;
+	});
+
+	Point.method('normalize', function(thickness){
+		var magnitude = this.length();
+		thickness = Type.isNumeric(thickness) ? Type.toFloat(thickness) : 1;
+		this.x = this.x / magnitude * thickness;
+		this.y = this.y / magnitude * thickness;
+		return this;
 	});
 
 	Point.method('add', function(point){
@@ -40,26 +73,31 @@ define([
 	});
 
 	Point.method('offset', function(dx, dy){
-		this.setTo(this.x + Type.toFloat(dx), this.x + Type.toFloat(dy));
+		return this.setTo(this.x + dx, this.x + dy);
+	});
+
+	Point.method('horizontalDistanceTo', function(point){
+		return Math.abs(this.x - point.x);
+	});
+
+	Point.method('verticalDistanceTo', function(point){
+		return Math.abs(this.y - point.y);
+	});
+
+	Point.method('distanceTo', function(point){
+		return Math.sqrt(Math.pow(this.horizontalDistanceTo(point, 2)) + Math.pow(this.verticalDistanceTo(point, 2)));
 	});
 
 	Point.method('manhattan', function(point){
-		return Math.abs(this.x - point.x) + Math.abs(this.y - point.y);
+		return this.horizontalDistanceTo(point) + this.verticalDistanceTo(point);
 	});
 
-	Point.method('normalize', function(thickness){
-		var magnitude = this.length();
-		thickness = Type.isNumeric(thickness) ? Type.toFloat(thickness) : 1;
-		this.x = this.x / magnitude * thickness;
-		this.y = this.y / magnitude * thickness;
+	Point.method('equals', function(point){
+		return(point.x === this.x && point.y === this.y);
 	});
 
-	Point.method('equals', function(toCompare){
-		return(toCompare.x === this.x && toCompare.y === this.y);
-	});
-
-	Point.method('copyFrom', function(sourcePoint){
-		this.setTo(sourcePoint.x, sourcePoint.y);
+	Point.method('copyFrom', function(point){
+		return this.setTo(point.x, point.y);
 	});
 
 	Point.method('clone', function(){
@@ -67,8 +105,8 @@ define([
 	});
 
 	Point.method('toRadians', function(dx, dy){
-		dx = this.x - Type.toFloat(dx);
-		dy = this.y - Type.toFloat(dy);
+		dx = this.x - dx;
+		dy = this.y - dy;
 		return Math.atan2(dx, dy);
 	});
 
