@@ -40,9 +40,7 @@ define([
 	});
 
 	Point.method('offset', function(dx, dy){
-		dx = Type.toFloat(dx);
-		dy = Type.toFloat(dy);
-		this.setTo(this.x + dx, this.x + dy);
+		this.setTo(this.x + Type.toFloat(dx), this.x + Type.toFloat(dy));
 	});
 
 	Point.method('manhattan', function(point){
