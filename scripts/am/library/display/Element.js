@@ -162,22 +162,20 @@ define([
 	});
 
 	Element.charge('width', function(){
-		var bcr = this.node.getBoundingClientRect;
-		return this.node.offsetWidth||bcr().width;
+		return this.node.offsetWidth||this.node.getBoundingClientRect().width;
 	});
 
 	Element.charge('width', function(value){
-		this.css('width', Type.toCSSMeasure(value));
+		this.css('width', Type.toCSSMeasure(value));// TODO: Em alguns casos deve ser atributo do nó (que casos?)
 		return this;
 	});
 
 	Element.charge('height', function(){
-		var bcr = this.node.getBoundingClientRect;
-		return this.node.offsetHeight||bcr().height;
+		return this.node.offsetHeight||this.node.getBoundingClientRect().height;
 	});
 
 	Element.charge('height', function(value){
-		this.css('height', Type.toCSSMeasure(value));
+		this.css('height', Type.toCSSMeasure(value));// TODO: Em alguns casos deve ser atributo do nó (que casos?)
 		return this;
 	});
 
@@ -225,12 +223,12 @@ define([
 		axis.x = Type.toCSSMeasure(axis.x);
 		axis.y = Type.toCSSMeasure(axis.y);
 		axis.z = Type.toCSSMeasure(axis.z);
-		this.css('transitionDuration', (Type.isUint(durationMS) ? durationMS : 0)+'ms');
-		this.css('transitionTimingFunction', Type.isString(easing) ? easing : 'linear');
+		Type.isUint(durationMS) && this.css('transitionDuration', durationMS +'ms');
+		Type.isString(easing) && this.css('transitionTimingFunction', easing);
 		if(Element.supportTransform3D()){
-			this.css('transform', 'translate3d('+axis.x+', '+axis.y+', '+axis.z+')');
+			this.css('transform', 'translate3d('+ axis.x +', '+ axis.y +', '+ axis.z +')');
 		}else if(Element.supportTransform()){
-			this.css('transform', 'translateX('+axis.x+') translateY('+axis.y+') translateZ('+axis.z+')');
+			this.css('transform', 'translateX('+ axis.x +') translateY('+ axis.y +') translateZ('+ axis.z +')');
 		}else{
 			// JS Tween
 		}
