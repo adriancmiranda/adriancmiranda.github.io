@@ -6,6 +6,7 @@ define([
 	'use strict';
 	
 	var HttpRequest = new Class(function HttpRequest(){
+		// N/A yet.
 	});
 
 	HttpRequest.method('createXHR', function(method, url){
@@ -14,7 +15,7 @@ define([
 		}else if(window.ActiveXObject){
 			try{
 				return new window.ActiveXObject('Msxml2.XMLHTTP');
-			}catch(erro){
+			}catch(error){
 				return new window.ActiveXObject('Microsoft.XMLHTTP');
 			}
 		}

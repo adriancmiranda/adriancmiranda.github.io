@@ -74,7 +74,12 @@ define(function(){
 		return this;
 	};
 
-	Class.prototype.define = function(definitions){
+	Class.prototype.define = function(prop, definition){
+		var definitions = {};
+		var nameList = prop.split('|');
+		for(var id=0, total=nameList.length; id<total; id++){
+			definitions[nameList[id]] = definition;
+		}
 		Object.defineProperties(this.prototype, definitions);
 		return this;
 	};

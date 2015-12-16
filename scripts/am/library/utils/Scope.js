@@ -10,8 +10,8 @@ define([
 	});
 
 	Scope.static('pathArray', function(qualifiedName, slash){
-		slash = Type.isString(slash) ? slash : '.';
-		var keys = qualifiedName.replace(patterns.objectAssessor, slash+'$2');
+		slash = Type.isString(slash)? slash:'.';
+		var keys = qualifiedName.replace(patterns.objectAssessor, slash +'$2');
 		keys = keys.replace(patterns.startWith(slash), '');
 		return keys.split(slash);
 	});
@@ -27,7 +27,7 @@ define([
 		return function(key){
 			var piece = Scope.uri(instance, key);
 			var params = Array.prototype.slice.call(arguments, 1);
-			return typeof piece === 'function' ? piece.apply(instance, params) : piece;
+			return typeof piece === 'function'? piece.apply(instance, params):piece;
 		};
 	});
 	
@@ -36,7 +36,7 @@ define([
 		var keys = this.pathArray(qualifiedName, '.');
 		var total = keys.length;
 		while((instance = instance[keys[id++]]) !== null && id < total){}
-		return id < total ? void 0 : instance;
+		return id < total? void 0:instance;
 	});
 
 	Scope.outrun('uri', function(instance, qualifiedName, value){
@@ -46,7 +46,7 @@ define([
 		var total = keys.length - 1;
 		while(id < total){
 			qualifiedName = keys[id++];
-			instance = instance[qualifiedName] = Type.isObject(instance[qualifiedName]) ? instance[qualifiedName]:{};
+			instance = instance[qualifiedName] = Type.isObject(instance[qualifiedName])? instance[qualifiedName]:{};
 		}
 		instance[keys[id]] = value;
 		return root;

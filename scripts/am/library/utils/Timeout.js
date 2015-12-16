@@ -41,13 +41,13 @@ define([
 	
 	Timeout.method('onTimerComplete', function(evt){
 		this.timer.off(Timer.COMPLETE, this.onTimerComplete);
-		if(this.params.length) this.method(this.params);
-		else this.method();
+		if(this.params.length){this.method(this.params);}
+		else{this.method();}
 		this.destroy();
 	});
 
 	Timeout.method('cancel', function(){
-		if(!this.timer)return void 0;
+		if(!this.timer){return void 0};
 		this.timer.stop();
 		this.timer.off(Timer.COMPLETE, this.onTimerComplete);
 		this.destroy();

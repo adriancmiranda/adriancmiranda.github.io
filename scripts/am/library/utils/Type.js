@@ -5,7 +5,6 @@ define([
 	'use strict';
 
 	var Type = new Class(function Type(value){
-		window.Type = Type;
 		return Type.of(value);
 	});
 
