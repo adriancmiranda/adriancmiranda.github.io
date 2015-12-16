@@ -57,7 +57,7 @@ define([
 	})
 
 	.method('normalize', function(thickness){
-		var magnitude = this.length();
+		var magnitude = this.length;
 		thickness = Type.isNumeric(thickness) ? Type.toFloat(thickness) : 1;
 		this.x = this.x / magnitude * thickness;
 		this.y = this.y / magnitude * thickness;
