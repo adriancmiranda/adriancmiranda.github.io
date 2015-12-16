@@ -130,10 +130,10 @@ define([
 	});
 
 	Rectangle.method('intersection', function(rectangle){
-		var x1 = Math.max(this.left, rectangle.left);
-		var y1 = Math.max(this.top, rectangle.top);
-		var x2 = Math.min(this.right, rectangle.right);
-		var y2 = Math.min(this.bottom, rectangle.bottom);
+		var x1 = Math.max(this.topLeft.x, rectangle.topLeft.x);
+		var y1 = Math.max(this.topLeft.y, rectangle.topLeft.y);
+		var x2 = Math.min(this.bottomRight.x, rectangle.bottomRight.x);
+		var y2 = Math.min(this.bottomRight.y, rectangle.bottomRight.y);
 		if(x2 >= x1 && y2 >= y1){
 			return new Rectangle(x1, y1, x2 - x1, y2 - y1);
 		}
