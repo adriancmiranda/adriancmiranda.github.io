@@ -2,7 +2,6 @@ define([
 	'./Type',
 	'./Class'
 ], function(Type, Class){
-	'use strict';
 
 	var Vendor = new Class(function Vendor(context, prop){
 		var method = Type.isArray(prop) ? 'filter' : 'prefixed';

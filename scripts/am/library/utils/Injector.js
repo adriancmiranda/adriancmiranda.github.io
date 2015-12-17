@@ -2,7 +2,6 @@ define([
 	'./Map',
 	'./Class'
 ], function(Map, Class){
-	'use strict';
 
 	var Injector = new Class(function Injector(target){
 		Injector.process(target);

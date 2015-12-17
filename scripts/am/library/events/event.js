@@ -1,7 +1,6 @@
 define([
 	'../utils/Class'
 ], function(Class){
-	'use strict';
 
 	var event = new Class(function event(evt){
 		evt.preventDefault = event.preventDefault;

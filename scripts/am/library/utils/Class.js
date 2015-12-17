@@ -1,5 +1,4 @@
 define(function(){
-	'use strict';
 	
 	function Class(caste){
 		if(this instanceof Class){

@@ -3,7 +3,6 @@ define([
 	'./Class',
 	'../common/patterns'
 ], function(Type, Class, patterns){
-	'use strict';
 
 	var Scope = new Class(function Scope(instance){
 		return Scope.register(instance);

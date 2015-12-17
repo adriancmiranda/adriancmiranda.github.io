@@ -2,7 +2,6 @@ define([
 	'./Type',
 	'./Class'
 ], function(Type, Class){
-	'use strict';
 
 	var Map = new Class(function Map(value, iterator, context, getEnum){
 		if(Type.isArrayLike(value)){

@@ -1,5 +1,4 @@
 define(function(){
-	'use strict';
 	
 	var Promise = new Class(function Promise(){
 		this.callbacks = [];

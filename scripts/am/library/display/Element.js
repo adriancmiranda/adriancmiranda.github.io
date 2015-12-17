@@ -6,7 +6,6 @@ define([
 	'../utils/Vendor',
 	'../events/EventProxy'
 ], function(patterns, Map, Type, Class, Vendor, EventProxy){
-	'use strict';
 
 	var Element = new Class(function Element(node){
 		this.node = this.ensureElement(node);

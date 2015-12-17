@@ -2,7 +2,6 @@ define([
 	'../utils/Type',
 	'../utils/Class'
 ], function(Type, Class){
-	'use strict';
 
 	var Vector3 = new Class(function Vector3(x, y, z){
 		this.setTo(x, y, z);

@@ -2,7 +2,6 @@ define([
 	'./event',
 	'../utils/Class'
 ], function(event, Class){
-	'use strict';
 
 	var EventProxy = new Class(function EventProxy(target){
 		this.target = target||window;

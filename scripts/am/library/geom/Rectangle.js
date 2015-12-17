@@ -3,7 +3,6 @@ define([
 	'../utils/Type',
 	'../utils/Class'
 ], function(Point, Type, Class){
-	'use strict';
 
 	var Rectangle = new Class(function Rectangle(x, y, width, height){
 		this.setTo(x, y, width, height);
@@ -45,6 +44,7 @@ define([
 			this._width = Type.toFloat(value);
 			this._right = this._x + this._width;
 			this._bottomRight = new Point(this._right, this._bottom);
+			this._area = this._width * this._height; 
 			changed && this.onChange && this.onChange(this, 'width', this._width);
 		},
 		get:function(){
@@ -58,10 +58,17 @@ define([
 			this._height = Type.toFloat(value);
 			this._bottom = this._y + this._height;
 			this._bottomRight = new Point(this._right, this._bottom);
+			this._area = this._width * this._height; 
 			changed && this.onChange && this.onChange(this, 'height', this._height);
 		},
 		get:function(){
 			return this._height;
+		}
+	});
+
+	Rectangle.define('area', {
+		get:function(){
+			return this._area;
 		}
 	});
 
@@ -170,7 +177,7 @@ define([
 	});
 
 	Rectangle.method('intersectionArea', function(rectangle){
-		return this.area() / rectangle.area();
+		return this.area / rectangle.area;
 	});
 
 	Rectangle.method('contains', function(x, y){
@@ -191,10 +198,6 @@ define([
 
 	Rectangle.method('copyFrom', function(rectangle){
 		return this.setTo(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
-	});
-
-	Rectangle.method('area', function(){
-		return this.width * this.height;
 	});
 
 	Rectangle.method('clone', function(){

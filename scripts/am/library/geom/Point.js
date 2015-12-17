@@ -2,7 +2,6 @@ define([
 	'../utils/Type',
 	'../utils/Class'
 ], function(Type, Class){
-	'use strict';
 
 	var Point = new Class(function Point(x, y){
 		this.setTo(x, y);

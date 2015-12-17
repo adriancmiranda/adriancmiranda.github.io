@@ -2,7 +2,6 @@ define([
 	'scope',
 	'library/net/Request'
 ], function(scope, Request){
-	'use strict';
 	
 	var ParseAPI = new Class(function ParseAPI(){
 		this.super.constructor.call(this);

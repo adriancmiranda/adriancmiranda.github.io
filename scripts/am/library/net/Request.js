@@ -2,7 +2,6 @@ define([
 	'./HttpRequest',
 	'../utils/Promise'
 ], function(HttpRequest, Promise){
-	'use strict';
 	
 	var Request = new Class(function Request(){
 		this.super.constructor.call(this);

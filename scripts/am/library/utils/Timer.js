@@ -4,7 +4,6 @@ define([
 	'./Ticker',
 	'../events/EventEmitter'
 ], function(Type, Class, Ticker, EventEmitter){
-	'use strict';
 
 	var Timer = new Class(function Timer(delay, repeatCount){
 		this.super.constructor.call(this);

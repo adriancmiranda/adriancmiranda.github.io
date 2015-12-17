@@ -1,7 +1,6 @@
 define([
 	'library/utils/Scope'
 ], function(Scope){
-	'use strict';
 
 	var namespace = 'am';
 	var scope = window.scope = window[namespace] = (window[namespace]||{});

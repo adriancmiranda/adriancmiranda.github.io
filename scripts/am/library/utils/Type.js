@@ -2,7 +2,6 @@ define([
 	'./Class',
 	'../common/patterns'
 ], function(Class, patterns){
-	'use strict';
 
 	var Type = new Class(function Type(value){
 		return Type.of(value);

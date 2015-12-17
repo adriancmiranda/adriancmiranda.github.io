@@ -4,7 +4,6 @@ define([
 	'./Vendor',
 	'../events/EventEmitter'
 ], function(Type, Class, Vendor, EventEmitter){
-	'use strict';
 
 	var Ticker = new Class(function Ticker(FPS){
 		var hasPerformance, navigationStart;

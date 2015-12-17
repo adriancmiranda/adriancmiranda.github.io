@@ -3,7 +3,6 @@ define([
 	'./Class',
 	'./Timer'
 ], function(Type, Class, Timer){
-	'use strict';
 
 	var Timeout = new Class(function Timeout(method, delay, groupName){
 		this.method = method;

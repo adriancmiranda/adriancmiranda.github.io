@@ -3,7 +3,6 @@ define([
 	'../utils/Type',
 	'../utils/Promise'
 ], function(Map, Type, Promise){
-	'use strict';
 	
 	var HttpRequest = new Class(function HttpRequest(){
 		// N/A yet.

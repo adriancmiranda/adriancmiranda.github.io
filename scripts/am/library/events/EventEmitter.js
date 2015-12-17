@@ -2,7 +2,6 @@ define([
 	'../utils/Map',
 	'../utils/Class'
 ], function(Map, Class){
-	'use strict';
 
 	var EventEmitter = new Class(function EventEmitter(){
 		this.listeners = {};
