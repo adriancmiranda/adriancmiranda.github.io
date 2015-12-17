@@ -9,26 +9,30 @@ define([
 		this.setTo(x, y, width, height);
 	});
 
-	Rectangle.define('x|left', {
+	Rectangle.define('x', {
 		set:function(value){
+			var changed = value !== this._x;
 			this._x = Type.toFloat(value);
 			this._left = this._x;
 			this._right = this._x + this._width;
 			this._topLeft = new Point(this._left, this._top);
 			this._bottomRight = new Point(this._right, this._bottom);
+			changed && this.onChange && this.onChange(this, 'x');
 		},
 		get:function(){
 			return this._x;
 		}
 	});
 	
-	Rectangle.define('y|top', {
+	Rectangle.define('y', {
 		set:function(value){
+			var changed = value !== this._y;
 			this._y = Type.toFloat(value);
 			this._top = this._y;
 			this._bottom = this._y + this._height;
 			this._topLeft = new Point(this._left, this._top);
 			this._bottomRight = new Point(this._right, this._bottom);
+			changed && this.onChange && this.onChange(this, 'y');
 		},
 		get:function(){
 			return this._y;
@@ -37,9 +41,11 @@ define([
 	
 	Rectangle.define('width', {
 		set:function(value){
+			var changed = value !== this._width;
 			this._width = Type.toFloat(value);
 			this._right = this._x + this._width;
 			this._bottomRight = new Point(this._right, this._bottom);
+			changed && this.onChange && this.onChange(this, 'width');
 		},
 		get:function(){
 			return this._width;
@@ -48,12 +54,26 @@ define([
 
 	Rectangle.define('height', {
 		set:function(value){
+			var changed = value !== this._height;
 			this._height = Type.toFloat(value);
 			this._bottom = this._y + this._height;
 			this._bottomRight = new Point(this._right, this._bottom);
+			changed && this.onChange && this.onChange(this, 'height');
 		},
 		get:function(){
 			return this._height;
+		}
+	});
+
+	Rectangle.define('left', {
+		get:function(){
+			return this._left;
+		}
+	});
+
+	Rectangle.define('top', {
+		get:function(){
+			return this._top;
 		}
 	});
 
@@ -78,6 +98,15 @@ define([
 	Rectangle.define('bottomRight', {
 		get:function(){
 			return this._bottomRight;
+		}
+	});
+
+	Rectangle.define('onChange', {
+		set:function(fn){
+			this._onChange = Type.isFunction(fn)? fn:undefined;
+		},
+		get:function(){
+			return this._onChange;
 		}
 	});
 

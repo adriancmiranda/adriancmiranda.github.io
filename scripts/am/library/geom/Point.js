@@ -13,7 +13,7 @@ define([
 			var changed = value !== this._x;
 			this._x = Type.toFloat(value);
 			this._length = Math.sqrt(this._x * this._x + this._y * this._y);
-			changed && this.onChange(this);
+			changed && this.onChange && this.onChange(this, 'x');
 		},
 		get:function(){
 			return this._x;
@@ -25,7 +25,7 @@ define([
 			var changed = value !== this._y;
 			this._y = Type.toFloat(value);
 			this._length = Math.sqrt(this._x * this._x + this._y * this._y);
-			changed && this.onChange(this);
+			changed && this.onChange && this.onChange(this, 'y');
 		},
 		get:function(){
 			return this._y;
@@ -40,7 +40,7 @@ define([
 
 	Point.define('onChange', {
 		set:function(fn){
-			this._onChange = Type.isFunction(fn)? fn:function noop(){};
+			this._onChange = Type.isFunction(fn)? fn:undefined;
 		},
 		get:function(){
 			return this._onChange;
@@ -90,7 +90,6 @@ define([
 	});
 
 	Point.method('setTo', function(x, y){
-		this.onChange = null;
 		this.x = x;
 		this.y = Type.isDefined(y)? Type.toFloat(y):this.x;
 		return this;
