@@ -85,14 +85,14 @@ define([
 		return pointA.interpolate(pointB, f);
 	});
 
-	Point.method('interpolate', function(point, f){
-		return new Point(point.x + (this.x - point.x) * f, point.y + (this.y - point.y) * f);
-	});
-
 	Point.method('setTo', function(x, y){
 		this.x = x;
 		this.y = Type.isDefined(y)? Type.toFloat(y):this.x;
 		return this;
+	});
+
+	Point.method('interpolate', function(point, f){
+		return new Point(point.x + (this.x - point.x) * f, point.y + (this.y - point.y) * f);
 	});
 
 	Point.method('normalize', function(thickness){
