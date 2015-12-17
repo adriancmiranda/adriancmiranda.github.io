@@ -36,25 +36,25 @@ define([
 
 	Point.static('min', function(){
 		var points = Array.prototype.slice.call(arguments);
-		var min = points[0] || new Point();
-		this.filter(points, function(point, first, id){
-			min.x = points[id].x < min.x ? points[id].x : min.x;
-			min.y = points[id].y < min.y ? points[id].y : min.y;
+		var min = points[0] instanceof Point? points[0]:new Point();
+		this.map(points, function(point, id){
+			min.x = point.x < min.x? point.x:min.x;
+			min.y = point.y < min.y? point.y:min.y;
 		});
 		return min;
 	});
 
 	Point.static('max', function(){
 		var points = Array.prototype.slice.call(arguments);
-		var max = points[0] || new Point();
-		this.filter(points, function(point, first, id){
-			max.x = points[id].x > max.x ? points[id].x : max.x;
-			max.y = points[id].y > max.y ? points[id].y : max.y;
+		var max = points[0] instanceof Point? points[0]:new Point();
+		this.map(points, function(point){
+			max.x = point.x > max.x? point.x:max.x;
+			max.y = point.y > max.y? point.y:max.y;
 		});
 		return max;
 	});
 
-	Point.static('filter', function(points, iterator){
+	Point.static('map', function(points, iterator){
 		for(var id = 0; id < points.length; id++){
 			points[id] instanceof Point && iterator(points[id], id);
 		}
