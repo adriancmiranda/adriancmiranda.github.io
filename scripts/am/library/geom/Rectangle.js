@@ -17,7 +17,7 @@ define([
 			this._right = this._x + this._width;
 			this._topLeft = new Point(this._left, this._top);
 			this._bottomRight = new Point(this._right, this._bottom);
-			changed && this.onChange && this.onChange(this, 'x');
+			changed && this.onChange && this.onChange(this, 'x', this._x);
 		},
 		get:function(){
 			return this._x;
@@ -32,7 +32,7 @@ define([
 			this._bottom = this._y + this._height;
 			this._topLeft = new Point(this._left, this._top);
 			this._bottomRight = new Point(this._right, this._bottom);
-			changed && this.onChange && this.onChange(this, 'y');
+			changed && this.onChange && this.onChange(this, 'y', this._y);
 		},
 		get:function(){
 			return this._y;
@@ -45,7 +45,7 @@ define([
 			this._width = Type.toFloat(value);
 			this._right = this._x + this._width;
 			this._bottomRight = new Point(this._right, this._bottom);
-			changed && this.onChange && this.onChange(this, 'width');
+			changed && this.onChange && this.onChange(this, 'width', this._width);
 		},
 		get:function(){
 			return this._width;
@@ -58,7 +58,7 @@ define([
 			this._height = Type.toFloat(value);
 			this._bottom = this._y + this._height;
 			this._bottomRight = new Point(this._right, this._bottom);
-			changed && this.onChange && this.onChange(this, 'height');
+			changed && this.onChange && this.onChange(this, 'height', this._height);
 		},
 		get:function(){
 			return this._height;

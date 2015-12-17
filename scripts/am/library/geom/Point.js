@@ -13,7 +13,7 @@ define([
 			var changed = value !== this._x;
 			this._x = Type.toFloat(value);
 			this._length = Math.sqrt(this._x * this._x + this._y * this._y);
-			changed && this.onChange && this.onChange(this, 'x');
+			changed && this.onChange && this.onChange(this, 'x', this._x);
 		},
 		get:function(){
 			return this._x;
@@ -25,7 +25,7 @@ define([
 			var changed = value !== this._y;
 			this._y = Type.toFloat(value);
 			this._length = Math.sqrt(this._x * this._x + this._y * this._y);
-			changed && this.onChange && this.onChange(this, 'y');
+			changed && this.onChange && this.onChange(this, 'y', this._y);
 		},
 		get:function(){
 			return this._y;
