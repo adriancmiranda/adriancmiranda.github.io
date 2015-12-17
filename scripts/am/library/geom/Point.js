@@ -10,8 +10,10 @@ define([
 	
 	Point.define('x', {
 		set:function(value){
+			var changed = value !== this._x;
 			this._x = Type.toFloat(value);
 			this._length = Math.sqrt(this._x * this._x + this._y * this._y);
+			changed && this.onChange(this);
 		},
 		get:function(){
 			return this._x;
@@ -20,8 +22,10 @@ define([
 
 	Point.define('y', {
 		set:function(value){
+			var changed = value !== this._y;
 			this._y = Type.toFloat(value);
 			this._length = Math.sqrt(this._x * this._x + this._y * this._y);
+			changed && this.onChange(this);
 		},
 		get:function(){
 			return this._y;
@@ -31,6 +35,15 @@ define([
 	Point.define('length', {
 		get:function(){
 			return this._length;
+		}
+	});
+
+	Point.define('onChange', {
+		set:function(fn){
+			this._onChange = Type.isFunction(fn)? fn:function noop(){};
+		},
+		get:function(){
+			return this._onChange;
 		}
 	});
 
@@ -77,6 +90,7 @@ define([
 	});
 
 	Point.method('setTo', function(x, y){
+		this.onChange = null;
 		this.x = x;
 		this.y = Type.isDefined(y)? Type.toFloat(y):this.x;
 		return this;
@@ -101,20 +115,24 @@ define([
 		return this.setTo(this.x + dx, this.x + dy);
 	});
 
-	Point.method('horizontalDistanceTo', function(point){
+	Point.method('distanceX', function(point){
 		return Math.abs(this.x - point.x);
 	});
 
-	Point.method('verticalDistanceTo', function(point){
+	Point.method('distanceY', function(point){
 		return Math.abs(this.y - point.y);
 	});
 
+	Point.method('distancePointTo', function(point){
+		return new Point(this.distanceX(point), this.distanceY(point));
+	});
+
 	Point.method('distanceTo', function(point){
-		return Math.sqrt(Math.pow(this.horizontalDistanceTo(point, 2)) + Math.pow(this.verticalDistanceTo(point, 2)));
+		return Math.sqrt(Math.pow(this.distanceX(point, 2)) + Math.pow(this.distanceY(point, 2)));
 	});
 
 	Point.method('manhattan', function(point){
-		return this.horizontalDistanceTo(point) + this.verticalDistanceTo(point);
+		return this.distanceX(point) + this.distanceY(point);
 	});
 
 	Point.method('equals', function(point){
