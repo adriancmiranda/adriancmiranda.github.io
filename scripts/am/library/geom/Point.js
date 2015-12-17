@@ -34,6 +34,30 @@ define([
 		}
 	});
 
+	Point.static('min', function(){
+		var points = Array.prototype.slice.call(arguments);
+		var min = points.length? points[0]:new Point();
+		for(var id = 0; id < points.length; id++){
+			if(points[id] instanceof Point){
+				min.x = points[id].x < min.x ? points[id].x : min.x;
+				min.y = points[id].y < min.y ? points[id].y : min.y;
+			}
+		}
+		return min;
+	});
+
+	Point.static('max', function(){
+		var points = Array.prototype.slice.call(arguments);
+		var max = points.length? points[0]:new Point();
+		for(var id = 0; id < points.length; id++){
+			if(points[id] instanceof Point){
+				max.x = points[id].x > max.x ? points[id].x : max.x;
+				max.y = points[id].y > max.y ? points[id].y : max.y;
+			}
+		}
+		return max;
+	});
+
 	Point.static('polar', function(length, angle){
 		return new Point(length * Math.cos(angle), length * Math.sin(angle));
 	});
