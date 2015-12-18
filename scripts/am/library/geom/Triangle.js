@@ -16,8 +16,7 @@ define([
 	// --------------------------------------------------
 	// https://en.wikipedia.org/wiki/Circumscribed_circle
 	var Triangle = new Class(function Triangle(a, b, c){
-		Class.proxyfy(this, 'draw');
-		this.setTo(a, b, c);
+		Class.proxyfy(this, 'draw').setTo(a, b, c);
 	}).static('EPSILON', 0.000001);
 
 	Triangle.define('a', {
@@ -143,6 +142,12 @@ define([
 		}
 	});
 
+	Triangle.define('area', {
+		get:function(){
+			return this._area;
+		}
+	});
+
 	Triangle.method('draw', function(){
 		this._distanceAB = this.b.distanceTo(this.a);
 		this._distanceCA = this.c.distanceTo(this.a);
@@ -157,11 +162,11 @@ define([
 		this._slopeCA = this.c.slopeTo(this.a);
 		this._slopeBC = this.b.slopeTo(this.c);
 		this._centroid = Point.centroid(this.a, this.b, this.c);
-		// this.area = 0;
+		this._area = Math.abs((this.a.x - this.c.x) * (this.b.y - this.a.y) - (this.a.x - this.b.x) * (this.c.y - this.a.y)) * 0.5;
 		// this.apothem = new Rectangle();
-		// this.ortocenter = new Point();
 		// this.incenter = new Point();
 		// this.circuncenter = new Point();
+		// this.ortocenter = new Point();
 		this.radius = null;
 	});
 
@@ -173,7 +178,15 @@ define([
 		return this;
 	});
 
-	Triangle.method('getBounds', function(){
+	public double findArea(double sideA, double sideB, double sideC)
+    { 
+        s = 1/2 * (sideA + sideB + sideC);
+        area = Math.sqrt(s*(s-sideA)*(s-sideB)*(s-sideC));
+        System.out.println("The area of the triangle is " + area);
+        return area;
+    }
+
+	Triangle.method('getBoundsRect', function(){
 		var topLeft = Point.min(this.a, this.b, this.c);
 		var bottomRight = Point.max(this.a, this.b, this.c);
 		return new Rectangle(topLeft.x, topLeft.y, topLeft.distanceX(bottomRight), topLeft.distanceY(bottomRight));

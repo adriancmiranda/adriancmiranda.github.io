@@ -37,6 +37,7 @@ define(function(){
 				context[methods[id]] = this.proxy(context[methods[id]], context);
 			}
 		}
+		return context;
 	};
 
 	Class.proxy = function(fn, context){

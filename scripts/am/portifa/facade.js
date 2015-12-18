@@ -73,35 +73,44 @@ define([
 		this.context.lineWidth = lineWidth;
 		this.context.strokeStyle = '#cc00ff';
 		this.context.stroke();
-
+		// ================================
 		this.context.beginPath();
 		this.context.fillStyle = '#FF0000';
 		this.context.arc(triangle.centroid.x, triangle.centroid.y, 3, 0, 2*Math.PI, false);
 		this.context.fill();
-
-		var bounds = triangle.getBounds();
+		// ================================
+		var bounds = triangle.getBoundsRect();
 		this.context.beginPath();
 		this.context.strokeStyle = '#00CCFF';
 		this.context.strokeRect(bounds.x, bounds.y, bounds.width, bounds.height);
 		this.context.stroke();
-
-		this.context.beginPath();
-		this.context.moveTo(triangle.a.x, triangle.a.y);
-		this.context.lineTo(triangle.midpointCA.x, triangle.midpointCA.y);
-		this.context.moveTo(triangle.c.x, triangle.c.y);
-		this.context.lineTo(triangle.midpointBC.x, triangle.midpointBC.y);
-		this.context.moveTo(triangle.b.x, triangle.b.y);
-		this.context.lineTo(triangle.midpointAB.x, triangle.midpointAB.y);
-		this.context.closePath();
+		// ================================
 		this.context.lineCap = 'round';
 		this.context.lineJoin = 'round';
 		this.context.lineWidth = lineWidth;
+		this.context.beginPath();
+		this.context.moveTo(triangle.a.x, triangle.a.y);
+		this.context.lineTo(triangle.midpointCA.x, triangle.midpointCA.y);
+		this.context.closePath();
+		this.context.strokeStyle = '#000000';
+		this.context.stroke();
+		// --
+		this.context.beginPath();
+		this.context.moveTo(triangle.c.x, triangle.c.y);
+		this.context.lineTo(triangle.midpointBC.x, triangle.midpointBC.y);
+		this.context.closePath();
+		this.context.strokeStyle = '#FF0000';
+		this.context.stroke();
+		// --
+		this.context.beginPath();
+		this.context.moveTo(triangle.b.x, triangle.b.y);
+		this.context.lineTo(triangle.midpointAB.x, triangle.midpointAB.y);
+		this.context.closePath();
 		this.context.strokeStyle = '#00FF00';
 		this.context.stroke();
-
+		// ================================
 		var p1 = new Point(2,4);
 		var p2 = new Point(5,2);
-		console.log(p2.slopeTo(p1));
 	});
 
 	Facade.method('render', function(){
