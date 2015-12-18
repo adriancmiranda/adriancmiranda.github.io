@@ -1,7 +1,8 @@
 define([
+	'./Rectangle',
 	'../utils/Type',
 	'../utils/Class'
-], function(Type, Class){
+], function(Rectangle, Type, Class){
 
 	var Point = new Class(function Point(x, y){
 		this.setTo(x, y);
