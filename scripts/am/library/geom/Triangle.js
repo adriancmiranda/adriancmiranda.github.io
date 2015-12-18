@@ -98,15 +98,15 @@ define([
 		}
 	});
 
-	Triangle.define('distanceCA', {
-		get:function(){
-			return this._distanceCA;
-		}
-	});
-
 	Triangle.define('distanceBC', {
 		get:function(){
 			return this._distanceBC;
+		}
+	});
+
+	Triangle.define('distanceCA', {
+		get:function(){
+			return this._distanceCA;
 		}
 	});
 
@@ -116,15 +116,15 @@ define([
 		}
 	});
 
-	Triangle.define('distancePointCA', {
-		get:function(){
-			return this._distancePointCA;
-		}
-	});
-
 	Triangle.define('distancePointBC', {
 		get:function(){
 			return this._distancePointBC;
+		}
+	});
+
+	Triangle.define('distancePointCA', {
+		get:function(){
+			return this._distancePointCA;
 		}
 	});
 
@@ -134,15 +134,15 @@ define([
 		}
 	});
 
-	Triangle.define('midpointCA', {
-		get:function(){
-			return this._midpointCA;
-		}
-	});
-
 	Triangle.define('midpointBC', {
 		get:function(){
 			return this._midpointBC;
+		}
+	});
+
+	Triangle.define('midpointCA', {
+		get:function(){
+			return this._midpointCA;
 		}
 	});
 
@@ -152,15 +152,15 @@ define([
 		}
 	});
 
-	Triangle.define('slopeCA', {
-		get:function(){
-			return this._slopeCA;
-		}
-	});
-
 	Triangle.define('slopeBC', {
 		get:function(){
 			return this._slopeBC;
+		}
+	});
+
+	Triangle.define('slopeCA', {
+		get:function(){
+			return this._slopeCA;
 		}
 	});
 
@@ -178,17 +178,17 @@ define([
 
 	Triangle.method('draw', function(){
 		this._distanceAB = this.b.distanceTo(this.a);
-		this._distanceCA = this.c.distanceTo(this.a);
 		this._distanceBC = this.b.distanceTo(this.c);
+		this._distanceCA = this.c.distanceTo(this.a);
 		this._distancePointAB = this.b.distancePointTo(this.a);
-		this._distancePointCA = this.c.distancePointTo(this.a);
 		this._distancePointBC = this.b.distancePointTo(this.c);
+		this._distancePointCA = this.c.distancePointTo(this.a);
 		this._midpointAB = this.a.midpointTo(this.b);
-		this._midpointCA = this.c.midpointTo(this.a);
 		this._midpointBC = this.b.midpointTo(this.c);
+		this._midpointCA = this.c.midpointTo(this.a);
 		this._slopeAB = this.a.slopeTo(this.b);
-		this._slopeCA = this.c.slopeTo(this.a);
 		this._slopeBC = this.b.slopeTo(this.c);
+		this._slopeCA = this.c.slopeTo(this.a);
 		this._centroid = Point.centroid(this.a, this.b, this.c);
 		this._area = Math.abs((this.a.x - this.c.x) * (this.b.y - this.a.y) - (this.a.x - this.b.x) * (this.c.y - this.a.y)) * 0.5;
 		// this.apothem = new Rectangle();
