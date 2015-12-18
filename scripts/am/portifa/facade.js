@@ -98,6 +98,10 @@ define([
 		this.context.lineWidth = lineWidth;
 		this.context.strokeStyle = '#00FF00';
 		this.context.stroke();
+
+		var p1 = new Point(2,4);
+		var p2 = new Point(5,2);
+		console.log(p2.slopeTo(p1));
 	});
 
 	Facade.method('render', function(){
