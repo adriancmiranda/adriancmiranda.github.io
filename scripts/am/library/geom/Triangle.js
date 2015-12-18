@@ -15,9 +15,37 @@ define([
 	// O raio da circunferência inscrita é igual a 1/3 da altura do triângulo
 	// --------------------------------------------------
 	// https://en.wikipedia.org/wiki/Circumscribed_circle
-	var Triangle = new Class(function Triangle(a, b, c){
-		Class.proxyfy(this, 'draw').setTo(a, b, c);
+	var Triangle = new Class(function Triangle(a, b, c, x, y){
+		Class.proxyfy(this, 'draw').setTo(a, b, c, x, y);
 	}).static('EPSILON', 0.000001);
+
+	Triangle.define('x', {
+		set:function(value){
+			var changed = value !== this._x;
+			this._x = Type.toFloat(value);
+			this._a.x += this._x;
+			this._b.x += this._x;
+			this._c.x += this._x;
+			changed && this.onChange && this.onChange(this, 'x', this._x);
+		},
+		get:function(){
+			return this._x;
+		}
+	});
+
+	Triangle.define('y', {
+		set:function(value){
+			var changed = value !== this._y;
+			this._y = Type.toFloat(value);
+			this._a.y += this._y;
+			this._b.y += this._y;
+			this._c.y += this._y;
+			changed && this.onChange && this.onChange(this, 'y', this._y);
+		},
+		get:function(){
+			return this._y;
+		}
+	});
 
 	Triangle.define('a', {
 		set:function(value){
@@ -170,21 +198,15 @@ define([
 		this.radius = null;
 	});
 
-	Triangle.method('setTo', function(a, b, c){
+	Triangle.method('setTo', function(a, b, c, x, y){
 		this.a = a;
 		this.b = b;
 		this.c = c;
+		this.x = x;
+		this.y = y;
 		this.draw();
 		return this;
 	});
-
-	public double findArea(double sideA, double sideB, double sideC)
-    { 
-        s = 1/2 * (sideA + sideB + sideC);
-        area = Math.sqrt(s*(s-sideA)*(s-sideB)*(s-sideC));
-        System.out.println("The area of the triangle is " + area);
-        return area;
-    }
 
 	Triangle.method('getBoundsRect', function(){
 		var topLeft = Point.min(this.a, this.b, this.c);
