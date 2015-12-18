@@ -110,7 +110,7 @@ define([
 
 	Point.method('setTo', function(x, y){
 		this.x = x;
-		this.y = Type.isDefined(y)? Type.toFloat(y):this.x;
+		this.y = y;
 		return this;
 	});
 
