@@ -149,10 +149,6 @@ define([
 		return new Point((this.x + point.x) * 0.5, (this.y + point.y) * 0.5);
 	});
 
-	Point.method('centroidFrom', function(){
-		return Point.centroid.apply(Point, [this].concat(Array.prototype.slice.call(arguments)));
-	});
-
 	Point.method('slopeTo', function(point){
 		var distancePoint = this.distancePointTo(point);
 		return distancePoint.y / distancePoint.x;
@@ -163,7 +159,7 @@ define([
 	});
 
 	Point.method('distanceTo', function(point){
-		return Math.sqrt(Math.pow(this.distanceX(point, 2)) + Math.pow(this.distanceY(point, 2)));
+		return Math.sqrt(Math.pow(this.distanceX(point), 2) + Math.pow(this.distanceY(point), 2));
 	});
 
 	Point.method('manhattan', function(point){
