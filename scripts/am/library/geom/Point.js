@@ -145,6 +145,11 @@ define([
 		return new Point((this.x + point.x) / 2, (this.y + point.y) / 2);
 	});
 
+	Point.method('slopeTo', function(point){
+		var distancePoint = this.distancePointTo(point);
+		return distancePoint.y / distancePoint.x;
+	});
+
 	Point.method('distancePointTo', function(point){
 		return new Point(this.distanceX(point), this.distanceY(point));
 	});
