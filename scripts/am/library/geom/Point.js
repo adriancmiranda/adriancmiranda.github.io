@@ -66,6 +66,18 @@ define([
 		return max;
 	});
 
+	Point.static('centroid', function(){
+		var points = Array.prototype.slice.call(arguments);
+		var centroid = new Point();
+		this.map(points, function(point){
+			centroid.x += point.x;
+			centroid.y += point.y;
+		});
+		centroid.x /= points.length;
+		centroid.y /= points.length;
+		return centroid;
+	});
+
 	Point.static('map', function(points, iterator){
 		for(var id = 0; id < points.length; id++){
 			points[id] instanceof Point && iterator(points[id], id);
