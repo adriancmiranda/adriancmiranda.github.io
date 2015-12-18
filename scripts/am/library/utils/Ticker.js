@@ -5,7 +5,7 @@ define([
 	'../events/EventEmitter'
 ], function(Type, Class, Vendor, EventEmitter){
 
-	var Ticker = new Class(function Ticker(FPS){
+	var Ticker = new Class(function Ticker(FPS, autoStart){
 		var hasPerformance, navigationStart;
 
 		// Singleton Ticker is maybe the best practice for now.
@@ -18,6 +18,7 @@ define([
 			this.constructor.instance = this;
 			this.constructor.GROUP = 'Ticker';
 			this.constructor.TICK = 'tick';
+			this.autoStart = Type.isDefined(autoStart) ? Type.toBoolean(autoStart) : true;
 			this.emitter = new EventEmitter();
 			this.lastTime = +new Date();
 			this.lastRequestTime = 0;
@@ -41,18 +42,18 @@ define([
 			Ticker.prototype.instance = this;
 			return Ticker.prototype.instance;
 		}
-		return new Ticker(FPS);
+		return new Ticker(FPS, autoStart);
 	});
 
 	Ticker.method('add', function(listener, context){
 		this.emitter.on(Ticker.TICK, Ticker.GROUP, listener, context);
-		!this.frame && this.start();
+		!this.frame && this.autoStart && this.start();
 		return this;
 	});
 
 	Ticker.method('addOnce', function(listener, context){
 		this.emitter.once(Ticker.TICK, Ticker.GROUP, listener, context);
-		!this.frame && this.start();
+		!this.frame && this.autoStart && this.start();
 		return this;
 	});
 

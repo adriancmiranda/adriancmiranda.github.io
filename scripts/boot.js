@@ -7,6 +7,6 @@ require.config({
 		'scope': 'am/scope'
 	},
 	deps:[
-		'portifa/facade'
+		'portifa/main'
 	]
 });

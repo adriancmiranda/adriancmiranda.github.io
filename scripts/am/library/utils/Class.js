@@ -30,6 +30,22 @@ define(function(){
 		return target;
 	};
 
+	Class.proxyfy = function(context){
+		var methods = Array.prototype.slice.call(arguments, 1);
+		for(var id = 0; id < methods.length; id++){
+			if(typeof context[methods[id]] === 'function'){
+				context[methods[id]] = this.proxy(context[methods[id]], context);
+			}
+		}
+	};
+
+	Class.proxy = function(fn, context){
+		var args = Array.prototype.slice.call(arguments, 2);
+		return function(){
+			return fn.apply(context, args.concat(Array.prototype.slice.call(arguments)));
+		};
+	};
+
 	Class.prototype.extends = function(superclass){
 		var hasSuper = typeof(superclass) === 'function';
 		superclass = hasSuper ? superclass:Class;

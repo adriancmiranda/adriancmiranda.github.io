@@ -11,6 +11,10 @@ define([
 	// 3. -1/slope
 	// 4. Y = mx + B
 	// 5. Set 2 equations equal to each other
+	// --------------------------------------------------
+	// O raio da circunferência inscrita é igual a 1/3 da altura do triângulo
+	// --------------------------------------------------
+	// https://en.wikipedia.org/wiki/Circumscribed_circle
 	var Triangle = new Class(function Triangle(a, b, c){
 		this.draw = this.draw.bind(this);
 		this.setTo(a, b, c);
@@ -64,9 +68,10 @@ define([
 	Triangle.method('draw', function(){
 		this.distanceBA = this.b.distancePointTo(this.a);
 		this.distanceCA = this.c.distancePointTo(this.a);
+		this.distanceBC = this.b.distancePointTo(this.c);
+		this.centroid = Point.centroid(this.a, this.b, this.c);
 		// this.area = 0;
 		// this.apothem = new Rectangle();
-		// this.centroid = new Point((this.a.x + this.b.x + this.c.x) * 0.33333, (this.a.y + this.b.y + this.c.y) * 0.33333);// O raio da circunferência inscrita é igual a 1/3 da altura do triângulo
 		// this.ortocenter = new Point();
 		// this.incenter = new Point();
 		// this.circuncenter = new Point();
