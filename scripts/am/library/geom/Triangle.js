@@ -16,7 +16,7 @@ define([
 	// --------------------------------------------------
 	// https://en.wikipedia.org/wiki/Circumscribed_circle
 	var Triangle = new Class(function Triangle(a, b, c){
-		this.draw = this.draw.bind(this);
+		Class.proxyfy(this, 'draw');
 		this.setTo(a, b, c);
 	}).static('EPSILON', 0.000001);
 
