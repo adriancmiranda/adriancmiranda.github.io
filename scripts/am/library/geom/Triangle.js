@@ -92,6 +92,18 @@ define([
 		}
 	});
 
+	Triangle.define('topLeft', {
+		get:function(){
+			return this._topLeft;
+		}
+	});
+
+	Triangle.define('bottomRight', {
+		get:function(){
+			return this._bottomRight;
+		}
+	});
+
 	Triangle.define('distanceAB', {
 		get:function(){
 			return this._distanceAB;
@@ -170,6 +182,24 @@ define([
 		}
 	});
 
+	Triangle.define('heightA', {
+		get:function(){
+			return this._heightA;
+		}
+	});
+
+	Triangle.define('heightB', {
+		get:function(){
+			return this._heightB;
+		}
+	});
+
+	Triangle.define('heightC', {
+		get:function(){
+			return this._heightC;
+		}
+	});
+
 	Triangle.define('centroid', {
 		get:function(){
 			return this._centroid;
@@ -177,6 +207,8 @@ define([
 	});
 
 	Triangle.method('draw', function(){
+		this._topLeft = Point.min(this.a, this.b, this.c);
+		this._bottomRight = Point.max(this.a, this.b, this.c);
 		this._distanceAB = this.b.distanceTo(this.a);
 		this._distanceBC = this.b.distanceTo(this.c);
 		this._distanceCA = this.c.distanceTo(this.a);
@@ -190,8 +222,10 @@ define([
 		this._slopeBC = this.b.slopeTo(this.c);
 		this._slopeCA = this.c.slopeTo(this.a);
 		this._area = Math.abs((this.a.x - this.c.x) * (this.b.y - this.a.y) - (this.a.x - this.b.x) * (this.c.y - this.a.y)) * 0.5;
+		// this._heightA = 0;
+		// this._heightB = 0;
+		// this._heightC = 0;
 		this._centroid = Point.centroid(this.a, this.b, this.c);
-		// this.apothem = new Rectangle();
 		// this.incenter = new Point();
 		// this.circuncenter = new Point();
 		// this.ortocenter = new Point();
@@ -209,9 +243,7 @@ define([
 	});
 
 	Triangle.method('getBoundsRect', function(){
-		var topLeft = Point.min(this.a, this.b, this.c);
-		var bottomRight = Point.max(this.a, this.b, this.c);
-		return new Rectangle(topLeft.x, topLeft.y, topLeft.distanceX(bottomRight), topLeft.distanceY(bottomRight));
+		return new Rectangle(this.topLeft.x, this.topLeft.y, this.topLeft.distanceX(this.bottomRight), this.topLeft.distanceY(this.bottomRight));
 	});
 
 	Triangle.method('equals', function(triangle){
