@@ -164,15 +164,15 @@ define([
 		}
 	});
 
-	Triangle.define('centroid', {
-		get:function(){
-			return this._centroid;
-		}
-	});
-
 	Triangle.define('area', {
 		get:function(){
 			return this._area;
+		}
+	});
+
+	Triangle.define('centroid', {
+		get:function(){
+			return this._centroid;
 		}
 	});
 
@@ -189,8 +189,8 @@ define([
 		this._slopeAB = this.a.slopeTo(this.b);
 		this._slopeBC = this.b.slopeTo(this.c);
 		this._slopeCA = this.c.slopeTo(this.a);
-		this._centroid = Point.centroid(this.a, this.b, this.c);
 		this._area = Math.abs((this.a.x - this.c.x) * (this.b.y - this.a.y) - (this.a.x - this.b.x) * (this.c.y - this.a.y)) * 0.5;
+		this._centroid = Point.centroid(this.a, this.b, this.c);
 		// this.apothem = new Rectangle();
 		// this.incenter = new Point();
 		// this.circuncenter = new Point();
