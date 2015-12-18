@@ -69,9 +69,15 @@ define([
 		this.distanceAB = this.b.distanceTo(this.a);
 		this.distanceCA = this.c.distanceTo(this.a);
 		this.distanceBC = this.b.distanceTo(this.c);
+		this.distancePointAB = this.b.distancePointTo(this.a);
+		this.distancePointCA = this.c.distancePointTo(this.a);
+		this.distancePointBC = this.b.distancePointTo(this.c);
 		this.midpointAB = this.a.midpointTo(this.b);
 		this.midpointCA = this.c.midpointTo(this.a);
 		this.midpointBC = this.b.midpointTo(this.c);
+		this.slopeAB = this.a.slopeTo(this.b);
+		this.slopeCA = this.c.slopeTo(this.a);
+		this.slopeBC = this.b.slopeTo(this.c);
 		this.centroid = Point.centroid(this.a, this.b, this.c);
 		// this.area = 0;
 		// this.apothem = new Rectangle();
