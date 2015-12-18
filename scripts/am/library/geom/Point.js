@@ -100,6 +100,10 @@ define([
 		return pointA.distanceTo(pointB);
 	});
 
+	Point.static('slope', function(pointA, pointB){
+		return pointA.slopeTo(pointB);
+	});
+
 	Point.static('interpolate', function(pointA, pointB, f){
 		return pointA.interpolate(pointB, f);
 	});
