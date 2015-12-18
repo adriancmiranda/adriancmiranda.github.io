@@ -56,8 +56,8 @@ define([
 
 	Point.static('min', function(){
 		var points = Array.prototype.slice.call(arguments);
-		var min = points[0] instanceof Point? points[0]:new Point();
-		this.map(points, function(point, id){
+		var min = points[0] instanceof Point? points[0].clone():new Point();
+		this.map(points, function(point){
 			min.x = point.x < min.x? point.x:min.x;
 			min.y = point.y < min.y? point.y:min.y;
 		});
@@ -66,7 +66,7 @@ define([
 
 	Point.static('max', function(){
 		var points = Array.prototype.slice.call(arguments);
-		var max = points[0] instanceof Point? points[0]:new Point();
+		var max = points[0] instanceof Point? points[0].clone():new Point();
 		this.map(points, function(point){
 			max.x = point.x > max.x? point.x:max.x;
 			max.y = point.y > max.y? point.y:max.y;
@@ -88,10 +88,10 @@ define([
 
 	Point.static('bounds', function(){
 		var points = Array.prototype.slice.call(arguments);
-		var topLeft = this.min(points);
-		var bottomRight = this.max(points);
-		// return { x:topLeft.x, y:topLeft.y, width:topLeft.distanceX(bottomRight), height:topLeft.distanceY(bottomRight) };
-		return new Rectangle(topLeft.x, topLeft.y, topLeft.distanceX(bottomRight), topLeft.distanceY(bottomRight));
+		var topLeft = this.min.apply(this, points);
+		var bottomRight = this.max.apply(this, points);
+		return { x:topLeft.x, y:topLeft.y, width:topLeft.distanceX(bottomRight), height:topLeft.distanceY(bottomRight) };
+		// return new Rectangle(topLeft.x, topLeft.y, topLeft.distanceX(bottomRight), topLeft.distanceY(bottomRight));
 	});
 
 	Point.static('map', function(points, iterator){

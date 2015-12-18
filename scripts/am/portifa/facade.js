@@ -59,7 +59,6 @@ define([
 		var SW = this.canvas.width();
 		var SH = this.canvas.height();
 		var lineWidth = 0.5;
-
 		var triangle = new Triangle(new Point((SW/2), 10), new Point((SW/2)-100, 400), new Point(100, 100));
 		this.context.beginPath();
 		this.context.moveTo(triangle.a.x, triangle.a.y);
@@ -75,6 +74,12 @@ define([
 		this.context.fillStyle = '#FF0000';
 		this.context.arc(triangle.centroid.x, triangle.centroid.y, 3, 0, 2*Math.PI, false);
 		this.context.fill();
+
+		var bounds = Point.bounds(triangle.a, triangle.b, triangle.c);
+		this.context.beginPath();
+		this.context.strokeStyle = '#00CCFF';
+		this.context.strokeRect(bounds.x, bounds.y, bounds.width, bounds.height);
+		this.context.stroke();
 	});
 
 	Facade.method('render', function(){
