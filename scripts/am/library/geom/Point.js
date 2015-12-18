@@ -1,8 +1,7 @@
 define([
-	'./Rectangle',
 	'../utils/Type',
 	'../utils/Class'
-], function(Rectangle, Type, Class){
+], function(Type, Class){
 
 	var Point = new Class(function Point(x, y){
 		this.setTo(x, y);
@@ -47,6 +46,14 @@ define([
 		}
 	});
 
+	Point.static('fromObject', function(obj){
+		return new Point(obj.x, obj.y);
+	});
+
+	Point.static('fromArray', function(arr){
+		return new Point(arr[0], arr[1]);
+	});
+
 	Point.static('min', function(){
 		var points = Array.prototype.slice.call(arguments);
 		var min = points[0] instanceof Point? points[0]:new Point();
@@ -81,8 +88,9 @@ define([
 
 	Point.static('bounds', function(){
 		var points = Array.prototype.slice.call(arguments);
-		var topLeft = Point.min(points);
-		var bottomRight = Point.max(points);
+		var topLeft = this.min(points);
+		var bottomRight = this.max(points);
+		// return { x:topLeft.x, y:topLeft.y, width:topLeft.distanceX(bottomRight), height:topLeft.distanceY(bottomRight) };
 		return new Rectangle(topLeft.x, topLeft.y, topLeft.distanceX(bottomRight), topLeft.distanceY(bottomRight));
 	});
 

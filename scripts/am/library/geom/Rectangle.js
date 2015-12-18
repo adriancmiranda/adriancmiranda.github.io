@@ -127,6 +127,14 @@ define([
 		}
 	});
 
+	Rectangle.static('fromObject', function(obj){
+		return new Rectangle(obj.x, obj.y, obj.width, obj.height);
+	});
+
+	Rectangle.static('fromArray', function(arr){
+		return new Rectangle(arr[0], arr[1], arr[2], arr[3]);
+	});
+
 	Rectangle.method('size', function(dw, dh){
 		this.width = dw > 0? dw:0;
 		this.height = dh > 0? dh:0;
