@@ -86,14 +86,6 @@ define([
 		return centroid;
 	});
 
-	Point.static('bounds', function(){
-		var points = Array.prototype.slice.call(arguments);
-		var topLeft = this.min.apply(this, points);
-		var bottomRight = this.max.apply(this, points);
-		return { x:topLeft.x, y:topLeft.y, width:topLeft.distanceX(bottomRight), height:topLeft.distanceY(bottomRight) };
-		// return new Rectangle(topLeft.x, topLeft.y, topLeft.distanceX(bottomRight), topLeft.distanceY(bottomRight));
-	});
-
 	Point.static('map', function(points, iterator){
 		for(var id = 0; id < points.length; id++){
 			points[id] instanceof Point && iterator(points[id], id);
@@ -147,6 +139,10 @@ define([
 
 	Point.method('distanceY', function(point){
 		return Math.abs(this.y - point.y);
+	});
+
+	Point.method('midpointTo', function(point){
+		return new Point((this.x + point.x) / 2, (this.y + point.y) / 2);
 	});
 
 	Point.method('distancePointTo', function(point){

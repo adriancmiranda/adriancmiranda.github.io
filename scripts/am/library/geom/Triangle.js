@@ -6,11 +6,11 @@ define([
 ], function(Point, Rectangle, Type, Class){
 
 	// TODO: 
-	// 1. Find midpoints AB, BC, CA
-	// 2. Find slope AB, BC, CA
-	// 3. -1/slope
-	// 4. Y = mx + B
-	// 5. Set 2 equations equal to each other
+	// √ 1. Find midpoints AB, BC, CA
+	// x 2. Find slope AB, BC, CA
+	// x 3. -1/slope
+	// x 4. Y = mx + B
+	// x 5. Set 2 equations equal to each other
 	// --------------------------------------------------
 	// O raio da circunferência inscrita é igual a 1/3 da altura do triângulo
 	// --------------------------------------------------
@@ -66,9 +66,12 @@ define([
 	});
 
 	Triangle.method('draw', function(){
-		this.distanceBA = this.b.distancePointTo(this.a);
-		this.distanceCA = this.c.distancePointTo(this.a);
-		this.distanceBC = this.b.distancePointTo(this.c);
+		this.distanceAB = this.b.distanceTo(this.a);
+		this.distanceCA = this.c.distanceTo(this.a);
+		this.distanceBC = this.b.distanceTo(this.c);
+		this.midpointAB = this.a.midpointTo(this.b);
+		this.midpointCA = this.c.midpointTo(this.a);
+		this.midpointBC = this.b.midpointTo(this.c);
 		this.centroid = Point.centroid(this.a, this.b, this.c);
 		// this.area = 0;
 		// this.apothem = new Rectangle();
@@ -84,6 +87,12 @@ define([
 		this.c = c;
 		this.draw();
 		return this;
+	});
+
+	Triangle.method('getBounds', function(){
+		var topLeft = Point.min(this.a, this.b, this.c);
+		var bottomRight = Point.max(this.a, this.b, this.c);
+		return new Rectangle(topLeft.x, topLeft.y, topLeft.distanceX(bottomRight), topLeft.distanceY(bottomRight));
 	});
 
 	Triangle.method('equals', function(triangle){
