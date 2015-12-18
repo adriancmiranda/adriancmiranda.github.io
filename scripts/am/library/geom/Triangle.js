@@ -7,7 +7,7 @@ define([
 
 	// TODO: 
 	// √ 1. Find midpoints AB, BC, CA
-	// x 2. Find slope AB, BC, CA
+	// √ 2. Find slope AB, BC, CA
 	// x 3. -1/slope
 	// x 4. Y = mx + B
 	// x 5. Set 2 equations equal to each other
