@@ -78,6 +78,13 @@ define([
 		return centroid;
 	});
 
+	Point.static('bounds', function(){
+		var points = Array.prototype.slice.call(arguments);
+		var topLeft = Point.min(points);
+		var bottomRight = Point.max(points);
+		return new Rectangle(topLeft.x, topLeft.y, bottomRight.distanceX(topLeft), bottomRight.distanceY(topLeft));
+	});
+
 	Point.static('map', function(points, iterator){
 		for(var id = 0; id < points.length; id++){
 			points[id] instanceof Point && iterator(points[id], id);
