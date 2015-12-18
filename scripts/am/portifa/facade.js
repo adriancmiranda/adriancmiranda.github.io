@@ -44,6 +44,8 @@ define([
 		this.context.lineTo(rect.left, rect.bottom);
 		this.context.lineTo(rect.left, rect.top-(lineWidth/2));
 		this.context.closePath();
+		this.context.lineCap = 'round';
+		this.context.lineJoin = 'round';
 		this.context.lineWidth = lineWidth;
 		this.context.strokeStyle = '#000';
 		this.context.stroke();
@@ -66,6 +68,8 @@ define([
 		this.context.lineTo(triangle.c.x, triangle.c.y);
 		this.context.lineTo(triangle.a.x, triangle.a.y);
 		this.context.closePath();
+		this.context.lineCap = 'round';
+		this.context.lineJoin = 'round';
 		this.context.lineWidth = lineWidth;
 		this.context.strokeStyle = '#cc00ff';
 		this.context.stroke();
@@ -89,6 +93,8 @@ define([
 		this.context.moveTo(triangle.b.x, triangle.b.y);
 		this.context.lineTo(triangle.midpointAB.x, triangle.midpointAB.y);
 		this.context.closePath();
+		this.context.lineCap = 'round';
+		this.context.lineJoin = 'round';
 		this.context.lineWidth = lineWidth;
 		this.context.strokeStyle = '#00FF00';
 		this.context.stroke();
