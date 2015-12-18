@@ -146,7 +146,11 @@ define([
 	});
 
 	Point.method('midpointTo', function(point){
-		return new Point((this.x + point.x) / 2, (this.y + point.y) / 2);
+		return new Point((this.x + point.x) * 0.5, (this.y + point.y) * 0.5);
+	});
+
+	Point.method('centroidFrom', function(){
+		return Point.centroid.apply(Point, [this].concat(Array.prototype.slice.call(arguments)));
 	});
 
 	Point.method('slopeTo', function(point){
