@@ -82,7 +82,7 @@ define([
 		var points = Array.prototype.slice.call(arguments);
 		var topLeft = Point.min(points);
 		var bottomRight = Point.max(points);
-		return new Rectangle(topLeft.x, topLeft.y, bottomRight.distanceX(topLeft), bottomRight.distanceY(topLeft));
+		return new Rectangle(topLeft.x, topLeft.y, topLeft.distanceX(bottomRight), topLeft.distanceY(bottomRight));
 	});
 
 	Point.static('map', function(points, iterator){
