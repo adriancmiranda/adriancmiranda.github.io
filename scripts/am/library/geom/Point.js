@@ -133,6 +133,38 @@ define([
 		return new Point(this.x - point.x, this.y - point.y);
 	});
 
+	Point.method('multiply', function(point){
+		return new Point(this.x * point.x, this.y * point.y);
+	});
+
+	Point.method('divide', function(point){
+		return new Point(this.x / point.x, this.y / point.y);
+	});
+
+	Point.method('modulo', function(point){
+		return new Point(this.x % point.x, this.y % point.y);
+	});
+
+	Point.method('negate', function(point){
+		return new Point(-this.x, -this.y);
+	});
+
+	Point.method('round', function(){
+		return new Point(Math.round(this.x), Math.round(this.y));
+	});
+
+	Point.method('ceil', function(){
+		return new Point(Math.ceil(this.x), Math.ceil(this.y));
+	});
+
+	Point.method('floor', function(){
+		return new Point(Math.floor(this.x), Math.floor(this.y));
+	});
+
+	Point.method('abs', function(){
+		return new Point(Math.abs(this.x), Math.abs(this.y));
+	});
+
 	Point.method('offset', function(dx, dy){
 		return this.setTo(this.x + dx, this.x + dy);
 	});
