@@ -61,7 +61,7 @@ define([
 		var SW = this.canvas.width();
 		var SH = this.canvas.height();
 		var lineWidth = 0.5;
-		var triangle = new Triangle(new Point(0,0), new Point(-30, 30), new Point(30, 30), SW/2, 10);
+		var triangle = new Triangle(new Point(0,0), new Point(-30, 30), new Point(30, 30), SW/2, SH/2);
 		this.context.beginPath();
 		this.context.moveTo(triangle.x, triangle.y);
 		this.context.lineTo(triangle.b.x, triangle.b.y);
