@@ -167,7 +167,7 @@ define([
 		return this.inflate(point.x, point.y);
 	});
 
-	Rectangle.method('setEmpty', function(point){
+	Rectangle.method('setEmpty', function(){
 		return this.setTo(0, 0, 0, 0);
 	});
 
