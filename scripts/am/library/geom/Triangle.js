@@ -182,6 +182,12 @@ define([
 		}
 	});
 
+	Triangle.define('base', {
+		get:function(){
+			return this._base;
+		}
+	});
+
 	Triangle.define('heightA', {
 		get:function(){
 			return this._heightA;
@@ -206,30 +212,48 @@ define([
 		}
 	});
 
+	Triangle.define('ortocenter', {
+		get:function(){
+			return this._ortocenter;
+		}
+	});
+
+	Triangle.define('incenter', {
+		get:function(){
+			return this._incenter;
+		}
+	});
+
+	Triangle.define('circuncenter', {
+		get:function(){
+			return this._circuncenter;
+		}
+	});
+
 	Triangle.method('draw', function(){
 		this._topLeft = Point.min(this.a, this.b, this.c);
 		this._bottomRight = Point.max(this.a, this.b, this.c);
-		this._distanceAB = this.b.distanceTo(this.a);
-		this._distanceBC = this.b.distanceTo(this.c);
-		this._distanceCA = this.c.distanceTo(this.a);
-		this._distancePointAB = this.b.distancePointTo(this.a);
-		this._distancePointBC = this.b.distancePointTo(this.c);
-		this._distancePointCA = this.c.distancePointTo(this.a);
-		this._midpointAB = this.a.midpointTo(this.b);
-		this._midpointBC = this.b.midpointTo(this.c);
-		this._midpointCA = this.c.midpointTo(this.a);
-		this._slopeAB = this.a.slopeTo(this.b);
-		this._slopeBC = this.b.slopeTo(this.c);
-		this._slopeCA = this.c.slopeTo(this.a);
-		this._area = Math.abs((this.a.x - this.c.x) * (this.b.y - this.a.y) - (this.a.x - this.b.x) * (this.c.y - this.a.y)) * 0.5;
+		this._distanceAB = this.b.distance(this.a);
+		this._distanceBC = this.b.distance(this.c);
+		this._distanceCA = this.c.distance(this.a);
+		this._distancePointAB = this.b.distancePoint(this.a);
+		this._distancePointBC = this.b.distancePoint(this.c);
+		this._distancePointCA = this.c.distancePoint(this.a);
+		this._midpointAB = this.a.midpoint(this.b);
+		this._midpointBC = this.b.midpoint(this.c);
+		this._midpointCA = this.c.midpoint(this.a);
+		this._slopeAB = this.a.slope(this.b);
+		this._slopeBC = this.b.slope(this.c);
+		this._slopeCA = this.c.slope(this.a);
+		this._area = Math.abs((this.a.x - this.c.x) * (this.b.y - this.a.y) - (this.a.x - this.b.x) * (this.c.y - this.a.y)) / 2;
+		// this._base = 0;
 		// this._heightA = 0;
 		// this._heightB = 0;
 		// this._heightC = 0;
 		this._centroid = Point.centroid(this.a, this.b, this.c);
-		// this.incenter = new Point();
-		// this.circuncenter = new Point();
-		// this.ortocenter = new Point();
-		this.radius = null;
+		// this._ortocenter = new Point();
+		// this._incenter = new Point();
+		// this._circuncenter = new Point();
 	});
 
 	Triangle.method('setTo', function(a, b, c, x, y){
@@ -251,15 +275,15 @@ define([
 	});
 
 	Triangle.method('copyFrom', function(triangle){
-		this.setTo(triangle.a, triangle.b, triangle.c);
+		this.setTo(triangle.a, triangle.b, triangle.c, triangle.x, triangle.y);
 	});
 
 	Triangle.method('clone', function(){
-		return new Triangle(this.a, this.b, this.c);
+		return new Triangle(this.a, this.b, this.c, this.x, this.y);
 	});
 
 	Triangle.method('toString', function(){
-		return '(a='+ this.a.toString() +', b='+ this.b.toString() +', c='+ this.c.toString() +')';
+		return '(a='+ this.a.toString() +', b='+ this.b.toString() +', c='+ this.c.toString() +', x='+ this.x +', y='+ this.y +')';
 	});
 
 	return Triangle;
