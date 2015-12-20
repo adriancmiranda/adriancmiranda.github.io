@@ -15,8 +15,8 @@ define([
 	// O raio da circunferência inscrita é igual a 1/3 da altura do triângulo
 	// --------------------------------------------------
 	// https://en.wikipedia.org/wiki/Circumscribed_circle
-	var Triangle = new Class(function Triangle(a, b, c, x, y){
-		Class.proxyfy(this, 'draw').setTo(a, b, c, x, y);
+	var Triangle = new Class(function Triangle(a, b, c){
+		Class.proxyfy(this, 'draw').setTo(a, b, c);
 	}).static('EPSILON', 0.000001);
 
 	Triangle.define('x', {
@@ -44,6 +44,18 @@ define([
 		},
 		get:function(){
 			return this._y;
+		}
+	});
+
+	Triangle.define('width', {
+		get:function(value){
+			return this._width;
+		}
+	});
+
+	Triangle.define('height', {
+		get:function(value){
+			return this._height;
 		}
 	});
 
@@ -101,6 +113,12 @@ define([
 	Triangle.define('bottomRight', {
 		get:function(){
 			return this._bottomRight;
+		}
+	});
+
+	Triangle.define('boundsRect', {
+		get:function(){
+			return this._boundsRect;
 		}
 	});
 
@@ -231,43 +249,46 @@ define([
 	});
 
 	Triangle.method('draw', function(){
-		this._topLeft = Point.min(this.a, this.b, this.c);
-		this._bottomRight = Point.max(this.a, this.b, this.c);
-		this._distanceAB = this.b.distance(this.a);
-		this._distanceBC = this.b.distance(this.c);
-		this._distanceCA = this.c.distance(this.a);
-		this._distancePointAB = this.b.distancePoint(this.a);
-		this._distancePointBC = this.b.distancePoint(this.c);
-		this._distancePointCA = this.c.distancePoint(this.a);
-		this._midpointAB = this.a.midpoint(this.b);
-		this._midpointBC = this.b.midpoint(this.c);
-		this._midpointCA = this.c.midpoint(this.a);
-		this._slopeAB = this.a.slope(this.b);
-		this._slopeBC = this.b.slope(this.c);
-		this._slopeCA = this.c.slope(this.a);
-		this._area = Math.abs((this.a.x - this.c.x) * (this.b.y - this.a.y) - (this.a.x - this.b.x) * (this.c.y - this.a.y)) / 2;
+		this._topLeft = Point.min(this._a, this._b, this._c);
+		this._bottomRight = Point.max(this._a, this._b, this._c);
+		this._width = this._topLeft.distanceX(this._bottomRight);
+		this._height = this._topLeft.distanceY(this._bottomRight);
+		this._boundsRect = new Rectangle(this._x, this._y, this._width, this._height);
+		this._distanceAB = this._b.distance(this._a);
+		this._distanceBC = this._b.distance(this._c);
+		this._distanceCA = this._c.distance(this._a);
+		this._distancePointAB = this._b.distancePoint(this._a);
+		this._distancePointBC = this._b.distancePoint(this._c);
+		this._distancePointCA = this._c.distancePoint(this._a);
+		this._midpointAB = this._a.midpoint(this._b);
+		this._midpointBC = this._b.midpoint(this._c);
+		this._midpointCA = this._c.midpoint(this._a);
+		this._slopeAB = this._a.slope(this._b);
+		this._slopeBC = this._b.slope(this._c);
+		this._slopeCA = this._c.slope(this._a);
+		this._area = Math.abs((this._a.x - this._c.x) * (this._b.y - this._a.y) - (this._a.x - this._b.x) * (this._c.y - this._a.y)) / 2;
 		// this._base = 0;
 		// this._heightA = 0;
 		// this._heightB = 0;
 		// this._heightC = 0;
-		this._centroid = Point.centroid(this.a, this.b, this.c);
+		this._centroid = Point.centroid(this._a, this._b, this._c);
 		// this._ortocenter = new Point();
 		// this._incenter = new Point();
 		// this._circuncenter = new Point();
 	});
 
-	Triangle.method('setTo', function(a, b, c, x, y){
+	Triangle.method('setTo', function(a, b, c){
 		this.a = a;
 		this.b = b;
 		this.c = c;
-		this.x = x;
-		this.y = y;
+		this.x = 0;
+		this.y = 0;
 		this.draw();
 		return this;
 	});
 
 	Triangle.method('getBoundsRect', function(){
-		return new Rectangle(this.topLeft.x, this.topLeft.y, this.topLeft.distanceX(this.bottomRight), this.topLeft.distanceY(this.bottomRight));
+		
 	});
 
 	Triangle.method('equals', function(triangle){
@@ -275,11 +296,11 @@ define([
 	});
 
 	Triangle.method('copyFrom', function(triangle){
-		this.setTo(triangle.a, triangle.b, triangle.c, triangle.x, triangle.y);
+		this.setTo(triangle.a, triangle.b, triangle.c);
 	});
 
 	Triangle.method('clone', function(){
-		return new Triangle(this.a, this.b, this.c, this.x, this.y);
+		return new Triangle(this.a, this.b, this.c);
 	});
 
 	Triangle.method('toString', function(){
