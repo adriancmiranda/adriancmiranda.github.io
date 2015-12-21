@@ -5,7 +5,7 @@ define([
 	'../utils/Class'
 ], function(Point, Rectangle, Type, Class){
 
-	// TODO: 
+	// TODO to find Circuncircle: 
 	// √ 1. Find midpoints AB, BC, CA
 	// √ 2. Find slope AB, BC, CA
 	// x 3. -1/slope
@@ -15,6 +15,11 @@ define([
 	// O raio da circunferência inscrita é igual a 1/3 da altura do triângulo
 	// --------------------------------------------------
 	// https://en.wikipedia.org/wiki/Circumscribed_circle
+	// --------------------------------------------------
+	// TODO to find orthocenter using coordinates:
+	// √ 1. Find slope AB, BC, CA
+	// x - Opposite reciprocal
+	// x 2. Point-slope form: y = m(x - h) + k
 	var Triangle = new Class(function Triangle(a, b, c){
 		Class.proxyfy(this, 'draw').setTo(a, b, c);
 	}).static('EPSILON', 0.000001);
@@ -188,6 +193,24 @@ define([
 		}
 	});
 
+	Triangle.define('oppositeReciprocalAB', {
+		get:function(){
+			return this._oppositeReciprocalAB;
+		}
+	});
+
+	Triangle.define('oppositeReciprocalBC', {
+		get:function(){
+			return this._oppositeReciprocalBC;
+		}
+	});
+
+	Triangle.define('oppositeReciprocalCA', {
+		get:function(){
+			return this._oppositeReciprocalCA;
+		}
+	});
+
 	Triangle.define('perimeter', {
 		get:function(){
 			return this._perimeter;
@@ -224,9 +247,9 @@ define([
 		}
 	});
 
-	Triangle.define('ortocenter', {
+	Triangle.define('orthocenter', {
 		get:function(){
-			return this._ortocenter;
+			return this._orthocenter;
 		}
 	});
 
@@ -259,13 +282,22 @@ define([
 		this._slopeAB = this._a.slope(this._b);
 		this._slopeBC = this._b.slope(this._c);
 		this._slopeCA = this._c.slope(this._a);
+		this._oppositeReciprocalAB = this._a.oppositeReciprocal(this._b);
+		this._oppositeReciprocalBC = this._b.oppositeReciprocal(this._c);
+		this._oppositeReciprocalCA = this._c.oppositeReciprocal(this._a);
 		this._perimeter = this._distanceAB + this._distanceBC + this._distanceCA;
 		this._area = Math.abs((this._a.x - this._c.x) * (this._b.y - this._a.y) - (this._a.x - this._b.x) * (this._c.y - this._a.y)) / 2;
 		this._centroid = Point.centroid(this._a, this._b, this._c);
-		this._heightAB = 2 * this._area / this._distanceBC;
-		// this._heightBC = 2 * this._area / this._distanceCA;
-		// this._heightCA = 2 * this._area / this._distanceAB;
-		// this._ortocenter = new Point();
+		// this._heightAB = 2 * this._area / this._distanceBC;
+		// this._heightBC = 2 * this._area / this._distanceAB;
+		// this._heightCA = 2 * this._area / this._distanceCA;
+		
+		// (0,3) e (6,-3)
+		// this._heightAB = this._orSlopeAB * (x - this._c.x) + this._c.x;
+		// this._heightBC = this._orSlopeBC * (x - this._a.x) - this._a.y;
+		// this._heightCA = this._orSlopeBC * (x - this._a.x) - this._a.y;
+		// this._orthocenter = new Point();
+
 		// this._incenter = new Point();
 		// this._circuncenter = new Point();
 	});
