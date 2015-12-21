@@ -50,6 +50,14 @@ define([
 		return new Point(value[x] || value[0] || value.x || value.left, value[y] || value[1] || value.y || value.top);
 	});
 
+	Point.static('interpolate', function(pointA, pointB){
+		return pointA.interpolate(pointB);
+	});
+
+	Point.static('distance', function(pointA, pointB){
+		return pointA.distance(pointB);
+	});
+
 	Point.static('random', function(length, angle){
 		return new Point(Math.random(), Math.random());
 	});
