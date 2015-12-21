@@ -116,12 +116,6 @@ define([
 		}
 	});
 
-	Triangle.define('boundsRect', {
-		get:function(){
-			return this._boundsRect;
-		}
-	});
-
 	Triangle.define('distanceAB', {
 		get:function(){
 			return this._distanceAB;
@@ -194,33 +188,33 @@ define([
 		}
 	});
 
+	Triangle.define('perimeter', {
+		get:function(){
+			return this._perimeter;
+		}
+	});
+
 	Triangle.define('area', {
 		get:function(){
 			return this._area;
 		}
 	});
 
-	Triangle.define('base', {
+	Triangle.define('heightAB', {
 		get:function(){
-			return this._base;
+			return this._heightAB;
 		}
 	});
 
-	Triangle.define('heightA', {
+	Triangle.define('heightBC', {
 		get:function(){
-			return this._heightA;
+			return this._heightBC;
 		}
 	});
 
-	Triangle.define('heightB', {
+	Triangle.define('heightCA', {
 		get:function(){
-			return this._heightB;
-		}
-	});
-
-	Triangle.define('heightC', {
-		get:function(){
-			return this._heightC;
+			return this._heightCA;
 		}
 	});
 
@@ -253,11 +247,10 @@ define([
 		this._bottomRight = Point.max(this._a, this._b, this._c);
 		this._width = this._topLeft.distanceX(this._bottomRight);
 		this._height = this._topLeft.distanceY(this._bottomRight);
-		this._boundsRect = new Rectangle(this._x, this._y, this._width, this._height);
-		this._distanceAB = this._b.distance(this._a);
+		this._distanceAB = this._a.distance(this._b);
 		this._distanceBC = this._b.distance(this._c);
 		this._distanceCA = this._c.distance(this._a);
-		this._distancePointAB = this._b.distancePoint(this._a);
+		this._distancePointAB = this._a.distancePoint(this._b);
 		this._distancePointBC = this._b.distancePoint(this._c);
 		this._distancePointCA = this._c.distancePoint(this._a);
 		this._midpointAB = this._a.midpoint(this._b);
@@ -266,12 +259,12 @@ define([
 		this._slopeAB = this._a.slope(this._b);
 		this._slopeBC = this._b.slope(this._c);
 		this._slopeCA = this._c.slope(this._a);
+		this._perimeter = this._distanceAB + this._distanceBC + this._distanceCA;
 		this._area = Math.abs((this._a.x - this._c.x) * (this._b.y - this._a.y) - (this._a.x - this._b.x) * (this._c.y - this._a.y)) / 2;
-		// this._base = 0;
-		// this._heightA = 0;
-		// this._heightB = 0;
-		// this._heightC = 0;
 		this._centroid = Point.centroid(this._a, this._b, this._c);
+		this._heightAB = 2 * this._area / this._distanceBC;
+		// this._heightBC = 2 * this._area / this._distanceCA;
+		// this._heightCA = 2 * this._area / this._distanceAB;
 		// this._ortocenter = new Point();
 		// this._incenter = new Point();
 		// this._circuncenter = new Point();
@@ -287,10 +280,6 @@ define([
 		return this;
 	});
 
-	Triangle.method('getBoundsRect', function(){
-		
-	});
-
 	Triangle.method('equals', function(triangle){
 		return triangle.a.equals(this.a) && triangle.b.equals(this.b) && triangle.c.equals(this.c);
 	});
@@ -304,7 +293,7 @@ define([
 	});
 
 	Triangle.method('toString', function(){
-		return '(a='+ this.a.toString() +', b='+ this.b.toString() +', c='+ this.c.toString() +', x='+ this.x +', y='+ this.y +')';
+		return '(a='+ this.a.toString() +', b='+ this.b.toString() +', c='+ this.c.toString() +')';
 	});
 
 	return Triangle;
