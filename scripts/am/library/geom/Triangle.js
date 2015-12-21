@@ -292,10 +292,9 @@ define([
 		// this._heightBC = 2 * this._area / this._distanceAB;
 		// this._heightCA = 2 * this._area / this._distanceCA;
 		
-		// (0,3) e (6,-3)
-		// this._heightAB = this._orSlopeAB * (x - this._c.x) + this._c.x;
-		// this._heightBC = this._orSlopeBC * (x - this._a.x) - this._a.y;
-		// this._heightCA = this._orSlopeBC * (x - this._a.x) - this._a.y;
+		// this._heightAB = this._oppositeReciprocalAB * (x - this._c.x) + this._c.x;
+		// this._heightBC = this._oppositeReciprocalBC * (x - this._a.x) + this._a.y;
+		// this._heightCA = this._oppositeReciprocalCA * (x - this._a.x) + this._a.y;
 		// this._orthocenter = new Point();
 
 		// this._incenter = new Point();
