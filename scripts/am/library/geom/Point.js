@@ -160,7 +160,8 @@ define([
 	});
 
 	Point.method('oppositeReciprocal', function(point){
-		return 0 - (this.distanceX(point) / this.distanceY(point));
+		point = (this.distanceX(point) / this.distanceY(point));
+		return point - point * 2;
 	});
 
 	Point.method('midpoint', function(point){
