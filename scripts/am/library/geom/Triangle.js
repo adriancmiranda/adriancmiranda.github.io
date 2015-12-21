@@ -53,14 +53,20 @@ define([
 	});
 
 	Triangle.define('width', {
-		get:function(value){
+		get:function(){
 			return this._width;
 		}
 	});
 
 	Triangle.define('height', {
-		get:function(value){
+		get:function(){
 			return this._height;
+		}
+	});
+
+	Triangle.define('boundsRect', {
+		get:function(){
+			return this._boundsRect;
 		}
 	});
 
@@ -288,6 +294,7 @@ define([
 		this._bottomRight = Point.max(this._a, this._b, this._c);
 		this._width = this._topLeft.distanceX(this._bottomRight);
 		this._height = this._topLeft.distanceY(this._bottomRight);
+		this._boundsRect = new Rectangle(this._topLeft.x, this._topLeft.y, this._width, this._height);
 		this._distanceAB = this._a.distance(this._b);
 		this._distanceBC = this._b.distance(this._c);
 		this._distanceCA = this._c.distance(this._a);
