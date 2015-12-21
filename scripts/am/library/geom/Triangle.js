@@ -247,21 +247,21 @@ define([
 		}
 	});
 
-	Triangle.define('heightAB', {
+	Triangle.define('altitudeAB|heightAB', {
 		get:function(){
-			return this._heightAB;
+			return this._altitudeAB;
 		}
 	});
 
-	Triangle.define('heightBC', {
+	Triangle.define('altitudeBC|heightBC', {
 		get:function(){
-			return this._heightBC;
+			return this._altitudeBC;
 		}
 	});
 
-	Triangle.define('heightCA', {
+	Triangle.define('altitudeCA|heightCA', {
 		get:function(){
-			return this._heightCA;
+			return this._altitudeCA;
 		}
 	});
 
@@ -283,7 +283,7 @@ define([
 		}
 	});
 
-	Triangle.define('centroid|barycenter', {
+	Triangle.define('barycenter|centroid', {
 		get:function(){
 			return this._centroid;
 		}
@@ -335,22 +335,19 @@ define([
 		this._area2 = (this._area * 2) * -1;
 		this._centroid = Point.centroid(this._a, this._b, this._c);
 
-		// console.log('or:', new Point(-2,-5).slope(new Point(6,-3)), new Point(-2,-5).perpendicularSlope(new Point(6,-3)));
-		// console.log('or:', new Point(6,-3).slope(new Point(0,3)), new Point(6,-3).perpendicularSlope(new Point(0,3)));
+		this._angleA = 0;
+		// https://en.wikipedia.org/wiki/Law_of_cosines
+		this._angleB = Math.acos(Math.pow(this._distanceAB, 2) + Math.pow(this._distanceBC, 2) - Math.pow(this._distanceCA, 2) / (2 * this._distanceAB * this._distanceBC));
+		this._angleC = 0;
 
-		// this._angleA = 0;
-		// this._angleB = 0;
-		// this._angleC = 0;
-		// this._heightAB = 2 * this._area / this._distanceBC;
-	
-		// this._heightAB = this._perpendicularSlopeAB * (x - this._c.x) + this._c.y;
-		// this._heightBC = this._perpendicularSlopeBC * (x - this._a.x) + this._a.y;
-		// this._heightCA = this._perpendicularSlopeCA * (x - this._b.x) + this._b.y;
+		// y = m(x - h) + k
+		// this._altitudeAB = 2 * this._area / this._distanceBC; // arcaic
+		// this._altitudeAB = this._perpendicularSlopeAB * (x - this._c.x) + this._c.y;
+		// this._altitudeBC = this._perpendicularSlopeBC * (x - this._a.x) + this._a.y;
+		// this._altitudeCA = this._perpendicularSlopeCA * (x - this._b.x) + this._b.y;
 
 		// this._incenter = new Point();
 		// this._circuncenter = new Point();
-
-		// y - this._c.y = this._perpendicularSlopeAB * (x - this._c.x)
 	});
 
 	Triangle.method('setTo', function(a, b, c){
@@ -361,6 +358,18 @@ define([
 		this.y = 0;
 		this.draw();
 		return this;
+	});
+
+	Triangle.method('inCircumcircle', function(point){
+		return false;
+	});
+
+	Triangle.method('inOrthocircle', function(point){
+		return false;
+	});
+
+	Triangle.method('inCentercircle', function(point){
+		return false;
 	});
 
 	Triangle.method('equals', function(triangle){
