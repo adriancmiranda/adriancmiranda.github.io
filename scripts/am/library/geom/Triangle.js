@@ -193,21 +193,21 @@ define([
 		}
 	});
 
-	Triangle.define('oppositeReciprocalAB', {
+	Triangle.define('perpendicularSlopeAB', {
 		get:function(){
-			return this._oppositeReciprocalAB;
+			return this._perpendicularSlopeAB;
 		}
 	});
 
-	Triangle.define('oppositeReciprocalBC', {
+	Triangle.define('perpendicularSlopeBC', {
 		get:function(){
-			return this._oppositeReciprocalBC;
+			return this._perpendicularSlopeBC;
 		}
 	});
 
-	Triangle.define('oppositeReciprocalCA', {
+	Triangle.define('perpendicularSlopeCA', {
 		get:function(){
-			return this._oppositeReciprocalCA;
+			return this._perpendicularSlopeCA;
 		}
 	});
 
@@ -238,6 +238,24 @@ define([
 	Triangle.define('heightCA', {
 		get:function(){
 			return this._heightCA;
+		}
+	});
+
+	Triangle.define('angleA', {
+		get:function(){
+			return this._angleA;
+		}
+	});
+
+	Triangle.define('angleB', {
+		get:function(){
+			return this._angleB;
+		}
+	});
+
+	Triangle.define('angleC', {
+		get:function(){
+			return this._angleC;
 		}
 	});
 
@@ -282,23 +300,30 @@ define([
 		this._slopeAB = this._a.slope(this._b);
 		this._slopeBC = this._b.slope(this._c);
 		this._slopeCA = this._c.slope(this._a);
-		this._oppositeReciprocalAB = this._a.oppositeReciprocal(this._b);
-		this._oppositeReciprocalBC = this._b.oppositeReciprocal(this._c);
-		this._oppositeReciprocalCA = this._c.oppositeReciprocal(this._a);
+		this._perpendicularSlopeAB = this._a.perpendicularSlope(this._b);
+		this._perpendicularSlopeBC = this._b.perpendicularSlope(this._c);
+		this._perpendicularSlopeCA = this._c.perpendicularSlope(this._a);
 		this._perimeter = this._distanceAB + this._distanceBC + this._distanceCA;
 		this._area = Math.abs((this._a.x - this._c.x) * (this._b.y - this._a.y) - (this._a.x - this._b.x) * (this._c.y - this._a.y)) / 2;
 		this._centroid = Point.centroid(this._a, this._b, this._c);
+
+		// console.log('or:', new Point(-2,-5).slope(new Point(6,-3)), new Point(-2,-5).perpendicularSlope(new Point(6,-3)));
+		// console.log('or:', new Point(6,-3).slope(new Point(0,3)), new Point(6,-3).perpendicularSlope(new Point(0,3)));
+
+		// this._angleA = 0;
+		// this._angleB = 0;
+		// this._angleC = 0;
 		// this._heightAB = 2 * this._area / this._distanceBC;
-		// this._heightBC = 2 * this._area / this._distanceAB;
-		// this._heightCA = 2 * this._area / this._distanceCA;
-		
-		// this._heightAB = this._oppositeReciprocalAB * (x - this._c.x) + this._c.x;
-		// this._heightBC = this._oppositeReciprocalBC * (x - this._a.x) + this._a.y;
-		// this._heightCA = this._oppositeReciprocalCA * (x - this._a.x) + this._a.y;
+	
+		// this._heightAB = this._perpendicularSlopeAB * (x - this._c.x) + this._c.y;
+		// this._heightBC = this._perpendicularSlopeBC * (x - this._a.x) + this._a.y;
+		// this._heightCA = this._perpendicularSlopeCA * (x - this._b.x) + this._b.y;
 		// this._orthocenter = new Point();
 
 		// this._incenter = new Point();
 		// this._circuncenter = new Point();
+
+		// y - this._c.y = this._perpendicularSlopeAB * (x - this._c.x)
 	});
 
 	Triangle.method('setTo', function(a, b, c){
