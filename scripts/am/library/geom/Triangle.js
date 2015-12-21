@@ -127,6 +127,18 @@ define([
 		}
 	});
 
+	Triangle.define('topRight', {
+		get:function(){
+			return this._topRight;
+		}
+	});
+
+	Triangle.define('bottomLeft', {
+		get:function(){
+			return this._bottomLeft;
+		}
+	});
+
 	Triangle.define('distanceAB', {
 		get:function(){
 			return this._distanceAB;
@@ -229,6 +241,12 @@ define([
 		}
 	});
 
+	Triangle.define('area2', {
+		get:function(){
+			return this._area2;
+		}
+	});
+
 	Triangle.define('heightAB', {
 		get:function(){
 			return this._heightAB;
@@ -265,7 +283,7 @@ define([
 		}
 	});
 
-	Triangle.define('centroid', {
+	Triangle.define('centroid|barycenter', {
 		get:function(){
 			return this._centroid;
 		}
@@ -292,6 +310,8 @@ define([
 	Triangle.method('draw', function(){
 		this._topLeft = Point.min(this._a, this._b, this._c);
 		this._bottomRight = Point.max(this._a, this._b, this._c);
+		this._topRight = new Point(this._bottomRight.x, this._topLeft.y);
+		this._bottomLeft = new Point(this._topLeft.x, this._bottomRight.y);
 		this._width = this._topLeft.distanceX(this._bottomRight);
 		this._height = this._topLeft.distanceY(this._bottomRight);
 		this._boundsRect = new Rectangle(this._topLeft.x, this._topLeft.y, this._width, this._height);
@@ -312,6 +332,7 @@ define([
 		this._perpendicularSlopeCA = this._c.perpendicularSlope(this._a);
 		this._perimeter = this._distanceAB + this._distanceBC + this._distanceCA;
 		this._area = Math.abs((this._a.x - this._c.x) * (this._b.y - this._a.y) - (this._a.x - this._b.x) * (this._c.y - this._a.y)) / 2;
+		this._area2 = (this._area * 2) * -1;
 		this._centroid = Point.centroid(this._a, this._b, this._c);
 
 		// console.log('or:', new Point(-2,-5).slope(new Point(6,-3)), new Point(-2,-5).perpendicularSlope(new Point(6,-3)));
@@ -325,7 +346,6 @@ define([
 		// this._heightAB = this._perpendicularSlopeAB * (x - this._c.x) + this._c.y;
 		// this._heightBC = this._perpendicularSlopeBC * (x - this._a.x) + this._a.y;
 		// this._heightCA = this._perpendicularSlopeCA * (x - this._b.x) + this._b.y;
-		// this._orthocenter = new Point();
 
 		// this._incenter = new Point();
 		// this._circuncenter = new Point();

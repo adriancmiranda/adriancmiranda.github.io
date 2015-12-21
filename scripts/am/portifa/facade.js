@@ -12,6 +12,10 @@ define([
 		this.options = Class.options({}, this.defaults, options);
 		this.canvas = new Element(canvas);
 		this.context = this.canvas.node.getContext('2d');
+		this.SW = this.canvas.width();
+		this.SH = this.canvas.height();
+		this.CW = this.SW * 0.5;
+		this.CH = this.SH * 0.5;
 		this.ticker = new Ticker(this.options.FPS, this.options.autoStartRender);
 		this.ticker.add(this.render, this);
 	}).method('defaults', {
@@ -30,91 +34,86 @@ define([
 		this.ticker.stop();
 	});
 
-	Facade.method('drawRectangle', function(){
-		var SW = this.canvas.width();
-		var SH = this.canvas.height();
-		var lineWidth = 0.5;
-
-		var size = new Point(8, 8);
-		var rect = new Rectangle(SW-(size.x+lineWidth), SH-(size.y+lineWidth), size.x, size.y);
+	Facade.method('drawLine', function(pointA, pointB, strokeColor, lineWidth, lineDash){
+		var originalLineWidth = this.context.lineWidth;
+		this.context.lineWidth = lineWidth || 2;
+		this.context.strokeStyle = strokeColor || '#999';
+		this.context.setLineDash(lineDash||[]);
 		this.context.beginPath();
-		this.context.moveTo(rect.left, rect.top);
-		this.context.lineTo(rect.right, rect.top);
-		this.context.lineTo(rect.right, rect.bottom);
-		this.context.lineTo(rect.left, rect.bottom);
-		this.context.lineTo(rect.left, rect.top-(lineWidth/2));
-		this.context.closePath();
-		this.context.lineCap = 'round';
-		this.context.lineJoin = 'round';
-		this.context.lineWidth = lineWidth;
-		this.context.strokeStyle = '#000';
 		this.context.stroke();
-		
-		var thickness = 1.5;
-		this.context.beginPath();
-		this.context.fillStyle = '#FF0000';
-		this.context.fillRect(rect.centroid.x - thickness / 2, rect.centroid.y - thickness / 2, thickness, thickness);
-		this.context.fill();
+		this.context.moveTo(pointA.x, pointA.y);
+		this.context.lineTo(pointB.x, pointB.y + (this.context.lineWidth * 0.5));
+		this.context.stroke();
+		this.context.closePath();
+		this.context.setLineDash([0]);
+		this.context.lineWidth = originalLineWidth;
 	});
 
-	Facade.method('drawTriangle', function(){
-		var SW = this.canvas.width();
-		var SH = this.canvas.height();
-		var lineWidth = 0.5;
-		var triangle = new Triangle(new Point(0,0), new Point(-30, 30), new Point(30, 30), SW/2, SH/2);
+	Facade.method('drawRect', function(rect, strokeColor, lineWidth, lineDash){
+		var originalLineWidth = this.context.lineWidth;
+		this.context.lineWidth = lineWidth || 0.3;
+		this.context.strokeStyle = strokeColor || '#00CCFF';
+		this.context.setLineDash(lineDash||[]);
 		this.context.beginPath();
-		this.context.moveTo(triangle.x, triangle.y);
-		this.context.lineTo(triangle.b.x, triangle.b.y);
-		this.context.lineTo(triangle.c.x, triangle.c.y);
-		this.context.lineTo(triangle.a.x, triangle.a.y);
+		this.context.stroke();
+		this.context.strokeRect(rect.x, rect.y, rect.width, rect.height);
+		this.context.stroke();
 		this.context.closePath();
-		this.context.lineCap = 'round';
-		this.context.lineJoin = 'round';
-		this.context.lineWidth = lineWidth;
-		this.context.strokeStyle = '#cc00ff';
+		this.context.setLineDash([]);
+		this.context.lineWidth = originalLineWidth;
+	});
+
+	Facade.method('drawCircle', function(point, radius, strokeColor, lineWidth, lineDash){
+		if(!isFinite(radius))return;
+		var originalLineWidth = this.context.lineWidth;
+		this.context.lineWidth = lineWidth || 0.3;
+		this.context.strokeStyle = strokeColor || '#ff0000';
+		this.context.setLineDash(lineDash||[]);
+		this.context.beginPath();
 		this.context.stroke();
-		// ================================
-		this.context.beginPath();
-		this.context.fillStyle = '#FF0000';
-		this.context.arc(triangle.centroid.x, triangle.centroid.y, 3, 0, 2*Math.PI, false);
-		this.context.fill();
-		// ================================
-		var bounds = triangle.getBoundsRect();
-		this.context.beginPath();
-		this.context.strokeStyle = '#00CCFF';
-		this.context.strokeRect(bounds.x, bounds.y, bounds.width, bounds.height);
+		this.context.arc(point.x, point.y, radius, 0, Math.PI * 2, true);
 		this.context.stroke();
-		// ================================
-		this.context.lineCap = 'round';
-		this.context.lineJoin = 'round';
-		this.context.lineWidth = lineWidth;
-		this.context.beginPath();
-		this.context.moveTo(triangle.a.x, triangle.a.y);
-		this.context.lineTo(triangle.midpointCA.x, triangle.midpointCA.y);
 		this.context.closePath();
-		this.context.strokeStyle = '#000000';
-		this.context.stroke();
-		// --
-		this.context.beginPath();
-		this.context.moveTo(triangle.c.x, triangle.c.y);
-		this.context.lineTo(triangle.midpointBC.x, triangle.midpointBC.y);
-		this.context.closePath();
-		this.context.strokeStyle = '#FF0000';
-		this.context.stroke();
-		// --
-		this.context.beginPath();
-		this.context.moveTo(triangle.b.x, triangle.b.y);
-		this.context.lineTo(triangle.midpointAB.x, triangle.midpointAB.y);
-		this.context.closePath();
-		this.context.strokeStyle = '#00FF00';
-		this.context.stroke();
-		// ================================
-		console.log(triangle.area.toString(), triangle.centroid.toString(), (triangle.distanceAB + triangle.distanceBC + triangle.distanceCA));
+		this.context.setLineDash([]);
+		this.context.lineWidth = originalLineWidth;
+	});
+
+	Facade.method('drawTriangle', function(triangle){
+		this.drawCircle(triangle.topLeft, 6, '#222', 2);
+		this.drawCircle(triangle.topRight, 6, '#222', 2);
+		this.drawCircle(triangle.bottomRight, 6, '#222', 2);
+		this.drawCircle(triangle.bottomLeft, 6, '#222', 2);
+		this.drawRect(triangle.boundsRect, '#00CCFF', 0.5, [5]);
+		this.drawCircle(triangle.a, 3);
+		this.drawCircle(triangle.b, 3);
+		this.drawCircle(triangle.c, 3);
+		this.drawLine(triangle.a, triangle.b);
+		this.drawLine(triangle.b, triangle.c);
+		this.drawLine(triangle.c, triangle.a);
+		this.drawCircle(triangle.centroid, 4, 'green');
+		this.drawCircle(triangle.midpointAB, 3);
+		this.drawCircle(triangle.midpointBC, 3);
+		this.drawCircle(triangle.midpointCA, 3);
+		this.drawLine(triangle.centroid, triangle.midpointAB, '#999', 1, [5]);
+		this.drawLine(triangle.centroid, triangle.midpointBC, '#999', 1, [5]);
+		this.drawLine(triangle.centroid, triangle.midpointCA, '#999', 1, [5]);
+		this.drawLine(triangle.centroid, triangle.a, '#999', 1, [5]);
+		this.drawLine(triangle.centroid, triangle.b, '#999', 1, [5]);
+		this.drawLine(triangle.centroid, triangle.c, '#999', 1, [5]);
+		this.drawCircle(triangle.orthocenter, 4, 'green');
+		this.drawLine(triangle.orthocenter, triangle.a, 'red', 1, [5]);
+		this.drawLine(triangle.orthocenter, triangle.b, 'red', 1, [5]);
+		this.drawLine(triangle.orthocenter, triangle.c, 'red', 1, [5]);
+		// this.drawCircle(triangle.incenter, 3);
+		// this.drawCircle(triangle.circuncenter, 3);
 	});
 
 	Facade.method('render', function(){
-		this.drawRectangle();
-		this.drawTriangle();
+		this.context.setTransform(1,0, 0,1, this.CW, this.CH);
+		this.context.clearRect(-this.CW, -this.CH, this.SW, this.SH);
+		this.context.fillStyle = '#eee';
+		this.context.fillRect(-this.CW, -this.CH, this.SW, this.SH);
+		this.drawTriangle(new Triangle(new Point(50, -150), new Point(-150,150), new Point(150,150)));
 	});
 
 	return Facade;

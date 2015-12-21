@@ -123,12 +123,8 @@ define([
 	});
 
 	Point.method('project', function(point){
-		if(point.isZero()) {
-			return new Point(0, 0);
-		}else{
-			var scale = this.dot(point) / point.dot(point);
-			return new Point(point.x * scale, point.y * scale);
-		}
+		var scale = this.dot(point) / point.dot(point);
+		return new Point(point.x * scale, point.y * scale);
 	});
 
 	Point.method('distanceX', function(point){
@@ -159,9 +155,8 @@ define([
 		return this.distanceY(point) / this.distanceX(point);
 	});
 
-	Point.method('oppositeReciprocal', function(point){
-		point = (this.distanceX(point) / this.distanceY(point));
-		return point - point * 2;
+	Point.method('perpendicularSlope', function(point){
+		return -1 / this.slope(point);
 	});
 
 	Point.method('midpoint', function(point){
