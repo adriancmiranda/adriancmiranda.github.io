@@ -48,13 +48,13 @@ define([
 		return true;
 	});
 
-	// TODO: remove `__guid` variable from callback function.
 	EventProxy.method('off', function(evt, callback){
 		if(!this.target){return void(0);}
 		if(this.target.removeEventListener){
 			this.target.removeEventListener(evt, callback);
 		}else if(this.target.events && this.target.events[evt]){
 			delete this.target.events[evt][callback.__guid];
+			delete callback.__guid;
 		}
 		return this;
 	});
