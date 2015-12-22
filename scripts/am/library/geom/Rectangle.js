@@ -10,14 +10,14 @@ define([
 
 	Rectangle.define('x', {
 		set:function(value){
-			var changed = value !== this._x;
+			if(value === this._x){return;}
 			this._x = Type.toFloat(value);
 			this._left = this._x;
 			this._right = this._x + this._width;
 			this._topLeft = new Point(this._left, this._top);
 			this._bottomRight = new Point(this._right, this._bottom);
 			this._centroid = Point.centroid(this._topLeft, this._bottomRight);
-			changed && this.onChange && this.onChange(this, 'x', this._x);
+			this.onChange && this.onChange(this, 'x', this._x);
 		},
 		get:function(){
 			return this._x;
@@ -26,14 +26,14 @@ define([
 	
 	Rectangle.define('y', {
 		set:function(value){
-			var changed = value !== this._y;
+			if(value === this._y){return;}
 			this._y = Type.toFloat(value);
 			this._top = this._y;
 			this._bottom = this._y + this._height;
 			this._topLeft = new Point(this._left, this._top);
 			this._bottomRight = new Point(this._right, this._bottom);
 			this._centroid = Point.centroid(this._topLeft, this._bottomRight);
-			changed && this.onChange && this.onChange(this, 'y', this._y);
+			this.onChange && this.onChange(this, 'y', this._y);
 		},
 		get:function(){
 			return this._y;
@@ -42,13 +42,13 @@ define([
 	
 	Rectangle.define('width', {
 		set:function(value){
-			var changed = value !== this._width;
+			if(value === this._width){return;}
 			this._width = Type.toFloat(value);
 			this._right = this._x + this._width;
 			this._bottomRight = new Point(this._right, this._bottom);
 			this._area = this._width * this._height;
 			this._centroid = Point.centroid(this._topLeft, this._bottomRight);
-			changed && this.onChange && this.onChange(this, 'width', this._width);
+			this.onChange && this.onChange(this, 'width', this._width);
 		},
 		get:function(){
 			return this._width;
@@ -57,13 +57,13 @@ define([
 
 	Rectangle.define('height', {
 		set:function(value){
-			var changed = value !== this._height;
+			if(value === this._height){return;}
 			this._height = Type.toFloat(value);
 			this._bottom = this._y + this._height;
 			this._bottomRight = new Point(this._right, this._bottom);
 			this._area = this._width * this._height; 
 			this._centroid = Point.centroid(this._topLeft, this._bottomRight);
-			changed && this.onChange && this.onChange(this, 'height', this._height);
+			this.onChange && this.onChange(this, 'height', this._height);
 		},
 		get:function(){
 			return this._height;

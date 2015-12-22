@@ -1,14 +1,14 @@
 <!DOCTYPE HTML>
 <html>
 	<head>
-		<title>Adrian C. Miranda</title>
+		<title>Adrian Miranda</title>
 		<meta name="viewport" content="target-densitydpi=device-dpi,user-scalable=no,initial-scale=1,minimum-scale=1,maximum-scale=1">
 		<meta name="description" content="Web developer and visual programmer that is passionate about working with animation, interactivity and technical implementation.">
 		<meta property="og:image" content="https://adriancmiranda.github.com/og.jpg">
 		<meta property="og:description" content="Web developer and visual programmer that is passionate about working with animation, interactivity and technical implementation.">
 		<meta property="og:title" content="Adrian Miranda // Creative Developer">
 		<meta property="og:url" content="http://adriancmiranda.github.io">
-		<meta property="og:site_name" content="Adrian C. Miranda">
+		<meta property="og:site_name" content="Adrian Miranda">
 		<meta property="fb:admins" content="100000590580738">
 		<meta property="og:image:type" content="image/jpeg">
 		<meta property="og:image:width" content="400">
@@ -19,7 +19,14 @@
 		<link rel="stylesheet" href="styles/skin.css">
 	</head>
 	<body>
-		<canvas id="view" width="500" height="500"></canvas>
+		<nav class="menu">
+			<ul class="menu__list">
+				<li class="menu__item"><a href="#" class="menu__link" data-href="flux">Flux</a></li>
+				<li class="menu__item"><a href="#" class="menu__link" data-href="archives">Archives</a></li>
+				<li class="menu__item"><a href="#" class="menu__link" data-href="contact">Contact</a></li>
+			</ul>
+		</nav>
+		<canvas id="view" width="800" height="800"></canvas>
 		<script data-main="scripts/boot.js" src="scripts/vendors/require.js"></script>
 	</body>
 </html>

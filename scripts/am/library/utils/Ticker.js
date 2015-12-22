@@ -7,8 +7,6 @@ define([
 
 	var Ticker = new Class(function Ticker(FPS, autoStart){
 		var hasPerformance, navigationStart;
-
-		// Singleton Ticker is maybe the best practice for now.
 		if(Ticker.prototype.instance){
 			return Ticker.prototype.instance;
 		}else if(this instanceof Ticker){
@@ -30,15 +28,10 @@ define([
 			this.performance = hasPerformance ? window.performance : {};
 			this.performance.now = this.performance.now || this._now;
 			delete(Ticker.prototype._now);
-
-			// requestAnimationFrame polyfill
 			window.requestAnimationFrame = Vendor(window, 'requestAnimationFrame') || this._request;
 			delete(Ticker.prototype._request);
-
-			// cancelAnimationFrame polyfill
 			window.cancelAnimationFrame = Vendor(window, ['cancelAnimationFrame', 'cancelRequestAnimationFrame']) || this._cancel;
 			delete(Ticker.prototype._cancel);
-
 			Ticker.prototype.instance = this;
 			return Ticker.prototype.instance;
 		}
@@ -51,7 +44,7 @@ define([
 		return this;
 	});
 
-	Ticker.method('addOnce', function(listener, context){
+	Ticker.method('once', function(listener, context){
 		this.emitter.once(Ticker.TICK, Ticker.GROUP, listener, context);
 		!this.frame && this.autoStart && this.start();
 		return this;
@@ -106,7 +99,6 @@ define([
 		this.stop();
 	});
 
-	// This method is deleted when `Ticker` is instantiated.
 	Ticker.method('_request', function(callback){
 		var currentTime, delay, scope = this;
 		currentTime = +new Date();
@@ -119,12 +111,10 @@ define([
 		}, delay);
 	});
 
-	// This method is deleted when `Ticker` is instantiated.
 	Ticker.method('_cancel', function(frame){
 		window.clearTimeout(frame);
 	});
 
-	// This method is deleted when `Ticker` is instantiated.
 	Ticker.method('_now', function(){
 		return +new Date() - this.startTime;
 	});

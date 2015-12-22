@@ -9,10 +9,10 @@ define([
 	
 	Point.define('x', {
 		set:function(value){
-			var changed = value !== this._x;
+			if(value === this._x){return;}
 			this._x = Type.toFloat(value);
 			this._length = Math.sqrt(this._x * this._x + this._y * this._y);
-			changed && this.onChange && this.onChange(this, 'x', this._x);
+			this.onChange && this.onChange(this, 'x', this._x);
 		},
 		get:function(){
 			return this._x;
@@ -21,10 +21,10 @@ define([
 
 	Point.define('y', {
 		set:function(value){
-			var changed = value !== this._y;
+			if(value === this._y){return;}
 			this._y = Type.toFloat(value);
 			this._length = Math.sqrt(this._x * this._x + this._y * this._y);
-			changed && this.onChange && this.onChange(this, 'y', this._y);
+			this.onChange && this.onChange(this, 'y', this._y);
 		},
 		get:function(){
 			return this._y;
@@ -48,14 +48,6 @@ define([
 
 	Point.static('fromObject', function(value, x, y){
 		return new Point(value[x] || value[0] || value.x || value.left, value[y] || value[1] || value.y || value.top);
-	});
-
-	Point.static('interpolate', function(pointA, pointB){
-		return pointA.interpolate(pointB);
-	});
-
-	Point.static('distance', function(pointA, pointB){
-		return pointA.distance(pointB);
 	});
 
 	Point.static('random', function(length, angle){
@@ -133,6 +125,12 @@ define([
 	Point.method('project', function(point){
 		var scale = this.dot(point) / point.dot(point);
 		return new Point(point.x * scale, point.y * scale);
+	});
+
+	Point.method('direction', function(point){
+		var angleV = Math.acos((point.x - this.x) / this.distance(point));
+		angleV = (this.y - point.y > 0)? -angleV:angleV;
+		return (angleV + Math.PI * 2);
 	});
 
 	Point.method('distanceX', function(point){

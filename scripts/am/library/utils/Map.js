@@ -9,7 +9,7 @@ define([
 		}else if(Type.isObject(value)){
 			return Map.object(value, iterator, context, getEnum);
 		}
-		return([]);
+		return [];
 	});
 
 	Map.static('array', function(value, iterator, context){

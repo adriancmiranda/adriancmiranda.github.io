@@ -17,12 +17,15 @@ define([
 
 	Scope.static('register', function(instance){
 		return function(key, value){
+			if(Type.isUndefined(value)){
+				return Scope.uri(instance, key);
+			}
 			Scope.uri(instance, key, value);
 			return value;
 		};
 	});
 
-	Scope.static('run', function(instance){
+	Scope.static('preventDefault', function(instance){
 		return function(key){
 			var piece = Scope.uri(instance, key);
 			var params = Array.prototype.slice.call(arguments, 1);
