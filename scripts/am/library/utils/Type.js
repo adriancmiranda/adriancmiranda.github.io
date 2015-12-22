@@ -6,8 +6,13 @@ define([
 	var Type = new Class(function Type(value){
 		return Type.of(value);
 	});
+		window.T = Type;
 
 	Type.static('isArray', Array.isArray);
+	
+	Type.static('isTypedArray', function(value){
+		return patterns.isTypedArray.test(this.getDefinitionName(value));
+	});
 
 	Type.static('isDate', function(value){
 		return this.of(value) === 'date';
@@ -69,8 +74,20 @@ define([
 		return this.of(value, true) === 'file';
 	});
 
+	Type.static('isFormData', function(value){
+		return this.of(value, true) === 'formdata';
+	});
+
+	Type.static('isBlob', function(value){
+		return this.of(value, true) === 'blob';
+	})
+
 	Type.static('isDOM', function(value){
 		return value && value.nodeName && this.isUint(value.nodeType) && value.nodeType && value.nodeType < 13;
+	});
+
+	Type.static('isPromiseLike', function(value){
+		return value && this.isFunction(value.then);
 	});
 
 	Type.static('isWindow', function(value){
@@ -81,7 +98,7 @@ define([
 		return this.isDOM(value) && value.nodeType === 9;
 	});
 
-	Type.static('isElement', function(value){
+	Type.static('isDOMElement', function(value){
 		return this.isDOM(value) && (value.nodeType === 1 || value.nodeType === 11);
 	});
 
