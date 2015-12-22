@@ -7,19 +7,19 @@ define([
 	'../events/EventProxy'
 ], function(patterns, Map, Type, Class, Vendor, EventProxy){
 
-	var Element = new Class(function Element(node){
-		this.node = this.ensureElement(node);
+	var DOMElement = new Class(function DOMElement(node){
+		this.node = this.ensureNode(node);
 		this.super.constructor.call(this, this.node);
 	}).extends(EventProxy);
 
-	Element.static('getWindow', function(node){
+	DOMElement.static('getWindow', function(node){
 		var ownerDoc = node.ownerDocument;
 		var windowEl = Type.isWindow(ownerDoc) && ownerDoc;
 		var isDoc = Type.isDocument(ownerDoc);
 		return(windowEl || isDoc && (ownerDoc.defaultView||ownerDoc.parentWindow));
 	});
 
-	Element.static('getStyle', function(node){
+	DOMElement.static('getStyle', function(node){
 		var windowEl = this.getWindow(node);
 		if(windowEl && windowEl.opener && windowEl.getComputedStyle){
 			return windowEl.getComputedStyle(node, null);
@@ -31,7 +31,7 @@ define([
 		return node.style;
 	});
 
-	Element.static('support', function(value){
+	DOMElement.static('support', function(value){
 		var has3d, node = document.createElement('i');
 		if(Type.isString(value) && patterns.support3d.test(value)){
 			this.css(node, 'display', 'block');
@@ -44,7 +44,7 @@ define([
 		return Type.isDefined(Vendor(node.style, value));
 	});
 
-	Element.static('supportTransition', function(){
+	DOMElement.static('supportTransition', function(){
 		if(Type.isDefined(this.hasCSSTransition)){
 			return this.hasCSSTransition;
 		}
@@ -52,7 +52,7 @@ define([
 		return this.hasCSSTransition;
 	});
 
-	Element.static('supportTransform', function(){
+	DOMElement.static('supportTransform', function(){
 		if(Type.isDefined(this.hasCSS2d)){
 			return this.hasCSS2d;
 		}
@@ -60,7 +60,7 @@ define([
 		return this.hasCSS2d;
 	});
 
-	Element.static('supportTransform3D', function(){
+	DOMElement.static('supportTransform3D', function(){
 		if(Type.isDefined(this.hasCSS3d)){
 			return this.hasCSS3d;
 		}
@@ -68,14 +68,14 @@ define([
 		return this.hasCSS3d;
 	});
 
-	Element.static('css', function(node, prop, value){
+	DOMElement.static('css', function(node, prop, value){
 		if(Type.isUndefined(value)){
 			return Vendor(this.getStyle(node), prop);
 		}
 		node.style[Vendor.prefixed(node.style, prop)] = value;
 	});
 
-	Element.static('nodeName', function(node, expected){
+	DOMElement.static('nodeName', function(node, expected){
 		var name = (node.nodeName||'');
 		if(Type.isUndefined(expected)){
 			return name;
@@ -83,15 +83,15 @@ define([
 		return name.toLowerCase() === expected.toLowerCase();
 	});
 
-	Element.method('ensureElement', function(node){
-		return Type.isElement(node) ? node : this.createDefaultNode();
+	DOMElement.method('ensureNode', function(node){
+		return Type.isDOMElement(node) ? node : this.createDefaultNode();
 	});
 
-	Element.method('createDefaultNode', function(){
+	DOMElement.method('createDefaultNode', function(){
 		return document.createElement('div');
 	});
 
-	Element.method('removeClass', function(className){
+	DOMElement.method('removeClass', function(className){
 		if('classList' in document.documentElement){
 			this.node.classList.remove(className);
 		}else{
@@ -102,7 +102,7 @@ define([
 		return this;
 	});
 
-	Element.method('addClass', function(className){
+	DOMElement.method('addClass', function(className){
 		if('classList' in document.documentElement){
 			this.node.classList.add(className);
 		}else if(!this.hasClass(className)){
@@ -111,37 +111,37 @@ define([
 		return this;
 	});
 
-	Element.method('hasClass', function(className){
+	DOMElement.method('hasClass', function(className){
 		if('classList' in document.documentElement){
 			return this.node.classList.contains(className);
 		}
 		return patterns.findClass(className).test(this.node.className);
 	});
 
-	Element.method('toggleClass', function(className){
+	DOMElement.method('toggleClass', function(className){
 		var fn = this.hasClass(className) ? this.removeClass : this.addClass;
 		return fn(className);
 	});
 
-	Element.charge('css', function(prop){
-		return Element.css(this.node, prop);
+	DOMElement.charge('css', function(prop){
+		return this.constructor.css(this.node, prop);
 	});
 
-	Element.charge('css', function(prop, value){
-		Element.css(this.node, prop, value);
+	DOMElement.charge('css', function(prop, value){
+		this.constructor.css(this.node, prop, value);
 		return this;
 	});
 
-	Element.charge('attr', function(name){
+	DOMElement.charge('attr', function(name){
 		return this.node.getAttribute(name);
 	});
 
-	Element.charge('attr', function(name, value){
+	DOMElement.charge('attr', function(name, value){
 		this.node.setAttribute(name, value);
 		return this;
 	});
 
-	Element.method('removeAttr', function(value){
+	DOMElement.method('removeAttr', function(value){
 		var name, propName, id = 0;
 		var attrNames = value && value.match(patterns.whiteSpace);
 		Map.array(attrNames, function(attr){
@@ -151,36 +151,44 @@ define([
 			this.node.removeAttribute(attr);
 		}, this);
 	});
+	
+	DOMElement.method('show', function(){
+		return this.css('display', 'block');
+	});
 
-	Element.charge('data', function(name){
+	DOMElement.method('hide', function(){
+		return this.css('display', 'none');
+	});
+
+	DOMElement.charge('data', function(name){
 		return this.attr('data-'+name);
 	});
 
-	Element.charge('data', function(name, value){
+	DOMElement.charge('data', function(name, value){
 		return this.attr('data-'+name, value);
 	});
 
-	Element.charge('width', function(){
+	DOMElement.charge('width', function(){
 		return this.node.offsetWidth||this.node.getBoundingClientRect().width;
 	});
 
-	Element.charge('width', function(value){
-		this.css('width', Type.toCSSMeasure(value));// TODO: Em alguns casos deve ser atributo do nó (que casos?)
+	DOMElement.charge('width', function(value){
+		this.css('width', Type.toCSSMeasure(value));
 		return this;
 	});
 
-	Element.charge('height', function(){
+	DOMElement.charge('height', function(){
 		return this.node.offsetHeight||this.node.getBoundingClientRect().height;
 	});
 
-	Element.charge('height', function(value){
-		this.css('height', Type.toCSSMeasure(value));// TODO: Em alguns casos deve ser atributo do nó (que casos?)
+	DOMElement.charge('height', function(value){
+		this.css('height', Type.toCSSMeasure(value));
 		return this;
 	});
 
-	Element.method('offset', function(){
+	DOMElement.method('offset', function(){
 		var bcr, offset = { left:0, top:0 };
-		var windowEl = Element.getWindow(this.node);
+		var windowEl = this.constructor.getWindow(this.node);
 		var docEl = this.node.ownerDocument.documentElement;
 		if(Type.isFunction(this.node.getBoundingClientRect)){
 			bcr = this.node.getBoundingClientRect();
@@ -190,23 +198,23 @@ define([
 		return offset;
 	});
 
-	Element.method('offsetParent', function(){
+	DOMElement.method('offsetParent', function(){
 		var docEl = window.document.documentElement;
 		var parent = this.node.offsetParent||docEl;
-		while(parent && (!Element.nodeName(parent, 'html') && Element.css(parent, 'position') === 'static')){
+		while(parent && (!this.constructor.nodeName(parent, 'html') && this.constructor.css(parent, 'position') === 'static')){
 			parent = parent.offsetParent;
 		}
-		return new Element(parent||docEl);
+		return new DOMElement(parent||docEl);
 	});
 
-	Element.method('position', function(){
+	DOMElement.method('position', function(){
 		var offset, offsetParent, position = { top:0, left:0 };
 		if(this.css('position') === 'fixed'){
 			offset = this.node.getBoundingClientRect();
 		}else{
 			offsetParent = this.offsetParent();
 			offset = this.offset();
-			if(!Element.nodeName(offsetParent.node, 'html')){
+			if(!this.constructor.nodeName(offsetParent.node, 'html')){
 				position = offsetParent.offset();
 			}
 			position.left += Type.toFloat(offsetParent.css('borderLeftWidth'));
@@ -217,21 +225,5 @@ define([
 		return position;
 	});
 
-	Element.method('translate', function(axis, durationMS, easing){
-		axis = Type.isObject(axis) ? axis : {};
-		axis.x = Type.toCSSMeasure(axis.x);
-		axis.y = Type.toCSSMeasure(axis.y);
-		axis.z = Type.toCSSMeasure(axis.z);
-		Type.isUint(durationMS) && this.css('transitionDuration', durationMS +'ms');
-		Type.isString(easing) && this.css('transitionTimingFunction', easing);
-		if(Element.supportTransform3D()){
-			this.css('transform', 'translate3d('+ axis.x +', '+ axis.y +', '+ axis.z +')');
-		}else if(Element.supportTransform()){
-			this.css('transform', 'translateX('+ axis.x +') translateY('+ axis.y +') translateZ('+ axis.z +')');
-		}else{
-			// JS Tween
-		}
-	});
-
-	return Element;
+	return DOMElement;
 });
