@@ -6,7 +6,6 @@ define([
 	var Type = new Class(function Type(value){
 		return Type.of(value);
 	});
-		window.T = Type;
 
 	Type.static('isArray', Array.isArray);
 	
