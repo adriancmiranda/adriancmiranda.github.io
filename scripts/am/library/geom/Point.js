@@ -66,7 +66,7 @@ define([
 
 	Point.static('min', function(/* ...point */){
 		var points = Array.prototype.slice.call(arguments);
-		var min = points[0] instanceof Point? points[0].clone():new Point();
+		var min = points[0] instanceof Point? points[0].clone():new Point(0, 0);
 		this.map(points, function(point){
 			min.x = point.x < min.x? point.x:min.x;
 			min.y = point.y < min.y? point.y:min.y;
@@ -76,7 +76,7 @@ define([
 
 	Point.static('max', function(/* ...point */){
 		var points = Array.prototype.slice.call(arguments);
-		var max = points[0] instanceof Point? points[0].clone():new Point();
+		var max = points[0] instanceof Point? points[0].clone():new Point(0, 0);
 		this.map(points, function(point){
 			max.x = point.x > max.x? point.x:max.x;
 			max.y = point.y > max.y? point.y:max.y;
@@ -86,7 +86,7 @@ define([
 
 	Point.static('centroid', function(/* ...point */){
 		var points = Array.prototype.slice.call(arguments);
-		var centroid = new Point();
+		var centroid = new Point(0, 0);
 		this.map(points, function(point){
 			centroid.x += point.x;
 			centroid.y += point.y;
@@ -97,8 +97,8 @@ define([
 	});
 
 	Point.method('setTo', function(x, y){
-		this.x = x;
-		this.y = y;
+		this.x = x||0;
+		this.y = y||0;
 		return this;
 	});
 
@@ -129,8 +129,7 @@ define([
 
 	Point.method('direction', function(point){
 		var angleV = Math.acos((point.x - this.x) / this.distance(point));
-		angleV = (this.y - point.y > 0)? -angleV:angleV;
-		return (angleV + Math.PI * 2);
+		return (((this.y - point.y > 0)? -angleV:angleV) + Math.PI * 2);// % (Math.PI * 2);
 	});
 
 	Point.method('distanceX', function(point){
@@ -162,7 +161,7 @@ define([
 	});
 
 	Point.method('perpendicularSlope', function(point){
-		return -1 / this.slope(point);
+		return Type.toFloat(-1 / this.slope(point));
 	});
 
 	Point.method('midpoint', function(point){
