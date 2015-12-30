@@ -4,7 +4,7 @@ define([
 ], function(Type, Class){
 
 	var Vendor = new Class(function Vendor(context, prop){
-		var method = Type.isArray(prop) ? 'filter' : 'prefixed';
+		var method = Type.isArray(prop)? 'filter':'prefixed';
 		return context[Vendor[method](context, prop)];
 	});
 
@@ -23,11 +23,12 @@ define([
 	});
 
 	Vendor.static('prefixed', function(context, property){
+		if(!property){return property;}
 		var prefix, prop, id = -1;
 		var camelProp = property[0].toUpperCase() + property.slice(1);
 		while(++id < this.prefixes.length){
 			prefix = this.prefixes[id];
-			prop = prefix ? prefix + camelProp : property;
+			prop = prefix? prefix + camelProp:property;
 			if(prop in context){
 				return prop;
 			}

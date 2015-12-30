@@ -13,7 +13,7 @@ define([
 		if(this.target.addEventListener){
 			this.target.addEventListener(evt, callback, false);
 		}else{
-			callback.__guid = callback.__guid||this.on.guid++;
+			callback._guid = callback._guid||this.on.guid++;
 			this.target.events = this.target.events||{};
 			if(!this.target.events[evt]){
 				this.target.events[evt] = {};
@@ -21,13 +21,22 @@ define([
 					this.target.events[evt][0] = this.target['on'+ evt];
 				}
 			}
-			this.target.events[evt][callback.__guid] = callback;
-			this.target['on'+evt] = this.on.notify;
+			this.target.events[evt][callback._guid] = callback;
+			this.target['on'+evt] = this['on.emit'];
 		}
 		return this;
 	});
 
-	EventProxy.method('trigger', function(evt){
+	EventProxy.method('once', function(evt, callback){
+		var self = this;
+		this.on(evt, function on(){
+			self.off(evt, on);
+			callback.apply(this, arguments);
+		});
+		return this;
+	});
+
+	EventProxy.method('emit', function(evt){
 		if(this.target.dispatchEvent){
 			this.target.dispatchEvent(new Event(evt));
 		}else if(this.target['on'+evt]){
@@ -36,7 +45,7 @@ define([
 		return this;
 	});
 
-	EventProxy.method('on.notify', function(evt){
+	EventProxy.method('on.emit', function(evt){
 		evt = evt || event(((this.ownerDocument||this.document||this).parentWindow||window).event);
 		var key, listeners = this.events[evt.type];
 		for(key in listeners){
@@ -53,8 +62,8 @@ define([
 		if(this.target.removeEventListener){
 			this.target.removeEventListener(evt, callback);
 		}else if(this.target.events && this.target.events[evt]){
-			delete this.target.events[evt][callback.__guid];
-			delete callback.__guid;
+			delete this.target.events[evt][callback._guid];
+			delete callback._guid;
 		}
 		return this;
 	});

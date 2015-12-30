@@ -16,13 +16,13 @@ define([
 
 	Injector.static('getDependencies', function(params){
 		return Map.array(params, function(name){
-			return this.dependencies[name];
+			return this._dependencies[name];
 		}, this);
 	});
 
 	Injector.static('register', function(name, dependency){
-		this.dependencies = this.dependencies||{};
-		this.dependencies[name] = dependency;
+		this._dependencies = this._dependencies||{};
+		this._dependencies[name] = dependency;
 		return dependency;
 	});
 

@@ -9,12 +9,16 @@ define(function(){
 		cssMeasure:/^([+-]?(?:\d+|\d*\.\d+))([a-z]*|%)$/,
 		objectAssessor:/\[(["']?)([^\1]+?)\1?\]/g,
 		noValue:/^(Undefined|Null|NaN)$/i,
+		isBoolValue:/^(true|yes)$/gi,
 		whiteSpace:(/\S+/g),
-		findClass:function(className){
-			return new RegExp('(^|\\s+)'+ className +'(\\s+|$)');
+		findClass:function(className, modifiers){
+			return new RegExp('(^|\\s+)'+ className +'(\\s+|$)', modifiers);
 		},
-		startWith:function(symbol){
-			return new RegExp('^\\'+ symbol);
+		isExactly:function(value, modifiers){
+			return new RegExp('^('+ datatypes +')$', modifiers);
+		},
+		startWith:function(symbol, modifiers){
+			return new RegExp('^\\'+ symbol, modifiers);
 		}
 	});
 });

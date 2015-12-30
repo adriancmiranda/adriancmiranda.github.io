@@ -4,8 +4,8 @@ define([
 	'../common/patterns'
 ], function(Type, Class, patterns){
 
-	var Scope = new Class(function Scope(instance){
-		return Scope.register(instance);
+	var Scope = new Class(function Scope(namespace){
+		return Scope.register(namespace);
 	});
 
 	Scope.static('pathArray', function(qualifiedName, slash){
@@ -15,42 +15,46 @@ define([
 		return keys.split(slash);
 	});
 
-	Scope.static('register', function(instance){
+	Scope.static('register', function(namespace){
 		return function(key, value){
-			if(Type.isUndefined(value)){
-				return Scope.uri(instance, key);
+			if(arguments.length === 1){
+				return Scope.uri(namespace, key);
 			}
-			Scope.uri(instance, key, value);
+			Scope.uri(namespace, key, value);
 			return value;
 		};
 	});
 
-	Scope.static('preventDefault', function(instance){
+	Scope.static('preventDefault', function(namespace){
 		return function(key){
-			var piece = Scope.uri(instance, key);
-			var params = Array.prototype.slice.call(arguments, 1);
-			return typeof piece === 'function'? piece.apply(instance, params):piece;
+			var piece = Scope.uri(namespace, key);
+			var params = Type.toArray(arguments, 1);
+			return Type.isFunction(piece)? piece.apply(namespace, params):piece;
 		};
 	});
 	
-	Scope.outrun('uri', function(instance, qualifiedName){
+	Scope.outrun('uri', function(namespace, qualifiedName){
 		var id = 0;
 		var keys = this.pathArray(qualifiedName, '.');
 		var total = keys.length;
-		while((instance = instance[keys[id++]]) !== null && id < total){}
-		return id < total? void 0:instance;
+		while((namespace = namespace[keys[id++]]) !== null && id < total){}
+		return id < total? void(0):namespace;
 	});
 
-	Scope.outrun('uri', function(instance, qualifiedName, value){
+	Scope.outrun('uri', function(namespace, qualifiedName, value){
 		var id = 0;
 		var keys = this.pathArray(qualifiedName, '.');
-		var root = instance;
+		var root = namespace;
 		var total = keys.length - 1;
 		while(id < total){
 			qualifiedName = keys[id++];
-			instance = instance[qualifiedName] = Type.isObject(instance[qualifiedName])? instance[qualifiedName]:{};
+			namespace = namespace[qualifiedName] = Type.isGenericObject(namespace[qualifiedName])? namespace[qualifiedName]:{};
 		}
-		instance[keys[id]] = value;
+		if(Type.isUndefined(value)){
+			delete(namespace[keys[id]]);
+		}else{
+			namespace[keys[id]] = value;
+		}
 		return root;
 	});
 

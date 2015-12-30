@@ -1,10 +1,14 @@
-define(function(){
-	
+define([
+	'../common/patterns'
+], function(patterns){
+
 	function Class(caste){
 		if(this instanceof Class){
 			var noop = function Class(){};
 			var hasCaste = typeof(caste) === 'function';
-			caste = hasCaste ? caste:noop;
+			caste = hasCaste? caste:noop;
+			caste.prototype.toString = this.toString;
+			caste.prototype.flush = this.flush;
 			caste.extends = this.extends;
 			caste.method = this.method;
 			caste.static = this.static;
@@ -47,11 +51,39 @@ define(function(){
 		};
 	};
 
+	Class.browse = function(fn){
+		return function(){
+			return Function.call.apply(fn, arguments);
+		};
+	};
+
+	Class.of = function(value, qualified){
+		if(value){
+			var type = Object.prototype.toString.call(value);
+			if(qualified && type === '[object Object]'){
+				return value.constructor.toString().replace(patterns.functionDeclaration, '$1') || 'Object';
+			}
+			return type.replace(patterns.objectWrapper, '');
+		}
+		return value;
+	};
+
+	Class.test = function(datatypes, value, qualified){
+		var group = patterns.isExactly(datatypes, 'g');
+		return group.test(this.of(value, qualified));
+	};
+
+	Class.create = (Object.create || function(prototype){
+		function Class(){}
+		Class.prototype = prototype;
+		return new Class();
+	});
+
 	Class.prototype.extends = function(superclass){
 		var hasSuper = typeof(superclass) === 'function';
 		superclass = hasSuper ? superclass:Class;
 		superclass = superclass.prototype;
-		this.prototype = Object.create(superclass);
+		this.prototype = Class.create(superclass);
 		this.prototype.constructor = this;
 		this.prototype.super = superclass;
 		return this;
@@ -80,13 +112,29 @@ define(function(){
 		});
 	};
 
-	Class.prototype.method = function(name, fn){
-		this.prototype[name] = fn;
+	Class.prototype.method = function(name, definition){
+		if(typeof(name) === 'string'){
+			this.prototype[name] = definition;
+		}else if(Class.of(name) === 'Object'){
+			for(var key in name){
+				if(name.hasOwnProperty(key)){
+					this.prototype[key] = name[key];
+				}
+			}
+		}
 		return this;
 	};
 
-	Class.prototype.static = function(name, fn){
-		this[name] = fn;
+	Class.prototype.static = function(name, definition){
+		if(typeof(name) === 'string'){
+			this[name] = definition;
+		}else if(Class.of(name) === 'Object'){
+			for(var key in name){
+				if(name.hasOwnProperty(key)){
+					this[key] = name[key];
+				}
+			}
+		}
 		return this;
 	};
 
@@ -98,6 +146,18 @@ define(function(){
 		}
 		Object.defineProperties(this.prototype, definitions);
 		return this;
+	};
+
+	Class.prototype.flush = function(){
+		for(var key in this){
+			if(this.hasOwnProperty(key)){
+				delete(this[key]);
+			}
+		}
+	};
+
+	Class.prototype.toString = function(){
+		return '[object '+ Class.of(this, true) +']';
 	};
 
 	return Class;

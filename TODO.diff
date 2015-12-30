@@ -4,6 +4,8 @@ Make
 - scripts/am/library/transitions/Tween.js
 
 Improve
-- scripts/am/library/display/Element.js
+- scripts/am/library/display/DOMElement.js
 - scripts/am/library/geom/Matrix.js
 - scripts/am/library/net/Promise.js
+http://afonsopacifer.github.io/open-source-checklist/pt-br.html
+https://vimeo.com/128373915

@@ -6,6 +6,6 @@ define([
 	var main = new Facade(document.getElementById('view'));
 
 	main.startRender();
-
+	
 	return main;
 });

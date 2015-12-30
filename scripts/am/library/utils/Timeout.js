@@ -4,22 +4,24 @@ define([
 	'./Timer'
 ], function(Type, Class, Timer){
 
-	var Timeout = new Class(function Timeout(method, delay, groupName){
-		this.method = method;
-		this.params = Array.prototype.slice.call(arguments, 3);
-		this.groupName = Timeout.createGroup(groupName);
-		this.delay = Type.isDefined(delay) ? Type.toFloat(delay) : 0;
-		this.timer = new Timer(this.delay * 1000, 1);
-		this.timer.on(Timer.COMPLETE, this.onTimerComplete, this);
-		this.timer.start();
+	var Timeout = new Class(function Timeout(callback, context, delay, groupName){
+		Class.proxyfy(this, '_complete');
+		this._callback = callback;
+		this._context = context;
+		this._groupName = Timeout.createGroup(groupName, this);
+		this._params = Type.toArray(arguments, 4);
+		this._delay = Type.toFloat(delay);
+		this._timer = new Timer(this._delay, 1);
+		this._timer.on(Timer.COMPLETE, this._complete, this);
+		this._timer.start();
 	});
 
-	Timeout.static('createGroup', function(groupName){
+	Timeout.static('createGroup', function(groupName, instance){
 		this.group = this.group || [];
 		if(!this.group[groupName]){
 			this.group[groupName] = [];
 		}
-		this.group[groupName].push(this);
+		this.group[groupName].push(instance);
 		return groupName;
 	});
 	
@@ -37,27 +39,55 @@ define([
 			}
 		}
 	});
-	
-	Timeout.method('onTimerComplete', function(evt){
-		this.timer.off(Timer.COMPLETE, this.onTimerComplete);
-		if(this.params.length){this.method(this.params);}
-		else{this.method();}
-		this.destroy();
+
+	Timeout.define('context', {
+		get:function(){
+			return this._context;
+		}
+	});
+
+	Timeout.define('delay', {
+		get:function(){
+			return this._delay * 1000;
+		}
+	});
+
+	Timeout.define('params', {
+		get:function(){
+			return this._params;
+		}
+	});
+
+	Timeout.define('callback', {
+		get:function(){
+			return this._callback;
+		}
+	});
+
+	Timeout.define('groupName', {
+		get:function() {
+			return this._groupName;
+		}
 	});
 
 	Timeout.method('cancel', function(){
-		if(!this.timer){return void 0};
-		this.timer.stop();
-		this.timer.off(Timer.COMPLETE, this.onTimerComplete);
+		if(!this._timer){return void 0};
+		this._timer.stop();
+		this._timer.off(Timer.COMPLETE, this._complete);
 		this.destroy();
 	});
 
 	Timeout.method('destroy', function(groupName){
 		var group = Timeout.getGroup(groupName);
 		group.splice(group.indexOf(this), 1);
-		this.method = undefined;
-		this.params = undefined;
-		this.timer = undefined;
+		this._callback = this._params = this._timer = undefined;
+	});
+
+	Timeout.method('_complete', function(evt){
+		this._timer.off(Timer.COMPLETE, this._complete);
+		if(this._params.length){this._callback.apply(this._context, this._params);}
+		else{this._callback.call(this._context);}
+		this.destroy();
 	});
 
 	return Timeout;

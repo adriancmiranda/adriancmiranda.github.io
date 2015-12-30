@@ -1,0 +1,53 @@
+{
+	"year": {
+		"2004"
+	},
+	"month": {
+		"shortname": "JAN",
+		"number": 1
+	},
+	"month": {
+		"shortname": "FEB",
+		"number": 2
+	},
+	"month": {
+		"shortname": "MAR",
+		"number": 3
+	},
+	"month": {
+		"shortname": "APR",
+		"number": 4
+	},
+	"month": {
+		"shortname": "MAY",
+		"number": 5
+	},
+	"month": {
+		"shortname": "JUN",
+		"number": 6
+	},
+	"month": {
+		"shortname": "JUL",
+		"number": 7
+	},
+	"month": {
+		"shortname": "AUG",
+		"number": 8
+	},
+	"month": {
+		"shortname": "SEP",
+		"number": 9
+	},
+	"month": {
+		"shortname": "OCT",
+		"number": 10
+	},
+	"month": {
+		"shortname": "NOV",
+		"number": 11
+	},
+	"month": {
+		"shortname": "DEC",
+		"number": 12
+	}
+}

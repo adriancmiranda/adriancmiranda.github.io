@@ -84,7 +84,7 @@ define([
 	});
 
 	DOMElement.method('ensureNode', function(node){
-		return Type.isDOMElement(node) ? node : this.createDefaultNode();
+		return Type.isNodeElement(node) ? node : this.createDefaultNode();
 	});
 
 	DOMElement.method('createDefaultNode', function(){

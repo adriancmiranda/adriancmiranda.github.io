@@ -7,49 +7,91 @@ define([
 
 	var Timer = new Class(function Timer(delay, repeatCount){
 		this.super.constructor.call(this);
-		this.constructor.UPDATE = 'update';
-		this.constructor.COMPLETE = 'complete';
-		this.delay = Type.isDefined(delay) ? Type.toFloat(delay) : 1000;
-		this.repeatCount = Type.isDefined(repeatCount) ? Type.toInt(repeatCount) : 0;
-		this.currentCount = 0;
-		this.running = false;
-	}).extends(EventEmitter);
-
-	Timer.method('start', function(){
-		this.running = true;
-		this.lastTime = +new Date();
-		Ticker.instance.add(this.update, this);
+		Class.proxyfy(this, '_update');
+		this._delay = Type.isUndefined(delay)? 1000:Type.toFloat(delay);
+		this._repeatCount = Type.toInt(repeatCount);
+		this._currentCount = 0;
+		this._running = false;
+	}).extends(EventEmitter).static({
+		COMPLETE:'complete',
+		UPDATE:'update'
 	});
 
-	Timer.method('stop', function(){
-		this.running = false;
-		Ticker.instance.remove(this.update, this);
-	});
-
-	Timer.method('reset', function(){
-		this.currentCount = 0;
-		this.running = false;
-		this.lastTime = +new Date();
-	});
-
-	Timer.method('update', function(time){
-		if(this.running && +new Date() - this.lastTime >= this.delay){
-			++this.currentCount;
-			this.lastTime = +new Date();
-			this.trigger(Timer.UPDATE, this);
-			if(this.repeatCount !== 0 && this.currentCount >= this.repeatCount){
-				this.stop();
-				this.trigger(Timer.COMPLETE, this);
-			}
+	Timer.define('delay', {
+		set:function(value){
+			this._currentCount = 0;
+			this._lastTime = +new Date();
+			this._delay = Type.toFloat(value);
+		},
+		get:function(){
+			return this._delay;
 		}
 	});
 
-	Timer.method('getDuration', function(){
-		return(this.delay * this.repeatCount);
+	Timer.define('repeatCount', {
+		set:function(value){
+			this._repeatCount = Type.toInt(value);
+		},
+		get:function(){
+			return this._repeatCount;
+		}
 	});
 
-	Timer.method('getTime', function(){
-		return(this.currentCount * this.delay);
+	Timer.define('running', {
+		set:function(value){
+			this._running = Type.toBoolean(value);
+			this._running? this.start():this.stop();
+		},
+		get:function(){
+			return this._running;
+		}
+	});
+
+	Timer.define('currentCount', {
+		get:function(){
+			return this._currentCount;
+		}
+	});
+
+	Timer.define('duration', {
+		get:function(){
+			return this._delay * this._repeatCount;
+		}
+	});
+
+	Timer.define('time', {
+		get:function(){
+			return this._currentCount * this._delay;
+		}
+	});
+
+	Timer.method('start', function(){
+		this._running = true;
+		this._lastTime = +new Date();
+		Ticker().add(this._update, this);
+	});
+
+	Timer.method('stop', function(){
+		this._running = false;
+		Ticker().remove(this._update, this);
+	});
+
+	Timer.method('reset', function(){
+		this._currentCount = 0;
+		this._running = false;
+		this._lastTime = +new Date();
+	});
+
+	Timer.method('_update', function(deltaTime){
+		if(this._running && +new Date() - this._lastTime >= this._delay){
+			++this._currentCount;
+			this._lastTime = +new Date();
+			this.emit(Timer.UPDATE, this);
+			if(this._repeatCount !== 0 && this._currentCount >= this._repeatCount){
+				this.stop();
+				this.emit(Timer.COMPLETE, this);
+			}
+		}
 	});
 
 	return Timer;

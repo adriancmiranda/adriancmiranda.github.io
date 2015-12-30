@@ -7,26 +7,52 @@ define([
 		this.listeners = {};
 	});
 
-	EventEmitter.method('on', function(event, groupName, callback, context){
-		var hasGroup = (arguments.length >= 3);
-		var group = hasGroup ? groupName : undefined;
-		var fn = hasGroup ? callback : groupName;
-		fn.__groupName = group;
-		fn.__context = context || this;
+	EventEmitter.charge('on', function(event, callback){
+		callback._context = this;
 		this.listeners[event] = this.listeners[event] || [];
-		this.listeners[event].push(fn);
+		this.listeners[event].push(callback);
 		return this;
 	});
 
-	EventEmitter.method('once', function(event, groupName, callback, context){
+	EventEmitter.charge('on', function(event, callback, context){
+		callback._context = context;
+		this.listeners[event] = this.listeners[event] || [];
+		this.listeners[event].push(callback);
+		return this;
+	});
+
+	EventEmitter.charge('on', function(event, callback, context, groupName){
+		callback._groupName = groupName;
+		callback._context = context;
+		this.listeners[event] = this.listeners[event] || [];
+		this.listeners[event].push(callback);
+		return this;
+	});
+
+	EventEmitter.charge('once', function(event, callback){
 		var self = this;
-		var hasGroup = (arguments.length >= 3);
-		var group = hasGroup ? groupName : undefined;
-		var fn = hasGroup ? callback : groupName;
-		this.on(event, group, function on(){
+		this.on(event, function on(){
 			self.off(event, on);
-			fn.apply(this, arguments);
+			callback.apply(this, arguments);
+		});
+		return this;
+	});
+
+	EventEmitter.charge('once', function(event, callback, context){
+		var self = this;
+		this.on(event, function on(){
+			self.off(event, on);
+			callback.apply(this, arguments);
 		}, context);
+		return this;
+	});
+
+	EventEmitter.charge('once', function(event, callback, context, groupName){
+		var self = this;
+		this.on(event, function on(){
+			self.off(event, on);
+			callback.apply(this, arguments);
+		}, context, groupName);
 		return this;
 	});
 
@@ -39,17 +65,19 @@ define([
 			delete this.listeners[event];
 			return this;
 		}
-		index = Map.inArray(listeners, callback);
-		delete this.listeners[event][index].__groupName;
-		delete this.listeners[event][index].__context;
-		listeners.splice(index, 1);
+		index = listeners.indexOf(callback);
+		if(~index){
+			delete this.listeners[event][index]._groupName;
+			delete this.listeners[event][index]._context;
+			listeners.splice(index, 1);
+		}
 		if(listeners.length === 0){
 			delete this.listeners[event];
 		}
 		return this;
 	});
 
-	EventEmitter.method('trigger', function(event){
+	EventEmitter.method('emit', function(event){
 		var args = [].slice.call(arguments, 1);
 		var listeners, index, total;
 		var callbacks = this.listeners[event];
@@ -58,7 +86,7 @@ define([
 			listeners = callbacks.slice();
 			for(index = 0, total = listeners.length; index < total; ++index){
 				if(listeners[index]){
-					listeners[index].apply(listeners[index].__context, args);
+					listeners[index].apply(listeners[index]._context, args);
 				}else{
 					break;
 				}
@@ -68,7 +96,7 @@ define([
 			listeners = specialCallbacks.slice();
 			for(index = 0, total = listeners.length; index < total; ++index){
 				if(listeners[index]){
-					listeners[index].apply(listeners[index].__context, [event].concat(args));
+					listeners[index].apply(listeners[index]._context, [event].concat(args));
 				}else{
 					break;
 				}
@@ -81,9 +109,9 @@ define([
 		for(var item in this.listeners){
 			var handlers = this.listeners[item];
 			for(var index = 0, total = handlers.length; index < total; index++){
-				if(handlers[index].__groupName === groupName){
-					delete handlers[index].__groupName;
-					delete handlers[index].__context;
+				if(handlers[index]._groupName === groupName){
+					delete handlers[index]._groupName;
+					delete handlers[index]._context;
 					handlers.splice(index, 1);
 					index--;
 					total--;

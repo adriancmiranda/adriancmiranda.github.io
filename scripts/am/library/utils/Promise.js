@@ -1,9 +1,8 @@
 define([
 	'./Type',
 	'./Class',
-	'./Ticker',
-	'../common/patterns'
-], function(Type, Class, Ticker, patterns){
+	'./Ticker'
+], function(Type, Class, Ticker){
 
 	var Promise = Class(function Promise(cmd, ctx){
 		if(this instanceof Promise){
@@ -90,9 +89,15 @@ define([
 					throw new TypeError('A promise cannot be resolved with itself.');
 				}else if(Promise.isThenable(value)){
 					delete this.isDone;
-					return this.do(value.then, value);
+					if(value instanceof this.constructor){
+						this.do(value.then, value.context);					
+						return void(0);
+					}
+					this.do(value.then, value);
+					return void(0);
 				}
 				this.fulfill(true, value);
+				return true;
 			}catch(error){
 				this.reject(error);
 			}
@@ -117,7 +122,6 @@ define([
 	});
 
 	Promise.method('dispatch', function(deferred){
-		// console.log('ok:', deferred instanceof Deferred);
 		if(Type.isUndefined(this.isFulfilled)){
 			this.deferreds.push(deferred);
 		}else{

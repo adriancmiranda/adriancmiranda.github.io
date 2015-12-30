@@ -30,7 +30,7 @@ define([
 			}
 		}
 		map.last = map[map.length - 1];
-		return map.length ? map : [].concat(value);
+		return map.length? map:[].concat(value);
 	});
 
 	Map.static('object', function(value, iterator, context, getEnum){
@@ -38,7 +38,7 @@ define([
 		var returns, map = [];
 		for(key in value){
 			if(getEnum || value.hasOwnProperty(key)){
-				control = isStatic ? key !== 'prototype' && key !== 'length' && key !== 'name' : true;
+				control = isStatic? key !== 'prototype' && key !== 'length' && key !== 'name':true;
 				returns = control && iterator.call(context, value[key], key, value);
 				if(Type.isDefined(returns)){
 					map.push(returns);
@@ -46,7 +46,17 @@ define([
 			}
 		}
 		map.last = map[map.length - 1];
-		return map.length ? map : [].concat(value);
+		return map.length? map:[].concat(value);
+	});
+
+	Map.static('keys', Object.keys || function(value, getEnum){
+		var keys = [];
+		for(var key in value){
+			if(getEnum || value.hasOwnProperty(key)){
+				keys.push(key);
+			}
+		}
+		return keys;
 	});
 
 	Map.static('inArray', function(value, searchValue, fromIndex){
@@ -64,26 +74,14 @@ define([
 		return -1;
 	});
 
-	Map.static('removeDuplicates', function(value){
-		var id, temp = [];
-		value.sort();
-		for(id = 0; id < value.length; id++){
-			if(value[id] === value[id + 1]){
-				continue;
-			}
-			temp[temp.length] = value[id];
-		}
-		return temp;
-	});
-
-	Map.static('bound', function(index, min, max){
-		return((index > max) ? max : (index < min ? min : index));
-	});
-
 	Map.static('mod', function(index, min, max){
 		max = max + 1;
 		index = index % max;
 		return((index < min) ? (index + max) : index);
+	});
+	
+	Map.static('bound', function(index, min, max){
+		return((index > max) ? max : (index < min ? min : index));
 	});
 
 	return Map;
