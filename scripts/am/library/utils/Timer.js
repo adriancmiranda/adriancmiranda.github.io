@@ -5,11 +5,12 @@ define([
 	'../events/EventEmitter'
 ], function(Type, Class, Ticker, EventEmitter){
 
-	var Timer = new Class(function Timer(delay, repeatCount){
+	var Timer = new Class(function Timer(delay, repeatCount, continuous){
 		this.super.constructor.call(this);
 		Class.proxyfy(this, '_update');
 		this._delay = Type.isUndefined(delay)? 1000:Type.toFloat(delay);
 		this._repeatCount = Type.toInt(repeatCount);
+		this._continuous = Type.toBoolean(continuous);
 		this._currentCount = 0;
 		this._running = false;
 	}).extends(EventEmitter).static({
@@ -68,12 +69,17 @@ define([
 	Timer.method('start', function(){
 		this._running = true;
 		this._lastTime = +new Date();
-		Ticker().add(this._update, this);
+		if(this._continuous){
+			// this._continuous = Ticker.request(this._update);
+		}else{
+			Ticker().add(this._update, this);
+		}
 	});
 
 	Timer.method('stop', function(){
 		this._running = false;
 		Ticker().remove(this._update, this);
+		// Ticker.cancelRequest(this._continuous);
 	});
 
 	Timer.method('reset', function(){

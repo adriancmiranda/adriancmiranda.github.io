@@ -8,8 +8,9 @@ define([
 		var options;
 		
 		options = Class.options({}, this.constructor.defaults, options);
-		options.headers = Class.options({}, this.options.headers, headers);
-		options.headers.common = Class.options({}, this.options.headers.common);
+		options.headers = Class.options({}, options.headers, headers);
+		options.headers.common = Class.options({}, options.headers.common);
+		options.headers = Class.options({}, options.headers, options.headers.common);
 		
 		return new Promise(function(resolve, reject){
 			
@@ -102,14 +103,27 @@ define([
 		// this.open(this.options.);
 	});
 
-
-	var xhr = XHR('http://www.mocky.io/v2/5680b2b4100000b13737317c');
-	xhr.open('POST', );
-	xhr.then(function(value){
-		value.withCredentials = true;
-	}).catch(function(reason){
-
-	});
+	if(/^jsonp$/.test(String(method))){
+		var jsonp = new Promise(function (resolve, reject){
+			var jsonp = new JSONP(url, callbackId);
+			jsonp.on('load', resolve);
+			jsonp.on('error', reject);
+			jsonp.load();
+		});
+	}else{
+		var xhr = new Promise(function (resolve, reject)){
+			var xhr = new XHR();
+			xhr.open('POST', 'http://www.mocky.io/v2/5680b2b4100000b13737317c', false);
+			xhr.setRequestHeader({});
+			xhr.on('readystatechange', this.onReady);
+			xhr.on('load', resolve);
+			xhr.on('error', reject);
+			xhr.on('abort', reject);
+			xhr.withCredentials = true;
+			xhr.responseType = 'json';
+			xhr.send(post);
+		});
+	}
 
 	return XHR;
 });

@@ -1,8 +1,7 @@
 define([
 	'./Type',
-	'./Class',
-	'./Ticker'
-], function(Type, Class, Ticker){
+	'./Class'
+], function(Type, Class){
 
 	var Promise = Class(function Promise(cmd, ctx){
 		if(this instanceof Promise){
@@ -97,7 +96,6 @@ define([
 					return void(0);
 				}
 				this.fulfill(true, value);
-				return true;
 			}catch(error){
 				this.reject(error);
 			}
@@ -125,22 +123,20 @@ define([
 		if(Type.isUndefined(this.isFulfilled)){
 			this.deferreds.push(deferred);
 		}else{
-			Ticker().once(function(){
-				var result;
-				var callback = this.isFulfilled? deferred.onFulfilled:deferred.onRejected;
-				if(Type.isNull(callback)){
-					callback = this.isFulfilled? deferred.resolve:deferred.reject;
-					callback(this.value);
-					return void(0);
-				}
-				try{
-					result = callback(this.value);
-				}catch(error){
-					deferred.reject(error);
-					return void(0);
-				}
-				deferred.resolve(result);
-			}, this);
+			var result;
+			var callback = this.isFulfilled? deferred.onFulfilled:deferred.onRejected;
+			if(Type.isNull(callback)){
+				callback = this.isFulfilled? deferred.resolve:deferred.reject;
+				callback(this.value);
+				return void(0);
+			}
+			try{
+				result = callback(this.value);
+			}catch(error){
+				deferred.reject(error);
+				return void(0);
+			}
+			deferred.resolve(result);
 		}
 	});
 

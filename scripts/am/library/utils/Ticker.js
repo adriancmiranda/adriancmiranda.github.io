@@ -25,14 +25,14 @@ define([
 			delete(Ticker.prototype.$now);
 			window.requestAnimationFrame = Vendor(window, 'requestAnimationFrame') || this.$request;
 			delete(Ticker.prototype.$request);
-			window.cancelAnimationFrame = Vendor(window, ['cancelAnimationFrame', 'cancelRequestAnimationFrame']) || this.$cancel;
-			delete(Ticker.prototype.$cancel);
+			window.cancelAnimationFrame = Vendor(window, ['cancelAnimationFrame', 'cancelRequestAnimationFrame']) || this.$cancelRequest;
+			delete(Ticker.prototype.$cancelRequest);
 			Ticker.prototype.instance = this;
 			return this;
 		}
 		return new Ticker(FPS, autoStart);
 	}).static({
-		GROUP:'ticker',
+		GROUP:'Ticker',
 		TICK:'tick'
 	});
 
@@ -116,7 +116,7 @@ define([
 		}, delay);
 	});
 
-	Ticker.method('$cancel', function(frame){
+	Ticker.method('$cancelRequest', function(frame){
 		window.clearTimeout(frame);
 	});
 

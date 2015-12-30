@@ -1,11 +1,51 @@
-Make
-- scripts/am/library/net/HttpRequest.js
-- scripts/am/library/net/Request.js
-- scripts/am/library/transitions/Tween.js
+Notas
+=====
 
-Improve
-- scripts/am/library/display/DOMElement.js
-- scripts/am/library/geom/Matrix.js
-- scripts/am/library/net/Promise.js
-http://afonsopacifer.github.io/open-source-checklist/pt-br.html
-https://vimeo.com/128373915
+- http://afonsopacifer.github.io/open-source-checklist/pt-br.html
+
+
+Referências
+============
+
+- https://vimeo.com/128373915
+
+
+TODO
+====
+
+Promise:
++ Desenvolver um fallback para Promise (deve funcionar nos IE's e versões antigas dos browsers Android)
+- TDD
+
+Tween:
+- Fazer classe para controle de tweens básicos que possam substituir o CSS3 pelo JS.
+- TDD
+
+DOMElement:
+- Fazer método para controle de `transform` com uso do `Tween` como fallback.
+- TDD
+
+Ticker:
+- Precisa ser estático e não singleton
+- Precisa manter as funções de fallback `Ticker.request(fn, delay)` e `Ticker.cancelRequest($id)` para uso externo substituindo `setInterval`
+- TDD
+
+Timer:
+- Fazer uso de `Ticker.request` e `Ticker.cancelRequest` em caso da opção `continuous` ser `true` (isso evitará que o tempo pare na troca de aba)
+- TDD
+
+Clock:
+- Extender `Timer` para tratamentos de datas e horários
+- TDD
+
+XHR:
+- Envelopar método `XMLHttpRequest` - Adapter pattern
+- TDD
+
+JSONP:
+- Tratar para haver possibilidade de chamada de método abort
+- TDD
+
+http:
+- Fazer uso de `XHR` e `JSONP` para centralizar todas as chamadas de serviços (independente do tipo) em um lugar só - Facade pattern
+- TDD
