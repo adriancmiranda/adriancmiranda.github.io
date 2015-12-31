@@ -46,8 +46,8 @@ define([
 		options:{
 			transformResponse:[XHR.defaultHttpResponseTransform],
 			transformRequest:[XHR.defaultHttpRequestTransform],
-			xsrfCookieName:'XSRF-TOKEN',
 			xsrfHeaderName:'X-XSRF-TOKEN',
+			xsrfCookieName:'XSRF-TOKEN',
 			withCredentials:false,
 			responseType:'json',
 			method:'POST',
