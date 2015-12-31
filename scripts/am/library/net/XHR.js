@@ -311,19 +311,19 @@ define([
 	XHR.method('onLoad', function(){
 		var value = {};
 		var target = this.client.target;
-		value.response = ('response' in target)? target.response:target.responseText;
-		value.responseHeaders = target.getAllResponseHeaders();
+		value.info = ('response' in target)? target.response:target.responseText;
+		value.headers = target.getAllResponseHeaders();
 		value.statusText = target.statusText || '';
 		value.status = target.status === 1223? 204:target.status;
 		if(value.status === 0){
-			// value.status = response? 200:urlResolve(url).protocol === 'file'? 404:0;
+			// value.status = value.info? 200:urlResolve(url).protocol === 'file'? 404:0;
 		}
 		this.emit('load', value);
 		this.defer.resolve(value);
 	});
 
 	XHR.method('onError', function(){
-		var reason = { response:null, responseHeaders:null, statusText:'', status:-1 };
+		var reason = { info:null, headers:null, statusText:'', status:-1 };
 		this.emit('error', reason);
 		this.defer.reject(reason);
 	});

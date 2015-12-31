@@ -46,7 +46,7 @@ define([
 		document.body.removeChild(this.script.target);
 		delete(this.script.target);
 		delete(this.script);
-		var value = { status:-1, statusText:'', response:null, responseHeaders:null };
+		var value = { info:null, headers:null, statusText:'', status:-1 };
 		var callback = this.callback(this.callbackUri);
 		if(event){
 			if(event.type === 'load' && !callback.called){
@@ -62,7 +62,7 @@ define([
 			// status = response? 200:urlResolve(url).protocol == 'file'? 404:0;
 		}
 		value.status = value.status === 1223? 204:value.status;
-		value.response = callback.response;
+		value.info = callback.response;
 		this.promise.resolve(value);
 		window.setTimeout(Class.proxy(this.flush, this), 1);
 	});
