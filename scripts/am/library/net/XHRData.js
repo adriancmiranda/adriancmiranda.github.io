@@ -4,21 +4,19 @@ define([
 	'../utils/Class'
 ], function(Map, Type, Class){
 
-	var XHRData = new Class(function XHRData(data, headers, status, transformRequests){
-		this.data = Class.options({}, data);
-		this.headers = Class.options({}, headers);
-		this.transformRequest = transformRequests;
-		this.status = status;
+	var XHRData = new Class(function XHRData(data){
+		this.payload = data;
 	});
 
-	XHRData.method('transform', function(){
-		var transformedData;
-		if(Type.isFunction(this.transformRequests)){
-			transformedData = this.transformRequests(this.data, this.headers, this.status);
-		}else if(Type.isArrayLike(this.transformRequests)){
-			Map.array(this.transformRequests, function(request){
-				transformedData = request(this.data, this.headers, this.status);
-			});
+	XHRData.method('transform', function(headers, status, transformRequests){
+		var transformedData = null;
+		// headers = XHRHeaders.proxy(headers);// transforma o `headers` em uma função que buscará todas as propriedades...
+		if(Type.isFunction(transformRequests)){
+			transformedData = transformRequests(this.payload, headers, status);
+		}else if(Type.isArrayLike(transformRequests)){
+			Map.array(transformRequests, function(request){
+				transformedData = request(this.payload, headers, status);
+			}, this);
 		}
 		return transformedData;
 	});
