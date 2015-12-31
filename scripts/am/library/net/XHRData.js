@@ -8,7 +8,7 @@ define([
 		this.payload = data;
 	});
 
-	XHRData.method('transform', function(headers, status, transformRequests){
+	XHRData.method('transform', function(transformRequests, headers, status){
 		var transformedData = null;
 		// headers = XHRHeaders.proxy(headers);// transforma o `headers` em uma função que buscará todas as propriedades...
 		if(Type.isFunction(transformRequests)){
