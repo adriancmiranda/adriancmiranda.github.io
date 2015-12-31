@@ -174,12 +174,64 @@ define([
 
 	XHR.define('withCredentials', {
 		set:function(value){
+			value = Type.toBoolean(value);
 			if(value){
 				this.client.target.withCredentials = value;
 			}
 		},
-		set:function(){
+		get:function(){
 			return this.client.target.withCredentials;
+		}
+	});
+
+	XHR.define('timeout', {
+		set:function(milliseconds){
+			this.client.target.timeout = Type.toUint(milliseconds);
+		},
+		get:function(){
+			return this.client.target.timeout;
+		}
+	});
+
+	XHR.define('upload', {
+		get:function(){
+			return this.client.target.upload;
+		}
+	});
+
+	XHR.define('responseXML', {
+		get:function(){
+			return this.client.target.responseXML;
+		}
+	});
+
+	XHR.define('response', {
+		get:function(){
+			return this.client.target.response;
+		}
+	});
+
+	XHR.define('responseText', {
+		get:function(){
+			return this.client.target.responseText;
+		}
+	});
+
+	XHR.define('readyState', {
+		get:function(){
+			return this.client.target.readyState;
+		}
+	});
+
+	XHR.define('status', {
+		get:function(){
+			return this.client.target.status;
+		}
+	});
+
+	XHR.define('statusText', {
+		get:function(){
+			return this.client.target.statusText;
 		}
 	});
 
@@ -195,8 +247,24 @@ define([
 		}
 	});
 
-	XHR.method('open', function(method, url, async){
-		this.client.target.open(method, url, async);
+	XHR.method('getAllResponseHeaders', function(){
+		return this.client.target.getAllResponseHeaders();
+	});
+
+	XHR.method('getResponseHeader', function(header){
+		return this.client.target.getResponseHeader(header);
+	});
+
+	XHR.method('overrideMimeType', function(mimetype){
+		this.client.target.overrideMimeType(mimetype);
+	});
+
+	XHR.method('open', function(method, url, async, user, password){
+		this.client.target.open(method, url, async, user, password);
+	});
+
+	XHR.method('abort', function(){
+		this.client.target.abort();
 	});
 
 	XHR.method('send', function(payload){
