@@ -14,9 +14,9 @@ define([
 			this.target.addEventListener(evt, callback, false);
 		}else{
 			callback._guid = callback._guid||this.on.guid++;
-			this.target.events = this.target.events||{};
+			this.target.events = this.target.events||Class.create(null);
 			if(!this.target.events[evt]){
-				this.target.events[evt] = {};
+				this.target.events[evt] = Class.create(null);
 				if(this.target['on'+ evt]){
 					this.target.events[evt][0] = this.target['on'+ evt];
 				}

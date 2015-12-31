@@ -48,7 +48,7 @@ define([
 		var total = keys.length - 1;
 		while(id < total){
 			qualifiedName = keys[id++];
-			namespace = namespace[qualifiedName] = Type.isGenericObject(namespace[qualifiedName])? namespace[qualifiedName]:{};
+			namespace = namespace[qualifiedName] = Type.isObjectLike(namespace[qualifiedName])? namespace[qualifiedName]:Class.create(null);
 		}
 		if(Type.isUndefined(value)){
 			delete(namespace[keys[id]]);

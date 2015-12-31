@@ -6,7 +6,7 @@ define([
 	var Type = new Class(function Type(value, qualified){
 		return Class.of(value, qualified);
 	});
-
+window.Type = Type;
 	Type.static('toArray', function(value, slice){
 		if(!value){return [];}
 		value = Object(value);
@@ -47,6 +47,25 @@ define([
 
 	Type.static('toInt', function(value){
 		return 0 | parseInt(value, 10);
+	});
+
+	Type.static('toJSON', function(value, replacer, pretty){
+		pretty = this.isUint(pretty)? pretty:null;
+		if(this.isDefined(value)){
+			return JSON.stringify(value, replacer, pretty);
+		}
+	});
+
+	Type.static('fromJSON', function(json){
+		return this.isString(json)? JSON.parse(json):json;
+	});
+
+	Type.static('isJSONLike', function(value){
+		if(this.isString(value)){
+			var start = value.match(patterns.jsonStart);
+			return!!(start && patterns.jsonEnds[start[0]].test(value));
+		}
+		return false;
 	});
 
 	Type.static('isArrayLike', function(value){
@@ -98,7 +117,7 @@ define([
 		return this.isNode(value) && value.nodeType === 9;
 	});
 
-	Type.static('isGenericObject', function(value){
+	Type.static('isObjectLike', function(value){
 		return value === Object(value);
 	});
 

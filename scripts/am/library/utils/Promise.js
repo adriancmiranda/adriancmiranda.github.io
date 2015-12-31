@@ -13,7 +13,7 @@ define([
 	});
 
 	Promise.static('isThenable', function(value){
-		return (Type.isGenericObject(value) || Type.isFunction(value)) && Type.isFunction(value.then);
+		return (Type.isObjectLike(value) || Type.isFunction(value)) && Type.isFunction(value.then);
 	});
 
 	Promise.static('resolve', function(value){

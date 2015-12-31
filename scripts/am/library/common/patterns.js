@@ -12,6 +12,9 @@ define(function(){
 		noValue:/^(Undefined|Null|NaN)$/i,
 		isBoolValue:/^(true|yes)$/gi,
 		whiteSpace:(/\S+/g),
+		jsonProtectionPrefix:/^\)\]\}',?\n/,
+		jsonStart:/^\[|^\{(?!\{)/,
+		jsonEnds:{ '[':/\]$/, '{':/\}$/ },
 		findClass:function(className, modifiers){
 			return new RegExp('(^|\\s+)'+ className +'(\\s+|$)', modifiers);
 		},

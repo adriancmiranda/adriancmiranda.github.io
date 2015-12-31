@@ -1,129 +1,283 @@
 define([
 	'../utils/Map',
+	'../utils/Type',
 	'../utils/Class',
-	'../utils/Promise'
-], function(Map, Class, Promise){
+	'../utils/Promise',
+	'../events/EventProxy',
+	'../events/EventEmitter'
+], function(Map, Type, Class, Promise, EventProxy, EventEmitter){
 
-	var XHR = new Class(function XHR(url, options, headers){
-		var options;
-		
-		options = Class.options({}, this.constructor.defaults, options);
-		options.headers = Class.options({}, options.headers, headers);
-		options.headers.common = Class.options({}, options.headers.common);
-		options.headers = Class.options({}, options.headers, options.headers.common);
-		
-		return new Promise(function(resolve, reject){
-			
-			var client = (function request(){
-				try{return new window.XMLHttpRequest();}
-				catch(error){}
-				try{return new ActiveXObject('Msxml2.XMLHTTP');}
-				catch(error){}
-				try{return new ActiveXObject('Msxml2.XMLHTTP.6.0');}
-				catch(error){}
-				try{return new ActiveXObject('Msxml2.XMLHTTP.3.0');}
-				catch(error){}
-				try{ return new ActiveXObject('Microsoft.XMLHTTP');}
-				catch(error){}
-				throw new Error('This browser does not support XMLHttpRequest.');
-			}());
+	var XHR = new Class(function XHR(){
+		if(this instanceof XHR){
+			Class.proxyfy(this, 'onLoad', 'onError');
+			this.super.constructor.call(this);
+			this.client = new EventProxy(new window.XMLHttpRequest());
+			if(arguments.length){
+				return this.request.apply(this, arguments) || this;
+			}
+		}
+		return new XHR();
+	}).extends(EventEmitter);
 
-			client.open(options.method, url);
-
-			Map.object(options.headers, function(value, header){
-				if(Type.isDefined(value)){
-					client.setRequestHeader(header, value);
-				}
-			});
-
-			client.onload = resolve;
-			client.onerror = reject;
-			client.onabort = reject;
-		});
-	});
-
-	XHR.static('defaults', {
+	XHR.defaults = ({
+		xsrfCookieName:'XSRF-TOKEN',
+		xsrfHeaderName:'X-XSRF-TOKEN',
 		withCredentials:false,
 		responseType:'json',
 		method:'POST',
 		timeout:0,
-		headers:{},
-		data:{}
+		async:true,
+		data:undefined
 	});
+
+	XHR.defaults.headers = ({
+		patch:{'Content-Type':'application/json;charset=utf-8'},
+		post:{'Content-Type':'application/json;charset=utf-8'},
+		put:{'Content-Type':'application/json;charset=utf-8'}
+	});
+
+	XHR.defaults.headers.common = ({
+		Accept:'application/json, text/plain, */*'
+	});
+
+	XHR.defaults.transformRequest = [function(data){
+		if(Type.isFile(data) || Type.isBlob(data) || Type.isFormData(data)){
+			return data;
+		}
+		return Type.toJSON(data);
+	}];
+
+	XHR.defaults.transformResponse = [function(data, headers){
+		if(Type.isString(data)){
+			var tempData = data.replace(patterns.jsonProtectionPrefix, '').trim();
+			if(tempData){
+				var contentType = headers('Content-Type');
+				if((contentType && (contentType.indexOf('application/json') === 0)) || Type.isJSONLike(tempData)){
+					data = Type.fromJSON(tempData);
+				}
+			}
+		}
+		return data;
+	}];
+
+	XHR.transformResponse = function(options, defer){
+		return function(response){
+			response = Class.options({}, response);
+			response.data = XHR.transformData(response.data, response.headers, response.status, options.transformResponse);
+			return 200 <= response.status && response.status < 300? response:defer.reject(response);
+		};
+	};
+
+	XHR.transformData = function(data, headers, status, transform){
+		if(Type.isFunction(transform)){
+			return transform(data, headers, status);
+		}
+		Map.array(transform, function(fn){
+			data = fn(data, headers, status);
+		});
+		return data;
+	};
+
+	XHR.parseHeaders = function(headers){
+		var parsed = Class.create(null);
+		function append(header, value){
+			parsed[header] = parsed[header]? (parsed[header] +', '+ value):value;
+		}
+		if(Type.isString(headers)){
+			Map.array(headers.split('\n'), function(line, index, header){
+				index = line.indexOf(':');
+				header = String(line.substr(0, index)).toLowerCase().trim();
+				header && append(header, line.substr(index + 1).trim());
+			});
+		}else if(Type.isObject(headers)){
+			Map.object(headers, function(value, header){
+				header = String(header).toLowerCase().trim();
+				header && append(header, value.trim());
+			});
+		}
+		return parsed;
+	};
+
+	XHR.toggleContentType = function(data, headers){
+		if(Type.isUndefined(data)){
+			Map.object(headers, function(value, header){
+				if(String(header).toLowerCase() === 'content-type'){
+					delete(headers[header]);
+				}
+			});
+		}
+		return headers;
+	};
+
+	XHR.headersGetter = function(headers){
+		var headersObj;
+		return function(name){
+			if(!headersObj){
+				headersObj = this.parseHeaders(headers);
+			}
+			if(name){
+				var value = headersObj[String(name).toLowerCase()];
+				if(value === void(0)){
+					value = null;
+				}
+				return value;
+			}
+			return headersObj;
+		};
+	};
+
+	XHR.executeHeaders = function(headers, options){
+		var headerContent, processedHeaders = {};
+		Map.object(headers, function(headerFn, header){
+			if(Type.isFunction(headerFn)){
+				headerContent = headerFn(config);
+				if(headerContent != null){
+					processedHeaders[header] = headerContent;
+				}
+			}else{
+				processedHeaders[header] = headerFn;
+			}
+		});
+		return processedHeaders;
+	};
+
+	XHR.mergeHeaders = function(options){
+		var defHeaders = this.defaults.headers;
+		var reqHeaders = Class.options({}, options.headers);
+		var defHeaderName, lowercaseDefHeaderName, reqHeaderName;
+		defHeaders = Class.options({}, defHeaders.common, defHeaders[String(options.method).toLowerCase()]);
+		defaultHeadersIteration:
+		for(defHeaderName in defHeaders){
+			lowercaseDefHeaderName = String(defHeaderName).toLowerCase();
+			for(reqHeaderName in reqHeaders){
+				if(String(reqHeaderName).toLowerCase() === lowercaseDefHeaderName){
+					continue defaultHeadersIteration;
+				}
+			}
+			reqHeaders[defHeaderName] = defHeaders[defHeaderName];
+		}
+		return this.executeHeaders(reqHeaders, Class.options({}, options));
+	};
 
 	XHR.define('responseType', {
 		set:function(value){
 			if(value){
 				try{
-					this.client.responseType = value;
+					this.client.target.responseType = value;
 				}catch(error){
-					if(responseType !== 'json'){
+					if(value !== 'json'){
 						throw error;
 					}
 				}
 			}
 		},
 		get:function(){
-			return this.client.responseType;
+			return this.client.target.responseType;
 		}
 	});
 
 	XHR.define('withCredentials', {
 		set:function(value){
 			if(value){
-				this.client.withCredentials = value;
+				this.client.target.withCredentials = value;
 			}
 		},
 		set:function(){
-			return this.client.withCredentials;
+			return this.client.target.withCredentials;
 		}
 	});
 
-	XHR.charge('setRequestHeader', function(header){
+	XHR.charge('setRequestHeader', function(headers){
 		Map.object(headers, function(value, header){
-			if(Type.isDefined(value)){
-				this.setRequestHeader(header, value);
-			}
+			this.setRequestHeader(header, value);
 		}, this);
 	});
 
 	XHR.charge('setRequestHeader', function(header, value){
-		this.client.setRequestHeader(header, value);
+		if(Type.isString(header) && Type.isString(value)){
+			this.client.target.setRequestHeader(header.trim(), value.trim());
+		}
 	});
 
-	XHR.method('open', function(method, url){
-		this.client.open(method, url);
+	XHR.method('open', function(method, url, async){
+		this.client.target.open(method, url, async);
 	});
 
-	XHR.method('send', function(body){
-		this.client.send(body);
+	XHR.method('send', function(payload){
+		this.client.target.send(Type.isDefined(payload)? payload:null);
 	});
 
-	XHR.method('request', function(){
-		// this.open(this.options.);
+	XHR.charge('request', function(options){
+		return Type.isObjectLike(options) &&
+		this.request(options, options.headers);
 	});
 
-	if(/^jsonp$/.test(String(method))){
-		var jsonp = new Promise(function (resolve, reject){
-			var jsonp = new JSONP(url, callbackId);
-			jsonp.on('load', resolve);
-			jsonp.on('error', reject);
-			jsonp.load();
-		});
-	}else{
-		var xhr = new Promise(function (resolve, reject)){
-			var xhr = new XHR();
-			xhr.open('POST', 'http://www.mocky.io/v2/5680b2b4100000b13737317c', false);
-			xhr.setRequestHeader({});
-			xhr.on('readystatechange', this.onReady);
-			xhr.on('load', resolve);
-			xhr.on('error', reject);
-			xhr.on('abort', reject);
-			xhr.withCredentials = true;
-			xhr.responseType = 'json';
-			xhr.send(post);
-		});
-	}
+	XHR.charge('request', function(options, headers){
+		headers = headers || {};
+		return Type.isObjectLike(options) &&
+		Type.isObjectLike(headers) &&
+		this.request(options.url, options, headers);
+	});
+
+	XHR.charge('request', function(url, options, headers){
+		return Type.isString(url) &&
+		Type.isObjectLike(options) &&
+		Type.isObjectLike(headers) &&
+		this.request(url, options.data, options, headers);
+	});
+
+	XHR.charge('request', function(url, data, options, headers){
+		options = Class.options({
+			xsrfCookieName:XHR.defaults.xsrfCookieName,
+			xsrfHeaderName:XHR.defaults.xsrfHeaderName,
+			withCredentials:XHR.defaults.withCredentials,
+			responseType:XHR.defaults.responseType,
+			method:XHR.defaults.method,
+			timeout:XHR.defaults.timeout,
+			async:XHR.defaults.async,
+			data:XHR.defaults.data,
+			transformRequest: XHR.defaults.transformRequest,
+			transformResponse: XHR.defaults.transformResponse
+		}, options, headers);
+		headers = XHR.toggleContentType(data, XHR.mergeHeaders(options));
+		data = XHR.transformData(data, XHR.headersGetter(headers), undefined, options.transformRequest);
+		console.log('URL:', url);
+		console.log('OPTIONS:', options);
+		console.log('HEADERS:', headers);
+		console.log('DATA:', data);
+		this.defer = new Promise();
+		this.client = new EventProxy(new window.XMLHttpRequest());
+		this.open(options.method, url, options.async);
+		this.setRequestHeader(headers);
+		this.client.on('load', this.onLoad);
+		this.client.on('error', this.onError);
+		this.client.on('abort', this.onError);
+		this.withCredentials = options.withCredentials;
+		this.responseType = options.responseType;
+		this.send(data);
+		options = XHR.transformResponse(options, this.defer);
+		return this.defer.then(options, options);
+	});
+
+	XHR.method('onLoad', function(){
+		var value = {};
+		var target = this.client.target;
+		value.response = ('response' in target)? target.response:target.responseText;
+		value.responseHeaders = target.getAllResponseHeaders();
+		value.statusText = target.statusText || '';
+		value.status = target.status === 1223? 204:target.status;
+		if(value.status === 0){
+			// value.status = response? 200:urlResolve(url).protocol === 'file'? 404:0;
+		}
+		this.emit('load', value);
+		this.defer.resolve(value);
+	});
+
+	XHR.method('onError', function(){
+		var reason = { response:null, responseHeaders:null, statusText:'', status:-1 };
+		this.emit('error', reason);
+		this.defer.reject(reason);
+	});
 
 	return XHR;
 });

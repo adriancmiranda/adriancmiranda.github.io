@@ -20,7 +20,7 @@ define([
 			this._deltaTime = 1;
 			this._speed = 1;
 			this._startTime = navigationStart || +new Date();
-			this._performance = hasPerformance? window.performance:{};
+			this._performance = hasPerformance? window.performance:Class.create(null);
 			this._performance.now = this._performance.now || this.$now;
 			delete(Ticker.prototype.$now);
 			window.requestAnimationFrame = Vendor(window, 'requestAnimationFrame') || this.$request;

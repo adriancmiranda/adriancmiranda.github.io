@@ -152,19 +152,19 @@ define([
 	});
 
 	ParseAPI.method('addUnique', function(relationName, className, objectId, objects){
-		var data = {};
+		var data = Class.create(null);
 		data[relationName] = {__op:'AddUnique',objects:[].concat(objects)};
 		return this.put('/classes/'+ className +'/'+ objectId, data, { 'Content-Type':'application/json' });
 	});
 
 	ParseAPI.method('addRelation', function(relationName, classNameA, objectIdA, classNameB, objectIdB){
-		var data = {};
+		var data = Class.create(null);
 		data[relationName] = {__op:'AddRelation',objects:[{__type:'Pointer',className:classNameB,objectId:objectIdB}]};
 		return this.put('/classes/'+ classNameA +'/'+ objectIdA, data, { 'Content-Type':'application/json' });
 	});
 
 	ParseAPI.method('removeRelation', function(relationName, classNameA, objectIdA, classNameB, objectIdB){
-		var data = {};
+		var data = Class.create(null);
 		data[relationName] = {__op:'RemoveRelation',objects:[{__type:'Pointer',className:classNameB,objectId:objectIdB}]};
 		return this.put('/classes/'+ classNameA +'/'+ objectIdA, data, { 'Content-Type':'application/json' });
 	});

@@ -14,7 +14,7 @@ define([
 		this.uri = Scope.pathArray(callbackId);
 		this.namespace = this.uri.shift();
 		this.callbackUri = this.uri.join('.');
-		this.instance = window[this.namespace] = window[this.namespace] || {};
+		this.instance = window[this.namespace] = window[this.namespace] || Class.create(null);
 		this.callback = Scope.register(this.instance);
 		this.callback(this.callbackUri, this.onResult);
 		this.promise = new Promise();

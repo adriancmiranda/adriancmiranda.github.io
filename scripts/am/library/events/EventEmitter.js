@@ -4,7 +4,7 @@ define([
 ], function(Map, Class){
 
 	var EventEmitter = new Class(function EventEmitter(){
-		this.listeners = {};
+		this.listeners = Class.create(null);
 	});
 
 	EventEmitter.charge('on', function(event, callback){

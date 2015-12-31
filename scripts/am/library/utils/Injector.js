@@ -21,7 +21,7 @@ define([
 	});
 
 	Injector.static('register', function(name, dependency){
-		this._dependencies = this._dependencies||{};
+		this._dependencies = this._dependencies||Class.create(null);
 		this._dependencies[name] = dependency;
 		return dependency;
 	});
