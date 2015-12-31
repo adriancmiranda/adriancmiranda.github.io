@@ -65,11 +65,11 @@ define([
 		};
 	};
 
-	XHR.transformData = function(data, headers, status, transform){
-		if(Type.isFunction(transform)){
-			return transform(data, headers, status);
+	XHR.transformData = function(data, headers, status, transformRequests){
+		if(Type.isFunction(transformRequests)){
+			return transformRequests(data, headers, status);
 		}
-		Map.array(transform, function(fn){
+		Map.array(transformRequests, function(fn){
 			data = fn(data, headers, status);
 		});
 		return data;
@@ -127,7 +127,7 @@ define([
 		var headerContent, processedHeaders = {};
 		Map.object(headers, function(headerFn, header){
 			if(Type.isFunction(headerFn)){
-				headerContent = headerFn(config);
+				headerContent = headerFn(options);
 				if(headerContent != null){
 					processedHeaders[header] = headerContent;
 				}
