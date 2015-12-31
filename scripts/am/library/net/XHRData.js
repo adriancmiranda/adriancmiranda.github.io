@@ -8,17 +8,21 @@ define([
 		this.payload = data;
 	});
 
-	XHRData.method('transform', function(transformRequests, headers, status){
-		var transformedData = null;
-		// headers = XHRHeaders.proxy(headers);// transforma o `headers` em uma função que buscará todas as propriedades...
-		if(Type.isFunction(transformRequests)){
-			transformedData = transformRequests(this.payload, headers, status);
-		}else if(Type.isArrayLike(transformRequests)){
-			Map.array(transformRequests, function(request){
-				transformedData = request(this.payload, headers, status);
-			}, this);
+	XHRData.method('transform', function(requests){
+		var payload = Class.options({}, this.payload);
+		var params = Type.toArray(arguments, 1);
+		if(Type.isFunction(requests)){
+			payload = requests.apply(requests, [payload].concat(params));
+		}else if(Type.isArrayLike(requests)){
+			Map.array(requests, function(request){
+				if(Type.isFunction(request)){
+					payload = request.apply(request, [payload].concat(params));
+				}else{
+					payload = request;
+				}
+			});
 		}
-		return transformedData;
+		return payload;
 	});
 
 	XHRData.static('defaultHttpRequestTransform', function(data){
