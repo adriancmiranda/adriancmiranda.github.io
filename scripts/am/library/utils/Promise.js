@@ -155,5 +155,13 @@ define([
 		return this.then(null, onRejected);
 	});
 
+	Promise.method('success', function(onFulfilled, onRejected){
+		return this.then(onFulfilled, onRejected);
+	});
+
+	Promise.method('error', function(onRejected){
+		return this.then(null, onRejected);
+	});
+
 	return Promise;
 });

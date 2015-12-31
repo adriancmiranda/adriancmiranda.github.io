@@ -37,9 +37,9 @@ define([
 			url:url,
 			method:'POST',
 			data:{ message: "Hello world!" }
-		}).then(function(value){
+		}).success(function(value){
 			console.log('value:', value);
-		}).catch(function(reason){
+		}).error(function(reason){
 			console.warn('reason:', reason);
 		});
 	});

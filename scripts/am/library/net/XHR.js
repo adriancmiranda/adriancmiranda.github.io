@@ -8,48 +8,22 @@ define([
 ], function(Map, Type, Class, Promise, EventProxy, EventEmitter){
 
 	var XHR = new Class(function XHR(){
-		if(this instanceof XHR){
-			Class.proxyfy(this, 'onLoad', 'onError');
-			this.super.constructor.call(this);
-			this.client = new EventProxy(new window.XMLHttpRequest());
-			if(arguments.length){
-				return this.request.apply(this, arguments) || this;
-			}
+		Class.proxyfy(this, 'onLoad', 'onError');
+		this.super.constructor.call(this);
+		this.client = new EventProxy(new window.XMLHttpRequest());
+		if(arguments.length){
+			return this.request.apply(this, arguments) || this;
 		}
-		return new XHR();
 	}).extends(EventEmitter);
 
-	XHR.defaults = ({
-		options:{
-			xsrfCookieName:'XSRF-TOKEN',
-			xsrfHeaderName:'X-XSRF-TOKEN',
-			withCredentials:false,
-			responseType:'json',
-			method:'POST',
-			timeout:0,
-			async:true,
-			data:undefined
-		}
-	});
-
-	XHR.defaults.headers = ({
-		patch:{'Content-Type':'application/json;charset=utf-8'},
-		post:{'Content-Type':'application/json;charset=utf-8'},
-		put:{'Content-Type':'application/json;charset=utf-8'}
-	});
-
-	XHR.defaults.headers.common = ({
-		Accept:'application/json, text/plain, */*'
-	});
-
-	XHR.defaults.options.transformRequest = [function(data){
+	XHR.defaultHttpRequestTransform = function(data){
 		if(Type.isFile(data) || Type.isBlob(data) || Type.isFormData(data)){
 			return data;
 		}
 		return Type.toJSON(data);
-	}];
+	};
 
-	XHR.defaults.options.transformResponse = [function(data, headers){
+	XHR.defaultHttpResponseTransform = function(data, headers){
 		if(Type.isString(data)){
 			var tempData = data.replace(patterns.jsonProtectionPrefix, '').trim();
 			if(tempData){
@@ -60,17 +34,38 @@ define([
 			}
 		}
 		return data;
-	}];
+	};
 
-	XHR.static('transformResponse', function(options, defer){
+	XHR.defaults = {
+		headers:{
+			common:{Accept:'application/json, text/plain, */*'},
+			patch:{'Content-Type':'application/json;charset=utf-8'},
+			post:{'Content-Type':'application/json;charset=utf-8'},
+			put:{'Content-Type':'application/json;charset=utf-8'}
+		},
+		options:{
+			transformResponse:[XHR.defaultHttpResponseTransform],
+			transformRequest:[XHR.defaultHttpRequestTransform],
+			xsrfCookieName:'XSRF-TOKEN',
+			xsrfHeaderName:'X-XSRF-TOKEN',
+			withCredentials:false,
+			responseType:'json',
+			method:'POST',
+			timeout:0,
+			async:true,
+			data:null
+		}
+	};
+
+	XHR.getTransformResponse = function(options, defer){
 		return function(response){
 			response = Class.options({}, response);
 			response.data = XHR.transformData(response.data, response.headers, response.status, options.transformResponse);
 			return 200 <= response.status && response.status < 300? response:defer.reject(response);
 		};
-	});
+	};
 
-	XHR.static('transformData', function(data, headers, status, transform){
+	XHR.transformData = function(data, headers, status, transform){
 		if(Type.isFunction(transform)){
 			return transform(data, headers, status);
 		}
@@ -78,9 +73,9 @@ define([
 			data = fn(data, headers, status);
 		});
 		return data;
-	});
+	};
 
-	XHR.static('parseHeaders', function(headers){
+	XHR.parseHeaders = function(headers){
 		var parsed = Class.create(null);
 		function append(header, value){
 			parsed[header] = parsed[header]? (parsed[header] +', '+ value):value;
@@ -98,9 +93,9 @@ define([
 			});
 		}
 		return parsed;
-	});
+	};
 
-	XHR.static('toggleContentType', function(data, headers){
+	XHR.toggleContentType = function(data, headers){
 		if(Type.isUndefined(data)){
 			Map.object(headers, function(value, header){
 				if(String(header).toLowerCase() === 'content-type'){
@@ -109,13 +104,13 @@ define([
 			});
 		}
 		return headers;
-	});
+	};
 
-	XHR.static('headersGetter', function(headers){
+	XHR.headersGetter = function(headers){
 		var headersObj;
 		return function(name){
 			if(!headersObj){
-				headersObj = this.parseHeaders(headers);
+				headersObj = XHR.parseHeaders(headers);
 			}
 			if(name){
 				var value = headersObj[String(name).toLowerCase()];
@@ -126,9 +121,9 @@ define([
 			}
 			return headersObj;
 		};
-	});
+	};
 
-	XHR.static('executeHeaders', function(headers, options){
+	XHR.executeHeaders = function(headers, options){
 		var headerContent, processedHeaders = {};
 		Map.object(headers, function(headerFn, header){
 			if(Type.isFunction(headerFn)){
@@ -141,10 +136,10 @@ define([
 			}
 		});
 		return processedHeaders;
-	});
+	};
 
-	XHR.static('mergeHeaders', function(options){
-		var defHeaders = this.defaults.headers;
+	XHR.mergeHeaders = function(options){
+		var defHeaders = XHR.defaults.headers;
 		var reqHeaders = Class.options({}, options.headers);
 		var defHeaderName, lowercaseDefHeaderName, reqHeaderName;
 		defHeaders = Class.options({}, defHeaders.common, defHeaders[String(options.method).toLowerCase()]);
@@ -157,8 +152,8 @@ define([
 			}
 			reqHeaders[defHeaderName] = defHeaders[defHeaderName];
 		}
-		return this.executeHeaders(reqHeaders, Class.options({}, options));
-	});
+		return XHR.executeHeaders(reqHeaders, Class.options({}, options));
+	};
 
 	XHR.define('responseType', {
 		set:function(value){
@@ -231,10 +226,6 @@ define([
 		options = Class.options({}, XHR.defaults.options, headers, options);
 		headers = XHR.toggleContentType(data, XHR.mergeHeaders(options));
 		data = XHR.transformData(data, XHR.headersGetter(headers), undefined, options.transformRequest);
-		console.log('URL:', url);
-		console.log('OPTIONS:', options);
-		console.log('HEADERS:', headers);
-		console.log('DATA:', data);
 		this.defer = new Promise();
 		this.client = new EventProxy(new window.XMLHttpRequest());
 		this.open(options.method, url, options.async);
@@ -245,7 +236,7 @@ define([
 		this.withCredentials = options.withCredentials;
 		this.responseType = options.responseType;
 		this.send(data);
-		options = XHR.transformResponse(options, this.defer);
+		options = XHR.getTransformResponse(options, this.defer);
 		return this.defer.then(options, options);
 	});
 
