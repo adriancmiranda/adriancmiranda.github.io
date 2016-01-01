@@ -1,11 +1,13 @@
 define([
+	'./XHRData',
 	'../utils/Map',
 	'../utils/Type',
 	'../utils/Class',
 	'../utils/Promise',
+	'../common/patterns',
 	'../events/EventProxy',
 	'../events/EventEmitter'
-], function(Map, Type, Class, Promise, EventProxy, EventEmitter){
+], function(XHRData, Map, Type, Class, Promise, patterns, EventProxy, EventEmitter){
 
 	var XHR = new Class(function XHR(){
 		Class.proxyfy(this, 'onLoad', 'onError');
@@ -16,26 +18,6 @@ define([
 		}
 	}).extends(EventEmitter);
 
-	XHR.defaultHttpRequestTransform = function(data){
-		if(Type.isFile(data) || Type.isBlob(data) || Type.isFormData(data)){
-			return data;
-		}
-		return Type.toJSON(data);
-	};
-
-	XHR.defaultHttpResponseTransform = function(data, headers){
-		if(Type.isString(data)){
-			var tempData = data.replace(patterns.jsonProtectionPrefix, '').trim();
-			if(tempData){
-				var contentType = headers('Content-Type');
-				if((contentType && (contentType.indexOf('application/json') === 0)) || Type.isJSONLike(tempData)){
-					data = Type.fromJSON(tempData);
-				}
-			}
-		}
-		return data;
-	};
-
 	XHR.defaults = {
 		headers:{
 			common:{Accept:'application/json, text/plain, */*'},
@@ -44,8 +26,8 @@ define([
 			put:{'Content-Type':'application/json;charset=utf-8'}
 		},
 		options:{
-			transformResponse:[XHR.defaultHttpResponseTransform],
-			transformRequest:[XHR.defaultHttpRequestTransform],
+			transformResponse:[XHRData.defaultHttpResponseTransform],
+			transformRequest:[XHRData.defaultHttpRequestTransform],
 			xsrfHeaderName:'X-XSRF-TOKEN',
 			xsrfCookieName:'XSRF-TOKEN',
 			withCredentials:false,
@@ -57,23 +39,15 @@ define([
 		}
 	};
 
-	XHR.getTransformResponse = function(options, defer){
-		return function(response){
-			response = Class.options({}, response);
-			response.data = XHR.transformData(response.data, response.headers, response.status, options.transformResponse);
-			return 200 <= response.status && response.status < 300? response:defer.reject(response);
-		};
-	};
-
-	XHR.transformData = function(data, headers, status, transformRequests){
-		if(Type.isFunction(transformRequests)){
-			return transformRequests(data, headers, status);
+	XHR.static('getProtocolFrom', function(url){
+		var anchor = document.createElement('a');
+		if(document.documentMode){
+			anchor.setAttribute('href', url);
+			url = anchor.href;
 		}
-		Map.array(transformRequests, function(fn){
-			data = fn(data, headers, status);
-		});
-		return data;
-	};
+		anchor.setAttribute('href', url);
+		return anchor.protocol? anchor.protocol.replace(patterns.lastColonMark, ''):'';
+	});
 
 	XHR.parseHeaders = function(headers){
 		var parsed = Class.create(null);
@@ -293,39 +267,41 @@ define([
 	XHR.charge('request', function(url, data, options, headers){
 		options = Class.options({}, XHR.defaults.options, headers, options);
 		headers = XHR.toggleContentType(data, XHR.mergeHeaders(options));
-		data = XHR.transformData(data, XHR.headersGetter(headers), undefined, options.transformRequest);
+		data = new XHRData(data, XHR.headersGetter(headers), this.status, this.statusText);
+		this.options = options;
 		this.defer = new Promise();
+		this.protocol = XHR.getProtocolFrom(url);
 		this.client = new EventProxy(new window.XMLHttpRequest());
 		this.open(options.method, url, options.async);
 		this.setRequestHeader(headers);
 		this.client.on('load', this.onLoad);
-		this.client.on('error', this.onError);
+		this.client.on('error', this.onError);	
 		this.client.on('abort', this.onError);
 		this.withCredentials = options.withCredentials;
 		this.responseType = options.responseType;
-		this.send(data);
-		options = XHR.getTransformResponse(options, this.defer);
-		return this.defer.then(options, options);
+		this.send(data.transform(options.transformRequest));
+		return this.defer;
 	});
 
 	XHR.method('onLoad', function(){
-		var value = {};
 		var target = this.client.target;
-		value.info = ('response' in target)? target.response:target.responseText;
-		value.headers = target.getAllResponseHeaders();
-		value.statusText = target.statusText || '';
-		value.status = target.status === 1223? 204:target.status;
-		if(value.status === 0){
-			// value.status = value.info? 200:urlResolve(url).protocol === 'file'? 404:0;
+		var data = ('response' in target)? target.response:target.responseText;
+		var headers = target.getAllResponseHeaders();
+		var response = new XHRData(data, headers, target.status, target.statusText, this.protocol);
+		response.data = response.transform(this.options.transformResponse);
+		if(200 <= response.status && response.status < 300){
+			this.emit('load', response.toObject());
+			this.defer.resolve(response.toObject());
+		}else{
+			this.emit('error', response.toObject());
+			this.defer.reject(response.toObject());
 		}
-		this.emit('load', value);
-		this.defer.resolve(value);
 	});
 
 	XHR.method('onError', function(){
-		var reason = { info:null, headers:null, statusText:'', status:-1 };
-		this.emit('error', reason);
-		this.defer.reject(reason);
+		var reason = new XHRData(null, null, -1, '');
+		this.emit('error', reason.toObject());
+		this.defer.reject(reason.toObject());
 	});
 
 	return XHR;
