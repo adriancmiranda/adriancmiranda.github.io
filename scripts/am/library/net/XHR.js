@@ -9,7 +9,7 @@ define([
 ], function(XHRData, Map, Type, Class, Promise, patterns, EventProxy){
 
 	var XHR = new Class(function XHR(){
-		Class.proxyfy(this, 'onLoad', 'onError');
+		Class.proxyfy(this, 'onLoad', 'onAbort', 'onError');
 		this.client = new EventProxy(new window.XMLHttpRequest());
 		if(arguments.length){
 			return this.request.apply(this, arguments) || this;
@@ -273,11 +273,12 @@ define([
 		this.open(options.method, url, options.async);
 		this.setRequestHeader(headers);
 		this.client.on('load', this.onLoad);
-		this.client.on('error', this.onError);	
-		this.client.on('abort', this.onError);
+		this.client.on('error', this.onError);
+		this.client.on('abort', this.onAbort);
 		this.withCredentials = options.withCredentials;
 		this.responseType = options.responseType;
 		this.send(data.transform(options.transformRequest));
+		this.abort();
 		return this.defer;
 	});
 
@@ -296,10 +297,15 @@ define([
 		}
 	});
 
-	XHR.method('onError', function(){
+	XHR.method('onError', function(){console.log('deu erro!')
+		var reason = new XHRData(null, null, -1, '');
+		this.onerror && this.onerror(response.toObject());
+		this.defer.reject(reason.toObject());
+	});
+
+	XHR.method('onAbort', function(){
 		var reason = new XHRData(null, null, -1, '');
 		this.onabort && this.onabort(response.toObject());
-		this.onerror && this.onerror(response.toObject());
 		this.defer.reject(reason.toObject());
 	});
 
