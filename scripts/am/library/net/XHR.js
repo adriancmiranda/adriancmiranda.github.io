@@ -207,6 +207,33 @@ define([
 		}
 	});
 
+	XHR.define('onload', {
+		set:function(value){
+			this.client.once('load', value);
+		},
+		get:function(){
+			return this.client.target.onload;
+		}
+	});
+
+	XHR.define('onabort', {
+		set:function(value){
+			this.client.once('abort', value);
+		},
+		get:function(){
+			return this.client.target.onabort;
+		}
+	});
+
+	XHR.define('onerror', {
+		set:function(value){
+			this.client.once('error', value);
+		},
+		get:function(){
+			return this.client.target.onerror;
+		}
+	});
+
 	XHR.charge('setRequestHeader', function(headers){
 		Map.object(headers, function(value, header){
 			this.setRequestHeader(header, value);
@@ -263,30 +290,28 @@ define([
 	});
 
 	XHR.charge('request', function(url, data, options, headers){
-		options = Class.options({}, XHR.defaults.options, headers, options);
+		options = Class.options({protocol:XHR.getProtocolFrom(url)}, XHR.defaults.options, headers, options);
 		headers = XHR.toggleContentType(data, XHR.mergeHeaders(options));
 		data = new XHRData(data, XHR.headersGetter(headers), this.status, this.statusText);
 		this.options = options;
 		this.defer = new Promise();
-		this.protocol = XHR.getProtocolFrom(url);
 		this.client = new EventProxy(new window.XMLHttpRequest());
 		this.open(options.method, url, options.async);
 		this.setRequestHeader(headers);
-		this.client.on('load', this.onLoad);
-		this.client.on('error', this.onError);
-		this.client.on('abort', this.onAbort);
+		this.onload = this.onLoad;
+		this.onerror = this.onError;
+		this.onabort = this.onAbort;
 		this.withCredentials = options.withCredentials;
 		this.responseType = options.responseType;
 		this.send(data.transform(options.transformRequest));
-		this.abort();
 		return this.defer;
 	});
 
 	XHR.method('onLoad', function(){
 		var target = this.client.target;
-		var data = ('response' in target)? target.response:target.responseText;
+		var data = 'response' in target? target.response:target.responseText;
 		var headers = target.getAllResponseHeaders();
-		var response = new XHRData(data, headers, target.status, target.statusText, this.protocol);
+		var response = new XHRData(data, headers, target.status, target.statusText, this.options);
 		response.data = response.transform(this.options.transformResponse);
 		if(200 <= response.status && response.status < 300){
 			this.onload && this.onload(response.toObject());
@@ -297,7 +322,7 @@ define([
 		}
 	});
 
-	XHR.method('onError', function(){console.log('deu erro!')
+	XHR.method('onError', function(){
 		var reason = new XHRData(null, null, -1, '');
 		this.onerror && this.onerror(response.toObject());
 		this.defer.reject(reason.toObject());
