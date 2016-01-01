@@ -14,7 +14,8 @@ define(function(){
 		whiteSpace:(/\S+/g),
 		jsonProtectionPrefix:/^\)\]\}',?\n/,
 		jsonStart:/^\[|^\{(?!\{)/,
-		jsonEnds:{ '[':/\]$/, '{':/\}$/ },
+		jsonEnds:{'[':/\]$/, '{':/\}$/},
+		lastColonMark:/\:$/,
 		findClass:function(className, modifiers){
 			return new RegExp('(^|\\s+)'+ className +'(\\s+|$)', modifiers);
 		},
