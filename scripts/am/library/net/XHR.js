@@ -5,18 +5,16 @@ define([
 	'../utils/Class',
 	'../utils/Promise',
 	'../common/patterns',
-	'../events/EventProxy',
-	'../events/EventEmitter'
-], function(XHRData, Map, Type, Class, Promise, patterns, EventProxy, EventEmitter){
+	'../events/EventProxy'
+], function(XHRData, Map, Type, Class, Promise, patterns, EventProxy){
 
 	var XHR = new Class(function XHR(){
 		Class.proxyfy(this, 'onLoad', 'onError');
-		this.super.constructor.call(this);
 		this.client = new EventProxy(new window.XMLHttpRequest());
 		if(arguments.length){
 			return this.request.apply(this, arguments) || this;
 		}
-	}).extends(EventEmitter);
+	});
 
 	XHR.defaults = {
 		headers:{
@@ -290,17 +288,18 @@ define([
 		var response = new XHRData(data, headers, target.status, target.statusText, this.protocol);
 		response.data = response.transform(this.options.transformResponse);
 		if(200 <= response.status && response.status < 300){
-			this.emit('load', response.toObject());
+			this.onload && this.onload(response.toObject());
 			this.defer.resolve(response.toObject());
 		}else{
-			this.emit('error', response.toObject());
+			this.onerror && this.onerror(response.toObject());
 			this.defer.reject(response.toObject());
 		}
 	});
 
 	XHR.method('onError', function(){
 		var reason = new XHRData(null, null, -1, '');
-		this.emit('error', reason.toObject());
+		this.onabort && this.onabort(response.toObject());
+		this.onerror && this.onerror(response.toObject());
 		this.defer.reject(reason.toObject());
 	});
 
