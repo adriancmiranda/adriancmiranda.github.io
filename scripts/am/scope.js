@@ -1,6 +1,7 @@
 define([
+	'library/common/patterns',
 	'library/utils/Scope'
-], function(Scope){
+], function(patterns, Scope){
 
 	var namespace = 'am';
 	var scope = window[namespace] = {};
@@ -11,7 +12,7 @@ define([
 	scope.uri('app.namespace', namespace);
 	scope.uri('config.urn', window.location);
 	scope.uri('config.origin', scope.config.urn.origin);
-	scope.uri('config.protocol', scope.config.urn.protocol.replace(/\:$/, ''));
+	scope.uri('config.protocol', scope.config.urn.protocol.replace(patterns.lastColonMark, ''));
 	scope.uri('config.host', scope.config.urn.host);
 	scope.uri('config.hostname', scope.config.urn.hostname);
 	scope.uri('config.port', scope.config.urn.port);
