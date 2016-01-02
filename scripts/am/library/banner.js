@@ -1,6 +1,5 @@
 define(function(){
-	
-	return [
+	return([
 		'                      ',
 		'   /     \'      /  / ',
 		'  /__      ___ (  /   ',
@@ -10,5 +9,5 @@ define(function(){
 		'      |_:_._/         ',
 		'                  a.m.',
 		'~x~x~x~x~x~x~x~x~x~x~x'
-	].join('\n'));
+	]).join('\n');
 });
