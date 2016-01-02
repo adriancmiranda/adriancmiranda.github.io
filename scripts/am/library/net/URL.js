@@ -4,7 +4,7 @@ define([
 ], function(Class, patterns){
 
 	var URL = new Class(function URL(value){
-		URL.anchor.setAttribute('href', URL.parse(value));
+		URL.anchor.setAttribute('href', URL.normalize(value));
 		this.pathname = (URL.anchor.pathname.charAt(0) === '/')? URL.anchor.pathname:'/'+ URL.anchor.pathname;
 		this.protocol = URL.anchor.protocol? URL.anchor.protocol.replace(patterns.endsWith(':'), ''):'';
 		this.search = URL.anchor.search? URL.anchor.search.replace(patterns.startWith('?'), ''):'';
@@ -13,7 +13,7 @@ define([
 		this.port = URL.anchor.port;
 		this.host = URL.anchor.host;
 		this.href = URL.anchor.href;
-	}).static('anchor', document.createElement('a')).static('parse', function(value){
+	}).static('anchor', document.createElement('a')).static('normalize', function(value){
 		if(document.documentMode){
 			URL.anchor.setAttribute('href', value);
 			value = URL.anchor.href;
