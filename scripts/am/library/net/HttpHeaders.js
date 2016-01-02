@@ -4,18 +4,18 @@ define([
 	'../utils/Class'
 ], function(Map, Type, Class){
 
-	var XHRHeaders = new Class(function XHRHeaders(headers, params){
-		return XHRHeaders.proxy(XHRHeaders.setContentType(params.data, XHRHeaders.applyDefaults(headers, params)));
+	var HttpHeaders = new Class(function HttpHeaders(headers, params){
+		return HttpHeaders.proxy(HttpHeaders.setContentType(params.data, HttpHeaders.applyDefaults(headers, params)));
 	});
 
-	XHRHeaders.static('defaults', {
+	HttpHeaders.static('defaults', {
 		common:{Accept:'application/json, text/plain, */*'},
 		patch:{'Content-Type':'application/json;charset=utf-8'},
 		post:{'Content-Type':'application/json;charset=utf-8'},
 		put:{'Content-Type':'application/json;charset=utf-8'}
 	});
 
-	XHRHeaders.static('setContentType', function(data, headers){
+	HttpHeaders.static('setContentType', function(data, headers){
 		if(Type.isUndefined(data)){
 			Map.object(headers, function(value, header){
 				if(String(header).toLowerCase() === 'content-type'){
@@ -26,9 +26,9 @@ define([
 		return headers;
 	});
 
-	XHRHeaders.static('applyDefaults', function(headers, params){
+	HttpHeaders.static('applyDefaults', function(headers, params){
 		var defHeaderName, lowercaseDefHeaderName, reqHeaderName;
-		var defHeaders = XHRHeaders.defaults;
+		var defHeaders = HttpHeaders.defaults;
 		var reqHeaders = Class.options({}, headers);
 		defHeaders = Class.options({}, defHeaders.common, defHeaders[String(params.method).toLowerCase()]);
 		for(defHeaderName in defHeaders){
@@ -40,10 +40,10 @@ define([
 			}
 			reqHeaders[defHeaderName] = defHeaders[defHeaderName];
 		}
-		XHRHeaders.executeHeaders(reqHeaders, Class.options({}, params));
+		HttpHeaders.executeHeaders(reqHeaders, Class.options({}, params));
 	});
 
-	XHRHeaders.static('executeHeaders', function(headers, options){
+	HttpHeaders.static('executeHeaders', function(headers, options){
 		var headerContent, processedHeaders = {};
 		Map.object(headers, function(headerFn, header){
 			if(Type.isFunction(headerFn)){
@@ -58,11 +58,11 @@ define([
 		return processedHeaders;
 	});
 
-	XHRHeaders.static('proxy', function(value){
+	HttpHeaders.static('proxy', function(value){
 		var headers = null;
 		return function(name){
 			if(headers === null){
-				headers = XHRHeaders.toObject(value);
+				headers = HttpHeaders.toObject(value);
 			}
 			if(Type.isString(name)){
 				value = headers[name.toLowerCase()];
@@ -75,7 +75,7 @@ define([
 		};
 	});
 
-	XHRHeaders.static('toObject', function(value){
+	HttpHeaders.static('toObject', function(value){
 		var headers = Class.create(null);
 		function append(header, value){
 			headers[header] = headers[header]? (headers[header] +', '+ value):value;
@@ -95,5 +95,5 @@ define([
 		return headers;
 	});
 
-	return XHRHeaders;
+	return HttpHeaders;
 });

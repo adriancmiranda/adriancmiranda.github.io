@@ -4,16 +4,15 @@ define([
 	'../utils/Class'
 ], function(Map, Type, Class){
 
-	var XHRData = new Class(function XHRData(data, headers, status, statusText, params){
+	var HttpData = new Class(function HttpData(data, headers, status, statusText, params){
 		this.params = Class.options({}, params);
 		this.data = data;
 		this.headers = headers;
 		this.status = status;
 		this.statusText = statusText;
-		console.log('this.params.url.protocol:', this.params.url.protocol);
 	});
 
-	XHRData.static('defaultHttpResponseTransform', function(data, headers){
+	HttpData.static('defaultHttpResponseTransform', function(data, headers){
 		if(Type.isString(data)){
 			var tempData = data.replace(patterns.jsonProtectionPrefix, '').trim();
 			if(tempData){
@@ -26,19 +25,19 @@ define([
 		return data;
 	});
 
-	XHRData.static('defaultHttpRequestTransform', function(data){
+	HttpData.static('defaultHttpRequestTransform', function(data){
 		if(Type.isFile(data) || Type.isBlob(data) || Type.isFormData(data)){
 			return data;
 		}
 		return Type.toJSON(data);
 	});
 
-	XHRData.static('defaults', {
-		transformRequest:[XHRData.defaultHttpRequestTransform],
-		transformResponse:[XHRData.defaultHttpResponseTransform]
+	HttpData.static('defaults', {
+		transformRequest:[HttpData.defaultHttpRequestTransform],
+		transformResponse:[HttpData.defaultHttpResponseTransform]
 	});
 
-	XHRData.define('status', {
+	HttpData.define('status', {
 		set:function(value){
 			this._status = Type.toInt(value);
 			this._status = this._status === 1223? 204:this._status;
@@ -51,7 +50,7 @@ define([
 		}
 	});
 
-	XHRData.define('statusText', {
+	HttpData.define('statusText', {
 		set:function(value){
 			this._statusText = Type.isString(value)? value:'';
 		},
@@ -60,7 +59,7 @@ define([
 		}
 	});
 
-	XHRData.method('transform', function(requests){
+	HttpData.method('transform', function(requests){
 		var data = this.toArray();
 		var params = Type.toArray(arguments, 1);
 		if(Type.isFunction(requests)){
@@ -75,17 +74,17 @@ define([
 		return data[0];
 	});
 
-	XHRData.method('toArray', function(){
+	HttpData.method('toArray', function(){
 		return([this.data, this.headers, this.status, this.statusText]);
 	});
 
-	XHRData.method('toObject', function(){
+	HttpData.method('toObject', function(){
 		return({ data:this.data, headers:this.headers, status:this.status, statusText:this.statusText });
 	});
 
-	XHRData.method('toString', function(){
+	HttpData.method('toString', function(){
 		return Type.toJSON(this.toObject());
 	});
 
-	return XHRData;
+	return HttpData;
 });

@@ -6,7 +6,7 @@ define([
 	var HttpRequest = new Class(function HttpRequest(url, options, headers){
 		var xhr = new XHR();
 		var jsonp = new JSONP();
-	});
+	}).static('defaults', {});
 
 	return HttpRequest;
 });

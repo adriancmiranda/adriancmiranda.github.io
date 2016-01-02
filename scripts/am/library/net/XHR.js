@@ -1,13 +1,13 @@
 define([
 	'./URL',
-	'./XHRData',
+	'./HttpData',
 	'../utils/Map',
 	'../utils/Type',
 	'../utils/Class',
 	'../utils/Promise',
 	'../common/patterns',
 	'../events/EventProxy'
-], function(URL, XHRData, Map, Type, Class, Promise, patterns, EventProxy){
+], function(URL, HttpData, Map, Type, Class, Promise, patterns, EventProxy){
 
 	var XHR = new Class(function XHR(){
 		Class.proxyfy(this, 'onLoad', 'onAbort', 'onError');
@@ -28,8 +28,8 @@ define([
 			put:{'Content-Type':'application/json;charset=utf-8'}
 		},
 		options:{
-			transformResponse:[XHRData.defaultHttpResponseTransform],
-			transformRequest:[XHRData.defaultHttpRequestTransform],
+			transformResponse:[HttpData.defaultHttpResponseTransform],
+			transformRequest:[HttpData.defaultHttpRequestTransform],
 			xsrfHeaderName:'X-XSRF-TOKEN',
 			xsrfCookieName:'XSRF-TOKEN',
 			withCredentials:false,
@@ -260,7 +260,7 @@ define([
 	XHR.charge('request', function(url, data, options, headers){
 		options = Class.options({}, XHR.defaults.options, headers, options, { url:new URL(url) });
 		headers = XHR.toggleContentType(data, XHR.mergeHeaders(options));
-		data = new XHRData(data, XHR.headersGetter(headers), this.status, this.statusText, options);
+		data = new HttpData(data, XHR.headersGetter(headers), this.status, this.statusText, options);
 		this.options = options;
 		this.defer = new Promise();
 		this.client = new EventProxy(new window.XMLHttpRequest());
@@ -279,7 +279,7 @@ define([
 		var target = this.client.target;
 		var data = 'response' in target? target.response:target.responseText;
 		var headers = target.getAllResponseHeaders();
-		var response = new XHRData(data, headers, target.status, target.statusText, this.options);
+		var response = new HttpData(data, headers, target.status, target.statusText, this.options);
 		response.data = response.transform(this.options.transformResponse);
 		if(200 <= response.status && response.status < 300){
 			this.onload && this.onload(response.toObject());
@@ -291,13 +291,13 @@ define([
 	});
 
 	XHR.method('onError', function(){
-		var reason = new XHRData(null, null, -1, '');
+		var reason = new HttpData(null, null, -1, '');
 		this.onerror && this.onerror(response.toObject());
 		this.defer.reject(reason.toObject());
 	});
 
 	XHR.method('onAbort', function(){
-		var reason = new XHRData(null, null, -1, '');
+		var reason = new HttpData(null, null, -1, '');
 		this.onabort && this.onabort(response.toObject());
 		this.defer.reject(reason.toObject());
 	});
