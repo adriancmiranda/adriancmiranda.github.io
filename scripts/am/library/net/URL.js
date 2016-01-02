@@ -7,6 +7,7 @@ define([
 	// @see https://developer.mozilla.org/en-US/docs/Web/API/URL/URL
 	// @see http://caniuse.com/#search=URL
 	var URL = new Class(function URL(value){
+		if(value instanceof URL){return value;}
 		URL.anchor.setAttribute('href', URL.normalize(value));
 		this.pathname = (URL.anchor.pathname.charAt(0) === '/')? URL.anchor.pathname:'/'+ URL.anchor.pathname;
 		this.protocol = URL.anchor.protocol? URL.anchor.protocol.replace(patterns.endsWith(':'), ''):'';
