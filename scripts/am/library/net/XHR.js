@@ -199,33 +199,6 @@ define([
 		}
 	});
 
-	XHR.define('onload', {
-		set:function(value){
-			this.client.once('load', value);
-		},
-		get:function(){
-			return this.client.target.onload;
-		}
-	});
-
-	XHR.define('onabort', {
-		set:function(value){
-			this.client.once('abort', value);
-		},
-		get:function(){
-			return this.client.target.onabort;
-		}
-	});
-
-	XHR.define('onerror', {
-		set:function(value){
-			this.client.once('error', value);
-		},
-		get:function(){
-			return this.client.target.onerror;
-		}
-	});
-
 	XHR.charge('setRequestHeader', function(headers){
 		Map.object(headers, function(value, header){
 			this.setRequestHeader(header, value);
@@ -290,9 +263,9 @@ define([
 		this.client = new EventProxy(new window.XMLHttpRequest());
 		this.open(options.method, url, options.async);
 		this.setRequestHeader(headers);
-		this.onload = this.onLoad;
-		this.onerror = this.onError;
-		this.onabort = this.onAbort;
+		this.client.once('load', this.onLoad);
+		this.client.once('abort', this.onError);
+		this.client.once('error', this.onAbort);
 		this.withCredentials = options.withCredentials;
 		this.responseType = options.responseType;
 		this.send(data.transform(options.transformRequest));
