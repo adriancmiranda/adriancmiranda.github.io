@@ -1,4 +1,5 @@
 define([
+	'./URL',
 	'./XHRData',
 	'../utils/Map',
 	'../utils/Type',
@@ -6,7 +7,7 @@ define([
 	'../utils/Promise',
 	'../common/patterns',
 	'../events/EventProxy'
-], function(XHRData, Map, Type, Class, Promise, patterns, EventProxy){
+], function(URL, XHRData, Map, Type, Class, Promise, patterns, EventProxy){
 
 	var XHR = new Class(function XHR(){
 		Class.proxyfy(this, 'onLoad', 'onAbort', 'onError');
@@ -31,21 +32,12 @@ define([
 			withCredentials:false,
 			responseType:'json',
 			method:'POST',
+			url:new URL(),
 			timeout:0,
 			async:true,
-			data:null
+			data:null,
 		}
 	};
-
-	XHR.static('getProtocolFrom', function(url){
-		var anchor = document.createElement('a');
-		if(document.documentMode){
-			anchor.setAttribute('href', url);
-			url = anchor.href;
-		}
-		anchor.setAttribute('href', url);
-		return anchor.protocol? anchor.protocol.replace(patterns.lastColonMark, ''):'';
-	});
 
 	XHR.parseHeaders = function(headers){
 		var parsed = Class.create(null);
@@ -290,9 +282,9 @@ define([
 	});
 
 	XHR.charge('request', function(url, data, options, headers){
-		options = Class.options({protocol:XHR.getProtocolFrom(url)}, XHR.defaults.options, headers, options);
+		options = Class.options({}, XHR.defaults.options, headers, options, { url:new URL(url) });
 		headers = XHR.toggleContentType(data, XHR.mergeHeaders(options));
-		data = new XHRData(data, XHR.headersGetter(headers), this.status, this.statusText);
+		data = new XHRData(data, XHR.headersGetter(headers), this.status, this.statusText, options);
 		this.options = options;
 		this.defer = new Promise();
 		this.client = new EventProxy(new window.XMLHttpRequest());

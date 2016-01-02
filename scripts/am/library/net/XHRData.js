@@ -4,12 +4,13 @@ define([
 	'../utils/Class'
 ], function(Map, Type, Class){
 
-	var XHRData = new Class(function XHRData(data, headers, status, statusText, protocol){
-		this.protocol = protocol;
+	var XHRData = new Class(function XHRData(data, headers, status, statusText, params){
+		this.params = Class.options({}, params);
 		this.data = data;
 		this.headers = headers;
 		this.status = status;
 		this.statusText = statusText;
+		console.log('this.params.url.protocol:', this.params.url.protocol);
 	});
 
 	XHRData.static('defaultHttpResponseTransform', function(data, headers){
@@ -42,7 +43,7 @@ define([
 			this._status = Type.toInt(value);
 			this._status = this._status === 1223? 204:this._status;
 			if(this._status === 0){
-				this._status = this.data? 200:this.protocol === 'file'? 404:0;
+				this._status = this.data? 200:this.params.url.protocol === 'file'? 404:0;
 			}
 		},
 		get:function(){
