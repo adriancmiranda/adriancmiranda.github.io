@@ -6,7 +6,7 @@ define([
 	var Type = new Class(function Type(value, qualified){
 		return Class.of(value, qualified);
 	});
-window.Type = Type;
+	
 	Type.static('toArray', function(value, slice){
 		if(!value){return [];}
 		value = Object(value);
