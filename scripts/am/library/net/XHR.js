@@ -15,8 +15,8 @@ define([
 		Class.proxyfy(this, 'onLoad', 'onAbort', 'onError', 'onReadyStateChange', 'onTimeout');
 		this.client = new EventProxy(new window.XMLHttpRequest());
 		this.client.once('load', this.onLoad);
-		this.client.once('abort', this.onError);
-		this.client.once('error', this.onAbort);
+		this.client.once('abort', this.onAbort);
+		this.client.once('error', this.onError);
 		this.client.once('timeout', this.onTimeout);
 		this.client.once('readystatechange', this.onReadyStateChange);
 		if(arguments.length){
@@ -271,8 +271,8 @@ define([
 		this.open(options.method, url, options.async);
 		this.setRequestHeader(headers);
 		this.client.once('load', this.onLoad);
-		this.client.once('abort', this.onError);
-		this.client.once('error', this.onAbort);
+		this.client.once('abort', this.onAbort);
+		this.client.once('error', this.onError);
 		this.withCredentials = options.withCredentials;
 		this.responseType = options.responseType;
 		this.send(data.transform(options.transformRequest));
