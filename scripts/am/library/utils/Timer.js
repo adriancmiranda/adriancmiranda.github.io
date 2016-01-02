@@ -8,9 +8,9 @@ define([
 	var Timer = new Class(function Timer(delay, repeatCount, continuous){
 		this.super.constructor.call(this);
 		Class.proxyfy(this, '_update');
+		this._continuous = Type.isDefined(continuous)? Type.toBoolean(continuous):true;
 		this._delay = Type.isUndefined(delay)? 1000:Type.toFloat(delay);
 		this._repeatCount = Type.toInt(repeatCount);
-		this._continuous = Type.toBoolean(continuous);
 		this._currentCount = 0;
 		this._running = false;
 	}).extends(EventEmitter).static({
