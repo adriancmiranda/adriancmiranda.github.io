@@ -12,18 +12,20 @@ define(function(){
 		noValue:/^(Undefined|Null|NaN)$/i,
 		isBoolValue:/^(true|yes)$/gi,
 		whiteSpace:(/\S+/g),
-		jsonProtectionPrefix:/^\)\]\}',?\n/,
 		jsonStart:/^\[|^\{(?!\{)/,
 		jsonEnds:{'[':/\]$/, '{':/\}$/},
-		lastColonMark:/\:$/,
+		jsonProtectionPrefix:/^\)\]\}',?\n/,
 		findClass:function(className, modifiers){
 			return new RegExp('(^|\\s+)'+ className +'(\\s+|$)', modifiers);
 		},
-		isExactly:function(value, modifiers){
+		isExactly:function(group, modifiers){// parecida a findClass...
 			return new RegExp('^('+ datatypes +')$', modifiers);
 		},
 		startWith:function(symbol, modifiers){
 			return new RegExp('^\\'+ symbol, modifiers);
+		},
+		endsWith:function(symbol, modifiers){
+			return new RegExp('\\'+ symbol +'$', modifiers);
 		}
 	});
 });
