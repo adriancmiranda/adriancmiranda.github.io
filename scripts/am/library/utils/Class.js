@@ -15,6 +15,8 @@ define([
 			caste.charge = this.charge;
 			caste.outrun = this.outrun;
 			caste.define = this.define;
+			caste.setter = this.setter;
+			caste.getter = this.getter;
 			return caste;
 		}
 		return new Class(caste);
@@ -146,6 +148,14 @@ define([
 		}
 		Object.defineProperties(this.prototype, definitions);
 		return this;
+	};
+
+	Class.prototype.setter = function(prop, definition){
+		this.define(prop, { set:definition });
+	};
+
+	Class.prototype.getter = function(prop, definition){
+		this.define(prop, { get:definition });
 	};
 
 	Class.prototype.flush = function(){
