@@ -277,7 +277,7 @@ define([
 
 	XHR.method('onLoad', function(){
 		var target = this.client.target;
-		var url = new URL(target.responseURL);
+		var url = new URL(target.responseURL);// @see http://stackoverflow.com/a/8056313/1345327 and https://xhr.spec.whatwg.org/#the-responseurl-attribute
 		var data = 'response' in target? target.response:target.responseText;
 		var headers = target.getAllResponseHeaders();
 		var response = new HttpData(data, headers, target.status, target.statusText, this.options);
