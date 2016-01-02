@@ -12,6 +12,9 @@ define([
 	var XHR = new Class(function XHR(){
 		Class.proxyfy(this, 'onLoad', 'onAbort', 'onError');
 		this.client = new EventProxy(new window.XMLHttpRequest());
+		this.client.once('load', this.onLoad);
+		this.client.once('abort', this.onError);
+		this.client.once('error', this.onAbort);
 		if(arguments.length){
 			return this.request.apply(this, arguments) || this;
 		}
