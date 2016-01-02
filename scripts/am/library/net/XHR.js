@@ -9,12 +9,16 @@ define([
 	'../events/EventProxy'
 ], function(URL, HttpData, Map, Type, Class, Promise, patterns, EventProxy){
 
+	// IE10+
+	// @see http://caniuse.com/#search=XMLHttpRequest
 	var XHR = new Class(function XHR(){
-		Class.proxyfy(this, 'onLoad', 'onAbort', 'onError');
+		Class.proxyfy(this, 'onLoad', 'onAbort', 'onError', 'onReadyStateChange', 'onTimeout');
 		this.client = new EventProxy(new window.XMLHttpRequest());
 		this.client.once('load', this.onLoad);
 		this.client.once('abort', this.onError);
 		this.client.once('error', this.onAbort);
+		this.client.once('timeout', this.onTimeout);
+		this.client.once('readystatechange', this.onReadyStateChange);
 		if(arguments.length){
 			return this.request.apply(this, arguments) || this;
 		}
@@ -300,6 +304,14 @@ define([
 		var reason = new HttpData(null, null, -1, '');
 		this.onabort && this.onabort(response.toObject());
 		this.defer.reject(reason.toObject());
+	});
+	
+	XHR.method('onTimeout', function(){
+		this.ontimeout && this.ontimeout();
+	});
+
+	XHR.method('onReadyStateChange', function(){
+		this.onreadystatechange && this.onreadystatechange();
 	});
 
 	return XHR;
