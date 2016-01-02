@@ -18,9 +18,7 @@ define([
 		if(arguments.length){
 			return this.request.apply(this, arguments) || this;
 		}
-	});
-	
-	XHR.static('UNSENT', 0).static('OPENED', 1).static('HEADERS_RECEIVED', 2).static('LOADING', 3);
+	}).static('UNSENT', 0).static('OPENED', 1).static('HEADERS_RECEIVED', 2).static('LOADING', 3);
 
 	XHR.defaults = {
 		headers:{
