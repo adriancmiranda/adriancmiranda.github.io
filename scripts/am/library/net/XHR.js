@@ -22,7 +22,7 @@ define([
 		if(arguments.length){
 			return this.request.apply(this, arguments) || this;
 		}
-	});
+	}).static('UNSENT', 0).static('OPENED', 1).static('HEADERS_RECEIVED', 2).static('LOADING', 3).static('DONE', 4);
 
 	XHR.defaults = {
 		headers:{
@@ -281,6 +281,7 @@ define([
 
 	XHR.method('onLoad', function(){
 		var target = this.client.target;
+		var url = new URL(target.responseURL);// @see http://stackoverflow.com/a/8056313/1345327 and https://xhr.spec.whatwg.org/#the-responseurl-attribute
 		var data = 'response' in target? target.response:target.responseText;
 		var headers = target.getAllResponseHeaders();
 		var response = new HttpData(data, headers, target.status, target.statusText, this.options);
