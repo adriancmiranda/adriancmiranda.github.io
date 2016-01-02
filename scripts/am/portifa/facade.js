@@ -21,12 +21,12 @@ define([
 	]);
 
 	Facade.method('startRender', function(){
-		// this.JSONP([this.urls[0].url, this.urls[2].url]);
+		this.JSONP([this.urls[0].url, this.urls[2].url]);
 		this.XHR(this.urls[4].url);
 	});
 
 	Facade.method('JSONP', function(urls){
-		return new JSONP().load(this.urls[0].url, 'am.callbacks._0').then(new JSONP().load(this.urls[2].url));
+		// return new JSONP().load(this.urls[0].url, 'am.callbacks._0').then(new JSONP().load(this.urls[2].url));
 	});
 
 	Facade.method('XHR', function(url){
@@ -36,11 +36,16 @@ define([
 		var xhr = new XHR({
 			url:url,
 			method:'POST',
-			data:{ message: "Hello world!" }
+			data:{ message:'Hello world!' },
+			transformResponse:[function(data){
+				data.uhuulll = 'oh yeah, bitch!';
+				console.log('xhr.transformResponse:', data);
+				return data;
+			}]
 		}).success(function(value){
-			console.log('value:', value);
+			console.log('xhr.value:', value);
 		}).error(function(reason){
-			console.warn('reason:', reason);
+			console.warn('xhr.reason:', reason);
 		});
 	});
 
