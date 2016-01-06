@@ -1,69 +1,22 @@
-body {
-	white-space: pre-wrap;
-	color: rgb(255,255,255);
-	font-family: monospace;
-	font-weight: normal;
-	font-size: 13px;
+html, body{
 	width: 100%;
 	height: 100%;
 }
-.terminal {
-	background: rgb(45,45,45);
-	white-space: pre-wrap;
-	position: absolute;
-	margin: auto;
-	width: 100%;
-	height: 100%;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	left: 0;
+html{
+	overflow: hidden;
+}
+body{
+	overflow: auto;
 }
 
-.terminal a {
-	color: rgb(190,153,203);
-	text-decoration: none;
+/* assert */
+.pass:before { 
+	content: 'PASS: ';
+	color:  blue;
+	font-weight: bold;
 }
-
-.terminal a:hover {
-	text-decoration: underline;
-}
-
-.terminal .user,
-.terminal .user a {
-	color: rgb(207,83,118);
-}
-
-.terminal .host,
-.terminal .host a {
-	color: rgb(162,144,247);
-}
-
-.terminal .branch,
-.terminal .branch a {
-	color: rgb(225,215,129);
-}
-
-.terminal .cwd,
-.terminal .cwd a {
-	color: rgb(202,250,24);
-}
-
-.terminal .pointer {
-	color: rgb(255,255,255);
-}
-
-.terminal .commentary {
-	color: rgb(153,153,153);
-}
-
-.terminal .stdout {
-	line-height: 1.5em;
-}
-
-.terminal .caret:after {
-	content: '.';
-	background: rgb(255,255,255);
-	width: 7px;
-	height: 17px;
+.fail:before {
+	content: 'FAIL: ';
+	color: red; 
+	font-weight: bold;
 }

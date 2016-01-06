@@ -1,0 +1,152 @@
+{
+	//-------- Editor configuration --------
+
+	// Controls visibility of the glyph margin
+	"editor.glyphMargin": true,
+
+	// Controls the rendering size of tabs in characters. Accepted values: "auto", 2, 4, 6, etc. If set to "auto", the value will be guessed when a file is opened.
+	"editor.tabSize": 4,
+
+	// Controls if the editor will insert spaces for tabs. Accepted values:  "auto", true, false. If set to "auto", the value will be guessed when a file is opened.
+	"editor.insertSpaces": false,
+
+	// Controls if selections have rounded corners
+	"editor.roundedSelection": true,
+
+	// Controls if the editor will scroll beyond the last line
+	"editor.scrollBeyondLastLine": false,
+
+	// Controls after how many characters the editor will wrap to the next line. Setting this to 0 turns on viewport width wrapping
+	"editor.wrappingColumn": 300,
+
+	// Controls the indentation of wrapped lines. Can be one of 'none', 'same' or 'indent'.
+	"editor.wrappingIndent": "indent",
+
+	// A multiplier to be used on the `deltaX` and `deltaY` of mouse wheel scroll events
+	"editor.mouseWheelScrollSensitivity": 1,
+
+	// Controls if quick suggestions should show up or not while typing
+	"editor.quickSuggestions": true,
+
+	// Controls the delay in ms after which quick suggestions will show up
+	"editor.quickSuggestionsDelay": 10,
+
+	// Controls if the editor should automatically close brackets after opening them
+	"editor.autoClosingBrackets": true,
+
+	// Controls if the editor should automatically format the line after typing
+	"editor.formatOnType": false,
+
+	// Controls if suggestions should automatically show up when typing trigger characters
+	"editor.suggestOnTriggerCharacters": true,
+
+	// Controls whether the editor should highlight similar matches to the selection
+	"editor.selectionHighlight": true,
+
+	// Controls the number of decorations that can show up at the same position in the overview ruler
+	"editor.overviewRulerLanes": 3,
+
+	// Controls if the cursor should be hidden in the overview ruler.
+	"editor.hideCursorInOverviewRuler": false,
+
+	// Controls whether the editor should render whitespace characters
+	"editor.renderWhitespace": true,
+
+
+	//-------- Window configuration --------
+
+	// When enabled, will open files in a new window instead of reusing an existing instance.
+	"window.openFilesInNewWindow": false,
+
+	// Controls how folders are being reopened after a restart. Select 'none' to never reopen a folder, 'one' to reopen the last folder you worked on or 'all' to reopen all folders of your last session.
+	"window.reopenFolders": "one",
+
+
+	//-------- Files configuration --------
+
+	// Configure glob patterns for excluding files and folders.
+	"files.exclude": {
+		"**/.git": true,
+		"**/.DS_Store": true
+	},
+
+	// The default character set encoding to use when reading and writing files.
+	"files.encoding": "utf8",
+
+	// When enabled, will trim trailing whitespace when you save a file.
+	"files.trimTrailingWhitespace": true,
+
+
+	//-------- File Explorer configuration --------
+
+	// Maximum number of working files to show before scrollbars appear.
+	"explorer.workingFiles.maxVisible": 10,
+
+	// Controls if the height of the working files section should adapt dynamically to the number of elements or not.
+	"explorer.workingFiles.dynamicHeight": true,
+
+
+	//-------- Search configuration --------
+
+	// Configure glob patterns for excluding files and folders in searches. Inherits all glob patterns from the file.exclude setting.
+	"search.exclude": {
+		"**/node_modules": true,
+		"**/bower_components": true
+	},
+
+	// Experimental support for fuzzy matching of file names in the file picker.
+	"filePicker.alternateFileNameMatching": false,
+
+
+	//-------- Git configuration --------
+
+	// Is git enabled
+	"git.enabled": true,
+
+
+	//-------- JavaScript configuration --------
+
+	// Controls how JavaScript IntelliSense works.
+	// Always include all words from the current document.
+	"javascript.suggest.alwaysAllWords": true,
+
+	// Complete functions with their parameter signature.
+	"javascript.suggest.useCodeSnippetsOnMethodSuggest": true,
+
+	// Controls how JavaScript validation works.
+	// Controls VSCode's JavaScript validation. If set to false both syntax and semantic validation is disabled
+	"javascript.validate.enable": true,
+
+
+	//-------- Telemetry configuration --------
+
+	// Enable crash reports to be sent to Microsoft.
+	// This option requires restart of VSCode to take effect.
+	"telemetry.enableCrashReporter": true,
+
+
+	//-------- CSS configuration --------
+
+	// Controls CSS validation and problem severities.
+	// Enables or disables all validations
+	"css.validate": true,
+
+
+	//-------- JSON configuration --------
+
+	// Associate schemas to JSON files in the current project
+	"json.schemas": [],
+
+
+	//-------- Markdown preview configuration --------
+
+	// A list of URLs or local paths to CSS style sheets to use from the markdown preview.
+	"markdown.styles": [],
+
+
+	//-------- LESS configuration --------
+
+	// Controls LESS validation and problem severities.
+	// Enables or disables all validations
+	"less.validate": true
+}

@@ -23,6 +23,7 @@ Session.vim
 # UNIX
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .*
+!.vscode
 !.slugignore
 !.gitattributes
 !.editorconfig
