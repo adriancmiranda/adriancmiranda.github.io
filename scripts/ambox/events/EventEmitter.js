@@ -1,5 +1,6 @@
 /* global Ambox */
 (function(Ambox){
+	var Type = Ambox.namespace('Type');
 	var Proto = Ambox.namespace('Proto');
 
 	// EventEmitter
@@ -88,7 +89,7 @@
 		if(callbacks){
 			listeners = callbacks.slice();
 			for(index = 0, total = listeners.length; index < total; ++index){
-				if(listeners[index]){
+				if(Type.isFunction(listeners[index])){
 					listeners[index].apply(listeners[index]._context, args);
 				}else{
 					break;
@@ -98,7 +99,7 @@
 		if(specialCallbacks){
 			listeners = specialCallbacks.slice();
 			for(index = 0, total = listeners.length; index < total; ++index){
-				if(listeners[index]){
+				if(Type.isFunction(listeners[index])){
 					listeners[index].apply(listeners[index]._context, [event].concat(args));
 				}else{
 					break;

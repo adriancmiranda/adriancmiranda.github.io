@@ -29,28 +29,4 @@
 	// 	console.log('reason:', data);
 	// };
 
-	// Ambox.Ticker.add(function(delta){
-	// 	console.log('delta:', delta);
-	// });
-
-	var timer = new Ambox.Timer(20, 100, true);
-
-	timer.on('start', function(){
-		console.log('[started]:', true);
-	});
-	timer.on('update', function(){
-		console.log('[updated]:', true);
-	});
-	timer.on('stop', function(){
-		console.log('[stoped]:', true);
-	});
-	timer.on('reset', function(){
-		console.log('[reseted]:', true);
-	});
-	timer.on('complete', function(){
-		console.log('[completed]:', true);
-	});
-
-	timer.start();
-
 }).call(this, this);
