@@ -33,7 +33,7 @@
 	Namespace.preventDefault = function(target){
 		return function(key){
 			var piece = Namespace.uri(target, key);
-			return typeof(piece) === 'function'? piece.apply(target, arguments):piece;
+			return typeof(piece) === 'function'? piece.apply(target, arguments) : piece;
 		};
 	};
 
@@ -53,7 +53,7 @@
 		var keys = Namespace.pathArray(qualifiedName, '.');
 		var total = keys.length;
 		while((target = target[keys[id++]]) !== null && id < total){}
-		return id < total? void(0):target;
+		return id < total? void(0) : target;
 	});
 
 	Namespace.overload(Namespace, 'uri', function(target, qualifiedName, value){
