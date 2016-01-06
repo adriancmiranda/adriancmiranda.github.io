@@ -1,7 +1,7 @@
 /* global Ambox */
 (function(Ambox){
 
-	// common patterns from projec
+	// common patterns from project
 	Ambox.namespace('patterns', {
 		objectAssessor:Ambox.Namespace.patterns.objectAssessor,
 		startWith:Ambox.Namespace.patterns.startWith,

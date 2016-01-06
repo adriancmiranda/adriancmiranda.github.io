@@ -78,26 +78,13 @@
 	};
 
 	Proto.prototype.charge = function(name, fn){
-		var cache = this.prototype[name];
-		this.public(name, function(){
-			if(fn.length === arguments.length){
-				return fn.apply(this, arguments);
-			}else if(Type.isFunction(cache)){
-				return cache.apply(this, arguments);
-			}
-		});
+		Ambox.Namespace.overload(this.prototype, name, fn);
 		return this;
 	};
 
 	Proto.prototype.outrun = function(name, fn){
-		var cache = this[name];
-		this.static(name, function(){
-			if(fn.length === arguments.length){
-				return fn.apply(this, arguments);
-			}else if(Type.isFunction(cache)){
-				return cache.apply(this, arguments);
-			}
-		});
+		Ambox.Namespace.overload(this, name, fn);
+		return this;
 	};
 
 	Proto.prototype.public = function(name, definition){

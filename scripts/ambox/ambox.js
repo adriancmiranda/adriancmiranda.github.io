@@ -37,7 +37,7 @@
 		};
 	};
 
-	Namespace.outrun = function(target, name, fn){
+	Namespace.overload = function(target, name, fn){
 		var cache = target[name];
 		target[name] = function(){
 			if(fn.length === arguments.length){
@@ -48,7 +48,7 @@
 		};
 	};
 
-	Namespace.outrun(Namespace, 'uri', function(target, qualifiedName){
+	Namespace.overload(Namespace, 'uri', function(target, qualifiedName){
 		var id = 0;
 		var keys = Namespace.pathArray(qualifiedName, '.');
 		var total = keys.length;
@@ -56,7 +56,7 @@
 		return id < total? void(0):target;
 	});
 
-	Namespace.outrun(Namespace, 'uri', function(target, qualifiedName, value){
+	Namespace.overload(Namespace, 'uri', function(target, qualifiedName, value){
 		var id = 0;
 		var keys = Namespace.pathArray(qualifiedName, '.');
 		var root = target;
