@@ -41,7 +41,10 @@ Web developer and visual programmer that is passionate about working with animat
 
 **Sep, 2014 - Dec, 2015**
 
-
+At Media Isobar - São Paulo as Rich Media Analyst. My main responsibilities was to maintain knowledge and utilize new technologies to enhance creative input for developing animations.
+Provide support to creative team throughout project implementation period from concept development to post-production tasks.
+Assist creative team to integrate technology with animations for interactive projects.
+Bring awards to the company.
 
 **Technologies:** vanilla JavaScript, AngularJS, Cordova, Ionic, GreenSock, RequireJS, ScrollMagic, HTML/JADE, CSS/SASS/SCSS/LESS, ActionScript3, Shell, Photoshop
 
@@ -59,7 +62,9 @@ Web developer and visual programmer that is passionate about working with animat
 
 **Feb, 2010 - Sep, 2010**
 
-
+At Wunderman as Rich Media Pl. My main responsibilities was to work with creative team to conceptualize online projects that include online advertising, games, animations, presentations and websites.
+Develop and implement scalable and dynamic interactive Flash applications on XML platform.
+Coordinate with senior managers to determine project goals and provide direction to achieve set goals.
 
 **Technologies:** Flash, ActionScript3, ActionScript2, JavaScript, HTML, CSS
 
@@ -68,7 +73,7 @@ Web developer and visual programmer that is passionate about working with animat
 
 **Feb, 2007 - Feb, 2009**
 
-At Media Haus Kreative as Flash Developer Pl. My responsibility was to Develop concepts and story lines to write scripts for animation films in collaborative environment.
+At Media Haus Kreative as Flash Developer Pl. My main responsibilities was to develop concepts and story lines to write scripts for animation films in collaborative environment.
 Develop, perform test and debug User Interface codes for animation products and prototypes to provide support to company.
 Coordiante with producers, artists and designers to implement innovative and user-friendly User Interface features.
 Develop clear and clean codes to align animations with User Interface features.
