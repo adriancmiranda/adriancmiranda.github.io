@@ -44,7 +44,9 @@ Web developer and visual programmer that is passionate about working with animat
 At Media Isobar - São Paulo as Rich Media Analyst. My main responsibilities was to maintain knowledge and utilize new technologies to enhance creative input for developing animations.
 Provide support to creative team throughout project implementation period from concept development to post-production tasks.
 Assist creative team to integrate technology with animations for interactive projects.
-Bring awards to the company.
+Winning awards for the company.
+
+During my time at Isobar I had the chance to work with brands such as Samsung, Fiat, Jeep, Under Armour, Escola Cuca, Fibz, Samsung among others.
 
 **Technologies:** vanilla JavaScript, AngularJS, Cordova, Ionic, GreenSock, RequireJS, ScrollMagic, HTML/JADE, CSS/SASS/SCSS/LESS, ActionScript3, Shell, Photoshop
 
@@ -53,7 +55,9 @@ Bring awards to the company.
 
 **Mar, 2013 - Sep, 2014**
 
+At Pivot Produtora Digital as Creative Developer Pl. My main responsibility was provide support to Interactive Development process to develop technologically or creatively superior deliveries.
 
+During my time at Pivot I had the chance to work with brands such as Renault, Nissan, Colgate, Loreal, Santander, Havaianas, TNT, União, Pernambucanas, Vivo, Pedigree, Brahma, Natura, Samsung among others.
 
 **Technologies:** vanilla JavaScript, Shell, Git hooks, ActionScript3, ActionScript2, ActionScript1 (Media Server)
 
@@ -65,6 +69,8 @@ Bring awards to the company.
 At Wunderman as Rich Media Pl. My main responsibilities was to work with creative team to conceptualize online projects that include online advertising, games, animations, presentations and websites.
 Develop and implement scalable and dynamic interactive Flash applications on XML platform.
 Coordinate with senior managers to determine project goals and provide direction to achieve set goals.
+
+During my time at Wunderman I had the chance to work with brands such as Diageo, Vivo, Perdigao among others.
 
 **Technologies:** Flash, ActionScript3, ActionScript2, JavaScript, HTML, CSS
 
