@@ -24,7 +24,7 @@
 		return new Proto(caste);
 	}
 
-	Proto.options = function(target){
+	Proto.merge = function(target){
 		var params = Type.toArray(arguments);
 		var id, source, property;
 		for(id = 1; id < params.length; id++){
