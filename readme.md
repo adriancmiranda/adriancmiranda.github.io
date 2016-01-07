@@ -12,6 +12,10 @@
 - **Phone:** +55 (11) 97089 9233
 - São Paulo, SP - Brazil
 
+### Outline
+
+Front-End developer with solid technical knowledge.
+
 ### Education
 
 - **Educational institution:** Instituto de educação de Itaituba
