@@ -6,9 +6,9 @@
 
 ### Contact Info
 
-- **Email:** adriancmiranda@gmail.com
-- **Phone:** +55 (11) 97089 9233
-- São Paulo, SP - Brazil
+**Email:** adriancmiranda@gmail.com \newline
+**Phone:** +55 (11) 97089 9233 \newline
+São Paulo, SP - Brazil
 
 ### Outline
 
@@ -16,8 +16,7 @@ Web developer and visual programmer that is passionate about working with animat
 
 ### Education
 
-- **Educational institution:** Instituto de educação de Itaituba
-- **Educational Level:** High school
+High school at Instituto de educação de Itaituba
 
 ### Main strengths
 
@@ -27,12 +26,17 @@ Web developer and visual programmer that is passionate about working with animat
 
 ### Technical Summary
 
-- **Programming languages:** Very proficient in JavaScript, ActionScript and Shell. Wrote some code in Python at some point. Willing to learn other languages.
-- **JavaScript frameworks/libraries]:** Angular.js, Ionic, Cordova, RequireJS, jQuery/Zepto, Backbone.js, GreenSock, Skrollr, ScrollMagic and many more.
-- **Techniques:** SMACSS, OOP, Design Patterns
-- **Services:** Parse, Pubnub, Firebase
-- **Others:** CSS (including animations and other CSS3 stuff), Grunt, Gulp, Bower, Yeoman, git, SVN, Mercurial.
-- **Spoken languages:** Portuguese (native) and English (intermediary)
+**Programming languages:** Very proficient in JavaScript, ActionScript and Shell. Wrote some code in Python at some point. Willing to learn other languages.
+
+**JavaScript frameworks/libraries]:** Angular.js, Ionic, Cordova, RequireJS, jQuery/Zepto, Backbone.js, GreenSock, Skrollr, ScrollMagic and many more.
+
+**Techniques:** SMACSS, OOP, Design Patterns
+
+**Services:** Parse, Pubnub, Firebase
+
+**Others:** CSS (including animations and other CSS3 stuff), Grunt, Gulp, Bower, Yeoman, git, SVN, Mercurial.
+
+**Spoken languages:** Portuguese (native) and English (intermediary)
 
 ### Employment History (most relevant experiences)
 
