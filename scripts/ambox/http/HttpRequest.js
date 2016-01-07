@@ -13,6 +13,7 @@
 		arguments.length && this.open.apply(this, arguments);
 	});
 
+	// Factory Method
 	HttpRequest.static('createXHR', function(type){
 		var method = /^(get|post|head|put|delete|options)$/i;
 		var legacy = document.documentMode <= 8;
