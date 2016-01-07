@@ -12,13 +12,12 @@
 
 ### Outline
 
-Front-End developer with solid technical knowledge.
-I have worked as developer about 7 years, and contributed to open source projects.
+Web developer and visual programmer that is passionate about working with animation, interactivity and technical implementation.
 
 ### Education
 
 - **Educational institution:** Instituto de educação de Itaituba
-- **Educational Level:** high school
+- **Educational Level:** High school
 
 ### Main strengths
 
