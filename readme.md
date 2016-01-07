@@ -1,7 +1,7 @@
 [![AM](http://i.imgur.com/CEEbHaw.gif)](http://adriancmiranda.github.io "My new git-push powered blog")
 
 ----------------------------
-# Adrian C. Miranda - Resume
+# Adrian Miranda - Resume
 
 ### Contact Info
 
