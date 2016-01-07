@@ -15,6 +15,7 @@
 ### Outline
 
 Front-End developer with solid technical knowledge.
+I have worked as developer about 7 years, and contributed to open source projects.
 
 ### Education
 
