@@ -37,31 +37,43 @@ Web developer and visual programmer that is passionate about working with animat
 ### Employment History (most relevant experiences)
 
 #### [Isobar - São Paulo](http://www.isobar.com.br)
-- **Rich Media Analyst Sr.**
-- **Sep, 2014 - Dec, 2015**
+**Rich Media Analyst Sr.**
 
-- **Technologies:** vanilla JavaScript, AngularJS, Cordova, Ionic, GreenSock, RequireJS, ScrollMagic, HTML/JADE, CSS/SASS/SCSS/LESS, ActionScript3, Shell, Photoshop
+**Sep, 2014 - Dec, 2015**
+
+
+
+**Technologies:** vanilla JavaScript, AngularJS, Cordova, Ionic, GreenSock, RequireJS, ScrollMagic, HTML/JADE, CSS/SASS/SCSS/LESS, ActionScript3, Shell, Photoshop
 
 #### [Pivot Produtora Digital](http://www.ppivot.com.br)
-- **Creative Developer Pl.**
-- **Mar, 2013 - Sep, 2014**
+**Creative Developer Pl.**
 
-- **Technologies:** vanilla JavaScript, Shell, Git hooks, ActionScript3, ActionScript2, ActionScript1 (Media Server)
+**Mar, 2013 - Sep, 2014**
+
+
+
+**Technologies:** vanilla JavaScript, Shell, Git hooks, ActionScript3, ActionScript2, ActionScript1 (Media Server)
 
 #### [Wunderman - São Paulo](https://www.wunderman.com.br/)
-- **Rich Media Developer Pl.**
-- **Feb, 2010 - Sep, 2010**
+**Rich Media Developer Pl.**
 
-- **Technologies:** Flash, ActionScript3, ActionScript2, JavaScript, HTML, CSS
+**Feb, 2010 - Sep, 2010**
+
+
+
+**Technologies:** Flash, ActionScript3, ActionScript2, JavaScript, HTML, CSS
 
 #### [MHK - Media Haus Kreativve](https://www.wunderman.com.br/)
-- **Flash Developer Pl.**
-- **Feb, 2007 - Feb, 2009**
+**Flash Developer Pl.**
+
+**Feb, 2007 - Feb, 2009**
+
 At Media Haus Kreative as Flash Developer Pl. My responsibility was to Develop concepts and story lines to write scripts for animation films in collaborative environment.
 Develop, perform test and debug User Interface codes for animation products and prototypes to provide support to company.
 Coordiante with producers, artists and designers to implement innovative and user-friendly User Interface features.
 Develop clear and clean codes to align animations with User Interface features.
-- **Technologies:** Flash, ActionScript2, JavaScript
+
+**Technologies:** Flash, ActionScript2, JavaScript
 
 ### Talks and conferences (pt-br)
 
