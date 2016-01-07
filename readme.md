@@ -26,7 +26,7 @@ High school at Instituto de educação de Itaituba
 ### Technical Summary
 
 **Programming languages:** Very proficient in JavaScript, ActionScript and Shell. Wrote some code in Python at some point. Willing to learn other languages. <br/>
-**JavaScript frameworks/libraries]:** Angular.js, Ionic, Cordova, RequireJS, jQuery/Zepto, Backbone.js, GreenSock, Skrollr, ScrollMagic and many more. <br/>
+**JavaScript frameworks/libraries]:** AngularJS, Ionic, Cordova, RequireJS, jQuery/Zepto, Backbone.js, GreenSock, Skrollr, ScrollMagic and many more. <br/>
 **Techniques:** SMACSS, OOP, Design Patterns <br/>
 **Services:** [Parse](http://www.parse.com), [Pubnub](http://www.pubnub.com), [Firebase](http://www.firebase.com) <br/>
 **Others:** CSS (including animations and other CSS3 stuff), Grunt, Gulp, Bower, Yeoman, git, SVN, Mercurial. <br/>
