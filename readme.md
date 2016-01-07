@@ -4,6 +4,10 @@
 
 ## Adrian C. Miranda
 
+----------------------------------- ------------------------------ ----------------------
+**Email:** adriancmiranda@gmail.com **Phone:** +55 (11) 97089 9233 São Paulo, SP - Brazil
+----------------------------------- ------------------------------ ----------------------
+
 ### Contact Info
 
 **Email:** adriancmiranda@gmail.com <br/>
@@ -41,8 +45,7 @@ High school at Instituto de educação de Itaituba
 ### Employment History (most relevant experiences)
 
 #### [Isobar - São Paulo](http://www.isobar.com.br)
-**Rich Media Analyst Sr.**
-
+**Rich Media Analyst Sr.** <br/>
 **Sep, 2014 - Dec, 2015**
 
 At Media Isobar - São Paulo as Rich Media Analyst. My main responsibilities was to maintain knowledge and utilize new technologies to enhance creative input for developing animations.
@@ -55,8 +58,7 @@ During my time at Isobar I had the chance to work with brands such as Samsung, F
 **Technologies:** vanilla JavaScript, AngularJS, Cordova, Ionic, GreenSock, RequireJS, ScrollMagic, HTML/JADE, CSS/SASS/SCSS/LESS, ActionScript3, Shell, Photoshop
 
 #### [Pivot Produtora Digital](http://www.ppivot.com.br)
-**Creative Developer Pl.**
-
+**Creative Developer Pl.** <br/>
 **Mar, 2013 - Sep, 2014**
 
 At Pivot Produtora Digital as Creative Developer Pl. My main responsibility was provide support to Interactive Development process to develop technologically or creatively superior deliveries.
@@ -66,8 +68,7 @@ During my time at Pivot I had the chance to work with brands such as Renault, Ni
 **Technologies:** vanilla JavaScript, Shell, Git hooks, ActionScript3, ActionScript2, ActionScript1 (Media Server)
 
 #### [Wunderman - São Paulo](https://www.wunderman.com.br/)
-**Rich Media Developer Pl.**
-
+**Rich Media Developer Pl.** <br/>
 **Feb, 2010 - Sep, 2010**
 
 At Wunderman as Rich Media Pl. My main responsibilities was to work with creative team to conceptualize online projects that include online advertising, games, animations, presentations and websites.
@@ -79,8 +80,7 @@ During my time at Wunderman I had the chance to work with brands such as Diageo,
 **Technologies:** Flash, ActionScript3, ActionScript2, JavaScript, HTML, CSS
 
 #### [MHK - Media Haus Kreativve](https://www.wunderman.com.br/)
-**Flash Developer Pl.**
-
+**Flash Developer Pl.** <br/>
 **Feb, 2007 - Feb, 2009**
 
 At Media Haus Kreative as Flash Developer Pl. My main responsibilities was to develop concepts and story lines to write scripts for animation films in collaborative environment.
