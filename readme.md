@@ -6,8 +6,8 @@
 
 ### Contact Info
 
-**Email:** adriancmiranda@gmail.com \newline
-**Phone:** +55 (11) 97089 9233 \newline
+**Email:** adriancmiranda@gmail.com <br/>
+**Phone:** +55 (11) 97089 9233 <br/>
 São Paulo, SP - Brazil
 
 ### Outline
