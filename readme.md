@@ -86,7 +86,7 @@ Develop clear and clean codes to align animations with User Interface features.
 
 **Technologies:** Flash, ActionScript2, JavaScript
 
-### Talks and conferences (pt-br)
+### Talks and conferences
 
 - N/A yet.
 
