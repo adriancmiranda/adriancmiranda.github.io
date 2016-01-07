@@ -122,3 +122,5 @@ Develop clear and clean codes to align animations with User Interface features.
 
 - You can check my personal projects and contributions [here](https://github.com/adriancmiranda), at [GitHub](https://github.com/). URL: https://github.com/adriancmiranda.
 - I run on the weekend.
+
+<sub>[▴ Back to top](#)</sub>
