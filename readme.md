@@ -57,7 +57,10 @@ Web developer and visual programmer that is passionate about working with animat
 #### [MHK - Media Haus Kreativve](https://www.wunderman.com.br/)
 - **Flash Developer Pl.**
 - **Feb, 2007 - Feb, 2009**
-
+At Media Haus Kreative as Flash Developer Pl. My responsibility was to Develop concepts and story lines to write scripts for animation films in collaborative environment.
+Develop, perform test and debug User Interface codes for animation products and prototypes to provide support to company.
+Coordiante with producers, artists and designers to implement innovative and user-friendly User Interface features.
+Develop clear and clean codes to align animations with User Interface features.
 - **Technologies:** Flash, ActionScript2, JavaScript
 
 ### Talks and conferences (pt-br)
