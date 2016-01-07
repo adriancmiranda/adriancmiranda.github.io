@@ -85,10 +85,6 @@ Develop clear and clean codes to align animations with User Interface features.
 
 **Technologies:** Flash, ActionScript2, JavaScript
 
-### Talks and conferences
-
-- N/A yet.
-
 ### Awards (most recent)
 
 #### Wave Festival 2015 - Bronze
