@@ -1,12 +1,10 @@
 [![AM](http://i.imgur.com/CEEbHaw.gif)](http://adriancmiranda.github.io "My new git-push powered blog")
 
+--------
 # Resume
+--------
 
 ## Adrian C. Miranda
-
------------------------------------ ------------------------------ ----------------------
-**Email:** adriancmiranda@gmail.com **Phone:** +55 (11) 97089 9233 São Paulo, SP - Brazil
------------------------------------ ------------------------------ ----------------------
 
 ### Contact Info
 
