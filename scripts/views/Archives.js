@@ -1,6 +1,5 @@
 /* global Ambox */
 (function(Ambox){
-
 	var Proto = Ambox.namespace('Proto');
 
 	var Archives = new Proto(function(){
