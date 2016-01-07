@@ -1,6 +1,5 @@
 /* global Ambox */
 (function(Ambox){
-
 	var Proto = Ambox.namespace('Proto');
 
 	var UserAPI = new Proto(function(){
