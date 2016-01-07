@@ -40,23 +40,25 @@ I have worked as developer about 7 years, and contributed to open source project
 #### [Isobar - São Paulo](http://www.isobar.com.br)
 - **Rich Media Analyst Sr.**
 - **Sep, 2014 - Dec, 2015**
--
+
 - **Technologies:** vanilla JavaScript, AngularJS, Cordova, Ionic, GreenSock, RequireJS, ScrollMagic, HTML/JADE, CSS/SASS/SCSS/LESS, ActionScript3, Shell, Photoshop
 
 #### [Pivot Produtora Digital](http://www.ppivot.com.br)
 - **Creative Developer Pl.**
 - **Mar, 2013 - Sep, 2014**
--
+
 - **Technologies:** vanilla JavaScript, Shell, Git hooks, ActionScript3, ActionScript2, ActionScript1 (Media Server)
 
 #### [Wunderman - São Paulo](https://www.wunderman.com.br/)
 - **Rich Media Developer Pl.**
 - **Feb, 2010 - Sep, 2010**
+
 - **Technologies:** Flash, ActionScript3, ActionScript2, JavaScript, HTML, CSS
 
 #### [MHK - Media Haus Kreativve](https://www.wunderman.com.br/)
 - **Flash Developer Pl.**
 - **Feb, 2007 - Feb, 2009**
+
 - **Technologies:** Flash, ActionScript2, JavaScript
 
 ### Talks and conferences (pt-br)
