@@ -125,5 +125,5 @@ Develop clear and clean codes to align animations with User Interface features.
 
 ### Extracurricular Activities
 
-- You can check my personal projects and contributions at GitHub. URL: https://github.com/adriancmiranda.
+- You can check my personal projects and contributions [here](https://github.com/adriancmiranda), at [GitHub](https://github.com/). URL: https://github.com/adriancmiranda.
 - I run on the weekend.
