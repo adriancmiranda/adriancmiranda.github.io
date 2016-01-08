@@ -3,9 +3,9 @@
 	var Type = Ambox.namespace('Type');
 
 	// Proto
-	// An extensible program-code-template for creating objects
-	// @support IE9+
-	// @see http://kangax.github.io/compat-table/es5/#test-Object.defineProperties
+	// @role An extensible program-code-template for creating objects
+	// @support everywhere
+	// @author Adrian C. Miranda <adriancmiranda@gmail.com>
 	function Proto(caste){
 		if(this instanceof Proto){
 			var noop = function Proto(){};
@@ -18,7 +18,6 @@
 			caste.static = this.static;
 			caste.charge = this.charge;
 			caste.outrun = this.outrun;
-			caste.define = this.define;
 			return caste;
 		}
 		return new Proto(caste);
@@ -110,16 +109,6 @@
 				}
 			}
 		}
-		return this;
-	};
-
-	Proto.prototype.define = function(name, definition){
-		var definitions = Proto.create(null);
-		var nameList = name.split('|');
-		for(var id=0, total=nameList.length; id<total; id++){
-			definitions[nameList[id]] = definition;
-		}
-		Object.defineProperties(this.prototype, definitions);
 		return this;
 	};
 

@@ -4,9 +4,11 @@
 	var Proto = Ambox.namespace('Proto');
 
 	// Promise/A+
-	// @support IE8+ fallback
+	// @role Normalize Promise/A+
 	// @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise
 	// @see http://caniuse.com/#search=Promise
+	// @support everywhere
+	// @author Adrian C. Miranda <adriancmiranda@gmail.com>
 	var Promise = Proto(function Promise(cmd, ctx){
 		if(this instanceof Promise){
 			Proto.rebind(this, 'resolve', 'reject');

@@ -2,10 +2,13 @@
 (function(Ambox){
 	var Proto = Ambox.namespace('Proto');
 
-	// event normalize
-	// @support IE8 fallback - Thank`s Dean Edwards
+	// event
+	// @role IE8 `event` normalized - Thank`s Dean Edwards
 	// @see http://caniuse.com/#search=addEventListener
 	// @see http://dean.edwards.name/my/events.js
+	// @support everywhere
+	// @author Dean Edwards
+	// @author Adrian C. Miranda <adriancmiranda@gmail.com>
 	var event = new Proto(function event(evt){
 		evt.preventDefault = event.preventDefault;
 		evt.stopPropagation = event.stopPropagation;

@@ -3,10 +3,13 @@
 	var event = Ambox.namespace('event');
 	var Proto = Ambox.namespace('Proto');
 
-	// EventProxy is a `EventDispatcher` normalize
-	// @support IE8 fallback - Thank`s Dean Edwards
+	// EventProxy
+	// @role IE8 `EventDispatcher` normalized - Thank`s Dean Edwards
 	// @see http://caniuse.com/#search=addEventListener
 	// @see http://dean.edwards.name/my/events.js
+	// @support everywhere
+	// @author Dean Edwards
+	// @author Adrian C. Miranda <adriancmiranda@gmail.com>
 	var EventProxy = new Proto(function EventProxy(target){
 		this.target = target||window;
 		this.on.guid = 1;

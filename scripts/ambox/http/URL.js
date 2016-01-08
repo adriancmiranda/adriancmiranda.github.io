@@ -4,9 +4,11 @@
 	var Proto = Ambox.namespace('Proto');
 
 	// URL normalize
-	// @support IE8 and IE9 fallback to `window.URL` Native
+	// @role IE8 and IE9 fallback to `window.URL` Native
 	// @see https://developer.mozilla.org/en-US/docs/Web/API/URL/URL
 	// @see http://caniuse.com/#search=URL
+	// @support everywhere
+	// @author Adrian C. Miranda <adriancmiranda@gmail.com>
 	var URL = new Proto(function URL(value){
 		if(value instanceof URL){return value;}
 		URL.anchor.setAttribute('href', URL.normalize(value));

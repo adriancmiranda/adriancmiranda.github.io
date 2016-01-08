@@ -2,8 +2,10 @@
 (function(Ambox){
 	var patterns = Ambox.namespace('patterns');
 
-	// `typeof` and `instanceof` shortcuts normalized
+	// Type
+	// @role `typeof` and `instanceof` shortcuts normalized
 	// @support everywhere
+	// @author Adrian C. Miranda <adriancmiranda@gmail.com>
 	function Type(value, qualified){
 		return Type.of(value, qualified);
 	}

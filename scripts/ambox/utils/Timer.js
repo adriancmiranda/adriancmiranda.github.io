@@ -21,52 +21,46 @@
 		STOP:'stop'
 	});
 
-	Timer.define('delay', {
-		set:function(value){
-			this._currentCount = 0;
-			this._lastTime = +new Date();
-			this._delay = Type.toFloat(value);
-		},
-		get:function(){
-			return this._delay;
-		}
+	Timer.charge('delay', function(value){
+		this._currentCount = 0;
+		this._lastTime = +new Date();
+		this._delay = Type.toFloat(value);
+		return this;
 	});
 
-	Timer.define('repeatCount', {
-		set:function(value){
-			this._repeatCount = Type.toInt(value);
-		},
-		get:function(){
-			return this._repeatCount;
-		}
+	Timer.charge('delay', function(){
+		return this._delay;
 	});
 
-	Timer.define('running', {
-		set:function(value){
-			this._running = Type.toBoolean(value);
-			this._running? this.start():this.stop();
-		},
-		get:function(){
-			return this._running;
-		}
+	Timer.charge('repeatCount', function(value){
+		this._repeatCount = Type.toInt(value);
+		return this;
 	});
 
-	Timer.define('currentCount', {
-		get:function(){
-			return this._currentCount;
-		}
+	Timer.charge('repeatCount', function(){
+		return this._repeatCount;
 	});
 
-	Timer.define('duration', {
-		get:function(){
-			return this._delay * this._repeatCount;
-		}
+	Timer.charge('running', function(value){
+		this._running = Type.toBoolean(value);
+		this._running? this.start() : this.stop();
+		return this;
 	});
 
-	Timer.define('time', {
-		get:function(){
-			return this._currentCount * this._delay;
-		}
+	Timer.charge('running', function(){
+		return this._running;
+	});
+
+	Timer.public('currentCount', function(){
+		return this._currentCount;
+	});
+
+	Timer.public('duration', function(){
+		return this._delay * this._repeatCount;
+	});
+
+	Timer.public('time', function(){
+		return this._currentCount * this._delay;
 	});
 
 	Timer.public('start', function(){
