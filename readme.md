@@ -55,7 +55,7 @@ During my time at Isobar I had the chance to work with brands such as Samsung, F
 
 At Pivot Produtora Digital as Creative Developer Pl. My main responsibility was provide support to Interactive Development process to develop technologically or creatively superior deliveries.
 
-During my time at Pivot I had the chance to work with brands such as Renault, Nissan, Colgate, Loreal, Santander, Havaianas, TNT, União, Pernambucanas, Vivo, Pedigree, Brahma, Natura, Samsung among others.
+During my time at Pivot I had the chance to work with brands such as Renault, Nissan, Colgate, Loreal, Santander, Havaianas, TNT, União, Pernambucanas, Vivo, Pedigree, Brahma, Natura, Samsung and many more.
 
 **Technologies:** vanilla JavaScript, Shell, Git hooks, ActionScript3, ActionScript2, ActionScript1 (Media Server)
 
@@ -111,7 +111,7 @@ Develop clear and clean codes to align animations with User Interface features.
 - **Category:** Beverage
 - **Released:** February 2014
 - **Executive Creative Director:** Flavio Casarotti (Y&R Sao Paulo)
-- **Creative Directors:** Rafael Merel (Y&R Sao Paulo), Marcelo Fedrizzi (Y&R Sao Paulo), Cristian Mazzeo (Y&R Sao Paulo)
+- **Creative Directors:** Rafael Merel (Y&R Sao Paulo), Marcelo Fedrizzi (Y&R Sao Paulo), Cristian Mazzeo (Y&R Saao Paulo)
 - **Copywriter:** Lucas Arruda (Y&R Sao Paulo)
 - **Art Directors:** Tiago Marcondes (Y&R Sao Paulo) & Idevã Higino Batista (Y&R Sao Paulo)
 - **Project Manager:** Eduardo Kamada (Pivot Produtora Digital)
