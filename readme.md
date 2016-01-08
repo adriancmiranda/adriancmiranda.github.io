@@ -1,10 +1,12 @@
-[![AM](http://i.imgur.com/CEEbHaw.gif)](http://adriancmiranda.github.io "®AMBOX") | Adrian Miranda
---- | --- 
+[![AM](http://i.imgur.com/CEEbHaw.gif)](http://adriancmiranda.github.io "®AMBOX")
+
 ----------------------------
+
 # Resume
 
 ### Contact Info
 
+**Name:** Adrian Miranda <br/>
 **Email:** adriancmiranda@gmail.com <br/>
 **Phone:** +55 (11) 97089 9233 <br/>
 São Paulo, SP - Brazil
