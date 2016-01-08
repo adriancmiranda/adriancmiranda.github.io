@@ -3,6 +3,9 @@
 	var Type = Ambox.namespace('Type');
 	var Proto = Ambox.namespace('Proto');
 
+	// Vendor
+	// @role: Normalize browser prefixed properties
+	// @support: everywhere
 	var Vendor = new Proto(function Vendor(context, prop){
 		var method = Type.isArray(prop)? 'filter' : 'prefixed';
 		return context[Vendor[method](context, prop)];

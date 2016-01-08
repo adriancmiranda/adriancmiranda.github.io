@@ -1,6 +1,6 @@
 /* global Ambox */
 (function(scope){
-
+	console.log(Ambox.banner);
 	// var url = 'https://api.parse.com/1/classes/Message';
 	// var http = new Ambox.HttpRequest();
 	// http.open('post', url, true);
