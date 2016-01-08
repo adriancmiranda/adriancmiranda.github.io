@@ -1,5 +1,5 @@
-[![AM](http://i.imgur.com/CEEbHaw.gif)](http://adriancmiranda.github.io "®AMBOX")
-
+[![AM](http://i.imgur.com/CEEbHaw.gif)](http://adriancmiranda.github.io "®AMBOX") | Adrian Miranda
+--- | --- 
 ----------------------------
 # Resume
 
