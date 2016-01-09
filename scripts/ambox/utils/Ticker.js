@@ -5,27 +5,65 @@
 	var Vendor = Ambox.namespace('Vendor');
 	var EventEmitter = Ambox.namespace('EventEmitter');
 
-	var Ticker = new Proto(function Ticker(FPS, autoStart){
-		if(Ticker.prototype.instance){ return Ticker.prototype.instance; }
+	// AnimationFrame (Ecma5)
+	// @role provide a `AnimationFrame` IE9 fallback
+	// @see http://caniuse.com/#search=requestAnimationFrame
+	var AnimationFrame = new Proto(function AnimationFrame(){
+		Proto.rebind(this, 'request');
 		var hasPerformance = !!(window.performance && window.performance.now);
 		var navigationStart = hasPerformance && window.performance.timing.navigationStart;
+		this._startTime = navigationStart || new Date().getTime();
+		this._lastTime = hasPerformance? 0 : new Date().getTime();
+		this.now = hasPerformance? window.performance.now : this.now;
+	});
+
+	AnimationFrame.define('startTime', {
+		get:function(){
+			return this._startTime;
+		}
+	});
+
+	AnimationFrame.define('lastTime', {
+		get:function(){
+			return this._lastTime;
+		}
+	});
+
+	AnimationFrame.public('request', function(callback, element){
+		var time = new Date().getTime();
+		var delay = Math.max(0, 16 - (time - this._lastTime));
+		var frame = window.setTimeout(function(){
+			callback(time + delay, element);
+		}, delay);
+		this._lastTime = time + delay;
+		return frame;
+	});
+
+	AnimationFrame.static('cancel', function(frame){
+		window.clearTimeout(frame);
+	});
+
+	AnimationFrame.public('getTime', function(){
+		return new Date().getTime() - this._startTime;
+	});
+
+	// Ticker
+	// @role
+	var Ticker = new Proto(function Ticker(FPS, autoStart){
+		if(Ticker.prototype.instance){
+			return Ticker.prototype.instance;
+		}
+		Ticker.prototype.instance = this;
 		this._FPMS = Type.isNumeric(FPS)? Type.toFloat(FPS) / 1000 : 0.06;
-		this._autoStart = Type.isDefined(autoStart)? Type.toBoolean(autoStart):true;
-		this._emitter = new EventEmitter();
-		this._lastTime = hasPerformance? 0 : +new Date();
+		this._autoStart = Type.isDefined(autoStart)? Type.toBoolean(autoStart) : true;
 		this._maxElapsedMS = 100;
 		this._elapsedMS = 1 / this._FPMS;
 		this._deltaTime = 1;
 		this._speed = 1;
-		this._startTime = navigationStart || +new Date();
-		this._performance = hasPerformance? window.performance : Proto.create(null);
-		this._performance.now = this._performance.now || this._now;
-		delete(Ticker.prototype._now);
-		window.requestAnimationFrame = Vendor(window, 'requestAnimationFrame') || this._request;
-		delete(Ticker.prototype._request);
-		window.cancelAnimationFrame = Vendor(window, ['cancelAnimationFrame', 'cancelRequestAnimationFrame']) || this._cancel;
-		delete(Ticker.prototype._cancel);
-		Ticker.prototype.instance = this;
+		this._emitter = new EventEmitter();
+		this._animationFrame = new AnimationFrame();
+		window.requestAnimationFrame = Vendor(window, 'requestAnimationFrame') || this._animationFrame.request;
+		window.cancelAnimationFrame = Vendor(window, ['cancelAnimationFrame', 'cancelRequestAnimationFrame']) || this._animationFrame.cancel;
 	}).static({
 		GROUP:'Ticker',
 		TICK:'tick'
@@ -55,13 +93,13 @@
 
 	Ticker.public('add', function(listener, context){
 		this._emitter.on(Ticker.TICK, listener, context, Ticker.GROUP);
-		!this._frame && this._autoStart && this.start();
+		!this.running && this._autoStart && this.start();
 		return this;
 	});
 
 	Ticker.public('once', function(listener, context){
 		this._emitter.once(Ticker.TICK, listener, context, Ticker.GROUP);
-		!this._frame && this._autoStart && this.start();
+		!this.running && this._autoStart && this.start();
 		return this;
 	});
 
@@ -71,22 +109,26 @@
 		return this;
 	});
 
+	Ticker.public('dispose', function(){
+		this._emitter.releaseGroup(Ticker.GROUP);
+		this.stop();
+	});
+
 	Ticker.public('start', function(){
-		var scope = this;
-		if(this._frame || !this._emitter.listeners[Ticker.TICK]){
-			return void(0);
+		if(!this.running && this._emitter.listeners[Ticker.TICK]){
+			var scope = this;
+			var lastTime = this._animationFrame.getTime();
+			(function $(now){
+				scope._elapsedMS = now - lastTime;
+				if(scope._elapsedMS > scope._maxElapsedMS){
+					scope._elapsedMS = scope._maxElapsedMS;
+				}
+				scope._deltaTime = scope._elapsedMS * scope._FPMS * scope._speed;
+				scope._emitter.emit(Ticker.TICK, scope._deltaTime);
+				lastTime = now;
+				scope._frame = window.requestAnimationFrame($);
+			})(lastTime);
 		}
-		this._lastTime = this._performance.now();
-		(function __tick__(now){
-			var elapsedMS = scope._elapsedMS = now - scope._lastTime;
-			if(elapsedMS > scope._maxElapsedMS){
-				elapsedMS = scope._maxElapsedMS;
-			}
-			scope._deltaTime = elapsedMS * scope._FPMS * scope._speed;
-			scope._emitter.emit(Ticker.TICK, scope._deltaTime);
-			scope._lastTime = now;
-			scope._frame = window.requestAnimationFrame(__tick__);
-		}(this._performance.now()));
 	});
 
 	Ticker.public('stop', function(){
@@ -94,28 +136,12 @@
 		delete(this._frame);
 	});
 
-	Ticker.public('dispose', function(){
-		this._emitter.releaseGroup(Ticker.GROUP);
-		this.stop();
+	Ticker.public('setRequest', function(callback){
+		return new AnimationFrame().request(callback);
 	});
 
-	Ticker.public('_request', function(callback){
-		var currentTime, delay, scope = this;
-		currentTime = +new Date();
-		delay = 16 + scope._lastTime - currentTime;
-		scope._lastTime = currentTime;
-		return window.setTimeout(function(){
-			scope._lastTime = +new Date();
-			callback(scope.now());
-		}, delay < 0? 0 : delay);
-	});
-
-	Ticker.public('_cancel', function(frame){
-		window.clearTimeout(frame);
-	});
-
-	Ticker.public('_now', function(){
-		return +new Date() - this._startTime;
+	Ticker.public('clearRequest', function(frame){
+		AnimationFrame.cancel(frame);
 	});
 
 	Ambox.namespace('Ticker', new Ticker(60));
