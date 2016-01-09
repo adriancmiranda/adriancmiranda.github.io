@@ -11,7 +11,7 @@
 	var AnimationFrame = new Proto(function AnimationFrame(){
 		Proto.rebind(this, 'request', 'interval');
 		var performance = (window.performance && Vendor(window.performance, 'now'));
-		var navigationStart = performance && performance.timing.navigationStart;
+		var navigationStart = performance && window.performance.timing.navigationStart;
 		this._startTime = navigationStart || new Date().getTime();
 		this._lastTime = performance? 0 : new Date().getTime();
 		this.now = performance.now || this.now;
