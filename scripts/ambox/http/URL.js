@@ -25,8 +25,10 @@
 		this.host = URL.anchor.host;
 		this.href = URL.anchor.href;
 		this.parameters = queryString;
+		// Thank's to Steven Benner
+		// @see http://bit.ly/1yY7EJf
 		this.search.replace(patterns.queryString, function($0, $1, $2, $3){
-			queryString[$1] = $3;// Thank's to Steven Benner
+			queryString[$1] = $3;
 		});
 	}).static('anchor', document.createElement('a')).static('normalize', function(value){
 		if(document.documentMode){
