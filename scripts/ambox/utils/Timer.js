@@ -5,6 +5,9 @@
 	var Ticker = Ambox.namespace('Ticker');
 	var EventEmitter = Ambox.namespace('EventEmitter');
 
+	// Timer (Ecma5)
+	// @role AS3 port
+	// @see http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/utils/Timer.html
 	var Timer = new Proto(function Timer(delay, repeatCount, continuous){
 		this.super.constructor.call(this);
 		Proto.rebind(this, 'onUpdate');
