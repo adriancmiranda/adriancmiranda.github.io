@@ -49,11 +49,11 @@
 
 	Proto.bind = function(fn, context){
 		var args = Type.toArray(arguments, 2);
-		return function(){
-			var bound = fn.apply(context, args.concat(Type.toArray(arguments)));
-			bound.__originalFn__ = fn.__originalFn__ || fn;
-			return bound;
+		var bound = function(){
+			return fn.apply(context, args.concat(Type.toArray(arguments)));;
 		};
+		bound.__originalFn__ = bound.__originalFn__ || fn;
+		return bound;
 	};
 
 	Proto.unbind = function(fn){
@@ -71,7 +71,8 @@
 	Proto.create = Object.create;
 	Proto.prototype.extends = function(target, descriptors){
 		target = Type.isFunction(target)? target.prototype : null;
-		target = !target && Type.isObjectLike(target)? target : null;
+		target = Type.isObjectLike(target)? target : null;
+		target = target || {};
 		this.prototype = Proto.create(target, descriptors);
 		this.prototype.constructor = this;
 		this.prototype.super = target;
