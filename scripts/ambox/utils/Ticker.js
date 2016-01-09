@@ -9,7 +9,7 @@
 	// @role provide a `AnimationFrame` IE9 fallback
 	// @see http://caniuse.com/#search=requestAnimationFrame
 	var AnimationFrame = new Proto(function AnimationFrame(){
-		Proto.rebind(this, 'request');
+		Proto.rebind(this, 'request', 'interval');
 		var hasPerformance = !!(window.performance && window.performance.now);
 		var navigationStart = hasPerformance && window.performance.timing.navigationStart;
 		this._startTime = navigationStart || new Date().getTime();
@@ -29,6 +29,21 @@
 		}
 	});
 
+	AnimationFrame.define('frame', {
+		get:function(){
+			return this._frame;
+		}
+	})
+
+	AnimationFrame.public('interval', function(callback){
+		var scope = this;
+		(function $(now){
+			scope._frame = scope.request($);
+			callback(now);
+		})(this.getTime());
+		return this;
+	});
+
 	AnimationFrame.public('request', function(callback, element){
 		var time = new Date().getTime();
 		var delay = Math.max(0, 16 - (time - this._lastTime));
@@ -40,7 +55,10 @@
 	});
 
 	AnimationFrame.static('cancel', function(frame){
+		var isInterval = frame instanceof AnimationFrame;
+		frame = isInterval? frame._frame : frame;
 		window.clearTimeout(frame);
+		isInterval && delete(frame._frame);
 	});
 
 	AnimationFrame.public('getTime', function(){
@@ -48,7 +66,10 @@
 	});
 
 	// Ticker
-	// @role
+	// @role A Ticker class that runs an update loop that other objects listen to.
+	// Animation frames are requested only when necessary
+	// @support everywhere
+	// @author Adrian C. Miranda <adriancmiranda@gmail.com>
 	var Ticker = new Proto(function Ticker(FPS, autoStart){
 		if(Ticker.prototype.instance){
 			return Ticker.prototype.instance;
@@ -62,8 +83,8 @@
 		this._speed = 1;
 		this._emitter = new EventEmitter();
 		this._animationFrame = new AnimationFrame();
-		window.requestAnimationFrame = Vendor(window, 'requestAnimationFrame') || this._animationFrame.request;
-		window.cancelAnimationFrame = Vendor(window, ['cancelAnimationFrame', 'cancelRequestAnimationFrame']) || this._animationFrame.cancel;
+		window.requestAnimationFrame = /*Vendor(window, 'requestAnimationFrame') ||*/ this._animationFrame.request;
+		window.cancelAnimationFrame = /*Vendor(window, ['cancelAnimationFrame', 'cancelRequestAnimationFrame']) ||*/ AnimationFrame.cancel;
 	}).static({
 		GROUP:'Ticker',
 		TICK:'tick'
@@ -131,13 +152,13 @@
 		}
 	});
 
-	Ticker.public('stop', function(){
+	Ticker.public('stop', function(){alert('ae')
 		window.cancelAnimationFrame(this._frame);
 		delete(this._frame);
 	});
 
 	Ticker.public('setRequest', function(callback){
-		return new AnimationFrame().request(callback);
+		return new AnimationFrame().interval(callback);
 	});
 
 	Ticker.public('clearRequest', function(frame){
