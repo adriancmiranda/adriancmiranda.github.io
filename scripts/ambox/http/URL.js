@@ -12,6 +12,7 @@
 	var URL = new Proto(function URL(value){
 		if(value instanceof URL){return value;}
 		URL.anchor.setAttribute('href', URL.normalize(value));
+		var queryString = {};
 		this.pathname = (URL.anchor.pathname.charAt(0) === '/')? URL.anchor.pathname:'/'+ URL.anchor.pathname;
 		this.protocol = URL.anchor.protocol? URL.anchor.protocol.replace(patterns.endsWith(':'), '') : '';
 		this.search = URL.anchor.search? URL.anchor.search.replace(patterns.startWith('?'), '') : '';
@@ -23,6 +24,10 @@
 		this.port = URL.anchor.port;
 		this.host = URL.anchor.host;
 		this.href = URL.anchor.href;
+		this.parameters = queryString;
+		this.search.replace(patterns.queryString, function($0, $1, $2, $3){
+			queryString[$1] = $3;// Thank's to Steven Benner
+		});
 	}).static('anchor', document.createElement('a')).static('normalize', function(value){
 		if(document.documentMode){
 			URL.anchor.setAttribute('href', value);
