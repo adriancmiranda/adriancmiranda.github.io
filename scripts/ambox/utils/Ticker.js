@@ -35,11 +35,11 @@
 		}
 	})
 
-	AnimationFrame.public('interval', function(callback){
+	AnimationFrame.public('interval', function(callback, context){
 		var scope = this;
 		(function $(now){
 			scope._frame = scope.request($);
-			callback(now);
+			callback.call(context, now);
 		})(this.getTime());
 		return this;
 	});
@@ -83,8 +83,8 @@
 		this._speed = 1;
 		this._emitter = new EventEmitter();
 		this._animationFrame = new AnimationFrame();
-		window.requestAnimationFrame = /*Vendor(window, 'requestAnimationFrame') ||*/ this._animationFrame.request;
-		window.cancelAnimationFrame = /*Vendor(window, ['cancelAnimationFrame', 'cancelRequestAnimationFrame']) ||*/ AnimationFrame.cancel;
+		window.requestAnimationFrame = Vendor(window, 'requestAnimationFrame') || this._animationFrame.request;
+		window.cancelAnimationFrame = Vendor(window, ['cancelAnimationFrame', 'cancelRequestAnimationFrame']) || AnimationFrame.cancel;
 	}).static({
 		GROUP:'Ticker',
 		TICK:'tick'
@@ -152,13 +152,13 @@
 		}
 	});
 
-	Ticker.public('stop', function(){alert('ae')
+	Ticker.public('stop', function(){
 		window.cancelAnimationFrame(this._frame);
 		delete(this._frame);
 	});
 
-	Ticker.public('setRequest', function(callback){
-		return new AnimationFrame().interval(callback);
+	Ticker.public('setRequest', function(callback, context){
+		return new AnimationFrame().interval(callback, context);
 	});
 
 	Ticker.public('clearRequest', function(frame){
