@@ -71,8 +71,7 @@
 	Proto.create = Object.create;
 	Proto.prototype.extends = function(target, descriptors){
 		target = Type.isFunction(target)? target.prototype : null;
-		target = Type.isObjectLike(target)? target : null;
-		target = target || {};
+		target = Type.isObjectLike(target)? target : {};
 		this.prototype = Proto.create(target, descriptors);
 		this.prototype.constructor = this;
 		this.prototype.super = target;
