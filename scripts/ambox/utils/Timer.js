@@ -21,81 +21,87 @@
 		STOP:'stop'
 	});
 
-	Timer.charge('delay', function(value){
-		this._currentCount = 0;
-		this._lastTime = +new Date();
-		this._delay = Type.toFloat(value);
-		return this;
+	Timer.define('delay', {
+		set:function(value){
+			this._currentCount = 0;
+			this._lastTime = +new Date();
+			this._delay = Type.toFloat(value);
+		},
+		get:function(){
+			return this._delay;
+		}
 	});
 
-	Timer.charge('delay', function(){
-		return this._delay;
+	Timer.define('repeatCount', {
+		set:function(value){
+			this._repeatCount = Type.toInt(value);
+		},
+		get:function(){
+			return this._repeatCount;
+		}
 	});
 
-	Timer.charge('repeatCount', function(value){
-		this._repeatCount = Type.toInt(value);
-		return this;
+	Timer.define('running', {
+		set:function(value){
+			this._running = Type.toBoolean(value);
+			this._running? this.start():this.stop();
+		},
+		get:function(){
+			return this._running;
+		}
 	});
 
-	Timer.charge('repeatCount', function(){
-		return this._repeatCount;
+	Timer.define('currentCount', {
+		get:function(){
+			return this._currentCount;
+		}
 	});
 
-	Timer.charge('running', function(value){
-		this._running = Type.toBoolean(value);
-		this._running? this.start() : this.stop();
-		return this;
+	Timer.define('duration', {
+		get:function(){
+			return this._delay * this._repeatCount;
+		}
 	});
 
-	Timer.charge('running', function(){
-		return this._running;
-	});
-
-	Timer.public('currentCount', function(){
-		return this._currentCount;
-	});
-
-	Timer.public('duration', function(){
-		return this._delay * this._repeatCount;
-	});
-
-	Timer.public('time', function(){
-		return this._currentCount * this._delay;
+	Timer.define('time', {
+		get:function(){
+			return this._currentCount * this._delay;
+		}
 	});
 
 	Timer.public('start', function(){
 		this._running = true;
 		this._lastTime = +new Date();
-		this.emit(Timer.START, { target:this });
-		if(this._continuous){
-			this._continuous = window.setInterval(this.onUpdate);
+		if(this._continuous){alert('_continuous');
+			this._continuous = Ticker.setRequest(this.onUpdate, this);
 		}else{
 			Ticker.add(this.onUpdate, this);
 		}
+		this.emit(Timer.START, this);
 	});
 
 	Timer.public('stop', function(){
 		this._running = false;
 		Ticker.remove(this.onUpdate, this);
-		window.clearInterval(this._continuous);
-		this.emit(Timer.STOP, { target:this });
+		Ticker.clearRequest(this._continuous);
+		this.emit(Timer.STOP, this);
 	});
 
 	Timer.public('reset', function(){
 		this._currentCount = 0;
 		this._running = false;
 		this._lastTime = +new Date();
-		this.emit(Timer.RESET, { target:this });
+		this.emit(Timer.RESET, this);
 	});
 
-	Timer.public('onUpdate', function(){
+	Timer.public('onUpdate', function(deltaTime){
 		if(this._running && +new Date() - this._lastTime >= this._delay){
 			++this._currentCount;
 			this._lastTime = +new Date();
-			this.emit(Timer.UPDATE, { target:this });
+			this.emit(Timer.UPDATE, this);
 			if(this._repeatCount !== 0 && this._currentCount >= this._repeatCount){
 				this.stop();
-				this.emit(Timer.COMPLETE, { target:this });
+				this.emit(Timer.COMPLETE, this);
 			}
 		}
 	});
