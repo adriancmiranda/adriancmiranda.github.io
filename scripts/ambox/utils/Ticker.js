@@ -29,12 +29,6 @@
 		}
 	});
 
-	AnimationFrame.define('frame', {
-		get:function(){
-			return this._frame;
-		}
-	})
-
 	AnimationFrame.public('interval', function(callback, context){
 		var scope = this;
 		(function $(now){
