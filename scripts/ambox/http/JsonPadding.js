@@ -3,6 +3,7 @@
 	var Type = Ambox.namespace('Type');
 	var Proto = Ambox.namespace('Proto');
 	var Promise = Ambox.namespace('Promise');
+	var HttpData = Ambox.namespace('HttpData');
 	var Namespace = Ambox.namespace('Namespace');
 
 	// JSONP implementation
@@ -47,6 +48,7 @@
 	});
 
 	JsonPadding.public('onResponse', function(event){
+		var data = new HttpData();
 		var callback = this.callback(this.callbackUri);
 		this.script.removeEventListener('error', this.onResponse);
 		this.script.removeEventListener('load', this.onResponse);
