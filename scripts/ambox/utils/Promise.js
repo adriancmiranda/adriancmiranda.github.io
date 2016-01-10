@@ -10,12 +10,8 @@
 	// @support everywhere
 	// @author Adrian C. Miranda <adriancmiranda@gmail.com>
 	var Promise = Proto(function Promise(cmd, ctx){
-		if(this instanceof Promise){
-			Proto.rebind(this, 'resolve', 'reject');
-			this.do.apply(this,[cmd,ctx,this].concat(Type.toArray(arguments, 2)));
-			return this;
-		}
-		return new Promise(cmd, ctx);
+		Proto.rebind(this, 'resolve', 'reject');
+		this.do.apply(this,[cmd,ctx,this].concat(Type.toArray(arguments, 2)));
 	});
 
 	Promise.static('isThenable', function(value){
