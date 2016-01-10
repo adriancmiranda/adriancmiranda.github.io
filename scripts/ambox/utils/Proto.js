@@ -49,11 +49,11 @@
 
 	Proto.bind = function(fn, context){
 		var args = Type.toArray(arguments, 2);
-		var bound = function(){
+		var proxy = function(){
 			return fn.apply(context, args.concat(Type.toArray(arguments)));;
 		};
-		bound.__originalFn__ = bound.__originalFn__ || fn;
-		return bound;
+		proxy.__originalFn__ = proxy.__originalFn__ || fn;
+		return proxy;
 	};
 
 	Proto.unbind = function(fn){
@@ -68,16 +68,6 @@
 		};
 	};
 
-	Proto.create = Object.create;
-	Proto.prototype.extends = function(target, descriptors){
-		target = Type.isFunction(target)? target.prototype : null;
-		target = Type.isObjectLike(target)? target : {};
-		this.prototype = Proto.create(target, descriptors);
-		this.prototype.constructor = this;
-		this.prototype.super = target;
-		return this;
-	};
-
 	Proto.keys = (Object.keys || function(object){
 		var keys = [];
 		for(var key in object){
@@ -87,6 +77,16 @@
 		}
 		return keys;
 	});
+
+	Proto.create = Object.create;
+	Proto.prototype.extends = function(target, descriptors){
+		target = Type.isFunction(target)? target.prototype : null;
+		target = Type.isObjectLike(target)? target : {};
+		this.prototype = Proto.create(target, descriptors);
+		this.prototype.constructor = this;
+		this.prototype.super = target;
+		return this;
+	};
 
 	Proto.prototype.charge = function(name, fn){
 		Ambox.Namespace.overload(this.prototype, name, fn);
