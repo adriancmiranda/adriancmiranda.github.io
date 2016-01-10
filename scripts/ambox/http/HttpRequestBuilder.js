@@ -1,7 +1,6 @@
 /* global Ambox */
 (function(Ambox){
 	var Proto = Ambox.namespace('Proto');
-	var EventProxy = Ambox.namespace('EventProxy');
 
 	// HttpRequestBuilder
 	// @support IE10+ fallback
@@ -20,9 +19,9 @@
 		}
 		var method = /^(get|post|head|put|delete|options)$/i;
 		if(this.msie <= 8 && (!method.test(responseType) || !window.XMLHttpRequest)){
-			return new EventProxy(new window.ActiveXObject('Microsoft.XMLHTTP'));
+			return new window.ActiveXObject('Microsoft.XMLHTTP');
 		}else if(window.XMLHttpRequest){
-			return new EventProxy(new window.XMLHttpRequest());
+			return new window.XMLHttpRequest();
 		}
 		throw new Error('This browser does not support XMLHttpRequest.');
 	})

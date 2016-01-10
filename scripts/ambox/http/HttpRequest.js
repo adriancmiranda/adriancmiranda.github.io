@@ -4,7 +4,6 @@
 	var Proto = Ambox.namespace('Proto');
 	var Timer = Ambox.namespace('Timer');
 	var Iterator = Ambox.namespace('Iterator');
-	var EventProxy = Ambox.namespace('EventProxy');
 
 	// HttpRequest - Adapter Pattern
 	// @support IE10+ fallback
@@ -27,20 +26,20 @@
 
 	HttpRequest.charge('responseType', function(value){
 		value = Type.isDefined(value)? value : '';
-		try{this.client.target.responseType=value;}
+		try{this.client.responseType=value;}
 		catch(error){if(value!=='json'){throw error;}}
 	});
 
 	HttpRequest.charge('responseType', function(){
-		return this.client.target.responseType;
+		return this.client.responseType;
 	});
 
 	HttpRequest.charge('withCredentials', function(value){
-		value && (this.client.target.withCredentials = value);
+		value && (this.client.withCredentials = value);
 	});
 
 	HttpRequest.charge('withCredentials', function(){
-		return this.client.target.withCredentials;
+		return this.client.withCredentials;
 	});
 
 	HttpRequest.charge('timeout', function(ms){
@@ -48,35 +47,35 @@
 	});
 
 	HttpRequest.charge('timeout', function(){
-		return this.client.target.timeout;
+		return this.client.timeout;
 	});
 
 	HttpRequest.public('upload', function(){
-		return this.client.target.upload;
+		return this.client.upload;
 	});
 
 	HttpRequest.public('responseXML', function(){
-		return this.client.target.responseXML;
+		return this.client.responseXML;
 	});
 
 	HttpRequest.public('response', function(){
-		return this.client.target.response;
+		return this.client.response;
 	});
 
 	HttpRequest.public('responseText', function(){
-		return this.client.target.responseText;
+		return this.client.responseText;
 	});
 
 	HttpRequest.public('readyState', function(){
-		return this.client.target.readyState;
+		return this.client.readyState;
 	});
 
 	HttpRequest.public('status', function(){
-		return this.client.target.status;
+		return this.client.status;
 	});
 
 	HttpRequest.public('statusText', function(){
-		return this.client.target.statusText;
+		return this.client.statusText;
 	});
 
 	HttpRequest.public('accept', function(visitor){
@@ -98,8 +97,8 @@
 		// this.builder = new HttpRequestBuilder(this);
 		// this.client = this.builder.createRequest(method);
 
-		this.client = new EventProxy(new window.XMLHttpRequest());
-		this.client.target.open(method, url, async, username, password);
+		this.client = new window.XMLHttpRequest();
+		this.client.open(method, url, async, username, password);
 	});
 
 	HttpRequest.charge('setRequestHeader', function(headers){
@@ -110,28 +109,28 @@
 
 	HttpRequest.charge('setRequestHeader', function(header, value){
 		if(Type.isString(header) && Type.isString(value)){
-			this.client.target.setRequestHeader(header.trim(), value.trim());
+			this.client.setRequestHeader(header.trim(), value.trim());
 		}
 	});
 
 	HttpRequest.public('getAllResponseHeaders', function(){
-		return this.client.target.getAllResponseHeaders();
+		return this.client.getAllResponseHeaders();
 	});
 
 	HttpRequest.public('getResponseHeader', function(header){
-		return this.client.target.getResponseHeader(header);
+		return this.client.getResponseHeader(header);
 	});
 
 	HttpRequest.public('overrideMimeType', function(mimetype){
-		this.client.target.overrideMimeType(mimetype);
+		this.client.overrideMimeType(mimetype);
 	});
 
 	HttpRequest.public('send', function(data){
-		this.client.target.send(Type.isDefined(data)? data:null);
+		this.client.send(Type.isDefined(data)? data:null);
 	});
 
 	HttpRequest.public('abort', function(){
-		this.client.target.abort();
+		this.client.abort();
 	});
 
 	Ambox.namespace('HttpRequest', HttpRequest);
