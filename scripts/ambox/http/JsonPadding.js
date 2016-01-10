@@ -5,13 +5,14 @@
 	var Promise = scope.uri('Promise');
 	var HttpData = scope.uri('HttpData');
 
-	// JSONP implementation
-	// @support IE8+ fallback
-	// @see N/A yet.
+	// JSONP
+	// @support everywhere
+	// @author Adrian C. Miranda <adriancmiranda@gmail.com>
 	var JsonPadding = new Proto(function JsonPadding(url){
 		if(this instanceof JsonPadding){
 			Proto.rebind(this, 'onResponse', 'onResult');
 			if(url){return this.load(url);}
+			return this;
 		}
 		return new JsonPadding(url);
 	}).static('calls', 0);
