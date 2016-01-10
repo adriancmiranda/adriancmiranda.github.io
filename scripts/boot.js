@@ -1,6 +1,7 @@
 /* global Ambox */
 (function(scope){
 	console.log(Ambox.banner);
+	var JsonPadding = Ambox.namespace('JsonPadding');
 	var Ticker = Ambox.namespace('Ticker');
 	var Timer = Ambox.namespace('Timer');
 	var URL = Ambox.namespace('URL');
@@ -18,12 +19,15 @@
 	// http.onload = onload;
 	// http.send(Ambox.Type.toJson({ message:'Hihihi!' }));
 
-	// // var url = 'http://www.reddit.com/.json?limit=1&jsonp=JSON_CALLBACK';
+	var url = 'http://www.reddit.com/.json?limit=1&jsonp=JSON_CALLBACK';
 	// // var http = new HttpRequest();
 	// // http.open('jsonp', url, true);
 	// // http.callbackId('onGetJsonp');
 	// // http.responseType('json');
 	// // http.send();
+
+	var jsonp = new JsonPadding();
+	jsonp.load(url);
 
 	// scope.onGetJsonp = function onload(data){
 	// 	console.log('value:', data);
@@ -32,13 +36,13 @@
 	// function onerror(data){
 	// 	console.log('reason:', data);
 	// };
-	var url = new URL('http://your.domain/product.aspx?category=4&product_id=2140&query=lcd');
-	var a = function(timer){
-		console.log('=>', timer.currentCount, timer.duration/1000, Ticker.FPS);
-	};
-	var timer = new Timer(1000, 4, false);
-	timer.on('update', a);
-	timer.start();
+	// var url = new URL('http://your.domain/product.aspx?category=4&product_id=2140&query=lcd');
+	// var a = function(timer){
+	// 	console.log('=>', timer.currentCount, timer.duration/1000, Ticker.FPS);
+	// };
+	// var timer = new Timer(1000, 4, false);
+	// timer.on('update', a);
+	// timer.start();
 	// Ticker.add(a);
 	// window.setTimeout(function(){Ticker.remove(a)}, 2000);
 	// var req = Ticker.setRequest(a);
