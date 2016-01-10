@@ -19,7 +19,9 @@
 		return keys.split(slash);
 	};
 
-	Scope.register = function(target){
+	Scope.register = function(target, namespace){
+		target = target[namespace] = target[namespace] || {};
+		target.namespace = namespace;
 		target.uri = function(key, value){
 			if(arguments.length === 1){
 				return Scope.uri(target, key);
@@ -39,7 +41,7 @@
 
 	Scope.overload = function(target, name, fn){
 		var cache = target[name];
-		target[name] = function(){//console.log(name, fn)
+		target[name] = function(){
 			if(fn.length === arguments.length){
 				return fn.apply(this, arguments);
 			}else if(typeof(cache) === 'function'){
@@ -75,10 +77,6 @@
 		return root;
 	});
 
-	var namespace = 'Ambox';
-	this[namespace] = this[namespace] || {};
-	this.Ambox = Scope.register(this[namespace]);
-	this.Ambox.Scope = Scope;
-	this.Ambox.namespace = namespace;
+	Scope.register(this, 'Ambox').Scope = Scope;
 
 }).call(this);
