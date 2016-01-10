@@ -1,10 +1,10 @@
 /* global Ambox */
-(function(Ambox){
+(function(){
 
 	// common patterns from project
-	Ambox.namespace('patterns', {
-		objectAssessor:Ambox.Namespace.patterns.objectAssessor,
-		startWith:Ambox.Namespace.patterns.startWith,
+	this.namespace('patterns', {
+		objectAssessor:this.Namespace.patterns.objectAssessor,
+		startWith:this.Namespace.patterns.startWith,
 		queryString:/([^?=&]+)(=([^&]*))?/g,
 		isBoolAttr:/^(?:checked|selected|async|autofocus|autoplay|controls|defer|disabled|hidden|ismap|loop|multiple|open|readonly|required|scoped)$/i,
 		isTypedArray:/^((Uint8(Clamped)?)|(Uint16)|(Uint32)|(Int8)|(Int16)|(Int32)|(Float(32)|(64))Array)|ArrayBuffer$/,
@@ -30,4 +30,4 @@
 		}
 	});
 
-}).call(this, Ambox);
+}).call(Ambox);
