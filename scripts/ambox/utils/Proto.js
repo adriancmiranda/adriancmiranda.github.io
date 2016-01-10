@@ -78,6 +78,16 @@
 		return this;
 	};
 
+	Proto.keys = (Object.keys || function(object){
+		var keys = [];
+		for(var key in object){
+			if(object.hasOwnProperty(key)){
+				keys.push(key);
+			}
+		}
+		return keys;
+	});
+
 	Proto.prototype.charge = function(name, fn){
 		Ambox.Namespace.overload(this.prototype, name, fn);
 		return this;
