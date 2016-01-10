@@ -24,7 +24,7 @@
 		this.port = URL.anchor.port;
 		this.host = URL.anchor.host;
 		this.href = URL.anchor.href;
-		this.parameters = queryString;
+		this.params = queryString;
 		// Thank's to Steven Benner
 		// @see http://bit.ly/1yY7EJf
 		this.search.replace(patterns.queryString, function($0, $1, $2, $3){

@@ -5,6 +5,7 @@
 	Ambox.namespace('patterns', {
 		objectAssessor:Ambox.Namespace.patterns.objectAssessor,
 		startWith:Ambox.Namespace.patterns.startWith,
+		queryString:/([^?=&]+)(=([^&]*))?/g,
 		isBoolAttr:/^(?:checked|selected|async|autofocus|autoplay|controls|defer|disabled|hidden|ismap|loop|multiple|open|readonly|required|scoped)$/i,
 		isTypedArray:/^((Uint8(Clamped)?)|(Uint16)|(Uint32)|(Int8)|(Int16)|(Int32)|(Float(32)|(64))Array)|ArrayBuffer$/,
 		support3d:/^(css|matrix|rotate|scale|translate|transform(s)?)?3d$/,

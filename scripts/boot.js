@@ -1,6 +1,10 @@
 /* global Ambox */
 (function(scope){
 	console.log(Ambox.banner);
+	var Ticker = Ambox.namespace('Ticker');
+	var Timer = Ambox.namespace('Timer');
+	var URL = Ambox.namespace('URL');
+
 	// var url = 'https://api.parse.com/1/classes/Message';
 	// var http = new Ambox.HttpRequest();
 	// http.open('post', url, true);
@@ -28,5 +32,17 @@
 	// function onerror(data){
 	// 	console.log('reason:', data);
 	// };
+	var url = new URL('http://your.domain/product.aspx?category=4&product_id=2140&query=lcd');
+	var a = function(timer){
+		console.log('=>', timer.currentCount, timer.duration/1000, Ticker.FPS);
+	};
+	var timer = new Timer(1000, 4, false);
+	timer.on('update', a);
+	timer.start();
+	// Ticker.add(a);
+	// window.setTimeout(function(){Ticker.remove(a)}, 2000);
+	// var req = Ticker.setRequest(a);
+	// console.log('req:', req);
+	// window.setTimeout(function(){Ticker.clearRequest();}, 2000);
 
 }).call(this, this);
