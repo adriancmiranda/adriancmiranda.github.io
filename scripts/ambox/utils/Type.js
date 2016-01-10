@@ -142,7 +142,7 @@
 	};
 
 	Type.isArrayLike = function(value){
-		if(!Type.of(value) || !this.isNumber(value.length)){
+		if(!value || !this.isNumeric(value.length)){
 			return false;
 		}
 		if(!this.isFunction(value.hasOwnProperty) && !this.isFunction(value.constructor)){
