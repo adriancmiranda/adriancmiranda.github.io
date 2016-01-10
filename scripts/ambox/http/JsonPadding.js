@@ -9,8 +9,11 @@
 	// @support IE8+ fallback
 	// @see N/A yet.
 	var JsonPadding = new Proto(function JsonPadding(url){
-		Proto.rebind(this, 'onResponse', 'onResult');
-		if(url){return this.load(url);}
+		if(this instanceof JsonPadding){
+			Proto.rebind(this, 'onResponse', 'onResult');
+			if(url){return this.load(url);}
+		}
+		return new JsonPadding(url);
 	}).static('calls', 0);
 
 	JsonPadding.public('load', function(url){

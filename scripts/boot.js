@@ -26,7 +26,7 @@
 	// // http.callbackId('onGetJsonp')
 	// // http.responseType('json')
 	// // http.send()
-	var jsonp = new JsonPadding().load(url).success(function(value){
+	var jsonp = new JsonPadding(url).success(function(value){
 		console.log('[JSONP]:', value.toObject());
 	}, function(reason){
 		console.log('[JSONP ERROR]:', reason);
