@@ -1,6 +1,6 @@
 /* global Ambox */
-(function(){
-	this.uri('banner', [
+(function(scope){
+	scope.uri('banner', [
 		'                      ',
 		'   /     \'      /  / ',
 		'  /__      ___ (  /   ',
@@ -11,4 +11,4 @@
 		'                  box!',
 		'~x~x~x~x~x~x~x~x~x~x~x'
 	].join('\n'));
-}).call(Ambox);
+}).call(this, Ambox);

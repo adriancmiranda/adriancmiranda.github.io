@@ -1,10 +1,10 @@
 /* global Ambox */
-(function(){
+(function(scope){
 
 	// common patterns from project
-	this.uri('patterns', {
-		objectAssessor:this.Scope.patterns.objectAssessor,
-		startWith:this.Scope.patterns.startWith,
+	scope.uri('patterns', {
+		objectAssessor:scope.Scope.patterns.objectAssessor,
+		startWith:scope.Scope.patterns.startWith,
 		queryString:/([^?=&]+)(=([^&]*))?/g,
 		isBoolAttr:/^(?:checked|selected|async|autofocus|autoplay|controls|defer|disabled|hidden|ismap|loop|multiple|open|readonly|required|scoped)$/i,
 		isTypedArray:/^((Uint8(Clamped)?)|(Uint16)|(Uint32)|(Int8)|(Int16)|(Int32)|(Float(32)|(64))Array)|ArrayBuffer$/,
@@ -30,4 +30,4 @@
 		}
 	});
 
-}).call(Ambox);
+}).call(this, Ambox);
