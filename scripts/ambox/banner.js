@@ -1,6 +1,6 @@
 /* global Ambox */
-(function(Ambox){
-	Ambox.namespace('banner', [
+(function(){
+	this.namespace('banner', [
 		'                      ',
 		'   /     \'      /  / ',
 		'  /__      ___ (  /   ',
@@ -11,4 +11,4 @@
 		'                  box!',
 		'~x~x~x~x~x~x~x~x~x~x~x'
 	].join('\n'));
-}).call(this, Ambox);
+}).call(Ambox);
