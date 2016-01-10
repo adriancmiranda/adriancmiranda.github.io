@@ -1,7 +1,7 @@
 /* global Ambox */
-(function(Ambox){
-	var Type = Ambox.namespace('Type');
-	var Proto = Ambox.namespace('Proto');
+(function(scope){
+	var Type = scope.uri('Type');
+	var Proto = scope.uri('Proto');
 
 	// Promise/A+
 	// @role Normalize Promise/A+
@@ -165,6 +165,6 @@
 		return this.then(null, onRejected);
 	});
 
-	Ambox.namespace('Promise', Promise);
+	scope.uri('Promise', Promise);
 
 }).call(this, Ambox);

@@ -1,9 +1,9 @@
 /* global Ambox */
-(function(Ambox){
-	var Type = Ambox.namespace('Type');
-	var Proto = Ambox.namespace('Proto');
-	var Ticker = Ambox.namespace('Ticker');
-	var EventEmitter = Ambox.namespace('EventEmitter');
+(function(scope){
+	var Type = scope.uri('Type');
+	var Proto = scope.uri('Proto');
+	var Ticker = scope.uri('Ticker');
+	var EventEmitter = scope.uri('EventEmitter');
 
 	// Timer (Ecma5)
 	// @role AS3 port
@@ -109,6 +109,6 @@
 		}
 	});
 
-	Ambox.namespace('Timer', Timer);
+	scope.uri('Timer', Timer);
 
 }).call(this, Ambox);

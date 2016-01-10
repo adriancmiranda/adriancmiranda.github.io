@@ -1,7 +1,7 @@
 /* global Ambox */
-(function(Ambox){
-	var patterns = Ambox.namespace('patterns');
-	var Proto = Ambox.namespace('Proto');
+(function(scope){
+	var patterns = scope.uri('patterns');
+	var Proto = scope.uri('Proto');
 
 	// URL normalize
 	// @role IE8 and IE9 fallback to `window.URL` Native
@@ -38,6 +38,6 @@
 		return value;
 	});
 
-	Ambox.namespace('URL', URL);
+	scope.uri('URL', URL);
 
 }).call(this, Ambox);

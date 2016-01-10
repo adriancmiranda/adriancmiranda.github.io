@@ -1,11 +1,11 @@
 /* global Ambox */
 ;(function (scope) {
-	console.log(Ambox.banner)
-	var JsonPadding = Ambox.namespace('JsonPadding');
-	var Ticker = Ambox.namespace('Ticker');
-	var Proto = Ambox.namespace('Proto');
-	var Timer = Ambox.namespace('Timer');
-	var URL = Ambox.namespace('URL');
+	console.log(Ambox.banner);
+	var JsonPadding = scope.uri('JsonPadding');
+	var Ticker = scope.uri('Ticker');
+	var Proto = scope.uri('Proto');
+	var Timer = scope.uri('Timer');
+	var URL = scope.uri('URL');
 
 	// var url = 'https://api.parse.com/1/classes/Message'
 	// var http = new Ambox.HttpRequest()
@@ -26,9 +26,11 @@
 	// // http.callbackId('onGetJsonp')
 	// // http.responseType('json')
 	// // http.send()
-
-	var jsonp = new JsonPadding()
-	jsonp.load(url)
+	var jsonp = new JsonPadding().load(url).success(function(value){
+		console.log('[JSONP]:', value.toObject());
+	}, function(reason){
+		console.log('[JSONP ERROR]:', reason);
+	});
 
 	// scope.onGetJsonp = function onload(data){
 	// 	console.log('value:', data)
@@ -105,4 +107,4 @@
 		console.log('each:=>', a, b, c, 'args:', d);
 	}, ['a', 'b', 'c']);
 
-}).call(this, this)
+}).call(this, Ambox);

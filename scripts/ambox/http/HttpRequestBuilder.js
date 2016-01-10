@@ -1,6 +1,6 @@
 /* global Ambox */
-(function(Ambox){
-	var Proto = Ambox.namespace('Proto');
+(function(scope){
+	var Proto = scope.uri('Proto');
 
 	// HttpRequestBuilder
 	// @support IE10+ fallback
@@ -26,6 +26,6 @@
 		throw new Error('This browser does not support XMLHttpRequest.');
 	})
 
-	Ambox.namespace('HttpRequestBuilder', HttpRequestBuilder);
+	scope.uri('HttpRequestBuilder', HttpRequestBuilder);
 
 }).call(this, Ambox);

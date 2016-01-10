@@ -1,6 +1,6 @@
 /* global Ambox */
-(function(Ambox){
-	var Proto = Ambox.namespace('Proto');
+(function(scope){
+	var Proto = scope.uri('Proto');
 
 	// HttpHeaders
 	// @support IE10+ fallback
@@ -20,6 +20,6 @@
 		put:{'Content-Type':'application/json;charset=utf-8'}
 	});
 
-	Ambox.namespace('HttpHeaders', HttpHeaders);
+	scope.uri('HttpHeaders', HttpHeaders);
 
 }).call(this, Ambox);

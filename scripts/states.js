@@ -1,6 +1,6 @@
 /* global Ambox */
-(function(Ambox){
-	
-    // 
-    
-}).call(this, this);
+(function(scope){
+
+    //
+
+}).call(this, Ambox);

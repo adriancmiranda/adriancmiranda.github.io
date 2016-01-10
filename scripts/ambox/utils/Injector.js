@@ -1,6 +1,6 @@
 /* global Ambox */
-(function(Ambox){
-	var Proto = Ambox.namespace('Proto');
+(function(scope){
+	var Proto = scope.uri('Proto');
 
 	var Injector = new Proto(function Injector(target){
 		Injector.process(target);
@@ -25,6 +25,6 @@
 		return dependency;
 	});
 
-	Ambox.namespace('Injector', Injector);
+	scope.uri('Injector', Injector);
 
 }).call(this, Ambox);

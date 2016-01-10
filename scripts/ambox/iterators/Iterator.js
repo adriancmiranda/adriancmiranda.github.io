@@ -1,6 +1,6 @@
 /* global Ambox */
-(function(Ambox){
-	var Proto = Ambox.namespace('Proto');
+(function(scope){
+	var Proto = scope.uri('Proto');
 
 	// Iterator
 	// Iterator pattern `interface/template`
@@ -127,6 +127,6 @@
 		return this;
 	});
 
-	Ambox.namespace('Iterator', Iterator);
+	scope.uri('Iterator', Iterator);
 
 }).call(this, Ambox);

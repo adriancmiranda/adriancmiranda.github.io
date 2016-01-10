@@ -1,6 +1,6 @@
 /* global Ambox */
-(function(Ambox){
-	var Type = Ambox.namespace('Type');
+(function(scope){
+	var Type = scope.uri('Type');
 
 	// Proto (Ecma5)
 	// @role An extensible program-code-template for creating objects
@@ -89,12 +89,12 @@
 	};
 
 	Proto.prototype.charge = function(name, fn){
-		Ambox.Namespace.overload(this.prototype, name, fn);
+		scope.Scope.overload(this.prototype, name, fn);
 		return this;
 	};
 
 	Proto.prototype.outrun = function(name, fn){
-		Ambox.Namespace.overload(this, name, fn);
+		scope.Scope.overload(this, name, fn);
 		return this;
 	};
 
@@ -146,6 +146,6 @@
 		return '[object '+ Type.of(this, true) +']';
 	};
 
-	Ambox.namespace('Proto', Proto);
+	scope.uri('Proto', Proto);
 
 }).call(this, Ambox);

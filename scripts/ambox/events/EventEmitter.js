@@ -1,7 +1,7 @@
 /* global Ambox */
-(function(Ambox){
-	var Type = Ambox.namespace('Type');
-	var Proto = Ambox.namespace('Proto');
+(function(scope){
+	var Type = scope.uri('Type');
+	var Proto = scope.uri('Proto');
 
 	// EventEmitter
 	// @support IE9+ without 'strict mode'
@@ -138,6 +138,6 @@
 		return result;
 	});
 
-	Ambox.namespace('EventEmitter', EventEmitter);
+	scope.uri('EventEmitter', EventEmitter);
 
 }).call(this, Ambox);

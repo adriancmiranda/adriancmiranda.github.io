@@ -1,6 +1,6 @@
 /* global Ambox */
-(function(Ambox){
-	var patterns = Ambox.namespace('patterns');
+(function(scope){
+	var patterns = scope.uri('patterns');
 
 	// Type
 	// @role `typeof` and `instanceof` shortcuts normalized
@@ -220,6 +220,6 @@
 		return typeof(value) === 'function';
 	};
 
-	Ambox.namespace('Type', Type);
+	scope.uri('Type', Type);
 
 }).call(this, Ambox);

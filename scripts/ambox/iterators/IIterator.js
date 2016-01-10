@@ -1,6 +1,6 @@
 /* global Ambox */
-(function(Ambox){
-	var Proto = Ambox.namespace('Proto');
+(function(scope){
+	var Proto = scope.uri('Proto');
 
 	// http://kangax.github.io/compat-table/es5/#test-Object.keys
 	// http://kangax.github.io/compat-table/es5/#test-Array.prototype.map
@@ -118,6 +118,6 @@
 		return this;
 	});
 
-	Ambox.namespace('IIterator', IIterator);
+	scope.uri('IIterator', IIterator);
 
 }).call(this, Ambox);

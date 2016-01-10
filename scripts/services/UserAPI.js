@@ -1,11 +1,11 @@
 /* global Ambox */
-(function(Ambox){
-	var Proto = Ambox.namespace('Proto');
+(function(scope){
+	var Proto = scope.uri('Proto');
 
 	var UserAPI = new Proto(function(){
 		// N/A yet.
 	});
 
-	Ambox.namespace('UserAPI', UserAPI);
+	scope.uri('UserAPI', UserAPI);
 
 }).call(this, Ambox);

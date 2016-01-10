@@ -1,7 +1,7 @@
 /* global Ambox */
-(function(Ambox){
-	var Type = Ambox.namespace('Type');
-	var Proto = Ambox.namespace('Proto');
+(function(scope){
+	var Type = scope.uri('Type');
+	var Proto = scope.uri('Proto');
 
 	// Vendor
 	// @role Normalize browser prefixed properties
@@ -39,6 +39,6 @@
 		}
 	});
 
-	Ambox.namespace('Vendor', Vendor);
+	scope.uri('Vendor', Vendor);
 
 }).call(this, Ambox);

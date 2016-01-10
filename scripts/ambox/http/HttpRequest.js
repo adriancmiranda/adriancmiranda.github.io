@@ -1,9 +1,9 @@
 /* global Ambox */
-(function(Ambox){
-	var Type = Ambox.namespace('Type');
-	var Proto = Ambox.namespace('Proto');
-	var Timer = Ambox.namespace('Timer');
-	var Iterator = Ambox.namespace('Iterator');
+(function(scope){
+	var Type = scope.uri('Type');
+	var Proto = scope.uri('Proto');
+	var Timer = scope.uri('Timer');
+	var Iterator = scope.uri('Iterator');
 
 	// HttpRequest - Adapter Pattern
 	// @support IE10+ fallback
@@ -133,6 +133,6 @@
 		this.client.abort();
 	});
 
-	Ambox.namespace('HttpRequest', HttpRequest);
+	scope.uri('HttpRequest', HttpRequest);
 
 }).call(this, Ambox);

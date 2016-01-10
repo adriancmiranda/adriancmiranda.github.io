@@ -1,6 +1,6 @@
 /* global Ambox */
 (function(){
-	this.namespace('banner', [
+	this.uri('banner', [
 		'                      ',
 		'   /     \'      /  / ',
 		'  /__      ___ (  /   ',

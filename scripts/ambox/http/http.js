@@ -1,7 +1,7 @@
 /* global Ambox */
-(function(Ambox){
-	var Proto = Ambox.namespace('Proto');
-	var HttpRequest = Ambox.namespace('HttpRequest');
+(function(scope){
+	var Proto = scope.uri('Proto');
+	var HttpRequest = scope.uri('HttpRequest');
 
 	// http
 	// Adapter pattern to `XMLHttpRequest` with padding.
@@ -52,7 +52,7 @@
 		return new HttpRequest(url, config);
 	});
 
-	Ambox.namespace('http', http);
+	scope.uri('http', http);
 
 }).call(this, Ambox);
 

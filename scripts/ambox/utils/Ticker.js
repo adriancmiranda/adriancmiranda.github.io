@@ -1,9 +1,9 @@
 /* global Ambox */
-(function(Ambox){
-	var Type = Ambox.namespace('Type');
-	var Proto = Ambox.namespace('Proto');
-	var Vendor = Ambox.namespace('Vendor');
-	var EventEmitter = Ambox.namespace('EventEmitter');
+(function(scope){
+	var Type = scope.uri('Type');
+	var Proto = scope.uri('Proto');
+	var Vendor = scope.uri('Vendor');
+	var EventEmitter = scope.uri('EventEmitter');
 
 	// AnimationFrame (Ecma5)
 	// @role provide a `AnimationFrame` IE9 fallback
@@ -159,6 +159,6 @@
 		AnimationFrame.cancel(frame);
 	});
 
-	Ambox.namespace('Ticker', new Ticker(60));
+	scope.uri('Ticker', new Ticker(60));
 
 }).call(this, Ambox);

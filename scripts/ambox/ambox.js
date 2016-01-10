@@ -1,45 +1,45 @@
 (function(){
 
-	function Namespace(target){
-		return Namespace.register(target);
+	function Scope(target){
+		return Scope.register(target);
 	}
 
-	Namespace.patterns = {
+	Scope.patterns = {
 		objectAssessor: /\[(["']?)([^\1]+?)\1?\]/g,
 		startWith:function(symbol, modifiers){
 			return new RegExp('^\\'+ symbol, modifiers);
 		}
 	};
 
-	Namespace.pathArray = function(qualifiedName, slash){
+	Scope.pathArray = function(qualifiedName, slash){
 		slash = typeof(slash) === 'string'? slash : '.';
-		var objectAssessor = Namespace.patterns.objectAssessor;
+		var objectAssessor = Scope.patterns.objectAssessor;
 		var keys = qualifiedName.replace(objectAssessor, slash +'$2');
-		keys = keys.replace(Namespace.patterns.startWith(slash), '');
+		keys = keys.replace(Scope.patterns.startWith(slash), '');
 		return keys.split(slash);
 	};
 
-	Namespace.register = function(target){
-		target.namespace = function(key, value){
+	Scope.register = function(target){
+		target.uri = function(key, value){
 			if(arguments.length === 1){
-				return Namespace.uri(target, key);
+				return Scope.uri(target, key);
 			}
-			Namespace.uri(target, key, value);
+			Scope.uri(target, key, value);
 			return value;
 		};
 		return target;
 	};
 
-	Namespace.preventDefault = function(target){
+	Scope.preventDefault = function(target){
 		return function(key){
-			var piece = Namespace.uri(target, key);
+			var piece = Scope.uri(target, key);
 			return typeof(piece) === 'function'? piece.apply(target, arguments) : piece;
 		};
 	};
 
-	Namespace.overload = function(target, name, fn){
+	Scope.overload = function(target, name, fn){
 		var cache = target[name];
-		target[name] = function(){
+		target[name] = function(){//console.log(name, fn)
 			if(fn.length === arguments.length){
 				return fn.apply(this, arguments);
 			}else if(typeof(cache) === 'function'){
@@ -48,17 +48,17 @@
 		};
 	};
 
-	Namespace.overload(Namespace, 'uri', function(target, qualifiedName){
+	Scope.overload(Scope, 'uri', function(target, qualifiedName){
 		var id = 0;
-		var keys = Namespace.pathArray(qualifiedName, '.');
+		var keys = Scope.pathArray(qualifiedName, '.');
 		var total = keys.length;
 		while((target = target[keys[id++]]) !== null && id < total){}
 		return id < total? void(0) : target;
 	});
 
-	Namespace.overload(Namespace, 'uri', function(target, qualifiedName, value){
+	Scope.overload(Scope, 'uri', function(target, qualifiedName, value){
 		var id = 0;
-		var keys = Namespace.pathArray(qualifiedName, '.');
+		var keys = Scope.pathArray(qualifiedName, '.');
 		var root = target;
 		var total = keys.length - 1;
 		var isLikeObject;
@@ -75,8 +75,10 @@
 		return root;
 	});
 
-	this.Ambox = this.Ambox || {};
-	this.Ambox = Namespace.register(this.Ambox);
-	this.Ambox.Namespace = Namespace;
+	var namespace = 'Ambox';
+	this[namespace] = this[namespace] || {};
+	this.Ambox = Scope.register(this[namespace]);
+	this.Ambox.Scope = Scope;
+	this.Ambox.namespace = namespace;
 
 }).call(this);
