@@ -11,9 +11,9 @@
 	});
 
 	each.static('object', function(object, callback){
-		var key, index = 0;
-		for(key in object){
-			if(callback.call(object[key], index++, object[key], key) === false){
+		var i = 0, p = Type.toArray(arguments, 2);
+		for(var k in object){
+			if(callback.call(object[k], i++, object[k], k, p) === false){
 				break;
 			}
 		}
@@ -21,8 +21,8 @@
 	});
 
 	each.static('array', function(object, callback){
-		for(var id = 0, total = object.length; id < total;){
-			if(callback.call(object[id], id, object[id], id++) === false){
+		for(var i = 0, l = object.length, p = Type.toArray(arguments, 2); i < l;){
+			if(callback.call(object[i], i, object[i], i++, p) === false){
 				break;
 			}
 		}

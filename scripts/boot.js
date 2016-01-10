@@ -31,10 +31,10 @@
 
 	var Ae = new Proto(function Ae(){});
 
-	each.object({a:1, b:4, c:7}, function(index, value, key){
-	// each.object(Ae, function(index, value, key){
-		console.log('1:proto:=>', index, value, key);
-	});
+	// each.object({a:1, b:4, c:7}, function(index, value, key){
+	each.object(Ae, function(index, value, key, param){
+		console.log('1:proto:=>', index, value, key, param);
+	}, 'teste');
 
 	each([1, 4, 7], function(index, value, key){
 		console.log('2:proto:=>', index, value, key);
