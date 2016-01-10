@@ -75,7 +75,7 @@
 	Timer.public('start', function(){
 		this._running = true;
 		this._lastTime = +new Date();
-		if(this._continuous){alert('_continuous');
+		if(this._continuous){
 			this._continuous = Ticker.setRequest(this.onUpdate, this);
 		}else{
 			Ticker.add(this.onUpdate, this);
