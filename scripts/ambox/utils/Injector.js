@@ -15,7 +15,7 @@
 	});
 
 	Injector.static('getDependencies', function(params){
-		return each.index(params, function(name){
+		return iterate.index(params, function(name){
 			return this._dependencies[name];
 		}, this);
 	});

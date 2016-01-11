@@ -2,12 +2,12 @@
 ;(function (scope) {
 	console.log(Ambox.banner);
 	var JsonPadding = scope.uri('JsonPadding');
+	var iterate = scope.uri('iterate');
 	var Ticker = scope.uri('Ticker');
 	var Proto = scope.uri('Proto');
 	var Timer = scope.uri('Timer');
 	var Type = scope.uri('Type');
 	var URL = scope.uri('URL');
-	var each = scope.uri('each');
 
 	// var url = 'https://api.parse.com/1/classes/Message'
 	// var http = new Ambox.HttpRequest()
@@ -31,23 +31,23 @@
 
 	var Ae = new Proto(function Ae(){});
 
-	each({a:1, b:4, c:7}, function(value, index){
+	iterate({a:1, b:4, c:7}, function(value, index){
 		console.log('object:=>', value, index);
 	});
 
-	each(Ae, function(value, index){
+	iterate(Ae, function(value, index){
 		console.log('Ae:=>', value, index);
 	}, ['teste']);
 
-	each(new Ae(), function(value, index){
+	iterate(new Ae(), function(value, index){
 		console.log('ae:=>', value, index);
 	}, ['teste']);
 
-	var a = each(document.querySelectorAll('.menu__list>li'), function(value, index){
+	var a = iterate(document.querySelectorAll('.menu__list>li'), function(value, index){
 		console.log('li:=>', value, index);
 	});
 
-	each([1, 4, 7], function(value, index){
+	iterate([1, 4, 7], function(value, index){
 		console.log('array:=>', value, index);
 	});
 
@@ -69,7 +69,7 @@
 	});
 
 	console.log('\n===================================\nmethodA:', Nr.methodA);
-	Ambox.each(Nr, function(index, value, key){
+	iterate(Nr, function(index, value, key){
 		console.log('proto:', index, value, key);
 	});
 
