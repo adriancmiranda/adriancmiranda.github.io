@@ -11,6 +11,7 @@
 	// @support IE10+ fallback
 	// @see http://caniuse.com/#search=XMLHttpRequest
 	var HttpRequest = new Proto(function HttpRequest(){
+		Proto.rebind(this, 'onLoad', 'onAbort', 'onError', 'onReadyStateChange', 'onTimeout');
 		this.timeout = 0;
 		arguments.length && this.open.apply(this, arguments);
 	});
@@ -104,6 +105,10 @@
 	HttpRequest.public('open', function(method, url, async, username, password){
 		this.url = url;
 		this.client = HttpRequest.createRequest(method);
+		this.client.onreadystatechange = this.onReadyStateChange;
+		this.client.onerror = this.onError;
+		this.client.onabort = this.onAbort;
+		this.client.onload = this.onLoad;
 		this.client.open(method, url, async, username, password);
 	});
 
@@ -151,10 +156,10 @@
 		var headers = cli.getAllResponseHeaders();
 		var data = new HttpData(text, headers, cli.status, cli.statusText, this.url);
 		// data.data = data.transform(this.options.transformResponse);
-		if(200 <= response.status && response.status < 300){
-			this.onload && this.onload(response.toObject());
+		if(200 <= data.status && data.status < 300){
+			this.onload && this.onload(data.toObject());
 		}else{
-			this.onerror && this.onerror(response.toObject());
+			this.onerror && this.onerror(data.toObject());
 		}
 	});
 
