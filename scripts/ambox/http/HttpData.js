@@ -1,6 +1,6 @@
 /* global Ambox */
 (function(scope){
-	// var each = scope.uri('each');
+	var each = scope.uri('each');
 	var URL = scope.uri('URL');
 	var Type = scope.uri('Type');
 	var Proto = scope.uri('Proto');
@@ -53,11 +53,11 @@
 		if(Type.isFunction(requests)){
 			data[0] = requests.apply(requests, data.concat(params));
 		}else if(Type.isArrayLike(requests)){
-			// Map.array(requests, function(request){
-			// 	if(Type.isFunction(request)){
-			// 		data[0] = request.apply(request, data.concat(params));
-			// 	}
-			// });
+			each.array(requests, function(request){
+				if(Type.isFunction(request)){
+					data[0] = request.apply(request, data.concat(params));
+				}
+			});
 		}
 		return data[0];
 	});

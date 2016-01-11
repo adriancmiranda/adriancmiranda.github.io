@@ -14,7 +14,7 @@
 		var i = 0;
 		for(var key in obj){
 			if(getEnum || obj.hasOwnProperty(key)){
-				if(fn.call(ctx||obj[key], i++, obj[key], key, obj) === false){
+				if(fn.call(ctx||obj[key], obj[key], key, i++, obj) === false){
 					break;
 				}
 			}
@@ -24,7 +24,7 @@
 
 	each.static('array', function(obj, fn, ctx){
 		for(var i = 0, l = obj.length; i < l;){
-			if(fn.call(ctx||obj[i], i, obj[i], i++, obj) === false){
+			if(fn.call(ctx||obj[i], obj[i], i, i++, obj) === false){
 				break;
 			}
 		}
