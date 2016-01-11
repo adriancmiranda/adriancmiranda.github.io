@@ -1,9 +1,9 @@
 /* global Ambox */
 (function(scope){
-	var each = scope.uri('each');
 	var URL = scope.uri('URL');
 	var Type = scope.uri('Type');
 	var Proto = scope.uri('Proto');
+	var iterate = scope.uri('iterate');
 
 	// HttpData
 	// @support IE10+ fallback
