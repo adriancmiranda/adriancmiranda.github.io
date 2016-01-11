@@ -10,23 +10,25 @@
 		return each.array(object, callback);
 	});
 
-	each.static('object', function(object, callback){
-		var i = 0, p = Type.toArray(arguments, 2);
-		for(var k in object){
-			if(callback.call(object[k], i++, object[k], k, p, object) === false){
-				break;
+	each.static('object', function(obj, fn, ctx, getEnum){
+		var i = 0;
+		for(var key in obj){
+			if(getEnum || obj.hasOwnProperty(key)){
+				if(fn.call(ctx||obj[key], i++, obj[key], key, obj) === false){
+					break;
+				}
 			}
 		}
-		return object;
+		return obj;
 	});
 
-	each.static('array', function(object, callback){
-		for(var i = 0, l = object.length, p = Type.toArray(arguments, 2); i < l;){
-			if(callback.call(object[i], i, object[i], i++, p, object) === false){
+	each.static('array', function(obj, fn, ctx){
+		for(var i = 0, l = obj.length; i < l;){
+			if(fn.call(ctx||obj[i], i, obj[i], i++, obj) === false){
 				break;
 			}
 		}
-		return object;
+		return obj;
 	});
 
 	scope.uri('each', each);
