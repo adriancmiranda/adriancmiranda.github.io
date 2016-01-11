@@ -53,7 +53,7 @@
 		if(Type.isFunction(requests)){
 			data[0] = requests.apply(requests, data.concat(params));
 		}else if(Type.isArrayLike(requests)){
-			each.array(requests, function(request){
+			each.index(requests, function(request){
 				if(Type.isFunction(request)){
 					data[0] = request.apply(request, data.concat(params));
 				}
