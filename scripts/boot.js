@@ -31,13 +31,46 @@
 
 	var Ae = new Proto(function Ae(){});
 
-	// each.object({a:1, b:4, c:7}, function(index, value, key){
-	each.object(Ae, function(index, value, key, param){
-		console.log('1:proto:=>', index, value, key, param);
-	}, 'teste');
+	each({a:1, b:4, c:7}, function(value, index){
+		console.log('object:=>', value, index);
+	});
 
-	each([1, 4, 7], function(index, value, key){
-		console.log('2:proto:=>', index, value, key);
+	each(Ae, function(value, index){
+		console.log('Ae:=>', value, index);
+	}, ['teste']);
+
+	each(new Ae(), function(value, index){
+		console.log('ae:=>', value, index);
+	}, ['teste']);
+
+	var a = each(document.querySelectorAll('.menu__list>li'), function(value, index){
+		console.log('li:=>', value, index);
+	});
+
+	each([1, 4, 7], function(value, index){
+		console.log('array:=>', value, index);
+	});
+
+
+	var St = new Ambox.Proto(function(){
+		console.log('Static class');
+	});
+
+	St.static('methodA', function(){
+		// to override
+	});
+
+	var Nr = new Ambox.Proto(function(){
+		console.log('Normal class created');
+	}).extends(St);
+
+	Nr.public('teste', function(){
+		console.log('Normal teste method');
+	});
+
+	console.log('\n===================================\nmethodA:', Nr.methodA);
+	Ambox.each(Nr, function(index, value, key){
+		console.log('proto:', index, value, key);
 	});
 
 }).call(this, Ambox);
