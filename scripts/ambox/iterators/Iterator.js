@@ -1,6 +1,7 @@
 /* global Ambox */
 (function(scope){
 	var Proto = scope.uri('Proto');
+	var IIterator = scope.uri('IIterator');
 
 	// Iterator
 	// Iterator pattern `interface/template`
@@ -9,7 +10,7 @@
 	var Iterator = new Proto(function Iterator(list){
 		this.index = 0;
 		this.items = list;
-	});
+	}).extends(IIterator);
 
 	Iterator.public('isEmpty', function(){
 		return this.items.length === 0;
