@@ -1,5 +1,6 @@
 /* global Ambox */
 (function(scope){
+	var each = scope.uri('each');
 	var Proto = scope.uri('Proto');
 
 	var Injector = new Proto(function Injector(target){
@@ -14,9 +15,9 @@
 	});
 
 	Injector.static('getDependencies', function(params){
-		// return Map.array(params, function(name){
-		// 	return this._dependencies[name];
-		// }, this);
+		return each.array(params, function(name){
+			return this._dependencies[name];
+		}, this);
 	});
 
 	Injector.static('register', function(name, dependency){
