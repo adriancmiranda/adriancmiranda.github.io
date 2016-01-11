@@ -1,19 +1,22 @@
 /* global Ambox */
 (function(scope){
-	var Type = scope.uri('Type');
+	var HttpData = scope.uri('HttpData');
+	var Promise = scope.uri('Promise');
+	var iterate = scope.uri('iterate');
 	var Proto = scope.uri('Proto');
 	var Timer = scope.uri('Timer');
-	var Iterator = scope.uri('Iterator');
+	var Type = scope.uri('Type');
 
 	// HttpRequest - Adapter Pattern
 	// @support IE10+ fallback
 	// @see http://caniuse.com/#search=XMLHttpRequest
 	var HttpRequest = new Proto(function HttpRequest(){
+		this.timeout = 0;
 		arguments.length && this.open.apply(this, arguments);
 	});
 
 	// Factory Method
-	HttpRequest.static('createXHR', function(type){
+	HttpRequest.static('createRequest', function(type){
 		var method = /^(get|post|head|put|delete|options)$/i;
 		var legacy = document.documentMode <= 8;
 		if(legacy && (!method.test(type) || !window.XMLHttpRequest)){
@@ -24,85 +27,88 @@
 		throw new Error('This browser does not support XMLHttpRequest.');
 	});
 
-	HttpRequest.charge('responseType', function(value){
-		value = Type.isDefined(value)? value : '';
-		try{this.client.responseType=value;}
-		catch(error){if(value!=='json'){throw error;}}
+	HttpRequest.define('responseType', {
+		set:function(value){
+			value = Type.isDefined(value)? value : '';
+			try{this.client.responseType=value;}
+			catch(error){if(value!=='json'){throw error;}}
+		},
+		get:function(){
+			return this.client.responseType;
+		}
 	});
 
-	HttpRequest.charge('responseType', function(){
-		return this.client.responseType;
+	HttpRequest.define('withCredentials', {
+		set:function(value){
+			value = Type.toBoolean(value);
+			if(value){
+				this.client.withCredentials = value;
+			}
+		},
+		get:function(){
+			return this.client.withCredentials;
+		}
 	});
 
-	HttpRequest.charge('withCredentials', function(value){
-		value && (this.client.withCredentials = value);
+	HttpRequest.define('timeout', {
+		set:function(milliseconds){
+			this._timeout = Type.toUint(milliseconds);
+		},
+		get:function(){
+			return this._timeout;
+		}
 	});
 
-	HttpRequest.charge('withCredentials', function(){
-		return this.client.withCredentials;
+	HttpRequest.define('upload', {
+		get:function(){
+			return this.client.upload;
+		}
 	});
 
-	HttpRequest.charge('timeout', function(ms){
-		this.timer = new Timer(Type.toUint(ms) * 1000, 0, false);
+	HttpRequest.define('responseXML', {
+		get:function(){
+			return this.client.responseXML;
+		}
 	});
 
-	HttpRequest.charge('timeout', function(){
-		return this.client.timeout;
+	HttpRequest.define('response', {
+		get:function(){
+			return this.client.response;
+		}
 	});
 
-	HttpRequest.public('upload', function(){
-		return this.client.upload;
+	HttpRequest.define('responseText', {
+		get:function(){
+			return this.client.responseText;
+		}
 	});
 
-	HttpRequest.public('responseXML', function(){
-		return this.client.responseXML;
+	HttpRequest.define('readyState', {
+		get:function(){
+			return this.client.readyState;
+		}
 	});
 
-	HttpRequest.public('response', function(){
-		return this.client.response;
+	HttpRequest.define('status', {
+		get:function(){
+			return this.client.status;
+		}
 	});
 
-	HttpRequest.public('responseText', function(){
-		return this.client.responseText;
+	HttpRequest.define('statusText', {
+		get:function(){
+			return this.client.statusText;
+		}
 	});
 
-	HttpRequest.public('readyState', function(){
-		return this.client.readyState;
-	});
-
-	HttpRequest.public('status', function(){
-		return this.client.status;
-	});
-
-	HttpRequest.public('statusText', function(){
-		return this.client.statusText;
-	});
-
-	HttpRequest.public('accept', function(visitor){
-	});
-
-	HttpRequest.charge('open', function(opts){
-		return this.open(opts.method, opts.url, opts.async, opts.username, opts.password);
-	});
-
-	HttpRequest.charge('open', function(method, url){
-		return this.open(method, url, true, undefined, undefined);
-	});
-
-	HttpRequest.charge('open', function(method, url, async){
-		return this.open(method, url, async, undefined, undefined);
-	});
-
-	HttpRequest.charge('open', function(method, url, async, username, password){
-		// this.builder = new HttpRequestBuilder(this);
-		// this.client = this.builder.createRequest(method);
-
-		this.client = new window.XMLHttpRequest();
+	HttpRequest.public('open', function(method, url, async, username, password){
+		this.url = url;
+		this.client = HttpRequest.createRequest(method);
 		this.client.open(method, url, async, username, password);
 	});
 
 	HttpRequest.charge('setRequestHeader', function(headers){
-		new Iterator(headers).each(function(value, header){
+		iterate(headers, function(value, header){
 			this.setRequestHeader(header, value);
 		});
 	});
@@ -127,10 +133,49 @@
 
 	HttpRequest.public('send', function(data){
 		this.client.send(Type.isDefined(data)? data:null);
+		if(this.timeout > 0){
+			this.timer = new Timer(this.timeout * 1000, 1, false);
+			this.timer.on(Timer.COMPLETE, this.onTimeout);
+			this.timer.start();
+		}
 	});
 
 	HttpRequest.public('abort', function(){
 		this.client.abort();
+	});
+
+	HttpRequest.public('onLoad', function(){
+		this.timer && this.timer.stop() && this.timer.flush();
+		var cli = this.client;
+		var text = 'response' in cli? cli.response:cli.responseText;
+		var headers = cli.getAllResponseHeaders();
+		var data = new HttpData(text, headers, cli.status, cli.statusText, this.url);
+		// data.data = data.transform(this.options.transformResponse);
+		if(200 <= response.status && response.status < 300){
+			this.onload && this.onload(response.toObject());
+		}else{
+			this.onerror && this.onerror(response.toObject());
+		}
+	});
+
+	HttpRequest.public('onError', function(){
+		this.timer && this.timer.stop() && this.timer.flush();
+		var reason = new HttpData(null, null, -1, '', this.url);
+		this.onerror && this.onerror(response.toObject());
+	});
+
+	HttpRequest.public('onAbort', function(){
+		var reason = new HttpData(null, null, -1, '', this.url);
+		this.onabort && this.onabort(response.toObject());
+	});
+
+	HttpRequest.public('onTimeout', function(){
+		this.abort();
+		this.ontimeout && this.ontimeout();
+	});
+
+	HttpRequest.public('onReadyStateChange', function(){
+		this.onreadystatechange && this.onreadystatechange();
 	});
 
 	scope.uri('HttpRequest', HttpRequest);

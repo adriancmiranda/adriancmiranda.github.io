@@ -28,9 +28,9 @@
 		this.script.type = 'text/javascript';
 		this.script.async = true;
 		this.script.src = this.url;
-		this.promise = new Promise();
+		this.defer = new Promise();
 		document.body.appendChild(this.script);
-		return this.promise;
+		return this.defer;
 	});
 
 	JsonPadding.public('abort', function(){
@@ -43,7 +43,8 @@
 		evt.type = evt.type === 'load' && !callback.called? 'error' : evt.type;
 		evt.status = evt.type === 'error'? 404 : 200;
 		data = new HttpData(callback.response, null, evt.status, evt.type, this.url);
-		this.promise[evt.type === 'error'? 'reject' : 'resolve'](data);
+		// data.data = data.transform(this.options.transformResponse);
+		this.defer[evt.type === 'error'? 'reject' : 'resolve'](data.toObject());
 		this.script.removeEventListener('error', this.onResponse);
 		this.script.removeEventListener('load', this.onResponse);
 		document.body.removeChild(this.script);
