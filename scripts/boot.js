@@ -24,7 +24,7 @@
 	// http.onerror = function(reason){console.log(reason);};
 	// http.onload = function(value){console.log(value);};
 	http.send(Type.toJson({ message:'Hihihi!' }));
-	// http.abort();
+	http.abort();
 	// console.log('http.status:', http.status, 'text:', http.statusText);
 
 	var url = 'http://www.reddit.com/.json?limit=1&jsonp=JSON_CALLBACK';

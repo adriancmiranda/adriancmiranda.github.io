@@ -161,6 +161,7 @@
 				statusText = cli.statusText;
 			}
 			status = HttpRequest.ABORTED? -1 : this.client.status;
+			delete(HttpRequest.ABORTED);
 			var data = new HttpData(text, headers, status, statusText, this.url);
 			this.onreadystatechange && this.onreadystatechange(data.toObject());
 		}
