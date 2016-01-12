@@ -9,7 +9,7 @@
 
 	// HttpRequest - Adapter Pattern
 	// @support IE10+ fallback
-	// @see http://caniuse.com/#search=XMLHttpRequest
+	// @see http://caniuse.com/#search=XMLHttpRequest (wrong for IE9 actually)
 	var HttpRequest = new Proto(function HttpRequest(){
 		Proto.rebind(this, 'onLoad', 'onAbort', 'onError', 'onReadyStateChange', 'onTimeout');
 		this.timeout = 0;
@@ -113,7 +113,7 @@
 	});
 
 	HttpRequest.charge('setRequestHeader', function(headers){
-		iterate(headers, function(value, header){
+		iterate.property(headers, function(value, header){
 			this.setRequestHeader(header, value);
 		});
 	});
@@ -146,7 +146,24 @@
 	});
 
 	HttpRequest.public('abort', function(){
+		HttpRequest.ABORTED = true;
 		this.client.abort();
+	});
+
+	HttpRequest.public('onReadyStateChange', function(){
+		if(this.client && this.client.readyState == 4){
+			var headers = null, text = null, status, statusText = '', cli = this.client;
+			if(!HttpRequest.ABORTED){
+				headers = cli.getAllResponseHeaders();
+				text = 'response' in cli? cli.response : cli.responseText;
+			}
+			if(!(HttpRequest.ABORTED && document.documentMode < 10)){
+				statusText = cli.statusText;
+			}
+			status = HttpRequest.ABORTED? -1 : this.client.status;
+			var data = new HttpData(text, headers, status, statusText, this.url);
+			this.onreadystatechange && this.onreadystatechange(data.toObject());
+		}
 	});
 
 	HttpRequest.public('onLoad', function(){
@@ -166,21 +183,17 @@
 	HttpRequest.public('onError', function(){
 		this.timer && this.timer.stop() && this.timer.flush();
 		var reason = new HttpData(null, null, -1, '', this.url);
-		this.onerror && this.onerror(response.toObject());
+		this.onerror && this.onerror(reason.toObject());
 	});
 
 	HttpRequest.public('onAbort', function(){
 		var reason = new HttpData(null, null, -1, '', this.url);
-		this.onabort && this.onabort(response.toObject());
+		this.onabort && this.onabort(reason.toObject());
 	});
 
 	HttpRequest.public('onTimeout', function(){
 		this.abort();
-		this.ontimeout && this.ontimeout();
-	});
-
-	HttpRequest.public('onReadyStateChange', function(){
-		this.onreadystatechange && this.onreadystatechange();
+		this.ontimeout && this.ontimeout(this.client);
 	});
 
 	scope.uri('HttpRequest', HttpRequest);
