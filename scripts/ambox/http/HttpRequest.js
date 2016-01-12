@@ -26,6 +26,14 @@
 			return new window.XMLHttpRequest();
 		}
 		throw new Error('This browser does not support XMLHttpRequest.');
+	})
+
+	HttpRequest.static({
+		UNSENT:0,
+		OPENED:1,
+		HEADERS_RECEIVED:2,
+		LOADING:3,
+		DONE:4
 	});
 
 	HttpRequest.define('responseType', {
