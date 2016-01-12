@@ -160,18 +160,23 @@
 
 	HttpRequest.public('onReadyStateChange', function(){
 		if(this.client && this.client.readyState == 4){
-			var headers = null, text = null, status, statusText = '', cli = this.client;
+			var cli = this.client;
+			var data;
+			var text = null;
+			var headers = null;
+			var status;
+			var statusText = '';
 			if(!HttpRequest.ABORTED){
 				headers = cli.getAllResponseHeaders();
 				text = 'response' in cli? cli.response : cli.responseText;
 			}
-			if(!(HttpRequest.ABORTED && document.documentMode < 10)){
+			if(HttpRequest.ABORTED && document.documentMode > 9){
 				statusText = cli.statusText;
 			}
 			status = HttpRequest.ABORTED? -1 : this.client.status;
-			delete(HttpRequest.ABORTED);
-			var data = new HttpData(text, headers, status, statusText, this.url);
+			data = new HttpData(text, headers, status, statusText, this.url);
 			this.onreadystatechange && this.onreadystatechange(data.toObject());
+			delete(HttpRequest.ABORTED);
 		}
 	});
 
@@ -191,18 +196,19 @@
 
 	HttpRequest.public('onError', function(){
 		this.timer && this.timer.stop() && this.timer.flush();
-		var reason = new HttpData(null, null, -1, '', this.url);
-		this.onerror && this.onerror(reason.toObject());
+		var data = new HttpData(null, null, -1, '', this.url);
+		this.onerror && this.onerror(data.toObject());
 	});
 
 	HttpRequest.public('onAbort', function(){
-		var reason = new HttpData(null, null, -1, '', this.url);
-		this.onabort && this.onabort(reason.toObject());
+		var data = new HttpData(null, null, -1, '', this.url);
+		this.onabort && this.onabort(data.toObject());
 	});
 
 	HttpRequest.public('onTimeout', function(){
 		this.abort();
-		this.ontimeout && this.ontimeout(this.client);
+		var data = new HttpData(null, null, -1, '', this.url);
+		this.ontimeout && this.ontimeout(data.toObject());
 	});
 
 	scope.uri('HttpRequest', HttpRequest);
