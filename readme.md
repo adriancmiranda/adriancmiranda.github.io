@@ -71,7 +71,7 @@ During my time at Wunderman I had the chance to work with brands such as Diageo,
 
 **Technologies:** Flash, ActionScript3, ActionScript2, JavaScript, HTML, CSS
 
-#### [MHK - Media Haus Kreativve](https://www.wunderman.com.br/)
+#### MHK - Media Haus Kreative
 **Flash Developer Pl.** <br/>
 **Feb, 2007 - Feb, 2009**
 
