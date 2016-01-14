@@ -40,7 +40,7 @@ High school at Instituto de educação de Itaituba
 **Rich Media Analyst Sr.** <br/>
 **Sep, 2014 - Dec, 2015**
 
-At Media Isobar - São Paulo as Rich Media Analyst. My main responsibilities was to maintain knowledge and utilize new technologies to enhance creative input for developing animations.
+At Isobar - São Paulo as Rich Media Analyst. My main responsibilities was to maintain knowledge and utilize new technologies to enhance creative input for developing animations.
 Provide support to creative team throughout project implementation period from concept development to post-production tasks.
 Assist creative team to integrate technology with animations for interactive projects.
 Winning awards for the company.
