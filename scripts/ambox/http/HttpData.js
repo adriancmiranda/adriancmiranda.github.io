@@ -63,11 +63,11 @@
 	});
 
 	HttpData.public('toArray', function(){
-		return([this.data, this.headers, this.status, this.statusText]);
+		return([this.data, this.headers, this.status, this.statusText, this.url]);
 	});
 
 	HttpData.public('toObject', function(){
-		return({ data:this.data, headers:this.headers, status:this.status, statusText:this.statusText });
+		return({ data:this.data, headers:this.headers, status:this.status, statusText:this.statusText, url:this.url });
 	});
 
 	HttpData.public('toString', function(){
