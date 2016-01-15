@@ -3,8 +3,8 @@
 	var Type = scope.uri('Type');
 
 	// Interface (Ecma5)
-	// @role An extensible program-code-template for creating objects
-	// @support IE9+, FF4-20+, SF5.1.4+, CH5+, OP11.60-OP12+, iOS7/8, Android4.4+
+	// @role An extensible program-code-template for creating interfaces
+	// @support everywhere
 	// @author Adrian C. Miranda <adriancmiranda@gmail.com>
 	function Interface(name, methods){
 		this.name = name;
