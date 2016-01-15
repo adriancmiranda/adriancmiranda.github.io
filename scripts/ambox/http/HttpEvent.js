@@ -71,7 +71,7 @@
 	});
 
 	HttpEvent.public('toString', function(){
-		return Type.toJSON(this.toObject());
+		return Type.toJson(this);
 	});
 
 	scope.uri('HttpEvent', HttpEvent);

@@ -34,11 +34,11 @@ var headers = target.getAllResponseHeaders();
 var response = new HttpEvent(data, headers, target.status, target.statusText, this.options);
 response.data = response.transform(this.options.transformResponse);
 if(200 <= response.status && response.status < 300){
-	this.onload && this.onload(response.toObject());
-	this.defer.resolve(response.toObject());
+	this.onload && this.onload(response);
+	this.defer.resolve(response);
 }else{
-	this.onerror && this.onerror(response.toObject());
-	this.defer.reject(response.toObject());
+	this.onerror && this.onerror(response);
+	this.defer.reject(response);
 }
 ```
 

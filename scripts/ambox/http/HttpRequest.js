@@ -175,7 +175,7 @@
 			}
 			status = HttpRequest.ABORTED? -1 : this.client.status;
 			event = new HttpEvent(text, headers, status, statusText, this.url);
-			this.onreadystatechange && this.onreadystatechange(event.toObject());
+			this.onreadystatechange && this.onreadystatechange(event);
 		}
 	});
 
@@ -189,7 +189,7 @@
 		if(200 <= event.status && event.status < 300){
 			this.onload && this.onload(event);
 		}else{
-			this.onerror && this.onerror(event.toObject());
+			this.onerror && this.onerror(event);
 		}
 	});
 
