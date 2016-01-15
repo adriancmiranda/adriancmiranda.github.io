@@ -7,7 +7,7 @@
 	// JSONP
 	// @support everywhere
 	// @author Adrian C. Miranda <adriancmiranda@gmail.com>
-	var JsonPadding = new Proto(function JsonPadding(url){
+	var JsonPadding = new Proto(function JsonPadding(){
 		Proto.rebind(this, 'onResponse', 'onResult');
 	}).static('calls', 0);
 
