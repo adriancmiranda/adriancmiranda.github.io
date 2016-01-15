@@ -40,12 +40,11 @@
 
 	JsonPadding.public('onResponse', function(evt){
 		var event, callback = JsonPadding[this.callbackId];
-		evt = evt || { type:JsonPadding.ABORTED? 'abort' : 'unknown' };
+		evt = evt || { type:'' };
 		evt.type = evt.type === 'load' && !callback.called? 'error' : evt.type;
 		evt.status = evt.type === 'error'? 404 : JsonPadding.ABORTED? -1 : 200;
 		event = new HttpEvent(callback.response, null, evt.status, evt.type, this.url);
-		// event.data = event.transform(this.options.transformResponse);
-		this.defer[/^(error|abort)$/.test(evt.type)? 'reject' : 'resolve'](event);
+		this.defer[/^(error|)$/.test(evt.type)? 'reject' : 'resolve'](event);
 		this.script.removeEventListener('error', this.onResponse);
 		this.script.removeEventListener('load', this.onResponse);
 		document.body.removeChild(this.script);

@@ -21,18 +21,18 @@
 	});
 
 	HttpEvent.public('transform', function(requests){
-		var data = this.toArray();
+		var event = this.toArray();
 		var params = Type.toArray(arguments, 1);
 		if(Type.isFunction(requests)){
-			data[0] = requests.apply(requests, data.concat(params));
+			event[0] = requests.apply(requests, event.concat(params));
 		}else if(Type.isArrayLike(requests)){
 			iterate.index(requests, function(request){
 				if(Type.isFunction(request)){
-					data[0] = request.apply(request, data.concat(params));
+					event[0] = request.apply(request, event.concat(params));
 				}
 			});
 		}
-		return data[0];
+		return event[0];
 	});
 
 	HttpEvent.public('toArray', function(){

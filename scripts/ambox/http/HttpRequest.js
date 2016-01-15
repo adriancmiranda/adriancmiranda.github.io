@@ -159,13 +159,12 @@
 	});
 
 	HttpRequest.public('onReadyStateChange', function(){
-		if(this.client && this.client.readyState == 4){
-			var cli = this.client;
-			var event;
+		var event, cli = this.client;
+		if(cli && cli.readyState == 4){
 			var text = null;
 			var headers = null;
-			var status;
 			var statusText = '';
+			var status = HttpRequest.ABORTED? -1 : cli.status;
 			if(!HttpRequest.ABORTED){
 				headers = cli.getAllResponseHeaders();
 				text = 'response' in cli? cli.response : cli.responseText;
@@ -173,7 +172,6 @@
 			if(HttpRequest.ABORTED && document.documentMode > 9){
 				statusText = cli.statusText;
 			}
-			status = HttpRequest.ABORTED? -1 : this.client.status;
 			event = new HttpEvent(text, headers, status, statusText, this.url);
 			this.onreadystatechange && this.onreadystatechange(event);
 		}
@@ -185,7 +183,6 @@
 		var text = 'response' in cli? cli.response:cli.responseText;
 		var headers = cli.getAllResponseHeaders();
 		var event = new HttpEvent(text, headers, cli.status, cli.statusText, this.url);
-		// event.data = event.transform(this.options.transformResponse);
 		if(200 <= event.status && event.status < 300){
 			this.onload && this.onload(event);
 		}else{
