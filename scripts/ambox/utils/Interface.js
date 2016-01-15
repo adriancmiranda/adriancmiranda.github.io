@@ -9,12 +9,8 @@
 	function Interface(name, methods){
 		this.name = name;
 		this.methods = [];
-		for(var id = 0, total = methods.length, method; id < total; id++){
-			method = methods[id];
-			if(!Type.isString(method)){
-				throw new Error('Interface constructor expects method names to be passed in as a string.');
-			}
-			this.methods.push(method);
+		for(var id = 0, total = methods.length; id < total; id++){
+			Type.isString(methods[id]) && this.methods.push(methods[id]);
 		}
 	}
 
