@@ -181,7 +181,7 @@
 	HttpRequest.public('onLoad', function(){
 		this.timer && this.timer.stop() && this.timer.flush();
 		var cli = this.client;
-		var text = 'response' in cli? cli.response:cli.responseText;
+		var text = 'response' in cli? cli.response : cli.responseText;
 		var headers = cli.getAllResponseHeaders();
 		var event = new HttpEvent(text, headers, cli.status, cli.statusText, this.url);
 		if(200 <= event.status && event.status < 300){
