@@ -19,6 +19,7 @@
 		this.script = document.createElement('script');
 		this.script.addEventListener('load', this.onResponse);
 		this.script.addEventListener('error', this.onResponse);
+		this.script.id = this.namespace.replace(/\./g, '_');
 		this.script.type = 'text/javascript';
 		this.script.async = true;
 		this.script.src = this.url;
