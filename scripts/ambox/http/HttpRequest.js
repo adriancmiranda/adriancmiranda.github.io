@@ -17,11 +17,7 @@
 
 	// Factory Method
 	HttpRequest.static('createRequest', function(type){
-		var method = /^(get|post|head|put|delete|options)$/i;
-		var legacy = document.documentMode <= 8;
-		if(legacy && (!method.test(type) || !window.XMLHttpRequest)){
-			return new window.ActiveXObject('Microsoft.XMLHTTP');
-		}else if(window.XMLHttpRequest){
+		if(window.XMLHttpRequest){
 			return new window.XMLHttpRequest();
 		}
 		throw new Error('This browser does not support XMLHttpRequest.');
