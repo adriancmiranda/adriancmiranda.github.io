@@ -9,7 +9,7 @@
 	// @author Adrian C. Miranda <adriancmiranda@gmail.com>
 	// @see http://caniuse.com/#search=async
 	var JsonPadding = new Proto(function JsonPadding(){
-		Proto.rebind(this, 'onResponse', 'onResult');
+		Proto.rebind(this, 'abort', 'padding');
 	}).static('calls', 0);
 
 	JsonPadding.public('load', function(url){
@@ -17,10 +17,10 @@
 		this.callbackId = '$'+(JsonPadding.calls++).toString(36);
 		this.namespace = scope.namespace + '.JsonPadding.' + this.callbackId;
 		this.url = String(url).replace('JSON_CALLBACK', this.namespace);
-		JsonPadding[this.callbackId] = this.onResult;
+		JsonPadding[this.callbackId] = this.padding;
 		this.script = document.createElement('script');
-		this.script.addEventListener('load', this.onResponse);
-		this.script.addEventListener('error', this.onResponse);
+		this.script.addEventListener('load', this.abort);
+		this.script.addEventListener('error', this.abort);
 		this.script.id = this.namespace.replace(/\./g, '_');
 		this.script.type = 'text/javascript';
 		this.script.async = true;
@@ -31,30 +31,23 @@
 	});
 
 	JsonPadding.public('abort', function(){
-		JsonPadding.ABORTED = true;
-		this.script && this.onResponse(undefined);
-		delete(JsonPadding.ABORTED);
+		if(this.script){
+			var evt = arguments[0] || { type:'' };
+			evt.type = evt.type === 'load' && !this.called? 'error' : evt.type;
+			evt.status = evt.type === 'error'? 404 : evt.type === ''? -1 : 200;
+			evt = new HttpEvent(this.response, null, evt.status, evt.type, this.url);
+			this.defer[/^(error|)$/.test(evt.statusText)? 'reject' : 'resolve'](evt);
+			this.script.removeEventListener('error', this.abort);
+			this.script.removeEventListener('load', this.abort);
+			this.head.removeChild(this.script);
+			this.flush();
+		}
 	});
 
-	JsonPadding.public('onResponse', function(evt){
-		var event, callback = JsonPadding[this.callbackId];
-		evt = evt || Proto.create(null);
-		evt.type = evt.type === 'load' && !callback.called? 'error' : evt.type;
-		evt.status = evt.type === 'error'? 404 : JsonPadding.ABORTED? -1 : 200;
-		event = new HttpEvent(callback.response, null, evt.status, evt.type, this.url);
-		this.defer[/^(error|)$/.test(evt.type)? 'reject' : 'resolve'](event);
-		this.script.removeEventListener('error', this.onResponse);
-		this.script.removeEventListener('load', this.onResponse);
-		this.head.removeChild(this.script);
-		delete(JsonPadding[this.callbackId].response);
-		delete(JsonPadding[this.callbackId].called);
+	JsonPadding.public('padding', function(response){
 		delete(JsonPadding[this.callbackId]);
-		this.flush();
-	});
-
-	JsonPadding.public('onResult', function(response){
-		JsonPadding[this.callbackId].response = response;
-		JsonPadding[this.callbackId].called = true;
+		this.response = response;
+		this.called = true;
 	});
 
 	scope.uri('JsonPadding', JsonPadding);

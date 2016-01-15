@@ -23,14 +23,14 @@
 	http.onreadystatechange = function(response){console.log('ready:',response);};
 	// http.onerror = function(reason){console.log('reason:', reason);};
 	// http.onload = function(value){console.log('value:', value);};
-	http.send(Type.toJson({ message:'Hihihi!' }));
+	// http.send(Type.toJson({ message:'Hihihi!' }));
 	// http.abort();
 	// console.log('http.status:', http.status, 'text:', http.statusText);
 
 	var url = 'http://www.reddit.com/.json?limit=1&jsonp=JSON_CALLBACK';
 	var jsonp = new JsonPadding();
 	jsonp.load(url).success(function(value){
-		console.log('[JSONP]:', value);
+		console.log('[JSONP]:', value.data);
 	}, function(reason){
 		console.log('[JSONP ERROR]:', reason);
 	});
