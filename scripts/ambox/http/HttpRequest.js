@@ -144,7 +144,7 @@
 	});
 
 	HttpRequest.public('send', function(data){
-		this.client.send(Type.isDefined(data)? data:null);
+		this.client.send(Type.isDefined(data)? data : null);
 		if(this.timeout > 0){
 			this.timer = new Timer(this.timeout * 1000, 1, false);
 			this.timer.on(Timer.COMPLETE, this.onTimeout);
