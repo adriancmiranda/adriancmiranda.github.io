@@ -8,7 +8,7 @@
 	var Type = scope.uri('Type');
 
 	// HttpRequest - Adapter Pattern
-	// @support IE10+ fallback
+	// @support IE9+ fallback
 	// @see http://caniuse.com/#search=XMLHttpRequest (wrong for IE9 actually)
 	var HttpRequest = new Proto(function HttpRequest(options){
 		Proto.rebind(this, 'onLoad', 'onAbort', 'onError', 'onReadyStateChange', 'onTimeout');
