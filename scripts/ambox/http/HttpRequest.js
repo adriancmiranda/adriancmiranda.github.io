@@ -12,7 +12,7 @@
 	// @see http://caniuse.com/#search=XMLHttpRequest (wrong for IE9 actually)
 	var HttpRequest = new Proto(function HttpRequest(options){
 		Proto.rebind(this, 'onLoad', 'onAbort', 'onError', 'onReadyStateChange', 'onTimeout');
-		if(arguments.length) return new HttpRequestBuilder(this, options);
+		if(arguments.length){return new HttpRequestBuilder(this, options);}
 	});
 
 	// Factory Method
