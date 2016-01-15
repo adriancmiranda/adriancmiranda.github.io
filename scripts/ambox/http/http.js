@@ -49,7 +49,22 @@
 	});
 
 	http.outrun('request', function(url, config){
-		return new HttpRequest(url, config);
+		var http;
+		config = Proto.merge({}, config);
+		if(config.responseType === 'jsonp'){
+			http = new JsonPadding();
+			http = http.load(config.url);
+		}else{
+			http = new HttpRequest();
+			http.open(config.method, config.url, config.async);
+			http.setRequestHeader(config.headers);
+			http.withCredentials = config.withCredentials;
+			http.responseType = config.responseType;
+			// http.onreadystatechange = function(response){console.log('ready:',response);};
+			// http.onerror = function(reason){console.log('reason:', reason);};
+			// http.onload = function(value){console.log('value:', value);};
+			http.send(Type.toJson(config.data));
+		}
 	});
 
 	scope.uri('http', http);

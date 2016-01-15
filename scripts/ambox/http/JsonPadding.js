@@ -7,11 +7,13 @@
 	// JSONP
 	// @support everywhere
 	// @author Adrian C. Miranda <adriancmiranda@gmail.com>
+	// @see http://caniuse.com/#search=async
 	var JsonPadding = new Proto(function JsonPadding(){
 		Proto.rebind(this, 'onResponse', 'onResult');
 	}).static('calls', 0);
 
 	JsonPadding.public('load', function(url){
+		this.head = document.getElementsByTagName('head')[0];
 		this.callbackId = '$'+(JsonPadding.calls++).toString(36);
 		this.namespace = scope.namespace + '.JsonPadding.' + this.callbackId;
 		this.url = String(url).replace('JSON_CALLBACK', this.namespace);
@@ -24,7 +26,7 @@
 		this.script.async = true;
 		this.script.src = this.url;
 		this.defer = new Promise();
-		document.body.appendChild(this.script);
+		this.head.appendChild(this.script);
 		return this.defer;
 	});
 
@@ -43,7 +45,7 @@
 		this.defer[/^(error|)$/.test(evt.type)? 'reject' : 'resolve'](event);
 		this.script.removeEventListener('error', this.onResponse);
 		this.script.removeEventListener('load', this.onResponse);
-		document.body.removeChild(this.script);
+		this.head.removeChild(this.script);
 		delete(JsonPadding[this.callbackId].response);
 		delete(JsonPadding[this.callbackId].called);
 		delete(JsonPadding[this.callbackId]);

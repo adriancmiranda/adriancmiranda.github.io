@@ -34,6 +34,6 @@
 	}, function(reason){
 		console.log('[JSONP ERROR]:', reason);
 	});
-	jsonp.abort();
+	// jsonp.abort();
 
 }).call(this, Ambox);
