@@ -7,20 +7,15 @@
 	var Timer = scope.uri('Timer');
 	var Type = scope.uri('Type');
 
-	var HttpRequestBuilder = new Proto(function HttpRequestBuilder(request){
-		this.request = request;
-	});
-
 	// HttpRequest - Adapter Pattern
 	// @support IE9+ fallback
 	// @see http://caniuse.com/#search=XMLHttpRequest (wrong for IE9 actually)
 	var HttpRequest = new Proto(function HttpRequest(){
 		Proto.rebind(this, 'onLoad', 'onAbort', 'onError', 'onReadyStateChange', 'onTimeout');
-		if(arguments.length){return new HttpRequestBuilder(this, arguments[0]);}
 	});
 
 	// Factory Method
-	HttpRequest.static('createRequest', function(type){
+	HttpRequest.static('createXHR', function(type){
 		if(window.XMLHttpRequest){
 			return new window.XMLHttpRequest();
 		}
@@ -111,7 +106,7 @@
 
 	HttpRequest.public('open', function(method, url, async, username, password){
 		this.url = url;
-		this.client = HttpRequest.createRequest(method);
+		this.client = HttpRequest.createXHR(method);
 		this.client.onreadystatechange = this.onReadyStateChange;
 		this.client.onerror = this.onError;
 		this.client.onabort = this.onAbort;

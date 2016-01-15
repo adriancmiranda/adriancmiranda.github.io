@@ -1,5 +1,6 @@
 /* global Ambox */
 (function(scope){
+	var Type = scope.uri('Type');
 
 	// Interface (Ecma5)
 	// @role An extensible program-code-template for creating objects
@@ -8,25 +9,26 @@
 	function Interface(name, methods){
 		this.name = name;
 		this.methods = [];
-		if(methods.constructor === Array){
-			this.methods = methods;
-		}else if(methods.constructor === String){
-			this.methods[0] = methods;
-		}else{
-			throw new Error('Interface must define methods as a String or an Array of Strings');
+		for(var id = 0, total = methods.length, method; id < total; id++){
+			method = methods[id];
+			if(!Type.isString(method)){
+				throw new Error('Interface constructor expects method names to be passed in as a string.');
+			}
+			this.methods.push(method);
 		}
 	}
 
-	Interface.ensureImplements = function(object, interfaces){
-		var toImplement = interfaces.constructor === Array? interfaces : [interfaces];
-		for(var ia = 0, la = toImplement.length, interface; ia < la; ia++){
-			interface = toImplement[ia];
+	Interface.ensureImplements = function(object){
+		var interfaces = Type.toArray(arguments, 1);
+		for(var ia = 0, la = interfaces.length, interface; ia < la; ia++){
+			interface = interfaces[ia];
 			if(interface.constructor !== Interface){
 				throw new Error('Object trying to implement a non-interface. '+ interface.name +' is not an Interface.');
 			}
-			for(var ib = 0, lb = interface.methods.length; ib < lb; ib++){
-				if(!object[interface.methods[ib]]){
-					throw new Error('Interface method not implemented. '+ interface.name +' defines method '+ interface.methods[ib]);
+			for(var ib = 0, lb = interface.methods.length, method; ib < lb; ib++){
+				method = interface.methods[ib];
+				if(!object[method] || !Type.isFunction(object[method])){
+					throw new Error('Interface method not implemented. '+ interface.name +' defines method '+ method);
 				}
 			}
 		}
