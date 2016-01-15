@@ -35,7 +35,7 @@
 
 	JsonPadding.public('onResponse', function(evt){
 		var event, callback = JsonPadding[this.callbackId];
-		evt = evt || { type:'' };
+		evt = evt || Proto.create(null);
 		evt.type = evt.type === 'load' && !callback.called? 'error' : evt.type;
 		evt.status = evt.type === 'error'? 404 : JsonPadding.ABORTED? -1 : 200;
 		event = new HttpEvent(callback.response, null, evt.status, evt.type, this.url);

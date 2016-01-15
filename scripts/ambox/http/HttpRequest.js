@@ -166,11 +166,12 @@
 			var headers = null;
 			var statusText = '';
 			var status = HttpRequest.ABORTED? -1 : cli.status;
+			var msie = document.documentMode;
 			if(!HttpRequest.ABORTED){
 				headers = cli.getAllResponseHeaders();
 				text = 'response' in cli? cli.response : cli.responseText;
 			}
-			if(HttpRequest.ABORTED && document.documentMode > 9){
+			if(HttpRequest.ABORTED && msie > 9 || !msie){
 				statusText = cli.statusText;
 			}
 			event = new HttpEvent(text, headers, status, statusText, this.url);
