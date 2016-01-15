@@ -102,7 +102,7 @@ Desenvolver códigos claros e limpos para alinhar animações com recursos de in
 - **Papel:** Animações e Desenvolvimento do Website
 - **Pressione:** [CCSP (pt-br)](http://www.clubedecriacao.com.br/ultimas/wave-festival-2015-2/), [Starter Daily (es-ar)](http://starterdaily.com/festivales/2015/04/17/revisa-todos-los-ganadores-de-wave-festival-in-rio-2015/)
 
-#### FWA - Site of the day
+#### FWA - Site do dia
 - **Cliente:** Grupo Petrópolis
 - **Marca:** TNT Energy Drink
 - **Agência:** Young & Rubicam, São Paulo
@@ -120,7 +120,7 @@ Desenvolver códigos claros e limpos para alinhar animações com recursos de in
 - **Papel:** Animações e Desenvolvimento do Website
 - **Pressione:** [FWA (pt-br)](http://www.thefwa.com/site/punchface), [Facebook Studio (en-us)](https://www.facebook-studio.com/gallery/submission/punchface)
 
-### Extracurricular Activities
+### Atividades Extracurriculares
 
 - Você pode verificar meus projetos pessoais e contribuições [aqui](https://github.com/adriancmiranda), no [GitHub](https://github.com/). URL: https://github.com/adriancmiranda.
 - Eu corro aos finais de semana.
