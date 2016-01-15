@@ -14,8 +14,8 @@
 		}
 	}
 
-	Interface.ensureImplements = function(object){
-		var interfaces = Type.toArray(arguments, 1);
+	Interface.ensureImplements = function(object, interfaces){
+		interfaces = Type.isArray(interfaces)? interfaces : [];
 		for(var ia = 0, la = interfaces.length, interface; ia < la; ia++){
 			interface = interfaces[ia];
 			if(interface.constructor !== Interface){
