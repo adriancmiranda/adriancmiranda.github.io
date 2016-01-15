@@ -8,12 +8,7 @@
 	// @support everywhere
 	// @author Adrian C. Miranda <adriancmiranda@gmail.com>
 	var JsonPadding = new Proto(function JsonPadding(url){
-		if(this instanceof JsonPadding){
-			Proto.rebind(this, 'onResponse', 'onResult');
-			if(url){return this.load(url);}
-			return this;
-		}
-		return new JsonPadding(url);
+		Proto.rebind(this, 'onResponse', 'onResult');
 	}).static('calls', 0);
 
 	JsonPadding.public('load', function(url){

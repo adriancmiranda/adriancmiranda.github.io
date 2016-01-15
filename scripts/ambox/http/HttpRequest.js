@@ -7,6 +7,10 @@
 	var Timer = scope.uri('Timer');
 	var Type = scope.uri('Type');
 
+	var HttpRequestBuilder = new Proto(function HttpRequestBuilder(request){
+		this.request = request;
+	});
+
 	// HttpRequest - Adapter Pattern
 	// @support IE9+ fallback
 	// @see http://caniuse.com/#search=XMLHttpRequest (wrong for IE9 actually)
