@@ -9,7 +9,7 @@
 	// @see http://caniuse.com/#search=Promise
 	// @support everywhere
 	// @author Adrian C. Miranda <adriancmiranda@gmail.com>
-	var Promise = Proto(function Promise(cmd, ctx){
+	var Promise = new Proto(function Promise(cmd, ctx){
 		Proto.rebind(this, 'resolve', 'reject');
 		this.do.apply(this,[cmd,ctx,this].concat(Type.toArray(arguments, 2)));
 	});
