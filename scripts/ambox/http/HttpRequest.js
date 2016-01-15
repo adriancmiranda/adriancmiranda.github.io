@@ -1,6 +1,6 @@
 /* global Ambox */
 (function(scope){
-	var HttpData = scope.uri('HttpData');
+	var HttpEvent = scope.uri('HttpEvent');
 	var Promise = scope.uri('Promise');
 	var iterate = scope.uri('iterate');
 	var Proto = scope.uri('Proto');
@@ -155,13 +155,13 @@
 	HttpRequest.public('abort', function(){
 		HttpRequest.ABORTED = true;
 		this.client.abort();
-		// delete(HttpRequest.ABORTED);
+		delete(HttpRequest.ABORTED);
 	});
 
 	HttpRequest.public('onReadyStateChange', function(){
 		if(this.client && this.client.readyState == 4){
 			var cli = this.client;
-			var data;
+			var event;
 			var text = null;
 			var headers = null;
 			var status;
@@ -174,9 +174,8 @@
 				statusText = cli.statusText;
 			}
 			status = HttpRequest.ABORTED? -1 : this.client.status;
-			data = new HttpData(text, headers, status, statusText, this.url);
-			this.onreadystatechange && this.onreadystatechange(data.toObject());
-			delete(HttpRequest.ABORTED);
+			event = new HttpEvent(text, headers, status, statusText, this.url);
+			this.onreadystatechange && this.onreadystatechange(event.toObject());
 		}
 	});
 
@@ -185,30 +184,27 @@
 		var cli = this.client;
 		var text = 'response' in cli? cli.response:cli.responseText;
 		var headers = cli.getAllResponseHeaders();
-		var data = new HttpData(text, headers, cli.status, cli.statusText, this.url);
-		// data.data = data.transform(this.options.transformResponse);
-		if(200 <= data.status && data.status < 300){
-			this.onload && this.onload(data);
+		var event = new HttpEvent(text, headers, cli.status, cli.statusText, this.url);
+		// event.data = event.transform(this.options.transformResponse);
+		if(200 <= event.status && event.status < 300){
+			this.onload && this.onload(event);
 		}else{
-			this.onerror && this.onerror(data.toObject());
+			this.onerror && this.onerror(event.toObject());
 		}
 	});
 
 	HttpRequest.public('onError', function(){
 		this.timer && this.timer.stop() && this.timer.flush();
-		var data = new HttpData(null, null, -1, '', this.url);
-		this.onerror && this.onerror(data.toObject());
+		this.onerror && this.onerror(new HttpEvent(null, null, -1, '', this.url));
 	});
 
 	HttpRequest.public('onAbort', function(){
-		var data = new HttpData(null, null, -1, '', this.url);
-		this.onabort && this.onabort(data.toObject());
+		this.onabort && this.onabort(new HttpEvent(null, null, -1, '', this.url));
 	});
 
 	HttpRequest.public('onTimeout', function(){
 		this.abort();
-		var data = new HttpData(null, null, -1, '', this.url);
-		this.ontimeout && this.ontimeout(data.toObject());
+		this.ontimeout && this.ontimeout(new HttpEvent(null, null, -1, '', this.url));
 	});
 
 	scope.uri('HttpRequest', HttpRequest);
