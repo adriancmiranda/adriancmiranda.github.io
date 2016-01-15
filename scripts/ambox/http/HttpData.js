@@ -9,11 +9,11 @@
 	// @support IE10+ fallback
 	// @see http://caniuse.com/#search=XMLHttpRequest
 	var HttpData = new Proto(function HttpData(data, headers, status, statusText, url){
+		this.url = url;
 		this.data = data;
 		this.headers = headers;
 		this.status = status;
 		this.statusText = statusText;
-		this.url = url;
 	});
 
 	HttpData.define('url', {

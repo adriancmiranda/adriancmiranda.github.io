@@ -34,17 +34,19 @@
 	});
 
 	JsonPadding.public('abort', function(){
+		JsonPadding.ABORTED = true;
 		this.script && this.onResponse(undefined);
+		delete(JsonPadding.ABORTED);
 	});
 
 	JsonPadding.public('onResponse', function(evt){
 		var data, callback = JsonPadding[this.callbackId];
-		evt = evt || { type:'unknown' };
+		evt = evt || { type:JsonPadding.ABORTED? 'abort' : 'unknown' };
 		evt.type = evt.type === 'load' && !callback.called? 'error' : evt.type;
-		evt.status = evt.type === 'error'? 404 : 200;
+		evt.status = evt.type === 'error'? 404 : JsonPadding.ABORTED? -1 : 200;
 		data = new HttpData(callback.response, null, evt.status, evt.type, this.url);
 		// data.data = data.transform(this.options.transformResponse);
-		this.defer[evt.type === 'error'? 'reject' : 'resolve'](data.toObject());
+		this.defer[/^(error|abort)$/.test(evt.type)? 'reject' : 'resolve'](data);
 		this.script.removeEventListener('error', this.onResponse);
 		this.script.removeEventListener('load', this.onResponse);
 		document.body.removeChild(this.script);

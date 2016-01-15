@@ -12,7 +12,6 @@
 	// @see http://caniuse.com/#search=XMLHttpRequest (wrong for IE9 actually)
 	var HttpRequest = new Proto(function HttpRequest(){
 		Proto.rebind(this, 'onLoad', 'onAbort', 'onError', 'onReadyStateChange', 'onTimeout');
-		this.timeout = 0;
 		arguments.length && this.open.apply(this, arguments);
 	});
 
@@ -64,7 +63,7 @@
 			this._timeout = Type.toUint(milliseconds);
 		},
 		get:function(){
-			return this._timeout;
+			return this._timeout||0;
 		}
 	});
 
@@ -156,6 +155,7 @@
 	HttpRequest.public('abort', function(){
 		HttpRequest.ABORTED = true;
 		this.client.abort();
+		// delete(HttpRequest.ABORTED);
 	});
 
 	HttpRequest.public('onReadyStateChange', function(){
@@ -188,7 +188,7 @@
 		var data = new HttpData(text, headers, cli.status, cli.statusText, this.url);
 		// data.data = data.transform(this.options.transformResponse);
 		if(200 <= data.status && data.status < 300){
-			this.onload && this.onload(data.toObject());
+			this.onload && this.onload(data);
 		}else{
 			this.onerror && this.onerror(data.toObject());
 		}
