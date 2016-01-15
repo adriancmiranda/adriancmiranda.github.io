@@ -2,7 +2,7 @@
 (function(scope){
 	var Type = scope.uri('Type');
 
-	// Interface (Ecma5)
+	// Interface
 	// @role An extensible program-code-template for creating interfaces
 	// @support everywhere
 	// @author Adrian C. Miranda <adriancmiranda@gmail.com>
