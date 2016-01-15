@@ -161,6 +161,7 @@
 	HttpRequest.public('onReadyStateChange', function(){
 		var event, cli = this.client;
 		if(cli && cli.readyState == 4){
+			this.timer && this.timer.stop() && this.timer.flush();
 			var text = null;
 			var headers = null;
 			var statusText = '';
