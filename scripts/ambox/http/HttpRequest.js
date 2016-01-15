@@ -10,9 +10,9 @@
 	// HttpRequest - Adapter Pattern
 	// @support IE10+ fallback
 	// @see http://caniuse.com/#search=XMLHttpRequest (wrong for IE9 actually)
-	var HttpRequest = new Proto(function HttpRequest(){
+	var HttpRequest = new Proto(function HttpRequest(options){
 		Proto.rebind(this, 'onLoad', 'onAbort', 'onError', 'onReadyStateChange', 'onTimeout');
-		arguments.length && this.open.apply(this, arguments);
+		if(arguments.length) return new HttpRequestBuilder(this, options);
 	});
 
 	// Factory Method
