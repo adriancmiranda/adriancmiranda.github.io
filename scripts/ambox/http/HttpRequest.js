@@ -38,8 +38,8 @@
 	HttpRequest.define('responseType', {
 		set:function(value){
 			value = Type.isDefined(value)? value : '';
-			try{this.client.responseType=value;}
-			catch(error){if(value!=='json'){throw error;}}
+			try{this.client.responseType = value;}
+			catch(error){if(value !== 'json'){throw error;}}
 		},
 		get:function(){
 			return this.client.responseType;
