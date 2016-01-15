@@ -1,6 +1,6 @@
 /* global Ambox */
 (function(scope){
-	var HttpData = scope.uri('HttpData');
+	var HttpEvent = scope.uri('HttpEvent');
 	var Promise = scope.uri('Promise');
 	var iterate = scope.uri('iterate');
 	var Proto = scope.uri('Proto');
@@ -8,21 +8,15 @@
 	var Type = scope.uri('Type');
 
 	// HttpRequest - Adapter Pattern
-	// @support IE10+ fallback
+	// @support IE9+ fallback
 	// @see http://caniuse.com/#search=XMLHttpRequest (wrong for IE9 actually)
 	var HttpRequest = new Proto(function HttpRequest(){
 		Proto.rebind(this, 'onLoad', 'onAbort', 'onError', 'onReadyStateChange', 'onTimeout');
-		this.timeout = 0;
-		arguments.length && this.open.apply(this, arguments);
 	});
 
 	// Factory Method
-	HttpRequest.static('createRequest', function(type){
-		var method = /^(get|post|head|put|delete|options)$/i;
-		var legacy = document.documentMode <= 8;
-		if(legacy && (!method.test(type) || !window.XMLHttpRequest)){
-			return new window.ActiveXObject('Microsoft.XMLHTTP');
-		}else if(window.XMLHttpRequest){
+	HttpRequest.static('createXHR', function(type){
+		if(window.XMLHttpRequest){
 			return new window.XMLHttpRequest();
 		}
 		throw new Error('This browser does not support XMLHttpRequest.');
@@ -39,8 +33,8 @@
 	HttpRequest.define('responseType', {
 		set:function(value){
 			value = Type.isDefined(value)? value : '';
-			try{this.client.responseType=value;}
-			catch(error){if(value!=='json'){throw error;}}
+			try{this.client.responseType = value;}
+			catch(error){if(value !== 'json'){throw error;}}
 		},
 		get:function(){
 			return this.client.responseType;
@@ -64,7 +58,7 @@
 			this._timeout = Type.toUint(milliseconds);
 		},
 		get:function(){
-			return this._timeout;
+			return this._timeout||0;
 		}
 	});
 
@@ -112,7 +106,7 @@
 
 	HttpRequest.public('open', function(method, url, async, username, password){
 		this.url = url;
-		this.client = HttpRequest.createRequest(method);
+		this.client = HttpRequest.createXHR(method);
 		this.client.onreadystatechange = this.onReadyStateChange;
 		this.client.onerror = this.onError;
 		this.client.onabort = this.onAbort;
@@ -145,7 +139,7 @@
 	});
 
 	HttpRequest.public('send', function(data){
-		this.client.send(Type.isDefined(data)? data:null);
+		this.client.send(Type.isDefined(data)? data : null);
 		if(this.timeout > 0){
 			this.timer = new Timer(this.timeout * 1000, 1, false);
 			this.timer.on(Timer.COMPLETE, this.onTimeout);
@@ -156,59 +150,55 @@
 	HttpRequest.public('abort', function(){
 		HttpRequest.ABORTED = true;
 		this.client.abort();
+		delete(HttpRequest.ABORTED);
 	});
 
 	HttpRequest.public('onReadyStateChange', function(){
-		if(this.client && this.client.readyState == 4){
-			var cli = this.client;
-			var data;
+		var event, cli = this.client;
+		if(cli && cli.readyState == 4){
+			this.timer && this.timer.stop() && this.timer.flush();
 			var text = null;
 			var headers = null;
-			var status;
 			var statusText = '';
+			var status = HttpRequest.ABORTED? -1 : cli.status;
+			var msie = document.documentMode;
 			if(!HttpRequest.ABORTED){
 				headers = cli.getAllResponseHeaders();
 				text = 'response' in cli? cli.response : cli.responseText;
 			}
-			if(HttpRequest.ABORTED && document.documentMode > 9){
+			if(HttpRequest.ABORTED && msie > 9 || !msie){
 				statusText = cli.statusText;
 			}
-			status = HttpRequest.ABORTED? -1 : this.client.status;
-			data = new HttpData(text, headers, status, statusText, this.url);
-			this.onreadystatechange && this.onreadystatechange(data.toObject());
-			delete(HttpRequest.ABORTED);
+			event = new HttpEvent(text, headers, status, statusText, this.url);
+			this.onreadystatechange && this.onreadystatechange(event);
 		}
 	});
 
 	HttpRequest.public('onLoad', function(){
 		this.timer && this.timer.stop() && this.timer.flush();
 		var cli = this.client;
-		var text = 'response' in cli? cli.response:cli.responseText;
+		var text = 'response' in cli? cli.response : cli.responseText;
 		var headers = cli.getAllResponseHeaders();
-		var data = new HttpData(text, headers, cli.status, cli.statusText, this.url);
-		// data.data = data.transform(this.options.transformResponse);
-		if(200 <= data.status && data.status < 300){
-			this.onload && this.onload(data.toObject());
+		var event = new HttpEvent(text, headers, cli.status, cli.statusText, this.url);
+		if(200 <= event.status && event.status < 300){
+			this.onload && this.onload(event);
 		}else{
-			this.onerror && this.onerror(data.toObject());
+			this.onerror && this.onerror(event);
 		}
 	});
 
 	HttpRequest.public('onError', function(){
 		this.timer && this.timer.stop() && this.timer.flush();
-		var data = new HttpData(null, null, -1, '', this.url);
-		this.onerror && this.onerror(data.toObject());
+		this.onerror && this.onerror(new HttpEvent(null, null, -1, '', this.url));
 	});
 
 	HttpRequest.public('onAbort', function(){
-		var data = new HttpData(null, null, -1, '', this.url);
-		this.onabort && this.onabort(data.toObject());
+		this.onabort && this.onabort(new HttpEvent(null, null, -1, '', this.url));
 	});
 
 	HttpRequest.public('onTimeout', function(){
 		this.abort();
-		var data = new HttpData(null, null, -1, '', this.url);
-		this.ontimeout && this.ontimeout(data.toObject());
+		this.ontimeout && this.ontimeout(new HttpEvent(null, null, -1, '', this.url));
 	});
 
 	scope.uri('HttpRequest', HttpRequest);

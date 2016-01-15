@@ -124,11 +124,12 @@
 		return this;
 	};
 
-	Proto.prototype.define = function(prop, definition){
+	Proto.prototype.define = function(){
 		var definitions = Proto.create(null);
-		var nameList = prop.split('|');
-		for(var id = 0, total = nameList.length; id < total; id++){
-			definitions[nameList[id]] = definition;
+		if(arguments.length === 2 && Type.isString(arguments[0])){
+			definitions[arguments[0]] = arguments[1];
+		}else if(arguments.length === 1){
+			definitions = arguments[0];
 		}
 		Object.defineProperties(this.prototype, definitions);
 		return this;
