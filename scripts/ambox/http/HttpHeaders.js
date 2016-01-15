@@ -3,8 +3,8 @@
 	var Proto = scope.uri('Proto');
 
 	// HttpHeaders
-	// @support IE10+ fallback
-	// @see http://caniuse.com/#search=XMLHttpRequest
+	// @support IE9+ fallback
+	// @see http://caniuse.com/#search=XMLHttpRequest (wrong for IE9 actually)
 	var HttpHeaders = new Proto(function HttpHeaders(){
 		// @see Memento Design Pattern
 

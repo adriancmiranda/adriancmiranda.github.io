@@ -6,8 +6,8 @@
 	var iterate = scope.uri('iterate');
 
 	// HttpEvent
-	// @support IE10+ fallback
-	// @see http://caniuse.com/#search=XMLHttpRequest
+	// @support IE9+ fallback
+	// @see http://caniuse.com/#search=XMLHttpRequest (wrong for IE9 actually)
 	var HttpEvent = new Proto(function HttpEvent(data, headers, status, statusText, url){
 		this.url = new URL(url);
 		this.data = data;
