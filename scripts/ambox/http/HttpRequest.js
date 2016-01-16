@@ -1,17 +1,107 @@
 /* global Ambox */
 (function(scope){
+	var HttpHeaders = scope.uri('HttpHeaders');
 	var HttpEvent = scope.uri('HttpEvent');
+	var patterns = scope.uri('patterns');
 	var Promise = scope.uri('Promise');
 	var iterate = scope.uri('iterate');
 	var Proto = scope.uri('Proto');
 	var Type = scope.uri('Type');
 
+	// HttpRequestBuilder - Builder Pattern
+	// @support IE9+ fallback
+	var HttpRequestBuilder = new Proto(function HttpRequestBuilder(httpRequest){
+		this.promise = new Promise();
+		this.request = httpRequest;
+	});
+
+	HttpRequestBuilder.static('defaultHttpResponseTransform', function(data, headers){
+		if(Type.isString(data)){
+			var tempData = data.replace(patterns.jsonProtectionPrefix, '').trim();
+			if(tempData){
+				var contentType = headers('Content-Type');
+				if((contentType && (contentType.indexOf('application/json') === 0)) || Type.isJsonLike(tempData)){
+					data = Type.fromJson(tempData);
+				}
+			}
+		}
+		return data;
+	});
+
+	HttpRequestBuilder.static('defaultHttpRequestTransform', function(data){
+		if(Type.test('File|Blob|FormData', data, true)){
+			return data;
+		}
+		return Type.toJson(data);
+	});
+
+	HttpRequestBuilder.static('defaults', {
+		headers:null,
+		transformResponse:[HttpRequestBuilder.defaultHttpResponseTransform],
+		transformRequest:[HttpRequestBuilder.defaultHttpRequestTransform],
+		xsrfHeaderName:'X-XSRF-TOKEN',
+		xsrfCookieName:'XSRF-TOKEN',
+		withCredentials:false,
+		responseType:'json',
+		method:'POST',
+		url:null,
+		timeout:0,
+		async:true,
+		data:null
+	});
+
+	HttpRequestBuilder.charge('load', function(options){
+		return Type.isObjectLike(options) &&
+		this.load(options, options.headers) || this.promise;
+	});
+
+	HttpRequestBuilder.charge('load', function(options, headers){
+		headers = headers || {};
+		return Type.isObjectLike(options) && Type.isObjectLike(headers) &&
+		this.load(options.url, options, headers) || this.promise;
+	});
+
+	HttpRequestBuilder.charge('load', function(url, options, headers){
+		return Type.isString(url) && Type.isObjectLike(options) && Type.isObjectLike(headers) &&
+		this.load(url, options.data, options, headers) || this.promise;
+	});
+
+	HttpRequestBuilder.charge('load', function(url, data, options, headers){
+		options = Proto.merge({}, HttpRequestBuilder.defaults, headers, data, options);// XXX: options.data
+		headers = new HttpHeaders(headers, options.method, data, options);
+		data = new HttpEvent(data, headers.fn, 0, '', url);
+		console.log('url:', url);
+		console.log('method:', options.method);
+		console.log('async:', options.async);
+		console.log('withCredentials:', options.withCredentials);
+		console.log('responseType:', options.responseType);
+		console.log('timeout:', options.timeout);
+		console.log('transformRequest:', options.transformRequest);
+		console.log('[transformedRequest]:', data.transform(options.transformRequest));
+		console.log('[headers.value]:', headers.value);
+		console.log('[headers.fn]:', [headers.fn]);
+		this.request.open(options.method, url, options.async);
+		this.request.setRequestHeader(headers.value);
+		this.request.onload = this.promise.resolve;
+		this.request.onabort = this.promise.reject;
+		this.request.onerror = this.promise.reject;
+		this.request.ontimeout = this.promise.reject;
+		this.request.withCredentials = options.withCredentials;
+		this.request.responseType = options.responseType;
+		this.request.timeout = options.timeout;
+		// this.request.send(data.transform(options.transformRequest));
+		return this.promise;
+	});
+
 	// HttpRequest - Adapter Pattern
 	// @support IE9+ fallback
 	// @see http://caniuse.com/#search=XMLHttpRequest (wrong for IE9 actually)
-	// @see http://kangax.github.io/compat-table/es5/#test-String.prototype.trim
 	var HttpRequest = new Proto(function HttpRequest(){
-		Proto.rebind(this, 'onReadyStateChange', 'onLoad', 'onError', 'onAbort', 'onTimeout');
+		Proto.rebind(this, 'onLoad', 'onAbort', 'onError', 'onTimeout');
+		if(arguments.length){
+			var builder = new HttpRequestBuilder(this);
+			return builder.load.apply(builder, arguments);
+		}
 	});
 
 	// Factory Method
@@ -122,7 +212,7 @@
 	HttpRequest.charge('setRequestHeader', function(headers){
 		iterate.property(headers, function(value, header){
 			this.setRequestHeader(header, value);
-		});
+		}, this);
 	});
 
 	HttpRequest.charge('setRequestHeader', function(header, value){
@@ -183,6 +273,9 @@
 		var text = 'response' in cli? cli.response : cli.responseText;
 		var headers = cli.getAllResponseHeaders();
 		var event = new HttpEvent(text, headers, cli.status, cli.statusText, this.url);
+		// this.onreadystatechange && this.onreadystatechange(new HttpEvent(null, null, -1, '', this.url));
+		// this.onreadystatechange && this.onreadystatechange(new HttpEvent(null, null, -1, '', this.url));
+		// this.onreadystatechange && this.onreadystatechange(new HttpEvent(null, null, -1, '', this.url));
 		if(200 <= event.status && event.status < 300){
 			this.onload && this.onload(event);
 		}else{
@@ -192,15 +285,18 @@
 
 	HttpRequest.public('onError', function(){
 		window.clearTimeout(this.timer);
+		// this.onreadystatechange && this.onreadystatechange(new HttpEvent(null, null, -1, '', this.url));
 		this.onerror && this.onerror(new HttpEvent(null, null, -1, '', this.url));
 	});
 
 	HttpRequest.public('onAbort', function(){
+		// this.onreadystatechange && this.onreadystatechange(new HttpEvent(null, null, -1, '', this.url));
 		this.onabort && this.onabort(new HttpEvent(null, null, -1, '', this.url));
 	});
 
 	HttpRequest.public('onTimeout', function(){
 		this.abort();
+		// this.onreadystatechange && this.onreadystatechange(new HttpEvent(null, null, -1, '', this.url));
 		this.ontimeout && this.ontimeout(new HttpEvent(null, null, -1, '', this.url));
 	});
 
