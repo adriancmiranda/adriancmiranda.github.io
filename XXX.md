@@ -70,3 +70,33 @@ if(status === 0){
 }
 status === 1223? 204 : status
 ```
+
+
+```javascript
+scope.uri('IIterator', new Interface('IIterator', [
+	'isEmpty',
+	'hasPrevious',
+	'hasNext',
+	'previous',
+	'next',
+	'get',
+	'current',
+	'peek',
+	'lastIndex',
+	'index',
+	'size',
+	'lastIndexOf',
+	'indexOf',
+	'contains',
+	'each',
+	'add',
+	'addAt',
+	'remove',
+	'removeAt',
+	'clear',
+	// 'last',
+	// 'first',
+	'peak',
+	'reset'
+]));
+```
