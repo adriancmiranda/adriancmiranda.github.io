@@ -33,17 +33,17 @@
 	});
 
 	JsonPadding.public('abort', function(){
-		if(this.script){
-			var evt = arguments[0] || { type:'' };
-			evt.type = evt.type === 'load' && !this.called? 'error' : evt.type;
-			evt.status = evt.type === 'error'? 404 : evt.type === ''? -1 : 200;
-			evt = new HttpEvent(this.response, null, evt.status, evt.type, this.url);
-			this.defer[/^(error|)$/.test(evt.statusText)? 'reject' : 'resolve'](evt);
-			this.script.removeEventListener('error', this.abort);
-			this.script.removeEventListener('load', this.abort);
-			this.head.removeChild(this.script);
-			this.flush();
-		}
+		if(this.script) return false;
+		var evt = arguments[0] || { type:'' };
+		evt.type = evt.type === 'load' && !this.called? 'error' : evt.type;
+		evt.status = evt.type === 'error'? 404 : evt.type === ''? -1 : 200;
+		evt = new HttpEvent(this.response, null, evt.status, evt.type, this.url);
+		this.defer[/^(error|)$/.test(evt.statusText)? 'reject' : 'resolve'](evt);
+		this.script.removeEventListener('error', this.abort);
+		this.script.removeEventListener('load', this.abort);
+		this.head.removeChild(this.script);
+		this.flush();
+		return true;
 	});
 
 	JsonPadding.public('padding', function(response){
