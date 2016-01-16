@@ -1,7 +1,7 @@
 /* global Ambox */
 (function(scope){
-	var each = scope.uri('each');
 	var Proto = scope.uri('Proto');
+	var iterate = scope.uri('iterate');
 
 	var Injector = new Proto(function Injector(target){
 		Injector.process(target);
