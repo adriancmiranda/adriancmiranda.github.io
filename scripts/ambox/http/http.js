@@ -1,84 +1,57 @@
 /* global Ambox */
 (function(scope){
+	var Type = scope.uri('Type');
 	var Proto = scope.uri('Proto');
+	var HttpTransform = scope.uri('HttpTransform');
+	var HttpHeaders = scope.uri('HttpHeaders');
 	var HttpRequest = scope.uri('HttpRequest');
+	var JsonPadding = scope.uri('JsonPadding');
+	var patterns = scope.uri('patterns');
+	var iterate = scope.uri('iterate');
 
 	// http
 	// Adapter pattern to `XMLHttpRequest` with padding.
-	// @support IE10+
+	// @support IE9+
 	var http = new Proto(function http(options){
-		return this.request(options);
+		return http.request(options);
+	}).static('pendingRequests', []).static('defaults', {
+		transformRequest:[HttpTransform.request],
+		transformResponse:[HttpTransform.response],
+		xsrfHeaderName:'X-XSRF-TOKEN',
+		xsrfCookieName:'XSRF-TOKEN',
+		headers:HttpHeaders.defaults,
+		method:'GET'
 	});
 
-	// with data
-
-	http.static('post', function(url, data, config){
-		return this.request(url, data, { method:'post', data:data });
+	iterate.index(['get', 'delete', 'head', 'jsonp'], function(method){
+		http.static(method, function(url, options){
+			return http(Proto.merge({}, options, {
+				method: method,
+				url: url
+			}));
+		});
 	});
 
-	http.static('put', function(url, data, config){
-		return this.request(url, { method:'put', data:data });
+	iterate.index(['post', 'put', 'patch'], function(method){
+		http.static(method, function(url, data, options){
+			return http(Proto.merge({}, options, {
+				method: method,
+				data: data,
+				url: url
+			}));
+		});
 	});
 
-	http.static('patch', function(url, data, config){
-		return this.request(url, { method:'patch', data:data });
-	});
-
-	// without data
-
-	http.static('delete', function(url, config){
-		return this.request(url, { method:'delete' });
-	});
-
-	http.static('head', function(url, config){
-		return this.request(url, { method:'head' });
-	});
-
-	http.static('jsonp', function(url, config){
-		return this.request(url, { method:'jsonp' });
-	});
-
-	http.static('get', function(url, config){
-		return this.request(url, { method:'get' });
-	});
-
-	// generic call
-
-	http.outrun('request', function(url, data, config){
-		return new HttpRequest(url, data, config);
-	});
-
-	http.outrun('request', function(url, config){
-		var http;
-		config = Proto.merge({}, config);
-		if(config.responseType === 'jsonp'){
-			http = new JsonPadding();
-			http = http.load(config.url);
-		}else{
-			http = new HttpRequest();
-			http.open(config.method, config.url, config.async);
-			http.setRequestHeader(config.headers);
-			http.withCredentials = config.withCredentials;
-			http.responseType = config.responseType;
-			// http.onreadystatechange = function(response){console.log('ready:',response);};
-			// http.onerror = function(reason){console.log('reason:', reason);};
-			// http.onload = function(value){console.log('value:', value);};
-			http.send(Type.toJson(config.data));
-		}
+	http.static('request', function(options){
+		options = Proto.merge({}, http.defaults, options);
+		var method = Type.isString(options.method)? options.method.trim() : 'GET';
+		var request = new (/^jsonp$/i.test(method)? JsonPadding : HttpRequest)();
+		return request.load(options).then(function(value){
+			value.data = HttpTransform(options.transformResponse, value.toArray());
+			return value;
+		});
 	});
 
 	scope.uri('http', http);
 
 }).call(this, Ambox);
-
-// function createShortMethodsWithData(name) {
-//   forEach(arguments, function(name) {
-//     $http[name] = function(url, data, config) {
-//       return $http(extend({}, config || {}, {
-//         method: name,
-//         url: url,
-//         data: data
-//       }));
-//     };
-//   });
-// }
