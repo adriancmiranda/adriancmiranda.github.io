@@ -1,5 +1,6 @@
 /* global Ambox */
 (function(scope){
+	var Type = scope.uri('Type');
 	var Proto = scope.uri('Proto');
 	var Promise = scope.uri('Promise');
 	var HttpEvent = scope.uri('HttpEvent');
@@ -13,6 +14,7 @@
 	}).static('calls', 0);
 
 	JsonPadding.public('load', function(url){
+		url = Type.isObjectLike(url)? url.url : url;
 		this.head = document.getElementsByTagName('head')[0];
 		this.callbackId = '$'+(JsonPadding.calls++).toString(36);
 		this.namespace = scope.namespace + '.JsonPadding.' + this.callbackId;
