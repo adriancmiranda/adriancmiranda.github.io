@@ -169,7 +169,7 @@
 				headers = cli.getAllResponseHeaders();
 				text = 'response' in cli? cli.response : cli.responseText;
 			}
-			if(HttpRequest.ABORTED && msie > 9 || !msie){
+			if(!(HttpRequest.ABORTED && msie < 10)){
 				statusText = cli.statusText;
 			}
 			event = new HttpEvent(text, headers, status, statusText, this.url);
