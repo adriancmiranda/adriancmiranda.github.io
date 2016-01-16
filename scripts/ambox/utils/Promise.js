@@ -157,14 +157,6 @@
 		return this.then(null, onRejected);
 	});
 
-	Promise.public('success', function(onFulfilled, onRejected){
-		return this.then(onFulfilled, onRejected);
-	});
-
-	Promise.public('error', function(onRejected){
-		return this.then(null, onRejected);
-	});
-
 	scope.uri('Promise', Promise);
 
 }).call(this, Ambox);
