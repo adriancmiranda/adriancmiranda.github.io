@@ -71,6 +71,28 @@ if(status === 0){
 status === 1223? 204 : status
 ```
 
+```javascript
+HttpRequest.public('onReadyStateChange', function(){
+	window.clearTimeout(this.timer);
+	var event, cli = this.client;
+	if(cli && cli.readyState == 4){
+		var text = null;
+		var headers = null;
+		var statusText = '';
+		var status = HttpRequest.ABORTED? -1 : cli.status;
+		var msie = document.documentMode;
+		if(!HttpRequest.ABORTED){
+			headers = cli.getAllResponseHeaders();
+			text = 'response' in cli? cli.response : cli.responseText;
+		}
+		if(!(HttpRequest.ABORTED && msie < 10)){
+			statusText = cli.statusText;
+		}
+		event = new HttpEvent(text, headers, status, statusText, this.url);
+		this.onreadystatechange && this.onreadystatechange(event);
+	}
+});
+```
 
 ```javascript
 scope.uri('IIterator', new Interface('IIterator', [
