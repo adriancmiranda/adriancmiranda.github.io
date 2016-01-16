@@ -66,17 +66,6 @@ define([
 		return parsed;
 	};
 
-	XHR.toggleContentType = function(data, headers){
-		if(Type.isUndefined(data)){
-			Map.object(headers, function(value, header){
-				if(String(header).toLowerCase() === 'content-type'){
-					delete(headers[header]);
-				}
-			});
-		}
-		return headers;
-	};
-
 	XHR.headersGetter = function(headers){
 		var headersObj;
 		return function(name){
@@ -92,6 +81,17 @@ define([
 			}
 			return headersObj;
 		};
+	};
+
+	XHR.toggleContentType = function(data, headers){
+		if(Type.isUndefined(data)){
+			Map.object(headers, function(value, header){
+				if(String(header).toLowerCase() === 'content-type'){
+					delete(headers[header]);
+				}
+			});
+		}
+		return headers;
 	};
 
 	XHR.executeHeaders = function(headers, options){
