@@ -4,14 +4,14 @@
 	var Promise = scope.uri('Promise');
 	var iterate = scope.uri('iterate');
 	var Proto = scope.uri('Proto');
-	var Timer = scope.uri('Timer');
 	var Type = scope.uri('Type');
 
 	// HttpRequest - Adapter Pattern
 	// @support IE9+ fallback
 	// @see http://caniuse.com/#search=XMLHttpRequest (wrong for IE9 actually)
+	// @see http://kangax.github.io/compat-table/es5/#test-String.prototype.trim
 	var HttpRequest = new Proto(function HttpRequest(){
-		Proto.rebind(this, 'onLoad', 'onAbort', 'onError', 'onReadyStateChange', 'onTimeout');
+		Proto.rebind(this, 'onReadyStateChange', 'onLoad', 'onError', 'onAbort', 'onTimeout');
 	});
 
 	// Factory Method
@@ -33,8 +33,13 @@
 	HttpRequest.define('responseType', {
 		set:function(value){
 			value = Type.isDefined(value)? value : '';
-			try{this.client.responseType = value;}
-			catch(error){if(value !== 'json'){throw error;}}
+			try{
+				this.client.responseType = value;
+			}catch(error){
+				if(value !== 'json'){
+					throw error;
+				}
+			}
 		},
 		get:function(){
 			return this.client.responseType;
@@ -141,9 +146,7 @@
 	HttpRequest.public('send', function(data){
 		this.client.send(Type.isDefined(data)? data : null);
 		if(this.timeout > 0){
-			this.timer = new Timer(this.timeout * 1000, 1, false);
-			this.timer.on(Timer.COMPLETE, this.onTimeout);
-			this.timer.start();
+			this.timer = window.setTimeout(this.onTimeout, this.timeout);
 		}
 	});
 
@@ -154,9 +157,9 @@
 	});
 
 	HttpRequest.public('onReadyStateChange', function(){
+		window.clearTimeout(this.timer);
 		var event, cli = this.client;
 		if(cli && cli.readyState == 4){
-			this.timer && this.timer.stop() && this.timer.flush();
 			var text = null;
 			var headers = null;
 			var statusText = '';
@@ -175,7 +178,7 @@
 	});
 
 	HttpRequest.public('onLoad', function(){
-		this.timer && this.timer.stop() && this.timer.flush();
+		window.clearTimeout(this.timer);
 		var cli = this.client;
 		var text = 'response' in cli? cli.response : cli.responseText;
 		var headers = cli.getAllResponseHeaders();
@@ -188,7 +191,7 @@
 	});
 
 	HttpRequest.public('onError', function(){
-		this.timer && this.timer.stop() && this.timer.flush();
+		window.clearTimeout(this.timer);
 		this.onerror && this.onerror(new HttpEvent(null, null, -1, '', this.url));
 	});
 
