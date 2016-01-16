@@ -33,7 +33,7 @@
 	});
 
 	JsonPadding.public('abort', function(){
-		if(this.script) return false;
+		if(!this.script) return false;
 		var evt = arguments[0] || { type:'' };
 		evt.type = evt.type === 'load' && !this.called? 'error' : evt.type;
 		evt.status = evt.type === 'error'? 404 : evt.type === ''? -1 : 200;
