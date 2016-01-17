@@ -47,10 +47,10 @@
 		return this.promise;
 	});
 
-	// HttpRequest - Adapter Pattern
+	// HttpRequestProxy - Adapter Pattern
 	// @support IE9+ fallback
 	// @see http://caniuse.com/#search=XMLHttpRequest (wrong for IE9 actually)
-	var HttpRequest = new Proto(function HttpRequest(xhr, options){
+	var HttpRequestProxy = new Proto(function HttpRequestProxy(xhr, options){
 		Proto.rebind(this, 'onLoad', 'onAbort', 'onError', 'onTimeout');
 		this.client = xhr;
 		this.options = Proto.merge({}, options);
@@ -59,7 +59,7 @@
 		}
 	});
 
-	HttpRequest.static({
+	HttpRequestProxy.static({
 		UNSENT:0,
 		OPENED:1,
 		HEADERS_RECEIVED:2,
@@ -67,7 +67,7 @@
 		DONE:4
 	});
 
-	HttpRequest.define('responseType', {
+	HttpRequestProxy.define('responseType', {
 		set:function(value){
 			if(value){
 				try{
@@ -84,7 +84,7 @@
 		}
 	});
 
-	HttpRequest.define('withCredentials', {
+	HttpRequestProxy.define('withCredentials', {
 		set:function(value){
 			value = Type.toBoolean(value);
 			if(value){
@@ -96,7 +96,7 @@
 		}
 	});
 
-	HttpRequest.define('timeout', {
+	HttpRequestProxy.define('timeout', {
 		set:function(milliseconds){
 			this._timeout = Type.toUint(milliseconds);
 		},
@@ -105,49 +105,49 @@
 		}
 	});
 
-	HttpRequest.define('upload', {
+	HttpRequestProxy.define('upload', {
 		get:function(){
 			return this.client.upload;
 		}
 	});
 
-	HttpRequest.define('responseXML', {
+	HttpRequestProxy.define('responseXML', {
 		get:function(){
 			return this.client.responseXML;
 		}
 	});
 
-	HttpRequest.define('response', {
+	HttpRequestProxy.define('response', {
 		get:function(){
 			return this.client.response;
 		}
 	});
 
-	HttpRequest.define('responseText', {
+	HttpRequestProxy.define('responseText', {
 		get:function(){
 			return this.client.responseText;
 		}
 	});
 
-	HttpRequest.define('readyState', {
+	HttpRequestProxy.define('readyState', {
 		get:function(){
 			return this.client.readyState;
 		}
 	});
 
-	HttpRequest.define('status', {
+	HttpRequestProxy.define('status', {
 		get:function(){
 			return this.client.status;
 		}
 	});
 
-	HttpRequest.define('statusText', {
+	HttpRequestProxy.define('statusText', {
 		get:function(){
 			return this.client.statusText;
 		}
 	});
 
-	HttpRequest.public('open', function(method, url, async, username, password){
+	HttpRequestProxy.public('open', function(method, url, async, username, password){
 		this.url = url;
 		this.client.open(method, url, async, username, password);
 		this.client.onreadystatechange = this.onReadyStateChange;
@@ -156,57 +156,57 @@
 		this.client.onload = this.onLoad;
 	});
 
-	HttpRequest.charge('setRequestHeader', function(headers){
+	HttpRequestProxy.charge('setRequestHeader', function(headers){
 		iterate.property(headers, function(value, header){
 			this.setRequestHeader(header, value);
 		}, this);
 	});
 
-	HttpRequest.charge('setRequestHeader', function(header, value){
+	HttpRequestProxy.charge('setRequestHeader', function(header, value){
 		if(Type.isString(header) && Type.isString(value)){
 			this.client.setRequestHeader(header.trim(), value.trim());
 		}
 	});
 
-	HttpRequest.public('getAllResponseHeaders', function(){
+	HttpRequestProxy.public('getAllResponseHeaders', function(){
 		return this.client.getAllResponseHeaders();
 	});
 
-	HttpRequest.public('getResponseHeader', function(header){
+	HttpRequestProxy.public('getResponseHeader', function(header){
 		return this.client.getResponseHeader(header);
 	});
 
-	HttpRequest.public('overrideMimeType', function(mimetype){
+	HttpRequestProxy.public('overrideMimeType', function(mimetype){
 		this.client.overrideMimeType(mimetype);
 	});
 
-	HttpRequest.public('send', function(data){
+	HttpRequestProxy.public('send', function(data){
 		this.client.send(Type.isDefined(data)? data : null);
 		if(this.timeout > 0){
 			this.timer = window.setTimeout(this.onTimeout, this.timeout);
 		}
 	});
 
-	HttpRequest.public('abort', function(){
-		HttpRequest.ABORTED = true;
+	HttpRequestProxy.public('abort', function(){
+		HttpRequestProxy.ABORTED = true;
 		this.client.abort();
-		delete(HttpRequest.ABORTED);
+		delete(HttpRequestProxy.ABORTED);
 	});
 
-	HttpRequest.public('onReadyStateChange', function(){
+	HttpRequestProxy.public('onReadyStateChange', function(){
 		window.clearTimeout(this.timer);
 		var event, cli = this.client;
 		if(cli && cli.readyState == 4){
 			var text = null;
 			var headers = null;
 			var statusText = '';
-			var status = HttpRequest.ABORTED? -1 : cli.status;
+			var status = HttpRequestProxy.ABORTED? -1 : cli.status;
 			var msie = document.documentMode;
-			if(!HttpRequest.ABORTED){
+			if(!HttpRequestProxy.ABORTED){
 				headers = cli.getAllResponseHeaders();
 				text = 'response' in cli? cli.response : cli.responseText;
 			}
-			if(!(HttpRequest.ABORTED && msie < 10)){
+			if(!(HttpRequestProxy.ABORTED && msie < 10)){
 				statusText = cli.statusText;
 			}
 			event = new HttpEvent(text, headers, status, statusText, this.url);
@@ -214,7 +214,7 @@
 		}
 	});
 
-	HttpRequest.public('onLoad', function(){
+	HttpRequestProxy.public('onLoad', function(){
 		window.clearTimeout(this.timer);
 		var cli = this.client;
 		var text = 'response' in cli? cli.response : cli.responseText;
@@ -229,23 +229,23 @@
 		}
 	});
 
-	HttpRequest.public('onError', function(){
+	HttpRequestProxy.public('onError', function(){
 		window.clearTimeout(this.timer);
 		this.onreadystatechange && this.onreadystatechange(new HttpEvent(null, null, -1, '', this.url));
 		this.onerror && this.onerror(new HttpEvent(null, null, -1, '', this.url));
 	});
 
-	HttpRequest.public('onAbort', function(){
+	HttpRequestProxy.public('onAbort', function(){
 		this.onreadystatechange && this.onreadystatechange(new HttpEvent(null, null, -1, '', this.url));
 		this.onabort && this.onabort(new HttpEvent(null, null, -1, '', this.url));
 	});
 
-	HttpRequest.public('onTimeout', function(){
+	HttpRequestProxy.public('onTimeout', function(){
 		this.abort();
 		this.onreadystatechange && this.onreadystatechange(new HttpEvent(null, null, -1, '', this.url));
 		this.ontimeout && this.ontimeout(new HttpEvent(null, null, -1, '', this.url));
 	});
 
-	scope.uri('HttpRequest', HttpRequest);
+	scope.uri('HttpRequest', HttpRequestProxy);
 
 }).call(this, Ambox);
