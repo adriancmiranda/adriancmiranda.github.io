@@ -226,6 +226,7 @@
 		var text = 'response' in cli? cli.response : cli.responseText;
 		var headers = cli.getAllResponseHeaders();
 		var event = new HttpEvent(text, headers, cli.status, cli.statusText, this.url);
+		// event.info = event.transform(this.options.transformResponse);
 		// this.onreadystatechange && this.onreadystatechange(new HttpEvent(null, null, -1, '', this.url));
 		// this.onreadystatechange && this.onreadystatechange(new HttpEvent(null, null, -1, '', this.url));
 		// this.onreadystatechange && this.onreadystatechange(new HttpEvent(null, null, -1, '', this.url));
