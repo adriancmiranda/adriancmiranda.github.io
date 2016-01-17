@@ -1,6 +1,5 @@
 /* global Ambox */
 (function(scope){
-	var HttpTransform = scope.uri('HttpTransform');
 	var HttpHeaders = scope.uri('HttpHeaders');
 	var HttpEvent = scope.uri('HttpEvent');
 	var patterns = scope.uri('patterns');
@@ -36,7 +35,6 @@
 		console.log('\n[headers]>', headers, '\n[data]:', options.data, '\n[method]:', options.method, '\n[params]:', options);
 		headers = HttpHeaders(headers, data, options.method, options);
 		data = new HttpEvent(data, HttpHeaders.proxy(headers), 0, '', url);
-		data.info = HttpTransform(options.transformRequest, data.toArray(), data.info);
 		this.request.open(options.method, url, options.async, options.username, options.password);
 		this.request.setRequestHeader(headers);
 		this.request.onload = this.promise.resolve;
@@ -46,7 +44,7 @@
 		this.request.withCredentials = options.withCredentials;
 		this.request.responseType = options.responseType;
 		this.request.timeout = options.timeout;
-		this.request.send(data.info);
+		this.request.send(data.transform(options.transformRequest));
 		return this.promise;
 	});
 
@@ -223,14 +221,13 @@
 		var text = 'response' in cli? cli.response : cli.responseText;
 		var headers = HttpHeaders.proxy(cli.getAllResponseHeaders());
 		var event = new HttpEvent(text, headers, cli.status, cli.statusText, this.url);
-		// event.info = event.transform(this.options.transformResponse);
+		event.info = event.transform(this.options.transformResponse);
 		// this.onreadystatechange && this.onreadystatechange(new HttpEvent(null, null, -1, '', this.url));
 		// this.onreadystatechange && this.onreadystatechange(new HttpEvent(null, null, -1, '', this.url));
 		// this.onreadystatechange && this.onreadystatechange(new HttpEvent(null, null, -1, '', this.url));
 		if(200 <= event.status && event.status < 300){
 			this.onload && this.onload(event);
 		}else{
-			event.info = HttpTransform(this.options.transformResponse, event.toArray(), event.info);
 			this.onerror && this.onerror(event);
 		}
 	});
