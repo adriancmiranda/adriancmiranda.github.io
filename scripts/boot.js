@@ -26,9 +26,9 @@
 			'X-Parse-REST-API-Key': 'OJVSps1KxfLrc25dY0sVcQAX17vtNx5WqGcVF6lk'
 		}
 	}).then(function(value){
-		console.log('[POST]:', value.info);
+		console.log('[POST]:', value);
 	}).catch(function(reason){
-		console.log('[POST ERROR]:', reason.info);
+		console.log('[POST ERROR]:', reason);
 	});
 	// http.request();
 	// http.get();

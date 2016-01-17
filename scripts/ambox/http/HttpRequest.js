@@ -52,8 +52,9 @@
 	// HttpRequest - Adapter Pattern
 	// @support IE9+ fallback
 	// @see http://caniuse.com/#search=XMLHttpRequest (wrong for IE9 actually)
-	var HttpRequest = new Proto(function HttpRequest(){
+	var HttpRequest = new Proto(function HttpRequest(xhr){
 		Proto.rebind(this, 'onLoad', 'onAbort', 'onError', 'onTimeout');
+		this.client = xhr;
 		if(arguments.length){
 			var builder = new HttpRequestBuilder(this);
 			return builder//.load.apply(builder, arguments);
@@ -155,7 +156,6 @@
 
 	HttpRequest.public('open', function(method, url, async, username, password){
 		this.url = url;
-		this.client = HttpRequest.createXHR(method);
 		this.client.onreadystatechange = this.onReadyStateChange;
 		this.client.onerror = this.onError;
 		this.client.onabort = this.onAbort;
