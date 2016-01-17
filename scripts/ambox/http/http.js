@@ -48,10 +48,7 @@
 		options.timeout = Type.toUint(options.timeout);
 		options.withCredentials = Type.isString(options.username) && Type.isString(options.password);
 		var client = patterns.isJsonP.test(options.method)? JsonPadding : HttpRequest;
-		return new client(options.xhr, options).load(options).then(function(value){
-			value.info = HttpTransform(options.transformResponse, value.toArray(), value.info);
-			return value;
-		});
+		return new client(options.xhr, options).load(options);
 	});
 
 	scope.uri('http', http);
