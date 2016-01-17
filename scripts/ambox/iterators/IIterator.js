@@ -1,6 +1,6 @@
 /* global Ambox */
 (function(scope){
-	var Proto = scope.uri('Proto');
+	var Interface = scope.uri('Interface');
 
 	// http://kangax.github.io/compat-table/es5/#test-Object.keys
 	// http://kangax.github.io/compat-table/es5/#test-Array.prototype.map
@@ -18,106 +18,33 @@
 	// IIterator - Interface Iterator
 	// @role Sequentially access the elements of a collection without knowing the
 	// inner workings of the collection.
-	var IIterator = new Proto(function IIterator(list){
-		// to override
-	});
-
-	IIterator.public('isEmpty', function(){
-		return true;
-	});
-
-	IIterator.public('hasPrevious', function(){
-		return false;
-	});
-
-	IIterator.public('hasNext', function(){
-		return false;
-	});
-
-	IIterator.public('previous', function(){
-		return null;
-	});
-
-	IIterator.public('next', function(){
-		return null;
-	});
-
-	IIterator.public('get', function(index){
-		return null;
-	});
-
-	IIterator.public('current', function(){
-		return null;
-	});
-
-	IIterator.public('peek', function(){
-		return null;
-	});
-
-	IIterator.public('lastIndex', function(){
-		return 0;
-	});
-
-	IIterator.public('index', function(){
-		return 0;
-	});
-
-	IIterator.public('size', function(){
-		return 0;
-	});
-
-	IIterator.public('lastIndexOf', function(item){
-		return -1;
-	});
-
-	IIterator.public('indexOf', function(item){
-		return -1;
-	});
-
-	IIterator.public('contains', function(item){
-		return false;
-	});
-
-	IIterator.public('each', function(callback){
-		// to override
-	});
-
-	IIterator.public('add', function(value){
-		return 0;
-	});
-
-	IIterator.public('addAt', function(value, index){
-		return 0;
-	});
-
-	IIterator.public('remove', function(value){
-		return 0;
-	});
-
-	IIterator.public('removeAt', function(index){
-		return 0;
-	});
-
-	IIterator.public('clear', function(flush){
-		// to override
-	});
-
-	// IIterator.public('last', function(){
-	// 	return null;
-	// });
-
-	// IIterator.public('first', function(){
-	// 	return null;
-	// });
-
-	IIterator.public('peak', function(){
-		return this;
-	});
-
-	IIterator.public('reset', function(){
-		return this;
-	});
-
-	scope.uri('IIterator', IIterator);
+	// @support everywhere
+	// @author Adrian C. Miranda <adriancmiranda@gmail.com>
+	scope.uri('IIterator', new Interface('IIterator', [
+		'isEmpty',
+		'hasPrevious',
+		'hasNext',
+		'previous',
+		'next',
+		'get',
+		'current',
+		'peek',
+		'lastIndex',
+		'index',
+		'size',
+		'lastIndexOf',
+		'indexOf',
+		'contains',
+		'each',
+		'add',
+		'addAt',
+		'remove',
+		'removeAt',
+		'clear',
+		'last',
+		'first',
+		'peak',
+		'reset'
+	]));
 
 }).call(this, Ambox);

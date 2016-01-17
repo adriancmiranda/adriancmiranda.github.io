@@ -3,6 +3,9 @@
 	var Type = scope.uri('Type');
 	var Proto = scope.uri('Proto');
 
+	// iterate
+	// @support everywhere
+	// @author Adrian C. Miranda <adriancmiranda@gmail.com>
 	var iterate = new Proto(function(object, callback){
 		if(Type.isObjectLike(object)){
 			return iterate.property(object, callback);
