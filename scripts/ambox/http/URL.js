@@ -1,7 +1,8 @@
 /* global Ambox */
 (function(scope){
-	var patterns = scope.uri('patterns');
+	var Type = scope.uri('Type');
 	var Proto = scope.uri('Proto');
+	var patterns = scope.uri('patterns');
 
 	// URL normalize
 	// @role IE8 and IE9 fallback to `window.URL` Native
@@ -13,15 +14,16 @@
 		if(value instanceof URL){return value;}
 		URL.anchor.setAttribute('href', URL.normalize(value));
 		var queryString = {};
+		var defaultPorts = { http:80, https:443, ftp:21 };
 		this.pathname = (URL.anchor.pathname.charAt(0) === '/')? URL.anchor.pathname:'/'+ URL.anchor.pathname;
 		this.protocol = URL.anchor.protocol? URL.anchor.protocol.replace(patterns.endsWith(':'), '') : '';
 		this.search = URL.anchor.search? URL.anchor.search.replace(patterns.startWith('?'), '') : '';
 		this.hash = URL.anchor.hash? URL.anchor.hash.replace(patterns.startWith('#'), '') : '';
+		this.port = Type.toInt(URL.anchor.port) || defaultPorts[this.protocol] || null;
 		this.password = URL.anchor.password;
 		this.username = URL.anchor.username;
 		this.hostname = URL.anchor.hostname;
 		this.origin = URL.anchor.origin;
-		this.port = URL.anchor.port;
 		this.host = URL.anchor.host;
 		this.href = URL.anchor.href;
 		this.params = queryString;
