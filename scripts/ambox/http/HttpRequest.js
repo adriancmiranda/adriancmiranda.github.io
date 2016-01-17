@@ -90,9 +90,11 @@
 
 	HttpRequestProxy.define('withCredentials', {
 		set:function(value){
-			value = Type.toBoolean(value);
-			if(value){
-				this.client.withCredentials = value;
+			if('withCredentials' in this.client){
+				value = Type.toBoolean(value);
+				if(value){
+					this.client.withCredentials = value;
+				}
 			}
 		},
 		get:function(){
@@ -152,12 +154,12 @@
 	});
 
 	HttpRequestProxy.public('open', function(method, url, async, username, password){
-		this.url = url;
 		if(Type.isString(username) && Type.isString(password)){
 			this.client.open(method, url, async, username, password);
 		}else{
 			this.client.open(method, url, async);
 		}
+		this.url = url;
 		this.client.onreadystatechange = this.onReadyStateChange;
 		this.client.onerror = this.onError;
 		this.client.onabort = this.onAbort;
