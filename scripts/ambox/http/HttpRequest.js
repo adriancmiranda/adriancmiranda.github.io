@@ -15,41 +15,6 @@
 		this.request = httpRequest;
 	});
 
-	HttpRequestBuilder.static('defaultHttpResponseTransform', function(data, headers){
-		if(Type.isString(data)){
-			var tempData = data.replace(patterns.jsonProtectionPrefix, '').trim();
-			if(tempData){
-				var contentType = headers('Content-Type');
-				if((contentType && (contentType.indexOf('application/json') === 0)) || Type.isJsonLike(tempData)){
-					data = Type.fromJson(tempData);
-				}
-			}
-		}
-		return data;
-	});
-
-	HttpRequestBuilder.static('defaultHttpRequestTransform', function(data){
-		if(Type.test('File|Blob|FormData', data, true)){
-			return data;
-		}
-		return Type.toJson(data);
-	});
-
-	HttpRequestBuilder.static('defaults', {
-		headers:null,
-		transformResponse:[HttpRequestBuilder.defaultHttpResponseTransform],
-		transformRequest:[HttpRequestBuilder.defaultHttpRequestTransform],
-		xsrfHeaderName:'X-XSRF-TOKEN',
-		xsrfCookieName:'XSRF-TOKEN',
-		withCredentials:false,
-		responseType:'json',
-		method:'POST',
-		url:null,
-		timeout:0,
-		async:true,
-		data:null
-	});
-
 	HttpRequestBuilder.charge('load', function(options){
 		return Type.isObjectLike(options) &&
 		this.load(options, options.headers) || this.promise;
@@ -67,7 +32,6 @@
 	});
 
 	HttpRequestBuilder.charge('load', function(url, data, options, headers){
-		options = Proto.merge({}, HttpRequestBuilder.defaults, headers, data, options);// XXX: options.data
 		headers = new HttpHeaders(headers, options.method, data, options);
 		data = new HttpEvent(data, headers.fn, 0, '', url);
 		console.log('[headers.value]:', headers.value);
@@ -111,11 +75,13 @@
 
 	HttpRequest.define('responseType', {
 		set:function(value){
-			try{
-				this.client.responseType = value;
-			}catch(error){
-				if(value !== 'json'){
-					throw error;
+			if(value){
+				try{
+					this.client.responseType = value;
+				}catch(error){
+					if(value !== 'json'){
+						throw error;
+					}
 				}
 			}
 		},
