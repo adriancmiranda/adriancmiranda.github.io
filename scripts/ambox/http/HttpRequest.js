@@ -1,5 +1,6 @@
 /* global Ambox */
 (function(scope){
+	var HttpTransform = scope.uri('HttpTransform');
 	var HttpHeaders = scope.uri('HttpHeaders');
 	var HttpEvent = scope.uri('HttpEvent');
 	var patterns = scope.uri('patterns');
@@ -34,6 +35,7 @@
 	HttpRequestBuilder.charge('load', function(url, data, options, headers){
 		headers = new HttpHeaders(headers, options.method, data, options);
 		data = new HttpEvent(data, headers.fn, 0, '', url);
+		data.info = HttpTransform(options.transformRequest, data.toArray(), data.info);
 		this.request.open(options.method, url, options.async, options.username, options.password);
 		this.request.setRequestHeader(headers.value);
 		this.request.onload = this.promise.resolve;
@@ -43,7 +45,7 @@
 		this.request.withCredentials = options.withCredentials;
 		this.request.responseType = options.responseType;
 		this.request.timeout = options.timeout;
-		this.request.send(data.transform(options.transformRequest));
+		this.request.send(data.info);
 		return this.promise;
 	});
 
