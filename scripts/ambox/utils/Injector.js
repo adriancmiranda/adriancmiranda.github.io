@@ -18,9 +18,11 @@
 	});
 
 	Injector.static('getDependencies', function(params){
-		return iterate.index(params, function(name){
-			return this._dependencies[name];
+		var deps = [];
+		iterate.index(params, function(name){
+			deps.push(this._dependencies[name]);
 		}, this);
+		return deps;
 	});
 
 	Injector.static('register', function(name, dependency){
