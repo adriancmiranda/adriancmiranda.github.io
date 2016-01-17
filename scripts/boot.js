@@ -21,16 +21,40 @@
 		return info;
 	});
 
-	http.post(urlP, { hello: 'world' }, {
+	http.post(urlP, { hello: 'world0' }, {
 		timeout:5000,
 		headers:{
 			'X-Parse-Application-Id': 'tODF3mfCoNwYO1hervKBFJKlHO6C09x4qk1VUHmq',
 			'X-Parse-REST-API-Key': 'OJVSps1KxfLrc25dY0sVcQAX17vtNx5WqGcVF6lk'
 		}
 	}).then(function(value){
-		console.log('[POST]:', value.info);
+		console.log('[POST]:', value);
 	}).catch(function(reason){
-		console.log('[POST ERROR]:', reason.info);
+		console.log('[POST ERROR]:', reason);
+	});
+
+	http.post(urlP, { hello: 'world1' }, {
+		timeout:5000,
+		headers:{
+			'X-Parse-Application-Id': 'tODF3mfCoNwYO1hervKBFJKlHO6C09x4qk1VUHmq',
+			'X-Parse-REST-API-Key': 'OJVSps1KxfLrc25dY0sVcQAX17vtNx5WqGcVF6lk'
+		}
+	}).then(function(value){
+		console.log('[POST]:', value);
+	}).catch(function(reason){
+		console.log('[POST ERROR]:', reason);
+	});
+
+	http.post(urlP, { hello: 'world2' }, {
+		timeout:5000,
+		headers:{
+			'X-Parse-Application-Id': 'tODF3mfCoNwYO1hervKBFJKlHO6C09x4qk1VUHmq',
+			'X-Parse-REST-API-Key': 'OJVSps1KxfLrc25dY0sVcQAX17vtNx5WqGcVF6lk'
+		}
+	}).then(function(value){
+		console.log('[POST]:', value);
+	}).catch(function(reason){
+		console.log('[POST ERROR]:', reason);
 	});
 
 	// http.request();
