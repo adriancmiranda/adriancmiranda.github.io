@@ -70,14 +70,6 @@
 		options = Proto.merge({}, HttpRequestBuilder.defaults, headers, data, options);// XXX: options.data
 		headers = new HttpHeaders(headers, options.method, data, options);
 		data = new HttpEvent(data, headers.fn, 0, '', url);
-		console.log('url:', url);
-		console.log('method:', options.method);
-		console.log('async:', options.async);
-		console.log('withCredentials:', options.withCredentials);
-		console.log('responseType:', options.responseType);
-		console.log('timeout:', options.timeout);
-		console.log('transformRequest:', options.transformRequest);
-		console.log('[transformedRequest]:', data.transform(options.transformRequest));
 		console.log('[headers.value]:', headers.value);
 		console.log('[headers.fn]:', [headers.fn]);
 		this.request.open(options.method, url, options.async);
@@ -89,7 +81,7 @@
 		this.request.withCredentials = options.withCredentials;
 		this.request.responseType = options.responseType;
 		this.request.timeout = options.timeout;
-		// this.request.send(data.transform(options.transformRequest));
+		this.request.send(data.transform(options.transformRequest));
 		return this.promise;
 	});
 
@@ -100,7 +92,7 @@
 		Proto.rebind(this, 'onLoad', 'onAbort', 'onError', 'onTimeout');
 		if(arguments.length){
 			var builder = new HttpRequestBuilder(this);
-			return builder.load.apply(builder, arguments);
+			return builder//.load.apply(builder, arguments);
 		}
 	});
 
@@ -122,7 +114,6 @@
 
 	HttpRequest.define('responseType', {
 		set:function(value){
-			value = Type.isDefined(value)? value : '';
 			try{
 				this.client.responseType = value;
 			}catch(error){

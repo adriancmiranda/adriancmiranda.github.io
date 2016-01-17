@@ -10,13 +10,13 @@
 	// @see http://caniuse.com/#search=XMLHttpRequest (wrong for IE9 actually)
 	var HttpEvent = new Proto(function HttpEvent(data, headers, status, statusText, url){
 		this.url = new URL(url);
-		this.data = data;
+		this.info = data;
 		this.headers = headers;
 		this.statusText = Type.isString(statusText)? statusText : '';
 		this.status = Type.toInt(status);
 		this.status = this.status === 1223? 204 : this.status;
 		if(this.status === 0){
-			this.status = this.data? 200 : this.url.protocol === 'file'? 404 : 0;
+			this.status = this.info? 200 : this.url.protocol === 'file'? 404 : 0;
 		}
 	});
 
@@ -36,7 +36,7 @@
 	});
 
 	HttpEvent.public('toArray', function(){
-		return([this.data, this.headers, this.status, this.statusText, this.url]);
+		return([this.info, this.headers, this.status, this.statusText, this.url]);
 	});
 
 	HttpEvent.public('toString', function(){

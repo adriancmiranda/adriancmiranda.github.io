@@ -24,15 +24,14 @@
 		url:urlP,
 		data:{foo: 'hello world!'},
 		method:'post',
-		headers:[
-			{ 'Content-Type': 'application/json; charset=UTF-8' },
-			{ 'X-Parse-Application-Id': 'tODF3mfCoNwYO1hervKBFJKlHO6C09x4qk1VUHmq' },
-			{ 'X-Parse-REST-API-Key': 'OJVSps1KxfLrc25dY0sVcQAX17vtNx5WqGcVF6lk' }
-		]
+		headers:{
+			'X-Parse-Application-Id': 'tODF3mfCoNwYO1hervKBFJKlHO6C09x4qk1VUHmq',
+			'X-Parse-REST-API-Key': 'OJVSps1KxfLrc25dY0sVcQAX17vtNx5WqGcVF6lk'
+		}
 	}).then(function(value){
-		console.log('[POST]:', value.data);
+		console.log('[POST]:', value.info);
 	}).catch(function(reason){
-		console.log('[POST ERROR]:', reason);
+		console.log('[POST ERROR]:', reason.info);
 	});
 	// http.request();
 	// http.get();
