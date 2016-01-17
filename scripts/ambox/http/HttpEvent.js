@@ -4,6 +4,7 @@
 	var Type = scope.uri('Type');
 	var Proto = scope.uri('Proto');
 	var iterate = scope.uri('iterate');
+	var HttpHeaders = scope.uri('HttpHeaders');
 
 	// HttpEvent
 	// @support IE9+ fallback

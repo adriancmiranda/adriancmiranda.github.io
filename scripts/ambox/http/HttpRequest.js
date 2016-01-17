@@ -60,11 +60,6 @@
 		}
 	});
 
-	// Factory Method
-	HttpRequest.static('createXHR', function(type){
-		return new window.XMLHttpRequest();
-	})
-
 	HttpRequest.static({
 		UNSENT:0,
 		OPENED:1,
