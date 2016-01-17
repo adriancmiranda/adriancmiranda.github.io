@@ -11,6 +11,7 @@
 		support3d:/^(css|matrix|rotate|scale|translate|transform(s)?)?3d$/,
 		functionDeclaration:/^.*function\s([^\s]*|[^\(]*)\([^\x00]+$/,
 		isHttpMethod:/^(jsonp|get|delete|head|post|put|patch)$/i,
+		isJsonP:/^jsonp$/i,
 		objectWrapper:/^(\[object(\s|\uFEFF|\xA0))|(\])$/g,
 		cssMeasure:/^([+-]?(?:\d+|\d*\.\d+))([a-z]*|%)$/,
 		noValue:/^(Undefined|Null|NaN)$/i,
