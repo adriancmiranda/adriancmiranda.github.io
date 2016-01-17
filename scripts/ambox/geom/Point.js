@@ -99,168 +99,168 @@
 		return centroid;
 	});
 
-	Point.method('setTo', function(x, y){
+	Point.public('setTo', function(x, y){
 		this.x = x||0;
 		this.y = y||0;
 		return this;
 	});
 
-	Point.method('offset', function(dx, dy){
+	Point.public('offset', function(dx, dy){
 		return this.setTo(this.x + dx, this.x + dy);
 	});
 
-	Point.method('radians', function(){
+	Point.public('radians', function(){
 		return Math.atan2(this.y, this.x);
 	});
 
-	Point.method('degrees', function(){
+	Point.public('degrees', function(){
 		return this.radians() * 180 / Math.PI;
 	});
 
-	Point.method('cross', function(point){
+	Point.public('cross', function(point){
 		return this.x * point.y - this.y - point.x;
 	});
 
-	Point.method('dot', function(point){
+	Point.public('dot', function(point){
 		return this.x * point.x + this.y * point.y;
 	});
 
-	Point.method('project', function(point){
+	Point.public('project', function(point){
 		var scale = this.dot(point) / point.dot(point);
 		return new Point(point.x * scale, point.y * scale);
 	});
 
-	Point.method('direction', function(point){
+	Point.public('direction', function(point){
 		var angleV = Math.acos((point.x - this.x) / this.distance(point));
 		return (((this.y - point.y > 0)? -angleV:angleV) + Math.PI * 2);// % (Math.PI * 2);
 	});
 
-	Point.method('distanceX', function(point){
+	Point.public('distanceX', function(point){
 		return Math.abs(this.x - point.x);
 	});
 
-	Point.method('distanceY', function(point){
+	Point.public('distanceY', function(point){
 		return Math.abs(this.y - point.y);
 	});
 
-	Point.method('distancePoint', function(point){
+	Point.public('distancePoint', function(point){
 		return new Point(this.distanceX(point), this.distanceY(point));
 	});
 
-	Point.method('distanceSquared', function(point){
+	Point.public('distanceSquared', function(point){
 		return Math.pow(this.distanceX(point), 2) + Math.pow(this.distanceY(point), 2);
 	});
 
-	Point.method('distance', function(point){
+	Point.public('distance', function(point){
 		return Math.sqrt(this.distanceSquared(point));
 	});
 
-	Point.method('manhattanDistance', function(point){
+	Point.public('manhattanDistance', function(point){
 		return this.distanceX(point) + this.distanceY(point);
 	});
 
-	Point.method('slope', function(point){
+	Point.public('slope', function(point){
 		return this.distanceY(point) / this.distanceX(point);
 	});
 
-	Point.method('perpendicularSlope', function(point){
+	Point.public('perpendicularSlope', function(point){
 		return Type.toFloat(-1 / this.slope(point));
 	});
 
-	Point.method('midpoint', function(point){
+	Point.public('midpoint', function(point){
 		return new Point((this.x + point.x) * 0.5, (this.y + point.y) * 0.5);
 	});
 
-	Point.method('min', function(point){
+	Point.public('min', function(point){
 		return new Point(Math.min(this.x, point.x), Math.min(this.y, point.y));
 	});
 
-	Point.method('max', function(point){
+	Point.public('max', function(point){
 		return new Point(Math.max(this.x, point.x), Math.max(this.y, point.y));
 	});
 
-	Point.method('add', function(point){
+	Point.public('add', function(point){
 		return new Point(this.x + point.x, this.y + point.y);
 	});
 
-	Point.method('subtract', function(point){
+	Point.public('subtract', function(point){
 		return new Point(this.x - point.x, this.y - point.y);
 	});
 
-	Point.method('multiply', function(point){
+	Point.public('multiply', function(point){
 		return new Point(this.x * point.x, this.y * point.y);
 	});
 
-	Point.method('divide', function(point){
+	Point.public('divide', function(point){
 		return new Point(this.x / point.x, this.y / point.y);
 	});
 
-	Point.method('modulo', function(point){
+	Point.public('modulo', function(point){
 		return new Point(this.x % point.x, this.y % point.y);
 	});
 
-	Point.method('round', function(){
+	Point.public('round', function(){
 		return new Point(Math.round(this.x), Math.round(this.y));
 	});
 
-	Point.method('ceil', function(){
+	Point.public('ceil', function(){
 		return new Point(Math.ceil(this.x), Math.ceil(this.y));
 	});
 
-	Point.method('floor', function(){
+	Point.public('floor', function(){
 		return new Point(Math.floor(this.x), Math.floor(this.y));
 	});
 
-	Point.method('abs', function(){
+	Point.public('abs', function(){
 		return new Point(Math.abs(this.x), Math.abs(this.y));
 	});
 
-	Point.method('negate', function(point){
+	Point.public('negate', function(point){
 		return new Point(-this.x, -this.y);
 	});
 
-	Point.method('interpolate', function(point, f){
+	Point.public('interpolate', function(point, f){
 		return new Point(point.x + (this.x - point.x) * f, point.y + (this.y - point.y) * f);
 	});
 
-	Point.method('normalize', function(thickness){
+	Point.public('normalize', function(thickness){
 		thickness = Type.isNumeric(thickness)? Type.toFloat(thickness):1;
 		return this.setTo(this.x / this.length * thickness, this.y / this.length * thickness);
 	});
 
-	Point.method('isParallelTo', function(point){
+	Point.public('isParallelTo', function(point){
 		return Math.abs(this.x / point.x - this.y / point.y) < Point.EPSILON;
 	});
 
-	Point.method('isInsideFrom', function(rectangle){
+	Point.public('isInsideFrom', function(rectangle){
 		return rectangle.containsPoint(this);
 	});
 
-	Point.method('isCloseFrom', function(point, tolerance){
+	Point.public('isCloseFrom', function(point, tolerance){
 		return this.distance(point) < tolerance;
 	});
 
-	Point.method('setZero', function(){
+	Point.public('setZero', function(){
 		return this.setTo(0, 0);
 	});
 
-	Point.method('isZero', function(){
+	Point.public('isZero', function(){
 		return this.x === 0 && this.y === 0;
 	});
 
-	Point.method('equals', function(point){
+	Point.public('equals', function(point){
 		return(point.x === this.x && point.y === this.y);
 	});
 
-	Point.method('copyFrom', function(point){
+	Point.public('copyFrom', function(point){
 		return this.setTo(point.x, point.y);
 	});
 
-	Point.method('clone', function(){
+	Point.public('clone', function(){
 		return new Point(this.x, this.y);
 	});
 
-	Point.method('toString', function(){
+	Point.public('toString', function(){
 		return '(x='+ this.x +', y='+ this.y +')';
 	});
 

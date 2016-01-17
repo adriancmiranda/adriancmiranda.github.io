@@ -11,11 +11,11 @@
 		return evt;
 	});
 
-	event.method('preventDefault', function(){
+	event.public('preventDefault', function(){
 		this.returnValue = false;
 	});
 
-	event.method('stopPropagation', function(){
+	event.public('stopPropagation', function(){
 		this.cancelBubble = true;
 	});
 

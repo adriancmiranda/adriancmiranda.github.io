@@ -86,15 +86,15 @@
 		return name.toLowerCase() === expected.toLowerCase();
 	});
 
-	DOMElement.method('ensureNode', function(node){
+	DOMElement.public('ensureNode', function(node){
 		return Type.isDOMElement(node) ? node : this.createDefaultNode();
 	});
 
-	DOMElement.method('createDefaultNode', function(){
+	DOMElement.public('createDefaultNode', function(){
 		return document.createElement('div');
 	});
 
-	DOMElement.method('removeClass', function(className){
+	DOMElement.public('removeClass', function(className){
 		if('classList' in document.documentElement){
 			this.node.classList.remove(className);
 		}else{
@@ -105,7 +105,7 @@
 		return this;
 	});
 
-	DOMElement.method('addClass', function(className){
+	DOMElement.public('addClass', function(className){
 		if('classList' in document.documentElement){
 			this.node.classList.add(className);
 		}else if(!this.hasClass(className)){
@@ -114,14 +114,14 @@
 		return this;
 	});
 
-	DOMElement.method('hasClass', function(className){
+	DOMElement.public('hasClass', function(className){
 		if('classList' in document.documentElement){
 			return this.node.classList.contains(className);
 		}
 		return patterns.findClass(className).test(this.node.className);
 	});
 
-	DOMElement.method('toggleClass', function(className){
+	DOMElement.public('toggleClass', function(className){
 		var fn = this.hasClass(className) ? this.removeClass : this.addClass;
 		return fn(className);
 	});
@@ -144,7 +144,7 @@
 		return this;
 	});
 
-	DOMElement.method('removeAttr', function(value){
+	DOMElement.public('removeAttr', function(value){
 		var name, propName, id = 0;
 		var attrNames = value && value.match(patterns.whiteSpace);
 		iterate.index(attrNames, function(attr){
@@ -155,11 +155,11 @@
 		}, this);
 	});
 
-	DOMElement.method('show', function(){
+	DOMElement.public('show', function(){
 		return this.css('display', 'block');
 	});
 
-	DOMElement.method('hide', function(){
+	DOMElement.public('hide', function(){
 		return this.css('display', 'none');
 	});
 
@@ -189,7 +189,7 @@
 		return this;
 	});
 
-	DOMElement.method('offset', function(){
+	DOMElement.public('offset', function(){
 		var bcr, offset = { left:0, top:0 };
 		var windowEl = this.constructor.getWindow(this.node);
 		var docEl = this.node.ownerDocument.documentElement;
@@ -201,7 +201,7 @@
 		return offset;
 	});
 
-	DOMElement.method('offsetParent', function(){
+	DOMElement.public('offsetParent', function(){
 		var docEl = window.document.documentElement;
 		var parent = this.node.offsetParent||docEl;
 		while(parent && (!this.constructor.nodeName(parent, 'html') && this.constructor.css(parent, 'position') === 'static')){
@@ -210,7 +210,7 @@
 		return new DOMElement(parent||docEl);
 	});
 
-	DOMElement.method('position', function(){
+	DOMElement.public('position', function(){
 		var offset, offsetParent, position = { top:0, left:0 };
 		if(this.css('position') === 'fixed'){
 			offset = this.node.getBoundingClientRect();

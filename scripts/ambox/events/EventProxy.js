@@ -6,12 +6,12 @@
 	// EventProxy
 	// @support everywhere
 	// @author Adrian C. Miranda <adriancmiranda@gmail.com>
-	var EventProxy = new Class(function EventProxy(target){
+	var EventProxy = new Proto(function EventProxy(target){
 		this.target = target||window;
 		this.on.guid = 1;
 	});
 
-	EventProxy.method('on', function(evt, callback){
+	EventProxy.public('on', function(evt, callback){
 		if(!this.target){return void(0);}
 		if(this.target.addEventListener){
 			this.target.addEventListener(evt, callback, false);
@@ -30,7 +30,7 @@
 		return this;
 	});
 
-	EventProxy.method('notify', function(evt){
+	EventProxy.public('notify', function(evt){
 		if(this.target.dispatchEvent){
 			this.target.dispatchEvent(new Event(evt));
 		}else if(this.target['on'+evt]){
@@ -39,7 +39,7 @@
 		return this;
 	});
 
-	EventProxy.method('on.notify', function(evt){
+	EventProxy.public('on.notify', function(evt){
 		evt = evt || event(((this.ownerDocument || this.document || this).parentWindow || window).event);
 		var key, listeners = this.events[evt.type];
 		for(key in listeners){
@@ -51,7 +51,7 @@
 		return true;
 	});
 
-	EventProxy.method('off', function(evt, callback){
+	EventProxy.public('off', function(evt, callback){
 		if(!this.target){return void(0);}
 		if(this.target.removeEventListener){
 			this.target.removeEventListener(evt, callback);

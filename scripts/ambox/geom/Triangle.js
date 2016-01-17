@@ -23,7 +23,7 @@
 	// √ 1. Find slope AB, BC, CA
 	// x - Opposite reciprocal
 	// x 2. Point-slope form: y = m(x - h) + k
-	var Triangle = new Class(function Triangle(a, b, c){
+	var Triangle = new Proto(function Triangle(a, b, c){
 		Class.proxyfy(this, 'draw').setTo(a, b, c);
 	}).static('EPSILON', 0.000001);
 
@@ -327,7 +327,7 @@
 		}
 	});
 
-	Triangle.method('draw', function(){
+	Triangle.public('draw', function(){
 		this._topLeft = Point.min(this._a, this._b, this._c);
 		this._bottomRight = Point.max(this._a, this._b, this._c);
 		this._topRight = new Point(this._bottomRight.x, this._topLeft.y);
@@ -427,7 +427,7 @@
 		// this._circuncenter = new Point();
 	});
 
-	Triangle.method('setTo', function(a, b, c){
+	Triangle.public('setTo', function(a, b, c){
 		this.a = a;
 		this.b = b;
 		this.c = c;
@@ -437,31 +437,31 @@
 		return this;
 	});
 
-	Triangle.method('inCircumcircle', function(point){
+	Triangle.public('inCircumcircle', function(point){
 		return false;
 	});
 
-	Triangle.method('inOrthocircle', function(point){
+	Triangle.public('inOrthocircle', function(point){
 		return false;
 	});
 
-	Triangle.method('inCentercircle', function(point){
+	Triangle.public('inCentercircle', function(point){
 		return false;
 	});
 
-	Triangle.method('equals', function(triangle){
+	Triangle.public('equals', function(triangle){
 		return triangle.a.equals(this.a) && triangle.b.equals(this.b) && triangle.c.equals(this.c);
 	});
 
-	Triangle.method('copyFrom', function(triangle){
+	Triangle.public('copyFrom', function(triangle){
 		this.setTo(triangle.a, triangle.b, triangle.c);
 	});
 
-	Triangle.method('clone', function(){
+	Triangle.public('clone', function(){
 		return new Triangle(this.a, this.b, this.c);
 	});
 
-	Triangle.method('toString', function(){
+	Triangle.public('toString', function(){
 		return '(a='+ this.a.toString() +', b='+ this.b.toString() +', c='+ this.c.toString() +')';
 	});
 

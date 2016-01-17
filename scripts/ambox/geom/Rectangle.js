@@ -154,23 +154,23 @@
 		return new Rectangle(x, y, width, height);
 	});
 
-	Rectangle.method('size', function(dw, dh){
+	Rectangle.public('size', function(dw, dh){
 		this.width = dw > 0? dw:0;
 		this.height = dh > 0? dh:0;
 		return this;
 	});
 
-	Rectangle.method('offset', function(dx, dy){
+	Rectangle.public('offset', function(dx, dy){
 		this.x = dx;
 		this.y = dy;
 		return this;
 	});
 
-	Rectangle.method('setTo', function(x, y, width, height){
+	Rectangle.public('setTo', function(x, y, width, height){
 		return this.offset(x, y).size(width, height);
 	});
 
-	Rectangle.method('union', function(rectangle){
+	Rectangle.public('union', function(rectangle){
 		var x1 = Math.min(this.topLeft.x, rectangle.topLeft.x);
 		var y1 = Math.min(this.topLeft.y, rectangle.topLeft.y);
 		var x2 = Math.max(this.bottomRight.x, rectangle.bottomRight.x);
@@ -178,31 +178,31 @@
 		return new Rectangle(x1, y1, x2 - x1, y2 - y1);
 	});
 
-	Rectangle.method('inflate', function(dx, dy){
+	Rectangle.public('inflate', function(dx, dy){
 		return this.offset(this.x - dx, this.y - dy).size(this.width + 2 * dx, this.height + 2 * dy);
 	});
 
-	Rectangle.method('inflatePoint', function(point){
+	Rectangle.public('inflatePoint', function(point){
 		return this.inflate(point.x, point.y);
 	});
 
-	Rectangle.method('setEmpty', function(){
+	Rectangle.public('setEmpty', function(){
 		return this.setTo(0, 0, 0, 0);
 	});
 
-	Rectangle.method('isEmpty', function(){
+	Rectangle.public('isEmpty', function(){
 		return this.width <= 0 || this.height <= 0;
 	});
 
-	Rectangle.method('offsetPoint', function(point){
+	Rectangle.public('offsetPoint', function(point){
 		return this.offset(point.x, point.y);
 	});
 
-	Rectangle.method('intersects', function(rectangle){
+	Rectangle.public('intersects', function(rectangle){
 		return this.left < rectangle.right && this.right > rectangle.left && this.top < rectangle.bottom && this.bottom > rectangle.top;
 	});
 
-	Rectangle.method('intersection', function(rectangle){
+	Rectangle.public('intersection', function(rectangle){
 		var x1 = Math.max(this.topLeft.x, rectangle.topLeft.x);
 		var y1 = Math.max(this.topLeft.y, rectangle.topLeft.y);
 		var x2 = Math.min(this.bottomRight.x, rectangle.bottomRight.x);
@@ -213,35 +213,35 @@
 		return new Rectangle();
 	});
 
-	Rectangle.method('intersectionArea', function(rectangle){
+	Rectangle.public('intersectionArea', function(rectangle){
 		return this.area / rectangle.area;
 	});
 
-	Rectangle.method('contains', function(x, y){
+	Rectangle.public('contains', function(x, y){
 		return x >= this.left && x <= this.right && y >= this.top && y <= this.bottom;
 	});
 
-	Rectangle.method('containsPoint', function(point){
+	Rectangle.public('containsPoint', function(point){
 		return this.contains(point.x, point.y);
 	});
 
-	Rectangle.method('containsRect', function(rectangle){
+	Rectangle.public('containsRect', function(rectangle){
 		return rectangle.left >= this.left && rectangle.right <= this.right && rectangle.top >= this.top && rectangle.bottom <= this.bottom;
 	});
 
-	Rectangle.method('equals', function(rectangle){
+	Rectangle.public('equals', function(rectangle){
 		return this.topLeft.equals(rectangle.topLeft) && this.bottomRight.equals(rectangle.bottomRight);
 	});
 
-	Rectangle.method('copyFrom', function(rectangle){
+	Rectangle.public('copyFrom', function(rectangle){
 		return this.setTo(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
 	});
 
-	Rectangle.method('clone', function(){
+	Rectangle.public('clone', function(){
 		return new Rectangle(this.x, this.y, this.width, this.height);
 	});
 
-	Rectangle.method('toString', function(){
+	Rectangle.public('toString', function(){
 		return '(x='+ this.x +', y='+ this.y +', width='+ this.width +', height='+ this.height +')';
 	});
 
