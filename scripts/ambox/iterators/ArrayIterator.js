@@ -130,7 +130,7 @@
 		return this;
 	});
 
-	Interface.ensureImplements(ArrayIterator, [IIterator]);
+	Interface.ensureImplements(ArrayIterator.prototype, [IIterator]);
 	scope.uri('Iterator', Iterator);
 
 }).call(this, Ambox);
