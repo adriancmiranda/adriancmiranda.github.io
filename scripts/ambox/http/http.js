@@ -19,7 +19,6 @@
 		transformResponse:[HttpTransform.response],
 		xsrfHeaderName:'X-XSRF-TOKEN',
 		xsrfCookieName:'XSRF-TOKEN',
-		headers:HttpHeaders.defaults,
 		method:'GET'
 	});
 
