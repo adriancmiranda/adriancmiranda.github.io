@@ -13,12 +13,14 @@
 		Proto.rebind(this, 'abort', 'padding');
 	}).static('calls', 0);
 
-	JsonPadding.public('load', function(url){
-		url = Type.isObjectLike(url)? url.url : url;
+	JsonPadding.public('load', function(urlOrOptions){
+		var hasOptions = Type.isObjectLike(urlOrOptions);
+		this.transformResponse = hasOptions && urlOrOptions.transformResponse;
 		this.head = document.getElementsByTagName('head')[0];
 		this.callbackId = '$'+(JsonPadding.calls++).toString(36);
 		this.namespace = scope.namespace + '.JsonPadding.' + this.callbackId;
-		this.url = String(url).replace('JSON_CALLBACK', this.namespace);
+		this.url = String(hasOptions? urlOrOptions.url : urlOrOptions);
+		this.url = this.url.replace('JSON_CALLBACK', this.namespace);
 		JsonPadding[this.callbackId] = this.padding;
 		this.script = document.createElement('script');
 		this.script.addEventListener('load', this.abort);
@@ -38,6 +40,7 @@
 		evt.type = evt.type === 'load' && !this.called? 'error' : evt.type;
 		evt.status = evt.type === 'error'? 404 : evt.type === ''? -1 : 200;
 		evt = new HttpEvent(this.response, null, evt.status, evt.type, this.url);
+		// evt.info = evt.transform(this.transformResponse);
 		this.defer[/^(error|)$/.test(evt.statusText)? 'reject' : 'resolve'](evt);
 		this.script.removeEventListener('error', this.abort);
 		this.script.removeEventListener('load', this.abort);
