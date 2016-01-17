@@ -44,10 +44,15 @@
 
 	http.static('request', function(options){
 		options = Proto.merge({}, http.defaults, options);
-		var method = Type.isString(options.method)? options.method.trim() : 'GET';
-		var request = new (/^jsonp$/i.test(method)? JsonPadding : HttpRequest)();
+		options.method = Type.isString(options.method)? options.method.trim().toUpperCase() : '';
+		options.method = patterns.isHttpMethod.test(options.method)? options.method : 'GET';
+		options.xhr = Type.isFunction(options.xhr)? options.xhr : new window.XMLHttpRequest();
+		options.async = Type.isDefined(options.async)? Type.toBoolean(options.async) : true;
+		options.timeout = Type.toUint(options.timeout);
+		options.withCredentials = Type.isString(options.username) && Type.isString(options.password);
+		var request = new (/^jsonp$/i.test(options.method)? JsonPadding : HttpRequest)(options.xhr);
 		return request.load(options).then(function(value){
-			value.data = HttpTransform(options.transformResponse, value.toArray());
+			value.info = HttpTransform(options.transformResponse, value.toArray(), value.info);
 			return value;
 		});
 	});
