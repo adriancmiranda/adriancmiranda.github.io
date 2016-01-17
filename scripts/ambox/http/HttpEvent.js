@@ -23,13 +23,12 @@
 
 	HttpEvent.public('transform', function(requests){
 		var event = this.toArray();
-		var params = Type.toArray(arguments, 1);
 		if(Type.isFunction(requests)){
-			event[0] = requests.apply(requests, event.concat(params));
+			event[0] = requests.apply(requests, event);
 		}else if(Type.isArrayLike(requests)){
 			iterate.index(requests, function(request){
 				if(Type.isFunction(request)){
-					event[0] = request.apply(request, event.concat(params));
+					event[0] = request.apply(request, event);
 				}
 			});
 		}
