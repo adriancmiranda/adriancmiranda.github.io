@@ -12,12 +12,12 @@
 	});
 
 	EventProxy.method('on', function(evt, callback){
-		if(!this.target){return;}
+		if(!this.target){return void(0);}
 		if(this.target.addEventListener){
 			this.target.addEventListener(evt, callback, false);
 		}else{
-			callback.__guid = callback.__guid||this.on.guid++;
-			this.target.events = this.target.events||{};
+			callback.__guid = callback.__guid || this.on.guid++;
+			this.target.events = this.target.events || {};
 			if(!this.target.events[evt]){
 				this.target.events[evt] = {};
 				if(this.target['on'+ evt]){
@@ -40,7 +40,7 @@
 	});
 
 	EventProxy.method('on.notify', function(evt){
-		evt = evt || event(((this.ownerDocument||this.document||this).parentWindow||window).event);
+		evt = evt || event(((this.ownerDocument || this.document || this).parentWindow || window).event);
 		var key, listeners = this.events[evt.type];
 		for(key in listeners){
 			this.__notifier = listeners[key];
