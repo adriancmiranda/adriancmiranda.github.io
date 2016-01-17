@@ -40,7 +40,7 @@
 		evt.type = evt.type === 'load' && !this.called? 'error' : evt.type;
 		evt.status = evt.type === 'error'? 404 : evt.type === ''? -1 : 200;
 		evt = new HttpEvent(this.response, null, evt.status, evt.type, this.url);
-		// evt.info = evt.transform(this.transformResponse);
+		evt.info = evt.transform(this.transformResponse);
 		this.defer[/^(error|)$/.test(evt.statusText)? 'reject' : 'resolve'](evt);
 		this.script.removeEventListener('error', this.abort);
 		this.script.removeEventListener('load', this.abort);

@@ -32,7 +32,6 @@
 	});
 
 	HttpRequestBuilder.charge('load', function(url, data, options, headers){
-		console.log('\n[headers]>', headers, '\n[data]:', options.data, '\n[method]:', options.method, '\n[params]:', options);
 		headers = HttpHeaders(headers, data, options.method, options);
 		data = new HttpEvent(data, HttpHeaders.proxy(headers), 0, '', url);
 		this.request.open(options.method, url, options.async, options.username, options.password);
@@ -222,9 +221,7 @@
 		var headers = HttpHeaders.proxy(cli.getAllResponseHeaders());
 		var event = new HttpEvent(text, headers, cli.status, cli.statusText, this.url);
 		event.info = event.transform(this.options.transformResponse);
-		// this.onreadystatechange && this.onreadystatechange(new HttpEvent(null, null, -1, '', this.url));
-		// this.onreadystatechange && this.onreadystatechange(new HttpEvent(null, null, -1, '', this.url));
-		// this.onreadystatechange && this.onreadystatechange(new HttpEvent(null, null, -1, '', this.url));
+		this.onreadystatechange && this.onreadystatechange(new HttpEvent(null, null, -1, '', this.url));
 		if(200 <= event.status && event.status < 300){
 			this.onload && this.onload(event);
 		}else{
@@ -234,18 +231,18 @@
 
 	HttpRequest.public('onError', function(){
 		window.clearTimeout(this.timer);
-		// this.onreadystatechange && this.onreadystatechange(new HttpEvent(null, null, -1, '', this.url));
+		this.onreadystatechange && this.onreadystatechange(new HttpEvent(null, null, -1, '', this.url));
 		this.onerror && this.onerror(new HttpEvent(null, null, -1, '', this.url));
 	});
 
 	HttpRequest.public('onAbort', function(){
-		// this.onreadystatechange && this.onreadystatechange(new HttpEvent(null, null, -1, '', this.url));
+		this.onreadystatechange && this.onreadystatechange(new HttpEvent(null, null, -1, '', this.url));
 		this.onabort && this.onabort(new HttpEvent(null, null, -1, '', this.url));
 	});
 
 	HttpRequest.public('onTimeout', function(){
 		this.abort();
-		// this.onreadystatechange && this.onreadystatechange(new HttpEvent(null, null, -1, '', this.url));
+		this.onreadystatechange && this.onreadystatechange(new HttpEvent(null, null, -1, '', this.url));
 		this.ontimeout && this.ontimeout(new HttpEvent(null, null, -1, '', this.url));
 	});
 
