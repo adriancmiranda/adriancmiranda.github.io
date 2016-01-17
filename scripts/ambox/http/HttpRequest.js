@@ -54,7 +54,7 @@
 	// @support IE9+ fallback
 	// @author Adrian C. Miranda <adriancmiranda@gmail.com>
 	var HttpRequestProxy = new Proto(function HttpRequestProxy(xhr, options){
-		Proto.rebind(this, 'onLoad', 'onAbort', 'onError', 'onTimeout');
+		Proto.rebind(this, 'onLoad', 'onAbort', 'onError', 'onTimeout', 'onReadyStateChange');
 		this.options = Proto.merge({}, options);
 		this.client = new xhr(this.options);
 		if(arguments.length){
@@ -154,9 +154,9 @@
 		this.url = url;
 		this.client.open(method, url, async, username, password);
 		this.client.onreadystatechange = this.onReadyStateChange;
-		// this.client.onerror = this.onError;
-		// this.client.onabort = this.onAbort;
-		// this.client.onload = this.onLoad;
+		this.client.onerror = this.onError;
+		this.client.onabort = this.onAbort;
+		this.client.onload = this.onLoad;
 	});
 
 	HttpRequestProxy.charge('setRequestHeader', function(headers){
@@ -199,7 +199,7 @@
 	HttpRequestProxy.public('onReadyStateChange', function(){
 		window.clearTimeout(this.timer);
 		var event, cli = this.client;
-		if(cli && cli.readyState == 4){
+		if(cli && cli.readyState === 4){
 			var text = null;
 			var headers = null;
 			var statusText = '';

@@ -13,6 +13,7 @@
 	var URL = scope.uri('URL');
 
 	var urlP = 'https://api.parse.com/1/classes/Message';
+	var urlM = 'data/mock.json';
 	var urlR = 'http://www.reddit.com/.json?limit=1&jsonp=JSON_CALLBACK';
 
 	http.defaults.transformResponse.push(function(info){
@@ -20,13 +21,8 @@
 		return info;
 	});
 
-	http.post(urlP, { foo:'hello world!' }, {
-		headers:{
-			'X-Parse-Application-Id': 'tODF3mfCoNwYO1hervKBFJKlHO6C09x4qk1VUHmq',
-			'X-Parse-REST-API-Key': 'OJVSps1KxfLrc25dY0sVcQAX17vtNx5WqGcVF6lk'
-		}
-	}).then(function(value){
-		console.log('[POST]:', value);
+	http.get(urlM).then(function(value){
+		console.log('[POST]:', value.info.success);
 	}).catch(function(reason){
 		console.log('[POST ERROR]:', reason);
 	});
