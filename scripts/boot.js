@@ -21,10 +21,16 @@
 		return info;
 	});
 
-	http.get(urlM).then(function(value){
-		console.log('[POST]:', value);
+	http.post(urlP, { hello: 'world' }, {
+		timeout:5000,
+		headers:{
+			'X-Parse-Application-Id': 'tODF3mfCoNwYO1hervKBFJKlHO6C09x4qk1VUHmq',
+			'X-Parse-REST-API-Key': 'OJVSps1KxfLrc25dY0sVcQAX17vtNx5WqGcVF6lk'
+		}
+	}).then(function(value){
+		console.log('[POST]:', value.info);
 	}).catch(function(reason){
-		console.log('[POST ERROR]:', reason);
+		console.log('[POST ERROR]:', reason.info);
 	});
 	// http.request();
 	// http.get();

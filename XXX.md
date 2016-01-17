@@ -17,6 +17,9 @@
 
 ## URL Absoluta (e.g. http://google.com)
 
+## Bugs
+- [XMLHttpRequest.prototype.open method fails with access is denied error under cyrillic domain - POST - https://api.parse.com/1/classes/Message](https://connect.microsoft.com/IE/feedback/details/785553/xmlhttprequest-open-method-fails-with-access-is-denied-error-under-cyrillic-domain)
+
 ```javascript
 var patterns = ({
 	// Thank's to John Gruber for `isAbsoluteURL` @see: http://daringfireball.net/2010/07/improved_regex_for_matching_urls
