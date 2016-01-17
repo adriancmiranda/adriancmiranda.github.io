@@ -9,7 +9,9 @@
 	var Type = scope.uri('Type');
 
 	// HttpRequestBuilder
+	// @see http://caniuse.com/#search=XMLHttpRequest (wrong for IE9 actually)
 	// @support IE9+ fallback
+	// @author Adrian C. Miranda <adriancmiranda@gmail.com>
 	var HttpRequestBuilder = new Proto(function HttpRequestBuilder(httpRequest){
 		this.promise = new Promise();
 		this.request = httpRequest;
@@ -48,8 +50,9 @@
 	});
 
 	// HttpRequestProxy
-	// @support IE9+ fallback
 	// @see http://caniuse.com/#search=XMLHttpRequest (wrong for IE9 actually)
+	// @support IE9+ fallback
+	// @author Adrian C. Miranda <adriancmiranda@gmail.com>
 	var HttpRequestProxy = new Proto(function HttpRequestProxy(xhr, options){
 		Proto.rebind(this, 'onLoad', 'onAbort', 'onError', 'onTimeout');
 		this.client = xhr;

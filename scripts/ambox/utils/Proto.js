@@ -4,6 +4,11 @@
 
 	// Proto (Ecma5)
 	// @role An extensible program-code-template for creating objects
+	// @see http://kangax.github.io/compat-table/es5/#test-Object.create
+	// @see http://kangax.github.io/compat-table/es5/#test-Object.defineProperties
+	// @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/length
+	// @see https://github.com/Fyrd/caniuse/issues/2201
+	// @see http://caniuse.com/#search=Function.prototype.length (waiting...)
 	// @support IE9+, FF4-20+, SF5.1.4+, CH5+, OP11.60-OP12+, iOS7/8, Android4.4+
 	// @author Adrian C. Miranda <adriancmiranda@gmail.com>
 	function Proto(caste){

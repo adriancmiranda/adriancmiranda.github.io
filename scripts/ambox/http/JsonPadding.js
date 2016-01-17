@@ -5,10 +5,10 @@
 	var Promise = scope.uri('Promise');
 	var HttpEvent = scope.uri('HttpEvent');
 
-	// JSONP
+	// JsonPadding
+	// @see http://caniuse.com/#search=async
 	// @support everywhere
 	// @author Adrian C. Miranda <adriancmiranda@gmail.com>
-	// @see http://caniuse.com/#search=async
 	var JsonPadding = new Proto(function JsonPadding(){
 		Proto.rebind(this, 'abort', 'padding');
 	}).static('calls', 0);

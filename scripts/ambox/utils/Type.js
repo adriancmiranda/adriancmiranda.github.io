@@ -4,6 +4,7 @@
 
 	// Type
 	// @role `typeof` and `instanceof` shortcuts normalized
+	// @see http://caniuse.com/#search=JSON
 	// @support everywhere
 	// @author Adrian C. Miranda <adriancmiranda@gmail.com>
 	function Type(value, qualified){

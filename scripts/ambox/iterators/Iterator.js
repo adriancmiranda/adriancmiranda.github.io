@@ -4,7 +4,7 @@
 	var IIterator = scope.uri('IIterator');
 
 	// Iterator
-	// Iterator pattern `interface/template`
+	// @role Iterator pattern `interface/template`
 	// @support everywhere
 	// @see http://developer.classpath.org/doc/java/util/ArrayList-source.html
 	var Iterator = new Proto(function Iterator(list){

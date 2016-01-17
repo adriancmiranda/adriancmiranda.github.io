@@ -2,6 +2,8 @@
 (function(scope){
 
 	// common patterns from project
+	// @support everywhere
+	// @author Adrian C. Miranda <adriancmiranda@gmail.com>
 	scope.uri('patterns', {
 		objectAssessor:scope.Scope.patterns.objectAssessor,
 		startWith:scope.Scope.patterns.startWith,

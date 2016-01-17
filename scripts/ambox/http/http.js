@@ -9,8 +9,10 @@
 	var iterate = scope.uri('iterate');
 
 	// http
-	// Adapter pattern to `XMLHttpRequest` with padding.
-	// @support IE9+
+	// @role Adapter pattern to `XMLHttpRequest` with padding.
+	// @see http://caniuse.com/#search=XMLHttpRequest (wrong for IE9 actually)
+	// @support IE9+ fallback
+	// @author Adrian C. Miranda <adriancmiranda@gmail.com>
 	var http = new Proto(function http(options){
 		return http.request(options);
 	}).static('pendingRequests', []).static('defaults', {

@@ -3,6 +3,9 @@
 	var Proto = scope.uri('Proto');
 	var iterate = scope.uri('iterate');
 
+	// Injector
+	// @support everywhere
+	// @author Adrian C. Miranda <adriancmiranda@gmail.com>
 	var Injector = new Proto(function Injector(target){
 		Injector.process(target);
 	});

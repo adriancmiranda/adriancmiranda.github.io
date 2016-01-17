@@ -4,7 +4,9 @@
 	var patterns = scope.uri('patterns');
 
 	// HttpTransform (defaults)
+	// @see http://caniuse.com/#search=JSON
 	// @support everywhere
+	// @author Adrian C. Miranda <adriancmiranda@gmail.com>
 	scope.uri('HttpTransform', {
 		request:function(data){
 			return Type.test('File|Blob|FormData', data, true)? data : Type.toJson(data);

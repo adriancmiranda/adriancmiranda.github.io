@@ -4,8 +4,9 @@
 	var Proto = scope.uri('Proto');
 
 	// EventEmitter
-	// @support IE9+ without 'strict mode'
 	// @see http://caniuse.com/#search=indexOf
+	// @support IE9+ without 'strict mode'
+	// @author Adrian C. Miranda <adriancmiranda@gmail.com>
 	// @todo FunctionIterator
 	var EventEmitter = new Proto(function EventEmitter(){
 		this.listeners = Proto.create(null);

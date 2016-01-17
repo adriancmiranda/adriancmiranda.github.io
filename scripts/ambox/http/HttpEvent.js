@@ -7,8 +7,9 @@
 	var HttpHeaders = scope.uri('HttpHeaders');
 
 	// HttpEvent
-	// @support IE9+ fallback
-	// @see http://caniuse.com/#search=XMLHttpRequest (wrong for IE9 actually)
+	// @see http://caniuse.com/#search=JSON
+	// @support everywhere
+	// @author Adrian C. Miranda <adriancmiranda@gmail.com>
 	var HttpEvent = new Proto(function HttpEvent(data, headers, status, statusText, url){
 		this.url = new URL(url);
 		this.info = data;

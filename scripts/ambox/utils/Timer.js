@@ -8,6 +8,8 @@
 	// Timer (Ecma5)
 	// @role AS3 port
 	// @see http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/utils/Timer.html
+	// @support everywhere
+	// @author Adrian C. Miranda <adriancmiranda@gmail.com>
 	var Timer = new Proto(function Timer(delay, repeatCount, continuous){
 		this.super.constructor.call(this);
 		Proto.rebind(this, 'onUpdate');

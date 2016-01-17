@@ -5,8 +5,9 @@
 	var iterate = scope.uri('iterate');
 
 	// HttpHeaders
-	// @support IE9+ fallback
 	// @see http://caniuse.com/#search=XMLHttpRequest (wrong for IE9 actually)
+	// @support IE9+ fallback
+	// @author Adrian C. Miranda <adriancmiranda@gmail.com>
 	var HttpHeaders = new Proto(function HttpHeaders(headers, data, method, options){
 		return HttpHeaders.setContentType(data, HttpHeaders.applyDefaults(headers, method, options));
 	});

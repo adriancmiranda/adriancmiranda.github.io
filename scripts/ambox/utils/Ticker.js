@@ -8,6 +8,8 @@
 	// AnimationFrame (Ecma5)
 	// @role provide a `AnimationFrame` IE9 fallback
 	// @see http://caniuse.com/#search=requestAnimationFrame
+	// @support everywhere
+	// @author Adrian C. Miranda <adriancmiranda@gmail.com>
 	var AnimationFrame = new Proto(function AnimationFrame(){
 		Proto.rebind(this, 'request', 'interval');
 		var performance = (window.performance && Vendor(window.performance, 'now'));
