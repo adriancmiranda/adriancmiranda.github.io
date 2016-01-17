@@ -45,7 +45,7 @@
 		options = Proto.merge({}, http.defaults, options);
 		options.method = Type.isString(options.method)? options.method.trim().toUpperCase() : '';
 		options.method = patterns.isHttpMethod.test(options.method)? options.method : 'GET';
-		options.xhr = Type.isFunction(options.xhr)? options.xhr : new window.XMLHttpRequest();
+		options.xhr = Type.isFunction(options.xhr)? options.xhr : window.XMLHttpRequest;
 		options.async = Type.isDefined(options.async)? Type.toBoolean(options.async) : true;
 		options.timeout = Type.toUint(options.timeout);
 		options.withCredentials = Type.isString(options.username) && Type.isString(options.password);

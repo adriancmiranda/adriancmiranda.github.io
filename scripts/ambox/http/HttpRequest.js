@@ -55,8 +55,8 @@
 	// @author Adrian C. Miranda <adriancmiranda@gmail.com>
 	var HttpRequestProxy = new Proto(function HttpRequestProxy(xhr, options){
 		Proto.rebind(this, 'onLoad', 'onAbort', 'onError', 'onTimeout');
-		this.client = xhr;
 		this.options = Proto.merge({}, options);
+		this.client = new xhr(this.options);
 		if(arguments.length){
 			return new HttpRequestBuilder(this);
 		}
@@ -154,9 +154,9 @@
 		this.url = url;
 		this.client.open(method, url, async, username, password);
 		this.client.onreadystatechange = this.onReadyStateChange;
-		this.client.onerror = this.onError;
-		this.client.onabort = this.onAbort;
-		this.client.onload = this.onLoad;
+		// this.client.onerror = this.onError;
+		// this.client.onabort = this.onAbort;
+		// this.client.onload = this.onLoad;
 	});
 
 	HttpRequestProxy.charge('setRequestHeader', function(headers){
