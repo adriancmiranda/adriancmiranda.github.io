@@ -12,17 +12,31 @@
 	var Type = scope.uri('Type');
 	var URL = scope.uri('URL');
 
-	var url = 'https://api.parse.com/1/classes/Message';
+	var urlP = 'https://api.parse.com/1/classes/Message';
+	var urlR = 'http://www.reddit.com/.json?limit=1&jsonp=JSON_CALLBACK';
 
-	http();
-	http.request();
-	http.get();
-	http.delete();
-	http.head();
-	http.jsonp();
-	http.post({url:'teste'});
-	http.put();
-	http.patch();
+	http.defaults.transformResponse.push(function(info){
+		info.aeaeaea = true;
+		return info;
+	});
+
+	http({
+		url:urlP,
+		data:{foo: 'hello world!'},
+		method:'post'
+	}).then(function(value){
+		console.log('[POST]:', value.data);
+	}).catch(function(reason){
+		console.log('[POST ERROR]:', reason);
+	});
+	// http.request();
+	// http.get();
+	// http.delete();
+	// http.head();
+	// http.jsonp();
+	// http.post({url:'teste'});
+	// http.put();
+	// http.patch();
 
 	// new HttpRequest({
 	// 	url:url,
