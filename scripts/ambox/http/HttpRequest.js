@@ -73,13 +73,11 @@
 
 	HttpRequestProxy.define('responseType', {
 		set:function(value){
-			if(value){
-				try{
-					this.client.responseType = value;
-				}catch(error){
-					if(value !== 'json'){
-						throw error;
-					}
+			try{
+				this.client.responseType = (value || '');
+			}catch(error){
+				if(value !== 'json'){
+					throw error;
 				}
 			}
 		},
