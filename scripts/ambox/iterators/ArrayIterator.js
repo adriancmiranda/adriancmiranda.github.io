@@ -87,6 +87,13 @@
 		}
 	});
 
+	ArrayIterator.public('map', function(){});
+	ArrayIterator.public('some', function(){});
+	ArrayIterator.public('every', function(){});
+	ArrayIterator.public('filter', function(){});
+	ArrayIterator.public('reduce', function(){});
+	ArrayIterator.public('reduceRight', function(){});
+
 	ArrayIterator.public('add', function(value){
 		return this.items.push(value);
 	});
@@ -111,13 +118,13 @@
 	});
 
 	ArrayIterator.public('last', function(){
-		this.peak();
-		return this.previous();
+		// this.peak();
+		// return this.previous();
 	});
 
 	ArrayIterator.public('first', function(){
-		this.reset();
-		return this.next();
+		// this.reset();
+		// return this.next();
 	});
 
 	ArrayIterator.public('peak', function(){
@@ -131,6 +138,6 @@
 	});
 
 	Interface.ensureImplements(ArrayIterator.prototype, [IIterator]);
-	scope.uri('Iterator', Iterator);
+	scope.uri('ArrayIterator', ArrayIterator);
 
 }).call(this, Ambox);
