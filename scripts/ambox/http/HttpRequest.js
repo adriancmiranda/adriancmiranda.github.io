@@ -38,6 +38,7 @@
 		data = new HttpEvent(data, HttpHeaders.proxy(headers), 0, '', url);
 		this.request.open(options.method, url, options.async, options.username, options.password);
 		this.request.setRequestHeader(headers);
+		this.request.overrideMimeType(options.mimetype);
 		this.request.onload = this.promise.resolve;
 		this.request.onabort = this.promise.reject;
 		this.request.onerror = this.promise.reject;
@@ -152,7 +153,11 @@
 
 	HttpRequestProxy.public('open', function(method, url, async, username, password){
 		this.url = url;
-		this.client.open(method, url, async, username, password);
+		if(Type.isString(username) && Type.isString(password)){
+			this.client.open(method, url, async, username, password);
+		}else{
+			this.client.open(method, url, async);
+		}
 		this.client.onreadystatechange = this.onReadyStateChange;
 		this.client.onerror = this.onError;
 		this.client.onabort = this.onAbort;
@@ -180,7 +185,9 @@
 	});
 
 	HttpRequestProxy.public('overrideMimeType', function(mimetype){
-		this.client.overrideMimeType(mimetype);
+		if(Type.isString(mimetype) && this.client.overrideMimeType){
+			this.client.overrideMimeType(mimetype);
+		}
 	});
 
 	HttpRequestProxy.public('send', function(data){
