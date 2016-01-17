@@ -29,11 +29,10 @@
 		if(Type.isString(data)){
 			var tempData = data.replace(patterns.jsonProtectionPrefix, '').trim();
 			if(tempData){
-				console.log('===========>', data, headers);
-				// var contentType = headers('Content-Type');
-				// if((contentType && (contentType.indexOf('application/json') === 0)) || Type.isJsonLike(tempData)){
-				// 	data = Type.fromJson(tempData);
-				// }
+				var contentType = headers('Content-Type');
+				if((contentType && (contentType.indexOf('application/json') === 0)) || Type.isJsonLike(tempData)){
+					data = Type.fromJson(tempData);
+				}
 			}
 		}
 		return data;
