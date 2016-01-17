@@ -154,16 +154,14 @@
 	});
 
 	HttpRequestProxy.public('open', function(method, url, async, username, password){
-		if(Type.isString(username) && Type.isString(password)){
-			this.client.open(method, url, async, username, password);
-		}else{
-			this.client.open(method, url, async);
-		}
-		this.url = url;
+		username = Type.isString(username)? username : undefined;
+		password = Type.isString(password)? password : undefined;
+		this.client.open(method, url, async, username, password);
 		this.client.onreadystatechange = this.onReadyStateChange;
 		this.client.onerror = this.onError;
 		this.client.onabort = this.onAbort;
 		this.client.onload = this.onLoad;
+		this.url = url;
 	});
 
 	HttpRequestProxy.charge('setRequestHeader', function(headers){
