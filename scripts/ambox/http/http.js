@@ -49,7 +49,8 @@
 		options.async = Type.isDefined(options.async)? Type.toBoolean(options.async) : true;
 		options.timeout = Type.toUint(options.timeout);
 		options.withCredentials = Type.isString(options.username) && Type.isString(options.password);
-		var request = new (/^jsonp$/i.test(options.method)? JsonPadding : HttpRequest)(options.xhr);
+		var client = patterns.isJsonP.test(options.method)? JsonPadding : HttpRequest;
+		var request = new client(options.xhr);
 		return request.load(options).then(function(value){
 			value.info = HttpTransform(options.transformResponse, value.toArray(), value.info);
 			return value;
