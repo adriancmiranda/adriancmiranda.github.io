@@ -14,7 +14,7 @@
 		var navigationStart = performance && window.performance.timing.navigationStart;
 		this._startTime = navigationStart || new Date().getTime();
 		this._lastTime = performance? 0 : new Date().getTime();
-		this.now = performance.now || this.now;
+		this.getTime = performance? performance.now : this.getTime;
 	});
 
 	AnimationFrame.define('startTime', {
