@@ -33,11 +33,12 @@
 	});
 
 	HttpRequestBuilder.charge('load', function(url, data, options, headers){
-		headers = new HttpHeaders(headers, options.method, data, options);
-		data = new HttpEvent(data, headers.fn, 0, '', url);
+		console.log('\n[headers]>', headers, '\n[data]:', options.data, '\n[method]:', options.method, '\n[params]:', options);
+		headers = HttpHeaders(headers, data, options.method, options);
+		data = new HttpEvent(data, HttpHeaders.proxy(headers), 0, '', url);
 		data.info = HttpTransform(options.transformRequest, data.toArray(), data.info);
 		this.request.open(options.method, url, options.async, options.username, options.password);
-		this.request.setRequestHeader(headers.value);
+		this.request.setRequestHeader(headers);
 		this.request.onload = this.promise.resolve;
 		this.request.onabort = this.promise.reject;
 		this.request.onerror = this.promise.reject;
@@ -52,9 +53,10 @@
 	// HttpRequest - Adapter Pattern
 	// @support IE9+ fallback
 	// @see http://caniuse.com/#search=XMLHttpRequest (wrong for IE9 actually)
-	var HttpRequest = new Proto(function HttpRequest(xhr){
+	var HttpRequest = new Proto(function HttpRequest(xhr, options){
 		Proto.rebind(this, 'onLoad', 'onAbort', 'onError', 'onTimeout');
 		this.client = xhr;
+		this.options = Proto.merge({}, options);
 		if(arguments.length){
 			return new HttpRequestBuilder(this);
 		}
@@ -150,11 +152,11 @@
 
 	HttpRequest.public('open', function(method, url, async, username, password){
 		this.url = url;
+		this.client.open(method, url, async, username, password);
 		this.client.onreadystatechange = this.onReadyStateChange;
 		this.client.onerror = this.onError;
 		this.client.onabort = this.onAbort;
 		this.client.onload = this.onLoad;
-		this.client.open(method, url, async, username, password);
 	});
 
 	HttpRequest.charge('setRequestHeader', function(headers){
@@ -219,7 +221,7 @@
 		window.clearTimeout(this.timer);
 		var cli = this.client;
 		var text = 'response' in cli? cli.response : cli.responseText;
-		var headers = cli.getAllResponseHeaders();
+		var headers = HttpHeaders.proxy(cli.getAllResponseHeaders());
 		var event = new HttpEvent(text, headers, cli.status, cli.statusText, this.url);
 		// event.info = event.transform(this.options.transformResponse);
 		// this.onreadystatechange && this.onreadystatechange(new HttpEvent(null, null, -1, '', this.url));
@@ -228,6 +230,7 @@
 		if(200 <= event.status && event.status < 300){
 			this.onload && this.onload(event);
 		}else{
+			event.info = HttpTransform(this.options.transformResponse, event.toArray(), event.info);
 			this.onerror && this.onerror(event);
 		}
 	});
