@@ -98,10 +98,7 @@
 
 	// Factory Method
 	HttpRequest.static('createXHR', function(type){
-		if(window.XMLHttpRequest){
-			return new window.XMLHttpRequest();
-		}
-		throw new Error('This browser does not support XMLHttpRequest.');
+		return new window.XMLHttpRequest();
 	})
 
 	HttpRequest.static({
