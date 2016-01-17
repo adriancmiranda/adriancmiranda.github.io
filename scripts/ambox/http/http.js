@@ -15,7 +15,7 @@
 	// @author Adrian C. Miranda <adriancmiranda@gmail.com>
 	var http = new Proto(function http(options){
 		return http.request(options);
-	}).static('pendingRequests', []).static('defaults', {
+	}).static('defaults', {
 		transformRequest:[HttpTransform.request],
 		transformResponse:[HttpTransform.response],
 		xsrfHeaderName:'X-XSRF-TOKEN',
@@ -50,8 +50,20 @@
 		options.timeout = Type.toUint(options.timeout);
 		options.withCredentials = Type.isString(options.username) && Type.isString(options.password);
 		var client = patterns.isJsonP.test(options.method)? JsonPadding : HttpRequest;
-		return new client(options.xhr, options).load(options);
+		var pending = HttpRequestStorage(http, options);
+		return new client(options.xhr, options).load(options).then(pending, pending);
 	});
+
+	function HttpRequestStorage(http, options){
+		http.pendingRequests = http.pendingRequests || [];
+		http.pendingRequests.push(options);
+		return function(value){
+			var index = http.pendingRequests.indexOf(options);
+			~index && http.pendingRequests.splice(index, 1);
+			!http.pendingRequests.length && delete(http.pendingRequests);
+			return value;
+		};
+	}
 
 	scope.uri('http', http);
 
