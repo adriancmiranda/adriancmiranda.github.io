@@ -22,7 +22,7 @@
 	});
 
 	http.get(urlM).then(function(value){
-		console.log('[POST]:', value.info.success);
+		console.log('[POST]:', value);
 	}).catch(function(reason){
 		console.log('[POST ERROR]:', reason);
 	});
