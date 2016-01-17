@@ -34,8 +34,6 @@
 	HttpRequestBuilder.charge('load', function(url, data, options, headers){
 		headers = new HttpHeaders(headers, options.method, data, options);
 		data = new HttpEvent(data, headers.fn, 0, '', url);
-		console.log('[headers.value]:', headers.value);
-		console.log('[headers.fn]:', [headers.fn]);
 		this.request.open(options.method, url, options.async, options.username, options.password);
 		this.request.setRequestHeader(headers.value);
 		this.request.onload = this.promise.resolve;

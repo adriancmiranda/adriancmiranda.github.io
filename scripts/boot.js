@@ -20,7 +20,7 @@
 		return info;
 	});
 
-	http.post(urlP, {foo: 'hello world!'}, {
+	http.post(urlP, { foo:'hello world!' }, {
 		headers:{
 			'X-Parse-Application-Id': 'tODF3mfCoNwYO1hervKBFJKlHO6C09x4qk1VUHmq',
 			'X-Parse-REST-API-Key': 'OJVSps1KxfLrc25dY0sVcQAX17vtNx5WqGcVF6lk'
