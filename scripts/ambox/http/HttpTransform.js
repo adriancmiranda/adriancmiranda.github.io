@@ -7,8 +7,8 @@
 
 	// HttpTransform
 	// @support everywhere
-	var HttpTransform = new Proto(function HttpTransform(requests, params){
-		var data;
+	var HttpTransform = new Proto(function HttpTransform(requests, params, fallback){
+		var data = fallback;
 		if(Type.isFunction(requests)){
 			data = requests.apply(requests, params);
 		}else if(Type.isArrayLike(requests)){
