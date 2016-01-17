@@ -3,7 +3,6 @@
 	var Type = scope.uri('Type');
 	var Proto = scope.uri('Proto');
 	var HttpTransform = scope.uri('HttpTransform');
-	var HttpHeaders = scope.uri('HttpHeaders');
 	var HttpRequest = scope.uri('HttpRequest');
 	var JsonPadding = scope.uri('JsonPadding');
 	var patterns = scope.uri('patterns');
@@ -18,8 +17,7 @@
 		transformRequest:[HttpTransform.request],
 		transformResponse:[HttpTransform.response],
 		xsrfHeaderName:'X-XSRF-TOKEN',
-		xsrfCookieName:'XSRF-TOKEN',
-		method:'GET'
+		xsrfCookieName:'XSRF-TOKEN'
 	});
 
 	iterate.index(['get', 'delete', 'head', 'jsonp'], function(method){
@@ -50,7 +48,7 @@
 		options.timeout = Type.toUint(options.timeout);
 		options.withCredentials = Type.isString(options.username) && Type.isString(options.password);
 		var client = patterns.isJsonP.test(options.method)? JsonPadding : HttpRequest;
-		return new client(options.xhr).load(options).then(function(value){
+		return new client(options.xhr, options).load(options).then(function(value){
 			value.info = HttpTransform(options.transformResponse, value.toArray(), value.info);
 			return value;
 		});
