@@ -56,8 +56,7 @@
 		Proto.rebind(this, 'onLoad', 'onAbort', 'onError', 'onTimeout');
 		this.client = xhr;
 		if(arguments.length){
-			var builder = new HttpRequestBuilder(this);
-			return builder//.load.apply(builder, arguments);
+			return new HttpRequestBuilder(this);
 		}
 	});
 
