@@ -18,7 +18,7 @@
 		this.pathname = (URL.anchor.pathname.charAt(0) === '/')? URL.anchor.pathname:'/'+ URL.anchor.pathname;
 		this.protocol = URL.anchor.protocol? URL.anchor.protocol.replace(patterns.endsWith(':'), '') : '';
 		this.search = URL.anchor.search? URL.anchor.search.replace(patterns.startWith('?'), '') : '';
-		this.hash = URL.anchor.hash? URL.anchor.hash.replace(patterns.startWith('#'), '') : '';
+		this.hash = URL.anchor.hash? URL.anchor.hash.replace(patterns.startWith('#\\!?'), '') : '';
 		this.port = Type.toInt(URL.anchor.port) || defaultPorts[this.protocol] || null;
 		this.password = URL.anchor.password;
 		this.username = URL.anchor.username;
