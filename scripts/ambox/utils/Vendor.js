@@ -39,8 +39,6 @@
 		}
 	});
 	
-	
-
 	Vendor.static('transitionEnd', function(){
 		var transitions = {
 			WebkitTransition:'webkitTransitionEnd',
