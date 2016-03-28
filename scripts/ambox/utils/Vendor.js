@@ -38,6 +38,28 @@
 			}
 		}
 	});
+	
+	
+
+	Vendor.static('transitionEnd', function(){
+		var transitions = {
+			WebkitTransition:'webkitTransitionEnd',
+			MozTransition:'transitionend',
+			OTransition:'oTransitionEnd otransitionend',
+			transition:'transitionend'
+		};
+		return transitions[Vendor.prefixed(transitions, 'transition')]
+	}());
+
+	Vendor.static('animationEnd', function(){
+		var animations = {
+			WebkitAnimation: 'webkitAnimationEnd',
+			OAnimation: 'oAnimationEnd',
+			msAnimation: 'MSAnimationEnd',
+			animation: 'animationend'
+		};
+		return animations[Vendor.prefixed(animations, 'animation')]
+	}());
 
 	scope.uri('Vendor', Vendor);
 
