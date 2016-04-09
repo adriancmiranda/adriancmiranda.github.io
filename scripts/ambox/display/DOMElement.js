@@ -94,22 +94,24 @@
 		return document.createElement('div');
 	});
 
-	DOMElement.public('removeClass', function(className){
+	DOMElement.public('removeClass', function(classList){
+		classList = classList.split(patterns.spaces);
 		if('classList' in document.documentElement){
-			this.node.classList.remove(className);
+			this.node.classList.remove.apply(el.classList, classList);
 		}else{
 			this.node.className = this.node.className.replace(
-				patterns.findClass(className), ' '
+				patterns.findClass(classList.join('|')), ''
 			);
 		}
 		return this;
 	});
 
-	DOMElement.public('addClass', function(className){
+	DOMElement.public('addClass', function(classList){
+		classList = classList.split(patterns.spaces);
 		if('classList' in document.documentElement){
-			this.node.classList.add(className);
+			this.node.classList.add.apply(el.classList, classList);
 		}else if(!this.hasClass(className)){
-			this.node.className = this.node.className +' '+ className;
+			this.node.className = this.node.className +' '+ classList.join(' ');
 		}
 		return this;
 	});
