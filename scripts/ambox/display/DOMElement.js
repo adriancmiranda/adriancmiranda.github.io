@@ -126,7 +126,7 @@
 			}
 			return false;
 		}
-		return patterns.findClass(className.join('|')).test(this.node.className);
+		return patterns.findClass(classList.join('|')).test(this.node.className);
 	});
 
 	DOMElement.public('toggleClass', function(className){
