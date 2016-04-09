@@ -95,7 +95,7 @@
 	});
 
 	DOMElement.public('removeClass', function(classList){
-		classList = classList.split(patterns.spaces);
+		classList = Type.isArray(classList)? classList : classList.split(patterns.spaces);
 		if('classList' in document.documentElement){
 			this.node.classList.remove.apply(el.classList, classList);
 		}else{
@@ -107,20 +107,25 @@
 	});
 
 	DOMElement.public('addClass', function(classList){
-		classList = classList.split(patterns.spaces);
+		classList = Type.isArray(classList)? classList : classList.split(patterns.spaces);
 		if('classList' in document.documentElement){
 			this.node.classList.add.apply(el.classList, classList);
-		}else if(!this.hasClass(className)){
+		}else if(!this.hasClass(classList)){
 			this.node.className = this.node.className +' '+ classList.join(' ');
 		}
 		return this;
 	});
 
-	DOMElement.public('hasClass', function(className){
+	DOMElement.public('hasClass', function(classList){
+		classList = Type.isArray(classList)? classList : classList.split(patterns.spaces);
 		if('classList' in document.documentElement){
-			return this.node.classList.contains(className);
+			for(var id = 0; id < classList.length; id++){
+				if(this.node.classList.contains(classList[id])){
+					return true;
+				}
+			}
 		}
-		return patterns.findClass(className).test(this.node.className);
+		return patterns.findClass(className.join('|')).test(this.node.className);
 	});
 
 	DOMElement.public('toggleClass', function(className){
