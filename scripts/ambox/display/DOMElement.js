@@ -124,6 +124,7 @@
 					return true;
 				}
 			}
+			return false;
 		}
 		return patterns.findClass(className.join('|')).test(this.node.className);
 	});
