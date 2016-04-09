@@ -110,26 +110,20 @@
 		classList = Type.isArray(classList)? classList : classList.split(patterns.spaces);
 		if('classList' in document.documentElement){
 			this.node.classList.add.apply(el.classList, classList);
-		}else if(!this.hasClass(classList)){// TODO: check all the list individually to append
-			this.node.className = this.node.className +' '+ classList.join(' ');
+		}else for(var id = 0; id < classList.length; id++){
+			if(!this.hasClass(classList[id], el)){
+				this.node.className = this.node.className +' '+ classList[id];
+			}
 		}
 		return this;
 	});
-
-	DOMElement.public('hasClass', function(classList){
+	
+	DOMElement.public('hasClass', function(className){
 		classList = Type.isArray(classList)? classList : classList.split(patterns.spaces);
 		if('classList' in document.documentElement){
-			var foundList = [];
-			for(var id = 0; id < classList.length; id++){
-				if(this.node.classList.contains(classList[id])){
-					foundList.push(classList[id]);
-				}
-			}
-			return foundList.length? foundList : false;
+			return this.node.classList.contains(className);
 		}
-		foundList = patterns.findClass(classList.join('|')).exec(el.className) || foundList;
-		foundList = foundList.length && foundList.join('').split(patterns.spaces);
-		return foundList;
+		return patterns.findClass(className).test(this.node.className);
 	});
 
 	DOMElement.public('toggleClass', function(className){
