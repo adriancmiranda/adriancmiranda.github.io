@@ -127,7 +127,9 @@
 			}
 			return foundList.length? foundList : false;
 		}
-		return patterns.findClass(classList.join('|')).test(this.node.className);// TODO: return `foundList` too
+		foundList = patterns.findClass(classList.join('|')).exec(el.className) || foundList;
+		foundList = foundList.length && foundList.join('').split(patterns.spaces);
+		return foundList;
 	});
 
 	DOMElement.public('toggleClass', function(className){
