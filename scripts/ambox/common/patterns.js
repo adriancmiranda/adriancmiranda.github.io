@@ -19,6 +19,7 @@
 		noValue:/^(Undefined|Null|NaN)$/i,
 		isBoolValue:/^(true|yes)$/gi,
 		whiteSpace:(/\S+/g),
+		spaces:/\s+/,
 		jsonStart:/^\[|^\{(?!\{)/,
 		jsonEnds:{'[':/\]$/, '{':/\}$/},
 		jsonProtectionPrefix:/^\)\]\}',?\n/,
