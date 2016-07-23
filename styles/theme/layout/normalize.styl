@@ -1,0 +1,225 @@
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// Base rules
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// Base is a base rules. Base rules are the defaults.
+// They are almost exclusively single element selectors but it
+// could include attribute selectors,
+// pseudo-class selectors, child selectors or sibling selectors.
+// Essentially, a base style says that wherever this element is
+// on the page, it should look like this.
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// @see http://outlinenone.com/
+// @see https://j.eremy.net/confused-about-rem-and-em/
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+*,
+*:after,
+*:before
+  tap-highlight-color transparent
+  box-sizing border-box
+
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// HTML5 display definitions
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+html
+  font-size 16px
+  line-height 12px
+  -ms-text-size-adjust 100%
+  -webkit-text-size-adjust 100%
+
+body
+  margin 0
+
+html,
+body
+  width 100%
+  height 100%
+
+article, aside, details,
+figcaption, figure, footer, header, hgroup, main,
+menu, nav, section, summary
+  display block
+
+audio,
+canvas,
+progress,
+video
+  display inline-block
+
+progress
+  vertical-align baseline
+
+audio:not([controls])
+  display none
+  height 0
+
+[hidden],
+template
+  display none
+
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// Links
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+a
+  background-color transparent
+
+a:hover,
+a:active
+  outline-width 0
+
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// Text-level semantics
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+abbr[title]
+  border-bottom none
+  text-decoration underline
+  text-decoration underline dotted
+
+b,
+strong
+  font-weight inherit
+
+b,
+strong
+  font-weight bolder
+
+dfn
+  font-style italic
+
+h1
+  font-size 2em
+  margin 0.67em 0
+
+mark
+  background #ff0
+  color #000
+
+small
+  font-size 80%
+
+sub,
+sup
+  font-size 75%
+  line-height 0
+  position relative
+  vertical-align baseline
+
+sup
+  top -0.5em
+
+sub
+  bottom -0.25em
+
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// Embedded content
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+img
+  display inline-block
+  vertical-align middle
+  border-style none
+  max-width 100%
+  height auto
+
+svg:not(:root)
+  overflow hidden
+
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// Grouping content
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+figure
+  margin 1em 40px
+
+hr
+  box-sizing content-box
+  height 0
+  overflow visible
+
+pre
+  overflow auto
+
+code,
+kbd,
+pre,
+samp
+  font-family monospace, monospace
+  font-size 1em
+
+table
+  border-collapse collapse
+  border-spacing 0
+
+td,
+th
+  padding 0
+
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// Forms
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+button,
+input,
+select,
+textarea
+  font inherit
+  margin 0
+
+optgroup
+  font-weight bold
+
+button,
+input,
+select
+  overflow visible
+
+button,
+select
+  text-transform none
+
+button,
+html [type="button"],
+[type="reset"],
+[type="submit"]
+  -webkit-appearance button
+
+button::-moz-focus-inner,
+input::-moz-focus-inner
+  border 0
+  padding 0
+
+button:-moz-focusring,
+input:-moz-focusring
+  outline 1px dotted ButtonText
+
+fieldset
+  border 1px solid #c0c0c0
+  margin 0 2px
+  padding 0.35em 0.625em 0.75em
+
+legend
+  color inherit
+  display table
+  max-width 100%
+  padding 0
+  white-space normal
+
+textarea
+  overflow auto
+
+[type="checkbox"],
+[type="radio"]
+  padding 0
+
+[type="number"]::-webkit-inner-spin-button,
+[type="number"]::-webkit-outer-spin-button
+  height auto
+
+[type="search"]
+  -webkit-appearance textfield
+
+[type="search"]::-webkit-search-cancel-button,
+[type="search"]::-webkit-search-decoration
+  -webkit-appearance none

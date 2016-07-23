@@ -1,0 +1,169 @@
+{
+  "name": "hello_world",
+  "version": "1.0.0",
+  "description": "A hello world scripts project",
+  "author": "Adrian C. Miranda",
+  "license": "ISC",
+  "main": "scripts/index.js",
+  "scripts": {
+    "start": "npm cache clean && npm i && npm run watch",
+    "clean": "rimraf tmp/ styles/*.css scripts/*{bundle,min}.{js,map} npm-debug.log",
+    "eslint": "eslint scripts/ --ignore-pattern \"scripts/bundle.js\" --ignore-pattern \"scripts/vendors/*\"",
+    "jshint": "jshint scripts/ --exclude scripts/bundle.js,scripts/vendors/",
+    "test": "mocha tests/",
+    "styl": "stylus styles/index.styl -u nib -o styles/index.css -c --disable-cache",
+    "browserify": "browserify -e scripts/index.js -d -t browserify-shim | exorcist scripts/bundle.map > scripts/bundle.js",
+    "browserify:min": "npm run browserify -s && uglifyjs scripts/bundle.js -co scripts/bundle.min.js --source-map scripts/bundle.min.map -d DEBUG=false",
+    "imagemin": "imagemin media/* tmp/images/* -p",
+    "htmlmin": "htmlmin -cs index.html tmp/index.html",
+    "prebuild": "parallelshell \"npm run jshint && npm run eslint\" \"npm run clean -s\"",
+    "build": "parallelshell \"npm run browserify:min -s\" \"npm run styl -s\"",
+    "postbuild": "postcss --use autoprefixer --autoprefixer.browsers \"> 5%\" -o styles/index.css styles/index.css",
+    "watch:test": "npm test -- -w",
+    "watch:styl": "npm run styl -- -w",
+    "watch:browserify": "watchify -v -t browserify-shim scripts/index.js -do scripts/bundle.js --poll=true",
+    "watch": "parallelshell \"npm run watch:styl -s\" \"npm run watch:browserify -s\" \"npm run server -s\"",
+    "server": "browser-sync start -f \"./\" -s \"./\" --index \"./index.html\" --port 3000",
+    "preversion": "npm test",
+    "version": "npm run build && git add -A ./",
+    "postversion": "git push"
+  },
+  "dependencies": {
+    "Proto": "github:adriancmiranda/Proto",
+    "gsap": "github:greensock/GreenSock-JS#1.18.5",
+    "jquery": "2.2.4",
+    "jsonp": "0.2.0",
+    "console.js": "github:adriancmiranda/console.js#v1.0.6"
+  },
+  "devDependencies": {
+    "browser-sync": "2.12.12",
+    "browserify": "13.0.1",
+    "browserify-shim": "3.8.12",
+    "eslint": "2.11.1",
+    "exorcist": "0.4.0",
+    "jshint": "2.9.2",
+    "mocha": "2.5.3",
+    "nib": "1.1.0",
+    "imagemin": "5.2.1",
+    "htmlmin": "0.0.6",
+    "parallelshell": "2.0.0",
+    "postcss": "5.0.21",
+    "rimraf": "2.5.2",
+    "should": "9.0.0",
+    "stylus": "0.54.5",
+    "uglify-js": "2.6.2",
+    "watchify": "3.7.0"
+  },
+  "browser": {
+    "jquery.gsap": "./node_modules/gsap/src/uncompressed/jquery.gsap.js",
+    "gsap.EasePack": "./node_modules/gsap/src/uncompressed/easing/EasePack.js",
+    "gsap.CSSPlugin": "./node_modules/gsap/src/uncompressed/plugins/CSSPlugin.js",
+    "gsap.BezierPlugin": "./node_modules/gsap/src/uncompressed/plugins/BezierPlugin.js",
+    "gsap.DirectionalRotationPlugin": "./node_modules/gsap/src/uncompressed/plugins/DirectionalRotationPlugin.js",
+    "gsap.AttrPlugin": "./node_modules/gsap/src/uncompressed/plugins/AttrPlugin.js",
+    "gsap.RoundPropsPlugin": "./node_modules/gsap/src/uncompressed/plugins/RoundPropsPlugin.js",
+    "gsap.ColorPropsPlugin": "./node_modules/gsap/src/uncompressed/plugins/ColorPropsPlugin.js",
+    "gsap.CSSRulePlugin": "./node_modules/gsap/src/uncompressed/plugins/CSSRulePlugin.js",
+    "gsap.EaselPlugin": "./node_modules/gsap/src/uncompressed/plugins/EaselPlugin.js",
+    "gsap.KineticPlugin": "./node_modules/gsap/src/uncompressed/plugins/KineticPlugin.js",
+    "gsap.RaphaelPlugin": "./node_modules/gsap/src/uncompressed/plugins/RaphaelPlugin.js",
+    "gsap.ScrollToPlugin": "./node_modules/gsap/src/uncompressed/plugins/ScrollToPlugin.js",
+    "gsap.TextPlugin": "./node_modules/gsap/src/uncompressed/plugins/TextPlugin.js",
+    "gsap.EndArrayPlugin": "./node_modules/gsap/src/uncompressed/plugins/EndArrayPlugin.js",
+    "gsap.TEMPLATE_Plugin": "./node_modules/gsap/src/uncompressed/plugins/TEMPLATE_Plugin.js",
+    "gsap.Draggable": "./node_modules/gsap/utils/Draggable.js",
+    "TimelineLite": "./node_modules/gsap/src/uncompressed/TimelineLite.js",
+    "TimelineMax": "./node_modules/gsap/src/uncompressed/TimelineMax.js",
+    "TweenLite": "./node_modules/gsap/src/uncompressed/TweenLite.js",
+    "TweenMax": "./node_modules/gsap/src/uncompressed/TweenMax.js",
+    "trace": "./node_modules/console.js/trace.js"
+  },
+  "browserify-shim": {
+    "jquery.gsap": {
+      "exports": "$",
+      "depends": ["gsap.CSSPlugin", "jquery"]
+    },
+    "TweenMax": {
+      "exports": "TweenMax",
+      "depends": ["TimelineMax", "gsap.EasePack", "gsap.CSSPlugin", "gsap.BezierPlugin", "gsap.DirectionalRotationPlugin", "gsap.AttrPlugin", "gsap.RoundPropsPlugin"]
+    },
+    "TimelineLite": {
+      "exports": "TimelineLite",
+      "depends": "TweenLite"
+    },
+    "TimelineMax": {
+      "exports": "TimelineMax",
+      "depends": "TimelineLite"
+    },
+    "gsap.Draggable": {
+      "depends": "gsap.CSSPlugin"
+    },
+    "gsap.EndArrayPlugin": {
+      "depends": "TweenLite"
+    },
+    "gsap.ColorPropsPlugin": {
+      "depends": "TweenLite"
+    },
+    "gsap.CSSRulePlugin": {
+      "depends": ["gsap.CSSPlugin"]
+    },
+    "gsap.EaselPlugin": {
+      "depends": "TweenLite"
+    },
+    "gsap.KineticPlugin": {
+      "depends": "TweenLite"
+    },
+    "gsap.RaphaelPlugin": {
+      "depends": "TweenLite"
+    },
+    "gsap.ScrollToPlugin": {
+      "depends": "TweenLite"
+    },
+    "gsap.TextPlugin": {
+      "depends": "TweenLite"
+    },
+    "gsap.EasePack": {
+      "depends": "TweenLite"
+    },
+    "gsap.CSSPlugin": {
+      "depends": "TweenLite"
+    },
+    "gsap.BezierPlugin": {
+      "depends": "TweenLite"
+    },
+    "gsap.DirectionalRotationPlugin": {
+      "depends": "TweenLite"
+    },
+    "gsap.AttrPlugin": {
+      "depends": "TweenLite"
+    },
+    "gsap.RoundPropsPlugin": {
+      "depends": "TweenLite"
+    }
+  },
+  "eslintConfig": {
+    "env": {
+      "browser": true,
+      "node": true
+    }
+  },
+  "jshintConfig": {
+    "quotmark": false,
+    "indent": 2,
+    "esnext": true,
+    "browser": true,
+    "node": true,
+    "bitwise": false,
+    "camelcase": false,
+    "curly": true,
+    "eqeqeq": true,
+    "immed": true,
+    "latedef": true,
+    "newcap": true,
+    "noarg": true,
+    "undef": true,
+    "unused": false,
+    "strict": true,
+    "expr": true
+  }
+}
