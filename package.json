@@ -1,199 +1,61 @@
 {
   "private": true,
-  "name": "hello_world",
+  "name": "adriancmiranda",
   "version": "1.0.0",
-  "description": "A hello world scripts project",
+  "description": "My new git-push powered folio",
   "author": "Adrian C. Miranda",
   "license": "ISC",
   "main": "scripts/index.js",
   "scripts": {
-    "start": "npm cache clean && npm i && npm run watch",
-    "clean": "rimraf *.log styles/*.css scripts/*bundle.js npm-debug.log",
+    "preinstall": "npm run clean",
+    "postinstall": "jspm install",
+    "start": "npm install && npm run watch",
+    "clean": "npm cache clean && rimraf *.log styles/*.css scripts/*bundle.js* npm-debug.log && jspm clean",
     "eslint": "eslint scripts/ --ignore-pattern \"scripts/bundle.js\" --ignore-pattern \"scripts/vendors/*\"",
     "test": "mocha tests/",
     "styl": "stylus styles/index.styl -u nib -o styles/index.css -c --disable-cache",
-    "uglifyjs": "npm run browserify && uglifyjs scripts/bundle.js -co scripts/bundle.js --source-map scripts/bundle.map --wrap -q 1",
-    "browserify": "browserify -de scripts/index.js -t [babelify --presets [es2015 stage-0 react] --plugins transform-class-properties] -t browserify-shim | exorcist scripts/bundle.map > scripts/bundle.js",
-    "prejspm": "jspm install",
-    "jspm": "jspm bundle-sfx --minify scripts/index.js scripts/bundle.js",
+    "uglifyjs": "npm run jspm && uglifyjs scripts/bundle.js -co scripts/bundle.js --source-map scripts/bundle.map --wrap -q 1",
+    "jspm": "jspm bundle-sfx scripts/index scripts/bundle.js",
     "prebuild": "parallelshell \"npm run eslint\" \"npm run clean -s\"",
     "build": "parallelshell \"npm run uglifyjs -s\" \"npm run styl -s\"",
     "postbuild": "postcss --use autoprefixer --autoprefixer.browsers \"> 5%\" -o styles/index.css styles/index.css",
     "watch:test": "npm run mocha -- -w",
     "watch:styl": "npm run styl -- -w",
-    "watch:browserify": "watchify scripts/index.js -o scripts/bundle.js -v -t [babelify --presets [es2015 stage-0 react] --plugins transform-class-properties] -t browserify-shim",
-    "watch": "parallelshell \"npm run watch:styl -s\" \"npm run watch:browserify -s\" \"npm run server -s\"",
+    "watch:jspm": "jspm-dev-builder scripts/index -o scripts/bundle.js",
+    "watch": "parallelshell \"npm run watch:styl -s\" \"npm run watch:jspm -s\" \"npm run server -s\"",
     "server": "browser-sync start -s \"./\" -f \"./\" --index \"./index.html\" --port 3000",
     "preversion": "npm run test",
     "version": "npm run build && git add -A ./",
     "postversion": "git push && git push --tags"
   },
-  "dependencies": {
-    "console.js": "github:adriancmiranda/console.js",
-    "gsap": "greensock/GreenSock-JS#1.18.5",
-    "jquery": "2.2.4",
-    "jsonp": "0.2.0",
-    "react": "15.1.0",
-    "react-dom": "15.1.0",
-    "redux": "3.5.2"
-  },
   "devDependencies": {
-    "babel-eslint": "6.0.4",
-    "babel-plugin-transform-class-properties": "6.9.1",
-    "babel-preset-es2015": "6.9.0",
-    "babel-preset-react": "6.5.0",
-    "babel-preset-stage-0": "6.5.0",
-    "babelify": "7.3.0",
     "browser-sync": "2.12.12",
-    "browserify": "13.0.1",
-    "browserify-shim": "3.8.12",
     "eslint": "2.11.1",
-    "eslint-plugin-react": "5.1.1",
-    "exorcist": "0.4.0",
     "jspm": "0.16.39",
+    "jspm-dev-builder-cli": "0.2.0",
     "mocha": "2.5.3",
     "nib": "1.1.0",
-    "node-sass": "3.7.0",
     "parallelshell": "2.0.0",
     "postcss": "5.0.21",
     "rimraf": "2.5.2",
     "should": "9.0.0",
     "stylus": "0.54.5",
-    "uglify-js": "2.6.2",
-    "watchify": "3.7.0"
+    "uglify-js": "2.6.2"
   },
-  "browser": {
-    "jquery.gsap": "./node_modules/gsap/src/uncompressed/jquery.gsap.js",
-    "gsap.EasePack": "./node_modules/gsap/src/uncompressed/easing/EasePack.js",
-    "gsap.CSSPlugin": "./node_modules/gsap/src/uncompressed/plugins/CSSPlugin.js",
-    "gsap.BezierPlugin": "./node_modules/gsap/src/uncompressed/plugins/BezierPlugin.js",
-    "gsap.DirectionalRotationPlugin": "./node_modules/gsap/src/uncompressed/plugins/DirectionalRotationPlugin.js",
-    "gsap.AttrPlugin": "./node_modules/gsap/src/uncompressed/plugins/AttrPlugin.js",
-    "gsap.RoundPropsPlugin": "./node_modules/gsap/src/uncompressed/plugins/RoundPropsPlugin.js",
-    "gsap.ColorPropsPlugin": "./node_modules/gsap/src/uncompressed/plugins/ColorPropsPlugin.js",
-    "gsap.CSSRulePlugin": "./node_modules/gsap/src/uncompressed/plugins/CSSRulePlugin.js",
-    "gsap.EaselPlugin": "./node_modules/gsap/src/uncompressed/plugins/EaselPlugin.js",
-    "gsap.KineticPlugin": "./node_modules/gsap/src/uncompressed/plugins/KineticPlugin.js",
-    "gsap.RaphaelPlugin": "./node_modules/gsap/src/uncompressed/plugins/RaphaelPlugin.js",
-    "gsap.ScrollToPlugin": "./node_modules/gsap/src/uncompressed/plugins/ScrollToPlugin.js",
-    "gsap.TextPlugin": "./node_modules/gsap/src/uncompressed/plugins/TextPlugin.js",
-    "gsap.EndArrayPlugin": "./node_modules/gsap/src/uncompressed/plugins/EndArrayPlugin.js",
-    "gsap.TEMPLATE_Plugin": "./node_modules/gsap/src/uncompressed/plugins/TEMPLATE_Plugin.js",
-    "gsap.Draggable": "./node_modules/gsap/utils/Draggable.js",
-    "TimelineLite": "./node_modules/gsap/src/uncompressed/TimelineLite.js",
-    "TimelineMax": "./node_modules/gsap/src/uncompressed/TimelineMax.js",
-    "TweenLite": "./node_modules/gsap/src/uncompressed/TweenLite.js",
-    "TweenMax": "./node_modules/gsap/src/uncompressed/TweenMax.js",
-    "trace": "./node_modules/console.js/trace.js"
-  },
-  "browserify-shim": {
-    "jquery.gsap": {
-      "exports": "$",
-      "depends": ["gsap.CSSPlugin", "jquery"]
+  "jspm": {
+    "directories": {
+      "packages": "scripts/vendors"
     },
-    "TweenMax": {
-      "exports": "TweenMax",
-      "depends": ["TimelineMax", "gsap.EasePack", "gsap.CSSPlugin", "gsap.BezierPlugin", "gsap.DirectionalRotationPlugin", "gsap.AttrPlugin", "gsap.RoundPropsPlugin"]
+    "configFile": "scripts/config.js",
+    "dependencies": {
+      "console.js": "github:adriancmiranda/console.js@^1.0.6",
+      "fetch": "github:github/fetch@^0.10.1",
+      "text": "github:systemjs/plugin-text@^0.0.3"
     },
-    "TimelineLite": {
-      "exports": "TimelineLite",
-      "depends": "TweenLite"
-    },
-    "TimelineMax": {
-      "exports": "TimelineMax",
-      "depends": "TimelineLite"
-    },
-    "gsap.Draggable": {
-      "depends": "gsap.CSSPlugin"
-    },
-    "gsap.EndArrayPlugin": {
-      "depends": "TweenLite"
-    },
-    "gsap.ColorPropsPlugin": {
-      "depends": "TweenLite"
-    },
-    "gsap.CSSRulePlugin": {
-      "depends": "gsap.CSSPlugin"
-    },
-    "gsap.EaselPlugin": {
-      "depends": "TweenLite"
-    },
-    "gsap.KineticPlugin": {
-      "depends": "TweenLite"
-    },
-    "gsap.RaphaelPlugin": {
-      "depends": "TweenLite"
-    },
-    "gsap.ScrollToPlugin": {
-      "depends": "TweenLite"
-    },
-    "gsap.TextPlugin": {
-      "depends": "TweenLite"
-    },
-    "gsap.EasePack": {
-      "depends": "TweenLite"
-    },
-    "gsap.CSSPlugin": {
-      "depends": "TweenLite"
-    },
-    "gsap.BezierPlugin": {
-      "depends": "TweenLite"
-    },
-    "gsap.DirectionalRotationPlugin": {
-      "depends": "TweenLite"
-    },
-    "gsap.AttrPlugin": {
-      "depends": "TweenLite"
-    },
-    "gsap.RoundPropsPlugin": {
-      "depends": "TweenLite"
+    "devDependencies": {
+      "babel": "npm:babel-core@^5.8.24",
+      "babel-runtime": "npm:babel-runtime@^5.8.24",
+      "core-js": "npm:core-js@^2.1.0"
     }
-  },
-  "eslintConfig": {
-    "parser": "babel-eslint",
-    "extends": "eslint:recommended",
-    "rules":{
-      "comma-dangle": 0,
-      "semi": [2, "never"],
-      "quotes": [2, "single"],
-      "linebreak-style": [2, "unix"],
-      "jsx-quotes": 1,
-      "react/display-name": 1,
-      "react/forbid-prop-types": 1,
-      "react/jsx-boolean-value": 1,
-      "react/jsx-closing-bracket-location": 1,
-      "react/jsx-curly-spacing": 1,
-      "react/jsx-indent-props": [2, 2],
-      "react/jsx-max-props-per-line": 1,
-      "react/jsx-no-duplicate-props": 1,
-      "react/jsx-no-literals": 1,
-      "react/jsx-no-undef": 1,
-      "react/jsx-sort-prop-types": 1,
-      "react/jsx-sort-props": 1,
-      "react/jsx-uses-react": 1,
-      "react/jsx-uses-vars": 1,
-      "react/no-danger": 1,
-      "react/no-did-mount-set-state": 1,
-      "react/no-did-update-set-state": 1,
-      "react/no-direct-mutation-state": 1,
-      "react/no-multi-comp": 1,
-      "react/no-set-state": 1,
-      "react/no-unknown-property": 1,
-      "react/prefer-es6-class": 1,
-      "react/prop-types": 1,
-      "react/react-in-jsx-scope": 1,
-      "react/require-extension": 1,
-      "react/self-closing-comp": 1,
-      "react/sort-comp": 1,
-      "react/wrap-multilines": 1
-    },
-    "env": {
-      "browser": true,
-      "mocha": true,
-      "es6": true
-    },
-    "plugins": [
-      "react"
-    ]
   }
 }
