@@ -1,0 +1,75 @@
+.Button
+	// Animations
+	// ==========
+	transition background 300ms ease-out-cubic 0ms,
+	visibility 300ms ease-out-cubic 0ms,
+	opacity 300ms ease-out-cubic 0ms,
+	filter 300ms ease-out-cubic 0ms,
+	color 300ms ease-out-cubic 0ms
+
+	// Skin
+	// ====
+	box-shadow 0 2px 5px 0 rgba(0,0,0,0.2)
+	background-color rgba(0,0,0,0.95)
+	color rgba(255,255,255,1)
+	font-size em(17.6px)
+	font-smoothing always
+	text-decoration none
+	font-family inherit
+	letter-spacing 1px
+	padding 12px 30px
+	border 0
+	zoom 1
+
+	// Structure
+	// =========
+	@include relative
+	vertical-align middle
+	display inline-block
+	text-overflow ellipsis
+	white-space nowrap
+	overflow hidden
+	text-align center
+	user-select none
+	cursor pointer
+
+	// FF normalize
+	// ============
+	&::-moz-focus-inner
+		padding 0
+		border 0
+
+	// Color selection
+	// ===============
+	&::selection 
+		background-color transparent
+
+	&::moz-selection 
+		background-color transparent
+
+	&::webkit-selection 
+		background-color transparent
+
+	// States
+	// ======
+	&.is-hovering,
+	&:hover
+		background-color rgba(255,0,0,0.95)
+		color rgba(0,0,0,0.95)
+
+	&.is-onfocus,
+	&:focus
+		background-color rgba(255,0,0,0.95)
+
+	&.is-active,
+	&:active
+		background-color rgba(255,0,0,0.95)
+
+	.is-visited,
+	:visited
+		// N/A yet.
+
+	&.is-disabled,
+	&[disabled]
+		background-color rgba(0,0,0,0.4)
+		outline 0

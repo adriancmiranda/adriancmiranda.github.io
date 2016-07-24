@@ -1,0 +1,503 @@
+// Preload images by setting them to a background-image on the html:after element.
+// @usage: http://codepen.io/pixelass/pen/vEKZRq/?editors=1100
+@mixin image-preload($preload = run)
+	if not variable-exists(_preload-image-list)
+		$_preload-image-list: ()!global
+
+	if not variable-exists(_preload-image-urls)
+		$_preload-image-urls: ()!global
+
+	if not variable-exists(_preload-images-loaded)
+		$_preload-images-loaded: false!global
+
+	if $preload == run and not $_preload-images-loaded
+		$_preload-images-loaded: true!global
+		html:after
+			content: ''
+			display: none
+			background-image: $_preload-image-urls
+
+	else
+		$_preload-image-list: join($preload, $_preload-image-list)!global
+		$image-urls: ()
+		if length($_preload-image-list) > 0
+			@for $i from 1 through length($_preload-image-list)
+				$image-urls: join(url({nth($_preload-image-list,$i)), $image-urls)
+
+			$result: ()
+			@each $item in $image-urls
+				if not index($result, $item)
+					$result: append($result, $item, comma)
+
+
+			$_preload-image-urls: $result!global
+
+
+
+
+// @usage: media-query($min-width: $min, $max-width: $max, $orientation: $orientation){
+@mixin media-query(args...)
+	$media-type: 'only screen'
+	$media-type-key: 'media-type'
+	$args: keywords($args)
+	$expr: ''
+	if map-has-key($args, $media-type-key)
+		$media-type: map-get($args, $media-type-key)
+		$args: map-remove($args, $media-type-key)
+
+	@each $key, $value in $args
+		if $value
+			$expr: "{expr} and ({key}: {value})"
+
+	@media {media-type} {expr}
+		@content
+
+// @usage: screenX(1px, 568px, portrait){}
+@mixin screenX($min: false, $max: false, $orientation: false)
+	media-query($min-width: $min, $max-width: $max, $orientation: $orientation)
+		@content
+
+// @usage: screenY(1px, 568px, portrait){}
+@mixin screenY($min: false, $max: false, $orientation: false)
+	media-query($min-height: $min, $max-height: $max, $orientation: $orientation)
+		@content
+
+// @usage: screen-resolutionX(xl){}
+@mixin screen-resolutionX(size = null)
+	if $size == 'xs'
+		screenX($max: em($layout-xs-width)){
+			@content
+	else if $size == 'sm'
+		screenX($min: em($layout-xs-width + 0.1), $max: em($layout-sm-width))
+			@content
+	else if $size == 'md'
+		screenX($min: em($layout-sm-width + 0.1), $max: em($layout-md-width))
+			@content
+	else if $size == 'lg'
+		screenX($min: em($layout-md-width + 0.1), $max: em($layout-lg-width))
+			@content
+	else
+		screenX($min: em($layout-xl-width + 0.1))
+			@content
+
+// @usage: screen-resolutionY(xl){}
+@mixin screen-resolutionY(size = null)
+	if size == 'xs'
+		screenY($max: em(layout-xs-height))
+			@content
+	else if size == 'sm'
+		screenY($min: em(layout-xs-height + 0.1), $max: em(layout-sm-height))
+			@content
+	else if $size == 'md'
+		screenY($min: em(layout-sm-height + 0.1), $max: em(layout-md-height))
+			@content
+	else if $size == 'lg'
+		screenY($min: em(layout-md-height + 0.1), $max: em(layout-lg-height))
+			@content
+	else
+		screenY($min: em(layout-xl-height + 0.1))
+			@content
+
+// offset(null 0 null 5px)
+@mixin offset(trbl = null)
+	if length(trbl) == 1
+		position = top, right, bottom, left
+		if trbl != null
+			@each property in position
+				{property} trbl
+
+	else if length(trbl) == 2
+		if nth(trbl, 1) != null
+			top nth(trbl, 1)
+			bottom nth(trbl, 1)
+
+		if nth(trbl, 2) != null
+			right nth(trbl, 2)
+			left nth(trbl, 2)
+
+	else if length(trbl) == 3
+		if nth(trbl, 1) != null
+			top nth(trbl, 1)
+
+		if nth(trbl, 2) != null
+			right nth(trbl, 2)
+			left nth(trbl, 2)
+
+		if nth(trbl, 3) != null
+			bottom nth(trbl, 3)
+
+	else if length(trbl) == 4
+		if nth(trbl, 1) != null
+			top nth(trbl, 1)
+
+		if nth(trbl, 2) != null
+			right nth(trbl, 2)
+
+		if nth(trbl, 3) != null
+			bottom nth(trbl, 3)
+
+		if nth(trbl, 4) != null
+			left nth(trbl, 4)
+
+// @usage: position(absolute, 13px 51px auto auto)
+position(shorthand, offsets = null)
+	if shorthand == static
+		position static
+	else if shorthand == relative
+		position relative
+	else if shorthand == absolute
+		position absolute
+	else if shorthand == fixed
+		position fixed
+	else
+		@debug "position only accepts 'static, relative, absolute, fixed' as shorthands"
+	offset(offsets)
+
+// @usage: static(13px 51px auto auto)
+static(args = null)
+	position(static, args)
+
+// @usage: absolute(13px 51px auto auto)
+absolute(args = null)
+	position(absolute, args)
+
+// @usage: fixed(13px 51px auto auto)
+fixed(args = null)
+	position(fixed, args)
+
+// @usage: relative(13px 51px auto auto)
+relative(args = null)
+	position(relative, args)
+
+// @usage: size(null 59px)
+@mixin size(point = null)
+	if length(point) == 1
+		if nth(point, 1) != null
+			width nth(point, 1)
+			height nth(point, 1)
+
+	else if length(point) == 2
+		if nth(point, 1) != null
+			width nth(point, 1)
+
+		if nth(point, 2) != null
+			height nth(point, 2)
+
+// @usage: min-size(170px null)
+@mixin min-size(point = null)
+	if length(point) == 1
+		if nth(point, 1) != null
+			min-width nth(point, 1)
+			min-height nth(point, 1)
+	else if length(point) == 2
+		if nth(point, 1) != null
+			min-width nth(point, 1)
+
+		if nth(point, 2) != null
+			min-height nth(point, 2)
+
+// @usage: max-size(170px 59px)
+@mixin max-size(point = null)
+	if length(point) == 1
+		if nth(point, 1) != null
+			max-width nth(point, 1)
+			max-height nth(point, 1)
+	else if length(point) == 2
+		if nth(point, 1) != null
+			max-width nth(point, 1)
+
+		if nth(point, 2) != null
+			max-height nth(point, 2)
+
+// @usage: font-size(14px)
+font-size(size = font-size-Base)
+	font-size size
+
+// @usage: line-height(14px)
+@mixin line-height(size = font-size-Base)
+	line-height: $size
+	if unit($size) == 'px'
+		line-height: em($size)
+
+// @usage: text-format(10px)
+@mixin text-format($family: sans-serif, $size: font-size-Base, $line-height: $size, $color: black)
+	font-size($line-height)
+	line-height($line-height)
+	font-family: $family
+	color: $color
+
+// @usage: hide-text()
+hide-text()
+	font 0/0 a
+	color transparent
+	text-shadow none
+
+// @usage: zoom(0.5)
+zoom(value = 1)
+	zoom = value * 100
+	-ms-zoom value
+	-ms-transform-origin 0 0
+	-moz-transform scale(value)
+	-moz-transform-origin 0 {zoom}px
+	-o-transform scale(value)
+	-o-transform-origin 0 {zoom}px
+	-webkit-transform scale(value)
+	-webkit-transform-origin 0 0
+
+// Apply image filters.
+// @usage: filter(contrast(25%) blur(3px))
+@mixin filter(args...)
+	-webkit-filter args
+	-khtml-filter args
+	-moz-filter args
+	-ms-filter args
+	-o-filter args
+	filter args
+
+// @usage: opacity(0.8)
+opacity(opacity = 0.99)
+	opacity = opacity
+	opacity-ie = opacity * 100
+	filter alpha(opacity={opacity-ie})
+	filter "progid:DXImageTransform.Microsoft.Alpha(opacity={opacity-ie})"
+	-ms-filter "progid:DXImageTransform.Microsoft.Alpha(opacity={opacity-ie})"
+
+// @usage: generate-grid
+@mixin generate-grid(prefix = 'u', columns = layout-columns, gutter = layout-GutterWidth){
+	if str-length({prefix}) == 0{
+		prefix = 'u'
+	prefix = {prefix}-
+	[class*="{prefix}"]{
+		side = get-layout-direction()
+		float side
+		clear none
+	each length in columns{
+		for size from 1 through length{
+			if length(columns) > 1
+				suffix = x{length}
+			else
+				suffix = ''
+			.{prefix}{size}{suffix}{
+				column(size / length)
+			if size < length{
+				.{prefix}offset-{size}{suffix}{
+					shift(size / length)
+
+// Style an element as a column with a gutter.
+column(ratios = 1, offset = 0, cycle = 0, gutter = layout-GutterWidth)
+	side = get-layout-direction()
+	opposite-side = opposite-direction(side)
+	column-widths = get-column(ratios, gutter)
+	margin-last = 0
+	margin-l = margin-last
+	margin-r = nth(column-widths, 2)
+
+	if offset != 0
+		if offset < 0
+			offset = offset * -1
+			offset = nth(get-column(offset, nth(column-widths, 2)), 1)
+			margin-last = offset + nth(column-widths, 2) * 2
+			margin-r = margin-last
+		else
+			offset = nth(get-column(offset, nth(column-widths, 2)), 1)
+			margin-l = offset + nth(column-widths, 2)
+
+	width percent(nth(column-widths, 1))
+	float side
+	clear none
+	margin-{side} percent(margin-l)
+	margin-{opposite-side} percent(margin-r)
+	if cycle != 0
+		&:nth-of-type(n)
+			margin-{opposite-direction(side)} percent(margin-r)
+			float side
+			clear none
+
+		&:nth-of-type({cycle}n)
+			margin-{opposite-direction(side)} percent(margin-last)
+			float opposite-direction(side)
+
+		&:nth-of-type({cycle}n + 1)
+			clear both
+	else
+		&:last-child
+			margin-{opposite-direction(side)} percent(margin-last)
+
+// Style an element as a column without any gutters for a seamless row
+span(ratio = 1, offset = 0, cycle = 0, uncycle = 0)
+	side = get-layout-direction()
+	opposite-side = opposite-direction(side)
+	span-width = ratio
+	margin-r = 0
+	margin-l = margin-r
+
+	if offset != 0
+		if offset < 0
+			offset = offset * -1
+			margin-r = get-span(offset)
+		else
+			margin-l = get-span(offset)
+
+	span-width(span-width)
+	float side
+	clear none
+	margin-{side} percent(margin-l)
+	margin-{opposite-side} percent(margin-r)
+
+	if cycle != 0
+		&:nth-of-type({cycle}n)
+			float opposite-side
+
+		&:nth-of-type({cycle}n + 1)
+			clear both
+
+	if uncycle != 0
+		&:nth-of-type({uncycle}n)
+			float side
+
+		&:nth-of-type({uncycle}n + 1)
+			clear none
+
+// Set span width
+span-width(ratio = 1)
+	span-width = get-span(ratio)
+	width percent(span-width)
+
+// Reorder columns without altering the HTML
+shift(ratios = 0, col-or-span = column, gutter = layout-GutterWidth)
+	translate = ''
+	side = get-layout-direction()
+
+	if side == right
+		ratios = replace-nth(ratios, 0, nth(ratios, 1) * -1)
+
+	if index(column col c, col-or-span)
+		column-widths = get-column(ratios, gutter)
+		translate = nth(column-widths, 1) + nth(column-widths, 2)
+	else
+		translate = get-span(ratios)
+
+	left percent(translate)
+
+// View the grid and its layers for easy debugging
+edit(color = random-color(), alpha = 0.05, isImportant = false)
+	if isImportant
+		*
+			background rgba(color, alpha) !important
+	else
+		*
+			background rgba(color, alpha)
+
+// Sets padding on the left and right.
+// ===================================
+pad(pad = layout-MarginWidth)
+	padding-left pad
+	padding-right pad
+
+// Horizontally center an element
+center(max-width = layout-MaxWidth, padnum = 0)
+	max-width max-width
+	width auto
+	float none
+	display block
+	margin-right auto
+	margin-left auto
+	pad(padnum)
+
+// Stack an element so that nothing is either side of it
+stack(padnum = 0, align = false)
+	side = get-layout-direction()
+	opposite-side = opposite-direction(side)
+
+	width 100%
+	display block
+	clear both
+	float none
+	margin-left auto
+	margin-right auto
+
+	&:first-child
+		margin-{side} auto
+
+	&:last-child
+		margin-{opposite-side} auto
+
+	if padnum != 0
+		pad(padnum)
+
+	if (align is not false)
+		if index(center c, align)
+			text-align center
+		else if index(left l, align)
+			text-align left
+		else if index(right r, align)
+			text-align right
+
+// Center an element on either or both axes. Requires a parent element with relative positioning
+align(direction = both, position = absolute)
+	position(position, null null null null)
+	transform-style preserve-3d
+	if index(horizontal h, direction)
+		left 50%
+		transform translateX(-50%)
+	else if index(vertical v, direction)
+		top 50%
+		transform translateY(-50%)
+	else if index(none, direction)
+		offset(auto null null auto)
+		transform translate(0, 0)
+	else
+		offset(50% null null 50%)
+		transform translate(-50%, -50%)
+
+// Uncenter an element
+// @usage: uncenter()
+// ==================
+uncenter()
+	width none
+	margin-right 0
+	margin-left 0
+	pad(0)
+
+// Reset an element that has
+// had shift() applied to it.
+// @usage: unshift()
+// =================
+unshift()
+	position static
+	left 0
+
+
+// Unstack an element.
+// @usage: unstack()
+// ==========================
+unstack()
+	side = get-layout-direction()
+	opposite-side = opposite-direction(side)
+
+	width auto
+	text-align side
+	display inline
+	clear none
+	margin-left 0
+	margin-right 0
+
+	&:first-child
+		margin-{side} 0
+
+	&:last-child
+		margin-{opposite-direction(side)} 0
+
+// @usage: aspect-ratio(960, 540)
+// ==============================
+aspect-ratio(width, height, childSelector = ".content")
+	relative()
+
+	&:before
+		display block
+		width 100%
+		padding-top (height / width) * 100%
+		content " "
+
+	>{childSelector}
+		absolute(0)
