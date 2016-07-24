@@ -1,4 +1,5 @@
 {
+  "private": true,
   "name": "hello_world",
   "version": "1.0.0",
   "description": "A hello world scripts project",
@@ -7,45 +8,52 @@
   "main": "scripts/index.js",
   "scripts": {
     "start": "npm cache clean && npm i && npm run watch",
-    "clean": "rimraf tmp/ styles/*.css scripts/*{bundle,min}.{js,map} npm-debug.log",
+    "clean": "rimraf *.log styles/*.css scripts/*bundle.js npm-debug.log",
     "eslint": "eslint scripts/ --ignore-pattern \"scripts/bundle.js\" --ignore-pattern \"scripts/vendors/*\"",
-    "jshint": "jshint scripts/ --exclude scripts/bundle.js,scripts/vendors/",
     "test": "mocha tests/",
     "styl": "stylus styles/index.styl -u nib -o styles/index.css -c --disable-cache",
-    "browserify": "browserify -e scripts/index.js -d -t browserify-shim | exorcist scripts/bundle.map > scripts/bundle.js",
-    "browserify:min": "npm run browserify -s && uglifyjs scripts/bundle.js -co scripts/bundle.min.js --source-map scripts/bundle.min.map -d DEBUG=false",
-    "imagemin": "imagemin media/* tmp/images/* -p",
-    "htmlmin": "htmlmin -cs index.html tmp/index.html",
-    "prebuild": "parallelshell \"npm run jshint && npm run eslint\" \"npm run clean -s\"",
-    "build": "parallelshell \"npm run browserify:min -s\" \"npm run styl -s\"",
+    "uglifyjs": "npm run browserify && uglifyjs scripts/bundle.js -co scripts/bundle.js --source-map scripts/bundle.map --wrap -q 1",
+    "browserify": "browserify -de scripts/index.js -t [babelify --presets [es2015 stage-0 react] --plugins transform-class-properties] -t browserify-shim | exorcist scripts/bundle.map > scripts/bundle.js",
+    "prejspm": "jspm install",
+    "jspm": "jspm bundle-sfx --minify scripts/index.js scripts/bundle.js",
+    "prebuild": "parallelshell \"npm run eslint\" \"npm run clean -s\"",
+    "build": "parallelshell \"npm run uglifyjs -s\" \"npm run styl -s\"",
     "postbuild": "postcss --use autoprefixer --autoprefixer.browsers \"> 5%\" -o styles/index.css styles/index.css",
-    "watch:test": "npm test -- -w",
+    "watch:test": "npm run mocha -- -w",
     "watch:styl": "npm run styl -- -w",
-    "watch:browserify": "watchify -v -t browserify-shim scripts/index.js -do scripts/bundle.js --poll=true",
+    "watch:browserify": "watchify scripts/index.js -o scripts/bundle.js -v -t [babelify --presets [es2015 stage-0 react] --plugins transform-class-properties] -t browserify-shim",
     "watch": "parallelshell \"npm run watch:styl -s\" \"npm run watch:browserify -s\" \"npm run server -s\"",
-    "server": "browser-sync start -f \"./\" -s \"./\" --index \"./index.html\" --port 3000",
-    "preversion": "npm test",
+    "server": "browser-sync start -s \"./\" -f \"./\" --index \"./index.html\" --port 3000",
+    "preversion": "npm run test",
     "version": "npm run build && git add -A ./",
-    "postversion": "git push"
+    "postversion": "git push && git push --tags"
   },
   "dependencies": {
-    "Proto": "github:adriancmiranda/Proto",
-    "gsap": "github:greensock/GreenSock-JS#1.18.5",
+    "console.js": "github:adriancmiranda/console.js",
+    "gsap": "greensock/GreenSock-JS#1.18.5",
     "jquery": "2.2.4",
     "jsonp": "0.2.0",
-    "console.js": "github:adriancmiranda/console.js#v1.0.6"
+    "react": "15.1.0",
+    "react-dom": "15.1.0",
+    "redux": "3.5.2"
   },
   "devDependencies": {
+    "babel-eslint": "6.0.4",
+    "babel-plugin-transform-class-properties": "6.9.1",
+    "babel-preset-es2015": "6.9.0",
+    "babel-preset-react": "6.5.0",
+    "babel-preset-stage-0": "6.5.0",
+    "babelify": "7.3.0",
     "browser-sync": "2.12.12",
     "browserify": "13.0.1",
     "browserify-shim": "3.8.12",
     "eslint": "2.11.1",
+    "eslint-plugin-react": "5.1.1",
     "exorcist": "0.4.0",
-    "jshint": "2.9.2",
+    "jspm": "0.16.39",
     "mocha": "2.5.3",
     "nib": "1.1.0",
-    "imagemin": "5.2.1",
-    "htmlmin": "0.0.6",
+    "node-sass": "3.7.0",
     "parallelshell": "2.0.0",
     "postcss": "5.0.21",
     "rimraf": "2.5.2",
@@ -105,7 +113,7 @@
       "depends": "TweenLite"
     },
     "gsap.CSSRulePlugin": {
-      "depends": ["gsap.CSSPlugin"]
+      "depends": "gsap.CSSPlugin"
     },
     "gsap.EaselPlugin": {
       "depends": "TweenLite"
@@ -142,28 +150,50 @@
     }
   },
   "eslintConfig": {
+    "parser": "babel-eslint",
+    "extends": "eslint:recommended",
+    "rules":{
+      "comma-dangle": 0,
+      "semi": [2, "never"],
+      "quotes": [2, "single"],
+      "linebreak-style": [2, "unix"],
+      "jsx-quotes": 1,
+      "react/display-name": 1,
+      "react/forbid-prop-types": 1,
+      "react/jsx-boolean-value": 1,
+      "react/jsx-closing-bracket-location": 1,
+      "react/jsx-curly-spacing": 1,
+      "react/jsx-indent-props": [2, 2],
+      "react/jsx-max-props-per-line": 1,
+      "react/jsx-no-duplicate-props": 1,
+      "react/jsx-no-literals": 1,
+      "react/jsx-no-undef": 1,
+      "react/jsx-sort-prop-types": 1,
+      "react/jsx-sort-props": 1,
+      "react/jsx-uses-react": 1,
+      "react/jsx-uses-vars": 1,
+      "react/no-danger": 1,
+      "react/no-did-mount-set-state": 1,
+      "react/no-did-update-set-state": 1,
+      "react/no-direct-mutation-state": 1,
+      "react/no-multi-comp": 1,
+      "react/no-set-state": 1,
+      "react/no-unknown-property": 1,
+      "react/prefer-es6-class": 1,
+      "react/prop-types": 1,
+      "react/react-in-jsx-scope": 1,
+      "react/require-extension": 1,
+      "react/self-closing-comp": 1,
+      "react/sort-comp": 1,
+      "react/wrap-multilines": 1
+    },
     "env": {
       "browser": true,
-      "node": true
-    }
-  },
-  "jshintConfig": {
-    "quotmark": false,
-    "indent": 2,
-    "esnext": true,
-    "browser": true,
-    "node": true,
-    "bitwise": false,
-    "camelcase": false,
-    "curly": true,
-    "eqeqeq": true,
-    "immed": true,
-    "latedef": true,
-    "newcap": true,
-    "noarg": true,
-    "undef": true,
-    "unused": false,
-    "strict": true,
-    "expr": true
+      "mocha": true,
+      "es6": true
+    },
+    "plugins": [
+      "react"
+    ]
   }
 }
