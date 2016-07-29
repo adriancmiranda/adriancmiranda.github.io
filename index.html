@@ -1,73 +1,37 @@
 <!DOCTYPE HTML>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<title>Adrian Miranda</title>
-		<meta name="viewport" content="target-densitydpi=device-dpi,user-scalable=no,initial-scale=1,minimum-scale=1,maximum-scale=1">
-		<meta name="description" content="Web developer and visual programmer that is passionate about working with animation, interactivity and technical implementation.">
-		<meta property="og:image" content="https://adriancmiranda.github.com/og.jpg">
-		<meta property="og:description" content="Web developer and visual programmer that is passionate about working with animation, interactivity and technical implementation.">
-		<meta property="og:title" content="Adrian Miranda // Creative Developer">
-		<meta property="og:url" content="http://adriancmiranda.github.io">
-		<meta property="og:site_name" content="Adrian Miranda">
-		<meta property="fb:admins" content="100000590580738">
-		<meta property="og:image:type" content="image/jpeg">
-		<meta property="og:image:width" content="400">
-		<meta property="og:image:height" content="300">
-		<meta property="og:locale" content="pt_BR">
-		<meta property="og:type" content="website">
-		<link rel="shortcut icon" href="favicon.ico">
-		<link rel="stylesheet" href="styles/normalize.css">
-		<link rel="stylesheet" href="styles/skin.css">
-	</head>
-	<body>
-		<nav class="menu">
-			<ul class="menu__list">
-				<li class="menu__item"><a href="#" class="menu__link" data-href="flux">Flux</a></li>
-				<li class="menu__item"><a href="#" class="menu__link" data-href="archives">Archives</a></li>
-				<li class="menu__item"><a href="#" class="menu__link" data-href="contact">Contact</a></li>
-			</ul>
-		</nav>
-		<canvas id="view" width="800" height="800"></canvas>
+  <head>
+    <meta charset="utf-8">
+    <title>Adrian Miranda</title>
+    <meta name="viewport" content="target-densitydpi=device-dpi,user-scalable=no,initial-scale=1,minimum-scale=1,maximum-scale=1">
+    <meta name="description" content="Web developer and visual programmer that is passionate about working with animation, interactivity and technical implementation.">
+    <meta property="og:image" content="https://adriancmiranda.github.com/og.jpg">
+    <meta property="og:description" content="Web developer and visual programmer that is passionate about working with animation, interactivity and technical implementation.">
+    <meta property="og:title" content="Adrian Miranda // Creative Developer">
+    <meta property="og:url" content="http://adriancmiranda.github.io">
+    <meta property="og:site_name" content="Adrian Miranda">
+    <meta property="fb:admins" content="100000590580738">
+    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image:width" content="400">
+    <meta property="og:image:height" content="300">
+    <meta property="og:locale" content="pt_BR">
+    <meta property="og:type" content="website">
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="stylesheet" href="styles/index.css">
+  </head>
+  <body>
+    <nav class="Menu">
+      <ul class="Menu-list">
+        <li class="Menu-item"><a class="Menu-anchor Button" href="#" data-href="flux">Flux</a></li>
+        <li class="Menu-item"><a class="Menu-anchor Button" href="#" data-href="archives">Archives</a></li>
+        <li class="Menu-item"><a class="Menu-anchor Button" href="#" data-href="contact">Contact</a></li>
+      </ul>
+    </nav>
+    <canvas id="View" width="800" height="800"></canvas>
 
-		<!--My own lib-->
-		<script src="scripts/ambox/ambox.js"></script>
-		<script src="scripts/ambox/common/patterns.js"></script>
-		<script src="scripts/ambox/utils/Type.js"></script>
-		<script src="scripts/ambox/utils/Interface.js"></script>
-		<script src="scripts/ambox/utils/Proto.js"></script>
-		<script src="scripts/ambox/utils/Promise.js"></script>
-		<script src="scripts/ambox/events/event.js"></script>
-		<script src="scripts/ambox/events/EventProxy.js"></script>
-		<script src="scripts/ambox/events/EventEmitter.js"></script>
-		<script src="scripts/ambox/utils/Vendor.js"></script>
-		<script src="scripts/ambox/utils/Ticker.js"></script>
-		<script src="scripts/ambox/utils/Timer.js"></script>
-		<script src="scripts/ambox/display/DOMElement.js"></script>
-		<script src="scripts/ambox/iterators/iterate.js"></script>
-		<script src="scripts/ambox/iterators/IIterator.js"></script>
-		<script src="scripts/ambox/iterators/ArrayIterator.js"></script>
-		<script src="scripts/ambox/utils/Injector.js"></script>
-		<script src="scripts/ambox/http/URL.js"></script>
-		<script src="scripts/ambox/http/HttpTransform.js"></script>
-		<script src="scripts/ambox/http/HttpHeaders.js"></script>
-		<script src="scripts/ambox/http/HttpEvent.js"></script>
-		<script src="scripts/ambox/http/HttpRequest.js"></script>
-		<script src="scripts/ambox/http/JsonPadding.js"></script>
-		<script src="scripts/ambox/http/http.js"></script>
-		<script src="scripts/ambox/geom/Point.js"></script>
-		<script src="scripts/ambox/geom/Circle.js"></script>
-		<script src="scripts/ambox/geom/Rectangle.js"></script>
-		<script src="scripts/ambox/geom/Triangle.js"></script>
-		<script src="scripts/ambox/banner.js"></script>
-
-		<!--My folio-->
-		<script src="scripts/services/ParseAPI.js"></script>
-		<script src="scripts/services/UserAPI.js"></script>
-		<script src="scripts/views/Archives.js"></script>
-		<script src="scripts/views/Contact.js"></script>
-		<script src="scripts/views/Flux.js"></script>
-		<script src="scripts/states.js"></script>
-		<script src="scripts/boot.js"></script>
-	</body>
+    <!-- Behaviors -->
+    <script src="scripts/vendors/system.src.js"></script>
+    <script src="scripts/config.js"></script>
+    <script>System.import('index')</script>
+  </body>
 </html>

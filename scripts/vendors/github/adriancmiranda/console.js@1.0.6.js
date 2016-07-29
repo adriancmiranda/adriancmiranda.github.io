@@ -1,0 +1,1 @@
+module.exports = require("github:adriancmiranda/console.js@1.0.6/trace.js");
