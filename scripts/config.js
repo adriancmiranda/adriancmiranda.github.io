@@ -9,7 +9,6 @@ System.config({
   },
   paths: {
     "*": "scripts/*.js",
-    "~": "scripts/",
     "github:*": "scripts/vendors/github/*",
     "npm:*": "scripts/vendors/npm/*"
   },

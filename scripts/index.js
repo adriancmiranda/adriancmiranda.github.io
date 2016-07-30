@@ -1,4 +1,4 @@
-import {states} from '~/states'
+import {states} from 'states'
 
 class Aplication {
   redditURL = 'ae';
