@@ -29,7 +29,7 @@
     "postversion": "git push"
   },
   "dependencies": {
-    "Proto": "github:adriancmiranda/Proto#2c8b76d819a844a81419853de5a3587fc7f47136",
+    "Proto": "github:adriancmiranda/Proto#443be63e564395b380f253d11aaaf8e01768aa0a",
     "gsap": "github:greensock/GreenSock-JS#1.18.5",
     "jquery": "2.2.4",
     "jsonp": "0.2.0",
