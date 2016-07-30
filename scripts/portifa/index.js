@@ -1,3 +1,4 @@
+import trace from 'console.js'
 import {states} from 'portifa/states'
 
 class Aplication {
@@ -5,8 +6,8 @@ class Aplication {
 
   constructor(){
     this.redditURL = 'http://www.reddit.com/r/perfectloops/top.json?sort=top&t=week';
-    console.log('redditURL:', this.redditURL);
-    console.log('states:', states);
+    trace('RedditURL:', this.redditURL);
+    trace('States:', states);
   }
 
   load(){

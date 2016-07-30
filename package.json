@@ -5,7 +5,7 @@
   "description": "My new git-push powered folio",
   "author": "Adrian C. Miranda",
   "license": "ISC",
-  "main": "scripts/index.js",
+  "main": "scripts/config.js",
   "scripts": {
     "preinstall": "npm run clean",
     "postinstall": "jspm install",
@@ -15,13 +15,13 @@
     "test": "mocha tests/",
     "styl": "stylus styles/index.styl -u nib -o styles/index.css -c --disable-cache",
     "uglifyjs": "npm run jspm && uglifyjs scripts/bundle.js -co scripts/bundle.js --source-map scripts/bundle.map --wrap -q 1",
-    "jspm": "jspm bundle-sfx index scripts/bundle.js",
+    "jspm": "jspm bundle-sfx portifa/index scripts/bundle.js",
     "prebuild": "parallelshell \"npm run eslint\" \"npm run clean -s\"",
     "build": "parallelshell \"npm run uglifyjs -s\" \"npm run styl -s\"",
     "postbuild": "postcss --use autoprefixer --autoprefixer.browsers \"> 5%\" -o styles/index.css styles/index.css",
     "watch:test": "npm run mocha -- -w",
     "watch:styl": "npm run styl -- -w",
-    "watch:jspm": "jspm-dev-builder index -o scripts/bundle.js",
+    "watch:jspm": "jspm-dev-builder portifa/index -o scripts/bundle.js",
     "watch": "parallelshell \"npm run watch:styl -s\" \"npm run watch:jspm -s\" \"npm run server -s\"",
     "server": "browser-sync start -s \"./\" -f \"./\" --index \"./index.html\" --port 3000",
     "preversion": "npm run test",
@@ -61,6 +61,16 @@
       "npm:core-js@2.0.3": {
         "main": "client/shim.min"
       }
+    }
+  },
+  "eslintConfig": {
+    "parser": "babel-eslint",
+    "extends": "eslint:recommended",
+    "rules": {},
+    "env": {
+      "browser": true,
+      "mocha": true,
+      "es6": true
     }
   }
 }
