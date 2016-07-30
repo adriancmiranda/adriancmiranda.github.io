@@ -1,4 +1,4 @@
-export const states = [{
+exports.states = [{
   name:'flux',
   title:'Flux',
   route:['', '/flux'],
