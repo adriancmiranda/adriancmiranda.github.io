@@ -3,18 +3,18 @@
 require('trace');
 require('Proto');
 
-var Aplication = new Proto(function(states){
+var Aplication = Proto(function(states){
   this.super(states, 'created');
   this.start();
-})
+}).
 
-.extends(require('./ambox/index'))
+extends(require('./ambox/index')).
 
-.public('load', function(url){
+public('load', function(url){
   this.super(url);
-})
+}).
 
-.public('start', function(){
+public('start', function(){
   this.super();
 });
 
