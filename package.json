@@ -8,7 +8,6 @@
   "scripts": {
     "start": "npm cache clean && npm i && npm run watch",
     "clean": "rimraf tmp/ styles/*.css scripts/*{bundle,min}.{js,map} npm-debug.log",
-    "eslint": "eslint scripts/ --ignore-pattern \"scripts/bundle.js\" --ignore-pattern \"scripts/vendors/*\"",
     "jshint": "jshint scripts/ --exclude scripts/bundle.js,scripts/vendors/",
     "test": "mocha tests/",
     "styl": "stylus styles/index.styl -u nib -o styles/index.css -c --disable-cache",
@@ -16,7 +15,7 @@
     "browserify:min": "npm run browserify -s && uglifyjs scripts/bundle.js -co scripts/bundle.min.js --source-map scripts/bundle.min.map -d DEBUG=false",
     "imagemin": "imagemin media/* tmp/images/* -p",
     "htmlmin": "htmlmin -cs index.html tmp/index.html",
-    "prebuild": "parallelshell \"npm run jshint && npm run eslint\" \"npm run clean -s\"",
+    "prebuild": "parallelshell \"npm run jshint\" \"npm run clean -s\"",
     "build": "parallelshell \"npm run browserify:min -s\" \"npm run styl -s\"",
     "postbuild": "postcss --use autoprefixer --autoprefixer.browsers \"> 5%\" -o styles/index.css styles/index.css",
     "watch:test": "npm test -- -w",
@@ -39,7 +38,6 @@
     "browser-sync": "2.12.12",
     "browserify": "13.0.1",
     "browserify-shim": "3.8.12",
-    "eslint": "2.11.1",
     "exorcist": "0.4.0",
     "jshint": "2.9.2",
     "mocha": "2.5.3",
@@ -76,6 +74,7 @@
     "TimelineMax": "./node_modules/gsap/src/uncompressed/TimelineMax.js",
     "TweenLite": "./node_modules/gsap/src/uncompressed/TweenLite.js",
     "TweenMax": "./node_modules/gsap/src/uncompressed/TweenMax.js",
+    "Proto": "./node_modules/Proto/dist/Proto.pilot.js",
     "trace": "./node_modules/console.js/trace.js"
   },
   "browserify-shim": {
@@ -139,12 +138,6 @@
     },
     "gsap.RoundPropsPlugin": {
       "depends": "TweenLite"
-    }
-  },
-  "eslintConfig": {
-    "env": {
-      "browser": true,
-      "node": true
     }
   },
   "jshintConfig": {
