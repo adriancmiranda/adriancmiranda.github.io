@@ -43,10 +43,10 @@
     "uglify-js": "2.6.2"
   },
   "jspm": {
-    "configFile": "scripts/config.js",
     "directories": {
       "packages": "scripts/vendors"
     },
+    "configFile": "scripts/config.js",
     "dependencies": {
       "console.js": "github:adriancmiranda/console.js@^1.0.6",
       "core-js": "npm:core-js@^2.1.0",
@@ -56,11 +56,6 @@
     },
     "devDependencies": {
       "typescript": "npm:typescript@^1.6.2"
-    },
-    "overrides": {
-      "npm:core-js@2.0.3": {
-        "main": "client/shim.min"
-      }
     }
   },
   "eslintConfig": {

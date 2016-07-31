@@ -1,0 +1,11 @@
+{
+  "name": "console.js",
+  "version": "1.0.6",
+  "description": "trace component",
+  "main": ["trace.js", "trace.min.js"],
+  "keywords": [
+    "trace",
+    "component"
+  ],
+  "license": "MIT"
+}

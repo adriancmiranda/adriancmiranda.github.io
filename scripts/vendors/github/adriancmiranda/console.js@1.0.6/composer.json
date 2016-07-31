@@ -1,0 +1,26 @@
+{
+	"name": "adriancmiranda/console.js",
+	"description": "trace component",
+	"version": "1.0.6",
+	"type": "component",
+	"license": "MIT",
+	"support": {
+		"source": "https://github.com/adriancmiranda/console.js"
+	},
+	"authors": [
+		{
+			"name": "Adrian C. Miranda",
+			"email": "adriancmiranda@gmail.com"
+		}
+	],
+	"extra": {
+		"component": {
+			"scripts": [
+				"trace.js"
+			],
+			"files": [
+				"trace.min.js"
+			]
+		}
+	}
+}
