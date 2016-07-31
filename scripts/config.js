@@ -1,11 +1,11 @@
 System.config({
   defaultJSExtensions: true,
-  transpiler: "babel",
-  babelOptions: {
-    "optional": [
-      "es7.decorators",
-      "es7.classProperties"
-    ]
+  transpiler: "typescript",
+  typescriptOptions: {
+    "target": "ES5",
+    "module": "system",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true
   },
   paths: {
     "*": "scripts/*.js",
