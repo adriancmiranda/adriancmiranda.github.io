@@ -1,4 +1,4 @@
-exports.states = [{
+module.exports = [{
   name:'flux',
   title:'Flux',
   route:['', '/flux'],
