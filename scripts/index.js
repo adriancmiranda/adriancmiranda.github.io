@@ -6,7 +6,6 @@ require('Proto');
 // teste
 var Aplication = Proto(function(states){
   this.super(states, 'created');
-  trace(this.bind)
   this.start();
 }).extends(require('./ambox/index')).
 
