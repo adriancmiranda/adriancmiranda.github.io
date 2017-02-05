@@ -2,11 +2,11 @@ export const states = [{
   name:'flux',
   title:'Flux',
   route:['', '/flux'],
-  templateUrl:'./views/flux.html',
+  templateUrl:'./views/flux',
   // template:'',
   // module:'',
   // controller:'app.views.FluxView',
-  // controllerUrl:'',
+  // controllerUrl:'./scripts/app/views/FluxView',
   // enabled:false,
   data:{
     roles:[]
@@ -15,7 +15,7 @@ export const states = [{
   name:'archives',
   title:'Archives',
   route:'/archives',
-  templateUrl:'./views/archives.html',
+  templateUrl:'./views/archives',
   data:{
     roles:[]
   }
@@ -23,7 +23,7 @@ export const states = [{
   name:'contact',
   title:'Contact',
   route:'/contact',
-  templateUrl:'./views/contact.html',
+  templateUrl:'./views/contact',
   data:{
     roles:[]
   },
@@ -31,7 +31,7 @@ export const states = [{
     name:'developer',
     title:'Contact Adrian',
     route:'/dev',
-    templateUrl:'./views/contact.developer.html',
+    templateUrl:'./views/contact.developer',
     data:{
       roles:[]
     }
@@ -39,7 +39,7 @@ export const states = [{
     name:'designer',
     title:'Contact Andrey',
     route:'/designer',
-    templateUrl:'./views/contact.designer.html',
+    templateUrl:'./views/contact.designer',
     data:{
       roles:[]
     }
@@ -47,7 +47,7 @@ export const states = [{
     name:'ambox',
     title:'Contact the brothers',
     route:'/brothers',
-    templateUrl:'./views/contact.ambox.html',
+    templateUrl:'./views/contact.ambox',
     data:{
       roles:[]
     }
@@ -56,7 +56,7 @@ export const states = [{
   name:'about',
   title:'About',
   route:'/about',
-  templateUrl:'./views/about.html',
+  templateUrl:'./views/about',
   data:{
     roles:[]
   }
@@ -64,7 +64,7 @@ export const states = [{
   name:'about.project',
   title:'About the project',
   route:'/project',
-  templateUrl:'./views/about.project.html',
+  templateUrl:'./views/about.project',
   data:{
     roles:[]
   }
@@ -72,7 +72,7 @@ export const states = [{
   name:'about.authors',
   title:'About the authors',
   route:'/authors',
-  templateUrl:'./views/about.authors.html',
+  templateUrl:'./views/about.authors',
   data:{
     roles:[]
   }
@@ -80,7 +80,7 @@ export const states = [{
   name:'about.authors.developer',
   title:'About Adrian',
   route:'/dev',
-  templateUrl:'./views/about.authors.developer.html',
+  templateUrl:'./views/about.authors.developer',
   data:{
     roles:[]
   }
@@ -88,7 +88,7 @@ export const states = [{
   name:'about.authors.designer',
   title:'About Andrey',
   route:'/designer',
-  templateUrl:'./views/about.authors.designer.html',
+  templateUrl:'./views/about.authors.designer',
   data:{
     roles:[]
   }
