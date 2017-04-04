@@ -2,6 +2,13 @@
 
 ----------------------------
 
+[![version][version-badge]][package]
+[![node-version][node-version-badge]][node]
+[![Travis Build Status][build-badge]][build]
+[![AppVeyor Build Status][win-build-badge]][win-build]
+[![Code Coverage][coverage-badge]][coverage]
+[![Dependencies][dependencyci-badge]][dependencyci]
+
 # Resume
 
 ### Contact Info
@@ -126,3 +133,22 @@ Develop clear and clean codes to align animations with User Interface features.
 - I run on the weekend.
 
 <sub>[▴ Back to top](#)</sub>
+
+<!-- links -->
+
+[node]: https://nodejs.org
+[build-badge]: https://img.shields.io/travis/adriancmiranda/adriancmiranda.github.io.svg?style=flat-square
+[build]: https://travis-ci.org/adriancmiranda/adriancmiranda.github.io
+[win-build-badge]: https://img.shields.io/appveyor/ci/adriancmiranda/adriancmiranda.github.io.svg?style=flat-square
+[win-build]: https://ci.appveyor.com/project/adriancmiranda/adriancmiranda.github.io
+[coverage-badge]: https://img.shields.io/codecov/c/github/adriancmiranda/adriancmiranda.github.io.svg?style=flat-square
+[coverage]: https://codecov.io/github/adriancmiranda/adriancmiranda.github.io
+[dependencyci-badge]: https://dependencyci.com/github/adriancmiranda/adriancmiranda.github.io/badge?style=flat-square
+[dependencyci]: https://dependencyci.com/github/adriancmiranda/adriancmiranda.github.io
+[version-badge]: https://img.shields.io/npm/v/adriancmiranda.github.io.svg?style=flat-square
+[package]: https://www.npmjs.com/package/adriancmiranda.github.io
+[node-version-badge]: https://img.shields.io/badge/node-%3E%3D%204.0-orange.svg?style=flat-square
+[license-badge]: https://img.shields.io/npm/l/adriancmiranda.github.io.svg?style=flat-square
+[license]: https://github.com/adriancmiranda/adriancmiranda.github.io/blob/master/other/LICENSE
+[twitter]: https://twitter.com/intent/tweet?text=Check%20out%20the%20Adrian%20Miranda%20works!%20https://github.com/adriancmiranda/adriancmiranda.github.io%20%F0%9F%91%8D
+[twitter-badge]: https://img.shields.io/twitter/url/https/github.com/adriancmiranda/adriancmiranda.github.io.svg?style=social
