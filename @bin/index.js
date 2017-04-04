@@ -52,7 +52,7 @@ module.exports = argv => portfolio({
   cli.set('script.entry', opt.res('path.🔌.public', 'index.js'));
   cli.set('script.uglify.minimize', false);
   cli.set('style.entry', opt.res('path.🔌.styles', '_all.scss'));
-  cli.set('styles.css.minimize', true);
+  cli.set('style.css.minimize', true);
   cli.set('images.compress.pngquant.quality', '65-90');
   cli.set('images.compress.pngquant.speed', 4);
   cli.set('images.compress.pngquant.optimizationLevel', 7);
