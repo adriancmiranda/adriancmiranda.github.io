@@ -10,8 +10,8 @@
   "scripts": {
     "upgrade": "ncu -a --loglevel verbose --packageFile package.json && yarn",
     "start": "node server",
-    "build": "webpack --config bin --env run=client-build,server-build",
-    "dev": "webpack --config bin --env run=client-server,server-watch --env.dev"
+    "build": "webpack --config @bin --env run=client-build,server-build",
+    "dev": "webpack --config @bin --env run=client-server,server-watch --env.dev"
   },
   "devDependencies": {
     "eslint": "2.11.1",
