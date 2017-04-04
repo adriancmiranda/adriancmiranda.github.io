@@ -7,7 +7,7 @@ module.exports = argv => portfolio({
   client: 'client/client-*.js',
   server: 'server/server-*.js',
 }, (opt, cli, srv) => {
-  // ~ option ~
+  // ~ common ~
   moment.locale();
   opt.set('now', moment());
   opt.set('pwd', __dirname);
@@ -22,8 +22,8 @@ module.exports = argv => portfolio({
   opt.set('path.🚪.static', opt.res('path.🔌.assets', 'static');
   opt.set('path.🔌.assets', 'assets');
   opt.set('path.🚪.assets', opt.res('path.🚪.static', 'assets'));
-  opt.set('path.🔌.client', 'client');
-  opt.set('path.🚪.client', opt.res('path.🚪.static', 'scripts'));
+  opt.set('path.🔌.public', 'public');
+  opt.set('path.🚪.public', opt.res('path.🚪.static', 'scripts'));
   opt.set('path.🔌.server', 'server');
   opt.set('path.🚪.server', '');
   opt.set('path.🔌.styles', 'styles');
@@ -45,7 +45,7 @@ module.exports = argv => portfolio({
   srv.set('view.option.inject', false);
 
   // ~ client ~
-  cli.set('script.entry', $.res('path.🔌.client', 'index.js'));
+  cli.set('script.entry', $.res('path.🔌.public', 'index.js'));
   cli.set('script.uglify.minimize', false);
   cli.set('style.entry', $.res('path.🔌.styles', '_all.scss'));
   cli.set('styles.css.minimize', true);
