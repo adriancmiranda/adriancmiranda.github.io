@@ -11,7 +11,7 @@
   "scripts": {
     "postinstall": "bower install",
     "upgrade": "ncu -a --loglevel verbose --packageFile package.json && yarn",
-    "start": "node server",
+    "start": "node --optimize_for_size --max_old_space_size=920 --gc_interval=100 --use_strict --harmony server",
     "build": "webpack --config @bin --env run=client-build,server-build",
     "stats": "webpack --config @bin --profile --json > stats.json",
     "dev": "webpack --config @bin --env run=client-server,server-watch --env.dev"
