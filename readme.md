@@ -2,6 +2,7 @@
 
 ----------------------------
 
+[![GNU AGPLv3 License][license-badge]][LICENSE]
 [![version][version-badge]][package]
 [![node-version][node-version-badge]][node]
 [![Travis Build Status][build-badge]][build]
@@ -136,6 +137,8 @@ Develop clear and clean codes to align animations with User Interface features.
 
 <!-- links -->
 
+[license-badge]: https://img.shields.io/npm/l/adriancmiranda.github.io.svg?style=flat-square
+[license]: https://github.com/adriancmiranda/adriancmiranda.github.io/blob/master/other/LICENSE
 [node]: https://nodejs.org
 [build-badge]: https://img.shields.io/travis/adriancmiranda/adriancmiranda.github.io.svg?style=flat-square
 [build]: https://travis-ci.org/adriancmiranda/adriancmiranda.github.io
