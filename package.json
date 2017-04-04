@@ -8,6 +8,7 @@
   "main": "server/index.js",
   "browser": "client/index.js",
   "scripts": {
+    "postinstall": "bower install",
     "upgrade": "ncu -a --loglevel verbose --packageFile package.json && yarn",
     "start": "node server",
     "build": "webpack --config @bin --env run=client-build,server-build",
