@@ -13,8 +13,9 @@ module.exports = argv => portfolio({
   opt.set('pwd', __dirname);
   opt.set('ctx', process.cwd());
   opt.set('cwd', process.cwd());
-  opt.set('pkg', require(relative(__dirname, 'package.json')));
   opt.set('git', new Git({ lightweightTags: true }));
+  opt.set('pkg', require(relative(__dirname, 'package.json')));
+  opt.set('bower', require(relative(__dirname, 'bower.json')));
   opt.set('report', process.env.npm_config_report);
   opt.set('lifecycle', process.env.npm_lifecycle_event);
   opt.set('path.🚪.bundle', 'bundle');
@@ -45,6 +46,9 @@ module.exports = argv => portfolio({
   srv.set('view.option.inject', false);
 
   // ~ client ~
+	cli.set('alias.@vendors', $.res('bower.directory'));
+	cli.set('provide.Modernizr', '@vendors/modernizr/modernizr');
+	cli.set('provide.trace', '@vendors/trace');
   cli.set('script.entry', $.res('path.🔌.public', 'index.js'));
   cli.set('script.uglify.minimize', false);
   cli.set('style.entry', $.res('path.🔌.styles', '_all.scss'));
