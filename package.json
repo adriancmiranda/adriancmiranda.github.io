@@ -34,5 +34,10 @@
     "is": "3.2.1",
     "moment": "2.18.1",
     "pirate-flag": "0.0.1"
-  }
+  },
+  "browsers": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ]
 }
