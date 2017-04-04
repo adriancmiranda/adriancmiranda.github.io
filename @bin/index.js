@@ -38,20 +38,20 @@ module.exports = argv => portfolio({
   opt.set('path.🔌.test', '@test');
 
   // ~ server ~
-  srv.set('script.entry', $.res('path.🔌.server', 'index.js'));
-  srv.set('view.entry', $.res('path.🔌.views', 'index.pug'));
+  srv.set('script.entry', opt.res('path.🔌.server', 'index.js'));
+  srv.set('view.entry', opt.res('path.🔌.views', 'index.pug'));
   srv.set('view.minify.removeAttributeQuotes', false);
   srv.set('view.minify.collapseWhitespace', false);
   srv.set('view.minify.removeComments', false);
   srv.set('view.option.inject', false);
 
   // ~ client ~
-	cli.set('alias.@vendors', $.res('bower.directory'));
+	cli.set('alias.@vendors', opt.res('bower.directory'));
 	cli.set('provide.Modernizr', '@vendors/modernizr/modernizr');
 	cli.set('provide.trace', '@vendors/trace');
-  cli.set('script.entry', $.res('path.🔌.public', 'index.js'));
+  cli.set('script.entry', opt.res('path.🔌.public', 'index.js'));
   cli.set('script.uglify.minimize', false);
-  cli.set('style.entry', $.res('path.🔌.styles', '_all.scss'));
+  cli.set('style.entry', opt.res('path.🔌.styles', '_all.scss'));
   cli.set('styles.css.minimize', true);
   cli.set('images.compress.pngquant.quality', '65-90');
   cli.set('images.compress.pngquant.speed', 4);
