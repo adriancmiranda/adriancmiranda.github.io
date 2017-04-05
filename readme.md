@@ -143,7 +143,7 @@ Develop clear and clean codes to align animations with User Interface features.
 [build]: https://travis-ci.org/adriancmiranda/adriancmiranda.github.io
 [win-build-badge]: https://ci.appveyor.com/api/projects/status/xyd3bndeb51yoft9?svg=true
 [win-build]: https://ci.appveyor.com/project/adriancmiranda/adriancmiranda-github-io
-[coverage-badge]: https://img.shields.io/codecov/c/github/adriancmiranda/adriancmiranda.github.io.svg?style=flat-square
+[coverage-badge]: https://img.shields.io/codecov/c/github/adriancmiranda/adriancmiranda.github.io.svg
 [coverage]: https://codecov.io/github/adriancmiranda/adriancmiranda.github.io
 [dependencyci-badge]: https://dependencyci.com/github/adriancmiranda/adriancmiranda.github.io/badge
 [dependencyci]: https://dependencyci.com/github/adriancmiranda/adriancmiranda.github.io
