@@ -3,7 +3,6 @@
 ----------------------------
 
 [![GNU AGPLv3 License][license-badge]][LICENSE]
-[![version][version-badge]][package]
 [![node-version][node-version-badge]][node]
 [![Travis Build Status][build-badge]][build]
 [![AppVeyor Build Status][win-build-badge]][win-build]
@@ -148,8 +147,6 @@ Develop clear and clean codes to align animations with User Interface features.
 [coverage]: https://codecov.io/github/adriancmiranda/adriancmiranda.github.io
 [dependencyci-badge]: https://dependencyci.com/github/adriancmiranda/adriancmiranda.github.io/badge?style=flat-square
 [dependencyci]: https://dependencyci.com/github/adriancmiranda/adriancmiranda.github.io
-[version-badge]: https://img.shields.io/npm/v/adriancmiranda.github.io.svg?style=flat-square
-[package]: https://www.npmjs.com/package/adriancmiranda.github.io
 [node-version-badge]: https://img.shields.io/badge/node-%3E%3D%204.0-orange.svg?style=flat-square
 [license-badge]: https://img.shields.io/npm/l/adriancmiranda.github.io.svg?style=flat-square
 [license]: https://github.com/adriancmiranda/adriancmiranda.github.io/blob/master/other/LICENSE
