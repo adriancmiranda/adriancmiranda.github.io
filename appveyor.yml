@@ -20,8 +20,9 @@ environment:
 
 install:
   - ps: Install-Product node $env:nodejs_version x64
-  - npm install bower -g
-  - npm install yarn -g
+  - npm install -g codecov
+  - npm install -g bower
+  - npm install -g yarn
   - yarn install
 
 build: off
