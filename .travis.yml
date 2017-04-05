@@ -25,3 +25,5 @@ matrix:
     - env: "NODE_VERSION=6"
     - env: "NODE_VERSION=7"
  
+script:
+- npm run test
