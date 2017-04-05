@@ -1,8 +1,27 @@
 sudo: false
+
 language: node_js
-before_script:
-- npm install -g bower
-- bower install
+
 node_js:
 - "6"
 - "7"
+
+os:
+- osx
+- linux
+
+install:
+- node --version
+- npm --version
+- git --version
+- svn --version | head -n 1
+- npm install -g bower
+- npm install
+
+matrix:
+  fast_finish: true
+  allow_failures:
+    - os: osx
+    - env: "NODE_VERSION=6"
+    - env: "NODE_VERSION=7"
+ 
