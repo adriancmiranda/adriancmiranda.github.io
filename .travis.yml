@@ -26,4 +26,4 @@ matrix:
     - env: "NODE_VERSION=7"
  
 script:
-  - npm run test
+  - npm run travis:test
