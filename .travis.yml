@@ -3,20 +3,20 @@ sudo: false
 language: node_js
 
 node_js:
-- "6"
-- "7"
+  - "6"
+  - "7"
 
 os:
-- osx
-- linux
+  - osx
+  - linux
 
 install:
-- node --version
-- npm --version
-- git --version
-- svn --version | head -n 1
-- npm install -g bower
-- npm install
+  - node --version
+  - npm --version
+  - git --version
+  - svn --version | head -n 1
+  - npm install -g bower
+  - npm install
 
 matrix:
   fast_finish: true
@@ -26,4 +26,4 @@ matrix:
     - env: "NODE_VERSION=7"
  
 script:
-- npm run test
+  - npm run test
