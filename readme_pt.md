@@ -3,7 +3,6 @@
 ----------------------------
 
 [![GNU AGPLv3 License][license-badge]][LICENSE]
-[![version][version-badge]][package]
 [![node-version][node-version-badge]][node]
 [![Travis Build Status][build-badge]][build]
 [![AppVeyor Build Status][win-build-badge]][win-build]
@@ -137,21 +136,19 @@ Desenvolver códigos claros e limpos para alinhar animações com recursos de in
 
 <!-- links -->
 
-[license-badge]: https://img.shields.io/npm/l/adriancmiranda.github.io.svg?style=flat-square
+[license-badge]: https://img.shields.io/npm/l/adriancmiranda.github.io.svg
 [license]: https://github.com/adriancmiranda/adriancmiranda.github.io/blob/master/other/LICENSE
 [node]: https://nodejs.org
-[build-badge]: https://img.shields.io/travis/adriancmiranda/adriancmiranda.github.io.svg?style=flat-square
+[build-badge]: https://img.shields.io/travis/adriancmiranda/adriancmiranda.github.io.svg
 [build]: https://travis-ci.org/adriancmiranda/adriancmiranda.github.io
-[win-build-badge]: https://img.shields.io/appveyor/ci/adriancmiranda/adriancmiranda.github.io.svg?style=flat-square
-[win-build]: https://ci.appveyor.com/project/adriancmiranda/adriancmiranda.github.io
-[coverage-badge]: https://img.shields.io/codecov/c/github/adriancmiranda/adriancmiranda.github.io.svg?style=flat-square
+[win-build-badge]: https://ci.appveyor.com/api/projects/status/xyd3bndeb51yoft9?svg=true
+[win-build]: https://ci.appveyor.com/project/adriancmiranda/adriancmiranda-github-io
+[coverage-badge]: https://img.shields.io/codecov/c/github/adriancmiranda/adriancmiranda.github.io.svg
 [coverage]: https://codecov.io/github/adriancmiranda/adriancmiranda.github.io
-[dependencyci-badge]: https://dependencyci.com/github/adriancmiranda/adriancmiranda.github.io/badge?style=flat-square
+[dependencyci-badge]: https://dependencyci.com/github/adriancmiranda/adriancmiranda.github.io/badge
 [dependencyci]: https://dependencyci.com/github/adriancmiranda/adriancmiranda.github.io
-[version-badge]: https://img.shields.io/npm/v/adriancmiranda.github.io.svg?style=flat-square
-[package]: https://www.npmjs.com/package/adriancmiranda.github.io
-[node-version-badge]: https://img.shields.io/badge/node-%3E%3D%204.0-orange.svg?style=flat-square
-[license-badge]: https://img.shields.io/npm/l/adriancmiranda.github.io.svg?style=flat-square
+[node-version-badge]: https://img.shields.io/badge/node-%3E%3D%204.0-orange.svg
+[license-badge]: https://img.shields.io/npm/l/adriancmiranda.github.io.svg
 [license]: https://github.com/adriancmiranda/adriancmiranda.github.io/blob/master/other/LICENSE
 [twitter]: https://twitter.com/intent/tweet?text=Check%20out%20the%20Adrian%20Miranda%20works!%20https://github.com/adriancmiranda/adriancmiranda.github.io%20%F0%9F%91%8D
 [twitter-badge]: https://img.shields.io/twitter/url/https/github.com/adriancmiranda/adriancmiranda.github.io.svg?style=social
