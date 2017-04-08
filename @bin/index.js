@@ -2,7 +2,7 @@ const { relative } = require('path');
 const fs = require('fs-extra');
 const GitRevisionPlugin = require('git-revision-webpack-plugin');
 const { alias } = require('webpack-cfg/tools');
-const portfolio = require('webpack-cfg');
+const webpackCfg = require('webpack-cfg');
 const moment = require('moment');
 
 moment.locale();
@@ -10,11 +10,12 @@ moment.locale();
 const git = new GitRevisionPlugin({ lightweightTags: true });
 const pkg = fs.readJsonSync('package.json');
 const bowerrc = fs.readJsonSync('.bowerrc');
-
-module.exports = portfolio({
+const tasks = webpackCfg({
   client: 'configs/client-*.js',
   server: 'configs/server-*.js',
-}, (all, cli, api) => {
+});
+
+module.exports = tasks.setConfig((all, cli, api) => {
 	// ~ metadata ~
 	all.set('package', pkg);
 	all.set('bowerrc', bowerrc);
