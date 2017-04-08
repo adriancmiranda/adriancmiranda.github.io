@@ -31,7 +31,7 @@ module.exports = tasks.setConfig((all, cli, api) => {
 	all.set('path.assets', 'assets');
 	all.set('path.server', 'server');
 
-	// ~ assets entry folders ~
+	// ~ entry ~
 	all.set('path.entry.static', 'static');
 	all.set('path.entry.media', all.res('path.assets', 'media'));
 	all.set('path.entry.fonts', all.res('path.assets', 'fonts'));
