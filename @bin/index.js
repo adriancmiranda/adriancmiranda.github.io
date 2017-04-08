@@ -1,63 +1,88 @@
-const {relative} = require('path');
-const Git = require('git-revision-webpack-plugin');
+const { relative } = require('path');
+const fs = require('fs-extra');
+const GitRevisionPlugin = require('git-revision-webpack-plugin');
+const { alias } = require('webpack-cfg/tools');
 const portfolio = require('webpack-cfg');
 const moment = require('moment');
 
-module.exports = argv => portfolio({
+moment.locale();
+
+const git = new GitRevisionPlugin({ lightweightTags: true });
+const pkg = fs.readJsonSync('package.json');
+const bowerrc = fs.readJsonSync('.bowerrc');
+
+module.exports = portfolio({
   client: 'configs/client-*.js',
   server: 'configs/server-*.js',
 }, (all, cli, api) => {
-  // ~ common ~
-  moment.locale();
-  all.set('now', moment());
-  all.set('pwd', __dirname);
-  all.set('ctx', process.cwd());
-  all.set('cwd', process.cwd());
-  all.set('git', new Git({ lightweightTags: true }));
-  all.set('pkg', require(relative(__dirname, 'package.json')));
-  all.set('bower', require(relative(__dirname, 'bower.json')));
-  all.set('report', process.env.npm_config_report);
-  all.set('lifecycle', process.env.npm_lifecycle_event);
-  all.set('path.🚪.bundle', 'bundle');
-  all.set('path.🔌.static', 'static');
-  all.set('path.🚪.static', all.res('path.🔌.assets', 'static');
-  all.set('path.🔌.assets', 'assets');
-  all.set('path.🚪.assets', all.res('path.🚪.static', 'assets'));
-  all.set('path.🔌.public', 'public');
-  all.set('path.🚪.public', all.res('path.🚪.static', 'scripts'));
-  all.set('path.🔌.server', 'server');
-  all.set('path.🚪.server', '');
-  all.set('path.🔌.styles', 'styles');
-  all.set('path.🚪.styles', all.res('path.🚪.static', 'styles');
-  all.set('path.🔌.images', 'images');
-  all.set('path.🚪.images', all.res('path.🚪.static', 'images');
-  all.set('path.🔌.fonts', 'fonts');
-  all.set('path.🚪.fonts', all.res('path.🚪.static', 'fonts');
-  all.set('path.🔌.views', 'views');
-  all.set('path.🚪.views', 'views');
-  all.set('path.🔌.test', '@test');
+	// ~ metadata ~
+	all.set('package', pkg);
+	all.set('bowerrc', bowerrc);
+	all.set('now', moment().format('LLLL'));
+	all.set('cwd', process.cwd());
+	all.set('pwd', alias(__dirname));
+	all.set('git.commithash', git.commithash());
+	all.set('git.version', git.version());
 
-  // ~ server ~
-  api.set('script.entry', all.res('path.🔌.server', 'index.js'));
-  api.set('view.entry', all.res('path.🔌.views', 'index.pug'));
-  api.set('view.minify.removeAttributeQuotes', false);
-  api.set('view.minify.collapseWhitespace', false);
-  api.set('view.minify.removeComments', false);
-  api.set('view.option.inject', false);
+	// ~ root entry folders ~
+	all.set('path.test', '@test');
+	all.set('path.client', 'public');
+	all.set('path.static', 'static');
+	all.set('path.assets', 'assets');
+	all.set('path.server', 'server');
 
-  // ~ client ~
-	cli.set('alias.@vendors', all.res('bower.directory'));
-	cli.set('provide.Modernizr', '@vendors/modernizr/modernizr');
-	cli.set('provide.trace', '@vendors/trace');
-  cli.set('script.entry', all.res('path.🔌.public', 'index.js'));
-  cli.set('script.uglify.minimize', false);
-  cli.set('style.entry', all.res('path.🔌.styles', '_all.scss'));
-  cli.set('style.css.minimize', true);
-  cli.set('images.compress.pngquant.quality', '65-90');
-  cli.set('images.compress.pngquant.speed', 4);
-  cli.set('images.compress.pngquant.optimizationLevel', 7);
-  cli.set('images.compress.gifsicle.optimizationLevel', 1);
-  cli.set('images.compress.gifsicle.interlaced', false);
-  cli.set('images.compress.svgo.plugins', [{ removeViewBox: false }]);
-  cli.set('images.compress.svgo.plugins', [{ removeEmptyAttrs: false }]);
+	// ~ assets entry folders ~
+	all.set('path.entry.media', all.res('path.assets', 'media'));
+	all.set('path.entry.fonts', all.res('path.assets', 'fonts'));
+	all.set('path.entry.views', 'views');
+	all.set('path.entry.styles', 'styles');
+	all.set('path.entry.scripts', '');
+
+	// ~ output ~
+	all.set('path.output.media', all.res('path.static', 'media'));
+	all.set('path.output.fonts', all.res('path.static', 'fonts'));
+	all.set('path.output.views', all.res('path.static', 'views'));
+	all.set('path.output.styles', all.res('path.static', 'styles'));
+	all.set('path.output.scripts', all.res('path.static', 'scripts'));
+	all.set('path.output.bundle', 'bundle');
+
+	// ~ aliases ~
+	all.set('alias.~', all.res('path.client'));
+	all.set('alias.@vendors', all.res('bowerrc.directory'));
+	all.set('alias.views', all.res('path.entry.views'));
+	all.set('alias.data', all.res('path.client', 'data'));
+	all.set('alias.eguru', all.res('path.client', 'eguru'));
+	all.set('alias.assets', all.res('path.client', all.res('path.assets')));
+
+	// ~ global vendors ~
+	all.set('provide.Modernizr', '@vendors/modernizr/modernizr');
+	all.set('provide.trace', '@vendors/trace');
+
+	// ~ dev lifecycle ~
+	all.set('dev.env.NODE_ENV', '"development"');
+	all.set('dev.publicPath', '/');
+	all.set('dev.host', 'localhost');
+	all.set('dev.port', 3000);
+	all.set('dev.autoOpenBrowser', true);
+	all.set('dev.sourceMap', false);
+	all.set('dev.proxy[/api]', `http://${all.get('dev.host')}:${all.get('dev.port') + 1}`);
+
+	// ~ test lifecycle ~
+	all.set('test.env.NODE_ENV', '"testing"');
+
+	// ~ build lifecycle ~
+	all.set('build.env.NODE_ENV', '"production"');
+	all.set('build.publicPath', '');
+	all.set('build.host', '');
+	all.set('build.sourceMap', true);
+	all.set('build.gzip', false);
+	all.set('build.gzipExtensions', ['js', 'css']);
+	all.set('build.bundleAnalyzerReport', process.env.npm_config_report);
+
+	// ~ server settings ~
+	api.set('script.entry.server', './index.js');
+
+	// ~ client settings ~
+	cli.set('script.entry.index', './index.js');
+	cli.set('view.entry', './index.pug');
 });

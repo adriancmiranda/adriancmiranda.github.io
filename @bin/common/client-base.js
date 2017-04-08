@@ -1,8 +1,9 @@
+const { contextEntries } = require('webpack-cfg/tools');
 const webpack = require('webpack');
 const commonBase = require('./');
 
 module.exports = $ => commonBase($)
-.cfg('entry', $('path.source'), contextEntries)
+.cfg('entry', $('path.client', $('path.entry.scripts')), contextEntries)
 .cfg({
 	name: 'client:template',
 	target: 'web',
@@ -22,8 +23,8 @@ module.exports = $ => commonBase($)
 			},
 			include: [
 				$('cwd', 'node_modules'),
-				$('cwd', $('bower.directory')),
-				$('cwd', $('path.source'), $('path.entry.fonts')),
+				$('cwd', $('bowerrc.directory')),
+				$('cwd', $('path.client'), $('path.entry.fonts')),
 			],
 		}, {
 			loader: 'url-loader',
@@ -36,8 +37,8 @@ module.exports = $ => commonBase($)
 			},
 			include: [
 				$('cwd', 'node_modules'),
-				$('cwd', $('bower.directory')),
-				$('cwd', $('path.source'), $('path.entry.fonts')),
+				$('cwd', $('bowerrc.directory')),
+				$('cwd', $('path.client'), $('path.entry.fonts')),
 			],
 		}, {
 			loader: 'url-loader',
@@ -50,8 +51,8 @@ module.exports = $ => commonBase($)
 			},
 			include: [
 				$('cwd', 'node_modules'),
-				$('cwd', $('bower.directory')),
-				$('cwd', $('path.source'), $('path.entry.fonts')),
+				$('cwd', $('bowerrc.directory')),
+				$('cwd', $('path.client'), $('path.entry.fonts')),
 			],
 		}, {
 			loader: 'url-loader',
@@ -64,8 +65,8 @@ module.exports = $ => commonBase($)
 			},
 			include: [
 				$('cwd', 'node_modules'),
-				$('cwd', $('bower.directory')),
-				$('cwd', $('path.source'), $('path.entry.fonts')),
+				$('cwd', $('bowerrc.directory')),
+				$('cwd', $('path.client'), $('path.entry.fonts')),
 			],
 		}, {
 			loader: 'url-loader',
@@ -78,8 +79,8 @@ module.exports = $ => commonBase($)
 			},
 			include: [
 				$('cwd', 'node_modules'),
-				$('cwd', $('bower.directory')),
-				$('cwd', $('path.source'), $('path.entry.fonts')),
+				$('cwd', $('bowerrc.directory')),
+				$('cwd', $('path.client'), $('path.entry.fonts')),
 			],
 		}, {
 			loader: 'url-loader',
@@ -92,8 +93,8 @@ module.exports = $ => commonBase($)
 			},
 			include: [
 				$('cwd', 'node_modules'),
-				$('cwd', $('bower.directory')),
-				$('cwd', $('path.source'), $('path.entry.fonts')),
+				$('cwd', $('bowerrc.directory')),
+				$('cwd', $('path.client'), $('path.entry.fonts')),
 			],
 		}, {
 			loader: 'file-loader',
@@ -103,7 +104,7 @@ module.exports = $ => commonBase($)
 				name: '[name].[ext]?[hash:7]',
 			},
 			include: [
-				$('cwd', $('path.source'), $('path.entry.media')),
+				$('cwd', $('path.client'), $('path.entry.media')),
 			],
 		}, {
 			use: [{
@@ -137,7 +138,7 @@ module.exports = $ => commonBase($)
 			}],
 			test: /\.(jpe?g|png|gif|svg)(\?v=\d+\.\d+\.\d+)?$/,
 			include: [
-				$('cwd', $('path.source'), $('path.entry.media')),
+				$('cwd', $('path.client'), $('path.entry.media')),
 			],
 		}],
 	},

@@ -21,7 +21,7 @@ module.exports = $ => clientBase($).cfg({
 	},
 	plugins: [
 		new CleanWebpackPlugin([$('path.output.bundle')], {
-			root: $('context'),
+			root: $('cwd'),
 			verbose: true,
 		}),
 		new webpack.DefinePlugin({
@@ -47,14 +47,14 @@ module.exports = $ => clientBase($).cfg({
 		}),
 		new HtmlWebpackPlugin(Object.assign({}, $('view.data'), {
 			env: JSON.parse($('build.env.NODE_ENV')),
-			template: `!!pug-loader!${$('view.entry')}`,
+			template: `!!pug-loader!${$('path.entry.views', $('view.entry'))}`,
 			chunksSortMode: 'dependency',
 		})),
 		new webpack.optimize.CommonsChunkPlugin({
 			name: 'vendor',
 			minChunks: module => (module.resource && /\.js$/.test(module.resource) && (
 				module.resource.indexOf($('cwd', 'node_modules')) === 0 ||
-				module.resource.indexOf($('cwd', $('bower.directory'))) === 0
+				module.resource.indexOf($('cwd', $('bowerrc.directory'))) === 0
 			)),
 		}),
 		new webpack.optimize.CommonsChunkPlugin({
@@ -70,10 +70,7 @@ module.exports = $ => clientBase($).cfg({
 			}),
 		}),
 		new CopyWebpackPlugin([{
-			from: {
-				glob: '**/*',
-				dot: true,
-			},
+			from: { glob: '**/*', dot: true },
 			to: $('cwd', $('path.output.bundle')),
 			context: $('path.static'),
 		}]),
@@ -92,7 +89,7 @@ module.exports = $ => clientBase($).cfg({
 		threshold: 10240,
 		minRatio: 0.8,
 	});
-}).call(this)] : [])
+})()] : [])
 
 // --------------------------------------------------------------------------
 // *optional: https://www.npmjs.com/package/webpack-bundle-analyzer
@@ -100,5 +97,5 @@ module.exports = $ => clientBase($).cfg({
 .cfg('plugins', $('build.bundleAnalyzerReport') ? [(() => {
 	const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 	return new BundleAnalyzerPlugin();
-}).call(this)] : [])
+})()] : [])
 ;

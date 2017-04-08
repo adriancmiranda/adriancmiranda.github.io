@@ -21,14 +21,16 @@ module.exports = $ => baseTemplate($).cfg({
 				formatter: eslintFriendlyFormatter,
 			}, $('script.eslint')),
 			include: [
-				$('cwd', $('path.source')),
+				$('cwd', $('path.server')),
+				$('cwd', $('path.client')),
 				$('cwd', $('path.test')),
 			],
 		}, {
 			loader: 'babel-loader',
 			test: /\.js$/,
 			include: [
-				$('cwd', $('path.source')),
+				$('cwd', $('path.server')),
+				$('cwd', $('path.client')),
 				$('cwd', $('path.test')),
 			],
 		}, {
