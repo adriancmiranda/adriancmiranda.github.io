@@ -117,7 +117,22 @@ module.exports = $ => commonBase($)
 			}, {
 				loader: 'image-webpack-loader',
 				query: Object.assign({
-					bypassOnDebug: true
+					bypassOnDebug: true,
+					svgo: {
+						plugins: [
+							{ removeEmptyAttrs: false },
+							{ removeViewBox: false },
+						],
+					},
+					gifsicle: {
+						optimizationLevel: 1,
+						interlaced: false,
+					},
+					pngquant: {
+						optimizationLevel: 7,
+						quality: '65-90',
+						speed: 4,
+					},
 				}, $('image.compress')),
 			}],
 			test: /\.(jpe?g|png|gif|svg)(\?v=\d+\.\d+\.\d+)?$/,
