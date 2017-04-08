@@ -1,1 +1,1 @@
-trace('Up & running');
+trace('client: up & running');
