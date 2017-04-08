@@ -60,12 +60,13 @@
   },
   "dependencies": {
     "express": "4.15.2",
+    "foreman": "2.0.0",
     "is": "3.2.1",
     "moment": "2.18.1",
     "pirate-flag": "0.0.1"
   },
   "engines": {
-    "node": ">=7.8.0",
+    "node": ">=7.8.0"
   },
   "browsers": [
     "> 1%",
