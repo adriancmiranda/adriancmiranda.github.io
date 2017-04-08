@@ -24,27 +24,28 @@ module.exports = portfolio({
 	all.set('git.commithash', git.commithash());
 	all.set('git.version', git.version());
 
-	// ~ root entry folders ~
+	// ~ structure entry folders ~
 	all.set('path.test', '@test');
 	all.set('path.client', 'public');
-	all.set('path.static', 'static');
 	all.set('path.assets', 'assets');
 	all.set('path.server', 'server');
 
 	// ~ assets entry folders ~
+	all.set('path.entry.static', 'static');
 	all.set('path.entry.media', all.res('path.assets', 'media'));
 	all.set('path.entry.fonts', all.res('path.assets', 'fonts'));
-	all.set('path.entry.views', 'views');
 	all.set('path.entry.styles', 'styles');
 	all.set('path.entry.scripts', '');
+	all.set('path.entry.views', 'views');
 
 	// ~ output ~
-	all.set('path.output.media', all.res('path.static', 'media'));
-	all.set('path.output.fonts', all.res('path.static', 'fonts'));
-	all.set('path.output.views', all.res('path.static', 'views'));
-	all.set('path.output.styles', all.res('path.static', 'styles'));
-	all.set('path.output.scripts', all.res('path.static', 'scripts'));
 	all.set('path.output.bundle', 'bundle');
+	all.set('path.output.static', 'static');
+	all.set('path.output.media', all.res('path.client', 'media'));
+	all.set('path.output.fonts', all.res('path.client', 'fonts'));
+	all.set('path.output.styles', all.res('path.client', 'styles'));
+	all.set('path.output.scripts', all.res('path.client', 'scripts'));
+	all.set('path.output.views', 'views');
 
 	// ~ aliases ~
 	all.set('alias.~', all.res('path.client'));
@@ -60,20 +61,19 @@ module.exports = portfolio({
 
 	// ~ dev lifecycle ~
 	all.set('dev.env.NODE_ENV', '"development"');
-	all.set('dev.publicPath', '/');
+	all.set('dev.assetsPublicPath', '/');
 	all.set('dev.host', 'localhost');
 	all.set('dev.port', 3000);
 	all.set('dev.autoOpenBrowser', true);
 	all.set('dev.sourceMap', false);
-	all.set('dev.proxy[/api]', `http://${all.get('dev.host')}:${all.get('dev.port') + 1}`);
+	all.set('dev.proxy[/api/*]', `http://${all.get('dev.host')}:${all.get('dev.port') + 1}`);
 
 	// ~ test lifecycle ~
 	all.set('test.env.NODE_ENV', '"testing"');
 
 	// ~ build lifecycle ~
 	all.set('build.env.NODE_ENV', '"production"');
-	all.set('build.publicPath', '');
-	all.set('build.host', '');
+	all.set('build.assetsPublicPath', '/');
 	all.set('build.sourceMap', true);
 	all.set('build.gzip', false);
 	all.set('build.gzipExtensions', ['js', 'css']);
@@ -84,5 +84,10 @@ module.exports = portfolio({
 
 	// ~ client settings ~
 	cli.set('script.entry.index', './index.js');
+	cli.set('style.entry', './index.scss');
 	cli.set('view.entry', './index.pug');
+	cli.set('view.data.minify.removeAttributeQuotes', false);
+	cli.set('view.data.minify.collapseWhitespace', false);
+	cli.set('view.data.minify.removeComments', false);
+	cli.set('view.data.inject', false);
 });

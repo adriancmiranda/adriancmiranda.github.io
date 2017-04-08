@@ -6,6 +6,6 @@ module.exports = $ => serverBase($).cfg({
 	devtool: '#source-map',
 	externals: [nodeExternals()],
 	output: {
-		publicPath: $('build.host'),
+		publicPath: $('build.assetsPublicPath'),
 	},
 });

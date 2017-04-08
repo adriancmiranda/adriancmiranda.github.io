@@ -1,4 +1,5 @@
 /* eslint-disable global-require */
+const { parse } = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
@@ -12,7 +13,7 @@ module.exports = $ => clientBase($).cfg({
 	bail: true,
 	devtool: $('build.sourceMap') ? '#source-map' : false,
 	output: {
-		publicPath: $('build.publicPath'),
+		publicPath: $('build.assetsPublicPath'),
 		filename: $('path.output.scripts', '[name].[chunkhash].js'),
 		chunkFilename: $('path.output.scripts', '[id].[chunkhash].js'),
 	},
@@ -48,6 +49,7 @@ module.exports = $ => clientBase($).cfg({
 		new HtmlWebpackPlugin(Object.assign({}, $('view.data'), {
 			env: JSON.parse($('build.env.NODE_ENV')),
 			template: `!!pug-loader!${$('path.entry.views', $('view.entry'))}`,
+			filename: $('path.output.views', `${parse($('view.entry')).name}.html`),
 			chunksSortMode: 'dependency',
 		})),
 		new webpack.optimize.CommonsChunkPlugin({
@@ -71,8 +73,8 @@ module.exports = $ => clientBase($).cfg({
 		}),
 		new CopyWebpackPlugin([{
 			from: { glob: '**/*', dot: true },
-			to: $('cwd', $('path.output.bundle')),
-			context: $('path.static'),
+			to: $('cwd', $('path.output.bundle'), $('path.output.static')),
+			context: $('path.entry.static'),
 		}]),
 	],
 })

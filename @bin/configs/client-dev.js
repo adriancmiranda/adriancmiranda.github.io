@@ -10,7 +10,7 @@ module.exports = $ => clientBase($).cfg('entry', [
 	name: '[client:dev]',
 	devtool: '#cheap-module-eval-source-map',
 	output: {
-		publicPath: $('dev.publicPath'),
+		publicPath: $('dev.assetsPublicPath'),
 	},
 	module: {
 		rules: [],

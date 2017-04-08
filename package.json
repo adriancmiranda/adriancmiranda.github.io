@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "description": "My new git-push powered folio",
   "author": "Adrian C. Miranda",
+  "homepage": "http://adrian.directory",
   "license": "GNU AGPLv3",
   "main": "server/index.js",
   "browser": "client/index.js",
