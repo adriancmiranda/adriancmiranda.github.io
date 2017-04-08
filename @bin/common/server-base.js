@@ -22,7 +22,6 @@ module.exports = $ => commonTemplate($)
 		setImmediate: true,
 	}, $('node')),
 	plugins: [
-		new webpack.IgnorePlugin(/\.(css|less|s(a|c)ss|styl(us)?)$/),
 		new webpack.BannerPlugin({
 			banner: `try { require('source-map-support').install(); } catch(err) { /* ! */ }`,
 			entryOnly: false,
