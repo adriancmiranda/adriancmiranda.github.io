@@ -18,7 +18,7 @@
     "start": "node server",
     "build": "webpack --config @bin --env.run client-build,server-build",
     "stats": "webpack --config @bin --profile --json > stats.json",
-    "dev": "node @bin/server --run client-dev,server-dev --debug=1 --log=1 --notify=1"
+    "dev": "node @bin/server --run client-dev,server-dev --debug 1 --log 1 --notify 1"
   },
   "optionalDependencies": {
     "compression-webpack-plugin": "0.3.2",
