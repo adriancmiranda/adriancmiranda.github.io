@@ -59,6 +59,7 @@
     "webpack-node-externals": "1.5.4"
   },
   "dependencies": {
+    "express": "4.15.2",
     "is": "3.2.1",
     "moment": "2.18.1",
     "pirate-flag": "0.0.1"
