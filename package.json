@@ -15,7 +15,7 @@
     "test": "echo \"Error: no test specified\" && exit 0",
     "travis:test": "npm run test",
     "appveyor:test": "npm run test",
-    "start": "node --optimize_for_size --max_old_space_size=460 --gc_interval=100 --use_strict --harmony server",
+    "start": "node server",
     "build": "webpack --config @bin --env.run client-build,server-build",
     "stats": "webpack --config @bin --profile --json > stats.json",
     "dev": "node @bin/server --run client-dev,server-dev --debug=1 --log=1 --notify=1"
