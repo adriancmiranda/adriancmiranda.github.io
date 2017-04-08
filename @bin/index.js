@@ -25,7 +25,7 @@ module.exports = tasks.setConfig((all, cli, api) => {
 	all.set('git.commithash', git.commithash());
 	all.set('git.version', git.version());
 
-	// ~ structure entry folders ~
+	// ~ structure folders ~
 	all.set('path.test', '@test');
 	all.set('path.client', 'public');
 	all.set('path.assets', 'assets');
