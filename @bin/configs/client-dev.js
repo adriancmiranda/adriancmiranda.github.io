@@ -1,3 +1,4 @@
+const { parse } = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
@@ -23,6 +24,7 @@ module.exports = $ => clientBase($).cfg('entry', [
 		new HtmlWebpackPlugin(Object.assign({}, $('view.data'), {
 			env: JSON.parse($('dev.env.NODE_ENV')),
 			template: `!!pug-loader!${$('path.entry.views', $('view.entry'))}`,
+			filename: $('path.output.views', `${parse($('view.entry')).name}.html`),
 			minify: false,
 		})),
 		new webpack.HotModuleReplacementPlugin(),
