@@ -9,6 +9,7 @@ const { NODE_ENV = JSON.parse(config.common.get('dev.env.NODE_ENV')) } = process
 const { PORT = config.common.get('dev.port') } = process.env;
 const { HOST = config.common.get('dev.host') } = process.env;
 
+const static = config.common.res('path.static');
 const proxy = config.common.get('dev.proxy');
 const testing = /^testing$/i.test(NODE_ENV);
 const webpackConfig = config({ dev: !testing, run: argv.run });
