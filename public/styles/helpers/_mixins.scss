@@ -1,0 +1,149 @@
+@mixin media-query($args...) {
+  $media-type: "only screen";
+  $media-type-key: "media-type";
+  $args: keywords($args);
+  $expr: "";
+  @if map-has-key($args, $media-type-key) {
+    $media-type: map-get($args, $media-type-key);
+    $args: map-remove($args, $media-type-key);
+  }
+  @each $key, $value in $args {
+    @if $value {
+      $expr: "#{$expr} and (#{$key}: #{$value})";
+    }
+  }
+  @media #{$media-type} #{$expr} {
+    @content;
+  }
+}
+
+@mixin Rectangle($properties: (top, right, bottom, left), $args: nil) {
+  @if length($args) == 1 {
+    @if $args != nil {
+      @each $property in $properties {
+        #{$property}: $args;
+      }
+    }
+  } @else if length($args) == 2 {
+    @if nth($args, 1) != nil {
+      #{nth($properties, 1)}: nth($args, 1);
+      #{nth($properties, 3)}: nth($args, 1);
+    }
+    @if nth($args, 2) != nil {
+      #{nth($properties, 2)}: nth($args, 2);
+      #{nth($properties, 4)}: nth($args, 2);
+    }
+  } @else if length($args) == 3 {
+    @if nth($args, 1) != nil {
+      #{nth($properties, 1)}: nth($args, 1);
+    }
+    @if nth($args, 2) != nil {
+      #{nth($properties, 2)}: nth($args, 2);
+      #{nth($properties, 4)}: nth($args, 2);
+    }
+    @if nth($args, 3) != nil {
+      #{nth($properties, 3)}: nth($args, 3);
+    }
+  } @else if length($args) == 4 {
+    @if nth($args, 1) != nil {
+      #{nth($properties, 1)}: nth($args, 1);
+    }
+    @if nth($args, 2) != nil {
+      #{nth($properties, 2)}: nth($args, 2);
+    }
+    @if nth($args, 3) != nil {
+      #{nth($properties, 3)}: nth($args, 3);
+    }
+    @if nth($args, 4) != nil {
+      #{nth($properties, 4)}: nth($args, 4);
+    }
+  }
+}
+
+@mixin Point($properties: (width, height), $args: nil){
+	@if length($args) == 1 {
+		@if $args != nil {
+			@each $property in $properties {
+				#{$property}: $args;
+			}
+		}
+	} @else if length($args) == 2 {
+		@if nth($args, 1) != nil {
+			#{nth($properties, 1)}: nth($args, 1);
+		}
+		@if nth($args, 2) != nil {
+			#{nth($properties, 2)}: nth($args, 2);
+		}
+	}
+}
+
+@mixin position($position, $offset: nil) {
+  @if not index(static relative absolute fixed, $position) {
+    @warn "position only accepts 'static, relative, absolute, fixed' as shorthands";
+  } @else {
+    @include offset($offset);
+    position: $position;
+  }
+}
+
+@mixin offset($rect: nil) {
+  @include Rectangle((top, right, bottom, left), $rect);
+}
+
+@mixin margin($rect: nil) {
+  @include Rectangle((margin-top, margin-right, margin-bottom, margin-left), $rect);
+}
+
+@mixin padding($rect: nil) {
+  @include Rectangle((padding-top, padding-right, padding-bottom, padding-left), $rect);
+}
+
+@mixin border($rect: nil) {
+  @include Rectangle((border-top, border-right, border-bottom, border-left), $rect);
+}
+
+@mixin static($args: nil) {
+  @include position(static, $args);
+}
+
+@mixin absolute($args: nil) {
+  @include position(absolute, $args);
+}
+
+@mixin fixed($args: nil) {
+  @include position(fixed, $args);
+}
+
+@mixin relative($args: nil) {
+  @include position(relative, $args);
+}
+
+@mixin overflow($args: nil) {
+	@include Point((overflow-x, overflow-y), $args);
+}
+
+@mixin min-size($args) {
+	@include Point((min-width, min-height), $args);
+}
+
+@mixin max-size($args) {
+	@include Point((max-width, max-height), $args);
+}
+
+@mixin size($args) {
+	@include Point((width, height), $args);
+}
+
+@mixin opacity($opacity: 0.99) {
+  opacity: $opacity;
+  $opacity-ie: $opacity * 100;
+  filter: alpha(opacity=#{$opacity-ie});
+  filter: "progid:DXImageTransform.Microsoft.Alpha(opacity=#{$opacity-ie})";
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(opacity=#{$opacity-ie})";
+}
+
+@mixin hide-text() {
+  font: 0/0 a;
+  color: transparent;
+  text-shadow: none;
+}

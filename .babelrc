@@ -1,0 +1,17 @@
+{
+  "comments": false,
+  "plugins": ["transform-runtime"],
+  "presets": [
+    ["env", { "modules": false }],
+    "stage-2"
+  ],
+  "env": {
+    "test": {
+      "presets": ["env", "stage-2"],
+      "plugins": [
+        "babel-plugin-webpack-alias",
+        "istanbul"
+      ]
+    }
+  }
+}

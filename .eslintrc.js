@@ -77,7 +77,7 @@ module.exports = {
 	},
 	"rules": {
 		"no-debugger": process.env.NODE_ENV === "production" ? 2 : 0,
-		"no-console": "off", // trace.js takes care from this
+		"no-console": "off", // <- trace.js takes care from this
 		"no-param-reassign": "off",
 		"no-tabs": "off",
 		"import/extensions": ["error", "always", {

@@ -11,6 +11,8 @@
 
 # Resume
 
+[pt-br][cv-pt-br]
+
 ### Contact Info
 
 **Name:** Adrian Miranda <br/>
@@ -136,6 +138,7 @@ Develop clear and clean codes to align animations with User Interface features.
 
 <!-- links -->
 
+[cv-pt-br]: https://github.com/adriancmiranda/adriancmiranda.github.io/blob/webpack/readme_pt.md
 [license-badge]: https://img.shields.io/npm/l/adriancmiranda.github.io.svg
 [license]: https://github.com/adriancmiranda/adriancmiranda.github.io/blob/master/other/LICENSE
 [node]: https://nodejs.org

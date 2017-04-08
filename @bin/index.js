@@ -4,8 +4,8 @@ const portfolio = require('webpack-cfg');
 const moment = require('moment');
 
 module.exports = argv => portfolio({
-  client: 'client/client-*.js',
-  server: 'server/server-*.js',
+  client: 'configs/client-*.js',
+  server: 'configs/server-*.js',
 }, (all, cli, api) => {
   // ~ common ~
   moment.locale();

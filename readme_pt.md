@@ -11,6 +11,8 @@
 
 # Resumo
 
+[en-us][cv-en-us]
+
 ### Informações de contato
 
 **Name:** Adrian Miranda <br/>
@@ -136,6 +138,7 @@ Desenvolver códigos claros e limpos para alinhar animações com recursos de in
 
 <!-- links -->
 
+[cv-en-us]: https://github.com/adriancmiranda/adriancmiranda.github.io/
 [license-badge]: https://img.shields.io/npm/l/adriancmiranda.github.io.svg
 [license]: https://github.com/adriancmiranda/adriancmiranda.github.io/blob/master/other/LICENSE
 [node]: https://nodejs.org

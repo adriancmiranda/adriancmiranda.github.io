@@ -1,0 +1,27 @@
+@function map-get-deeply($map, $properties...) {
+  $last-prop: nth($properties, 1);
+  @each $prop, $value in $properties {
+    @if type-of($map) == 'map' {
+      @if not map-has-key($map, $prop) {
+        @if $prop == $last-prop {
+          @warn 'Não existe a propriedade `#{$prop}` em `$map`';
+        } @else {
+          @warn 'Não existe a propriedade `#{$prop}` em `#{$last-prop}`';
+        }
+      }
+      @if $prop == $last-prop {
+        $last-prop: '#{$prop}';
+      } @else {
+        $last-prop: '#{$last-prop}.#{$prop}';
+      }
+      $map: map-get($map, $prop);
+    } @else {
+      @warn '`#{$last-prop}` deve ser um mapa para acessar `#{$prop}`';
+    }
+  }
+  @return $map;
+}
+
+@function _($properties...) {
+  @return map-get-deeply($config, $properties...);
+}
