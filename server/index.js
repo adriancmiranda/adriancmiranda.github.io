@@ -1,4 +1,4 @@
-import app from './app';
+import app from '~/app'; // eslint-disable-line
 
 export default (request, response, next) => {
 	if (request.url === '/api') {
