@@ -3,7 +3,7 @@ const nodeExternals = require('webpack-node-externals');
 const serverBase = require('../common/server-base');
 
 module.exports = $ => serverBase($).cfg({
-	name: 'server:test',
+	name: '[server:test]',
 	devtool: '#inline-source-map',
 	externals: [nodeExternals()],
 	entry: undefined,

@@ -8,7 +8,7 @@ const pirateFlag = require('pirate-flag');
 const clientBase = require('../common/client-base');
 
 module.exports = $ => clientBase($).cfg({
-	name: 'client:build',
+	name: '[client:build]',
 	bail: true,
 	devtool: $('build.sourceMap') ? '#source-map' : false,
 	output: {

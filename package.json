@@ -17,7 +17,7 @@
     "start": "node --optimize_for_size --max_old_space_size=460 --gc_interval=100 --use_strict --harmony server",
     "build": "webpack --config @bin --env.run client-build,server-build",
     "stats": "webpack --config @bin --profile --json > stats.json",
-    "dev": "webpack --config @bin --env.run client-dev,server-dev --env.dev"
+    "dev": "node @bin/server --run client-dev,server-dev --debug=1 --log=1 --notify=1"
   },
   "optionalDependencies": {
     "compression-webpack-plugin": "0.3.2",
@@ -64,7 +64,8 @@
     "webpack-cfg": "1.2.3",
     "webpack-dev-middleware": "1.10.1",
     "webpack-hot-middleware": "2.18.0",
-    "webpack-node-externals": "1.5.4"
+    "webpack-node-externals": "1.5.4",
+    "yargs": "7.0.2"
   },
   "dependencies": {
     "express": "4.15.2",

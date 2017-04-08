@@ -7,7 +7,7 @@ const clientBase = require('../common/client-base');
 module.exports = $ => clientBase($).cfg('entry', [
 	$('pwd', 'pipeline/action'),
 ], prependEntries).cfg({
-	name: 'client:dev',
+	name: '[client:dev]',
 	devtool: '#cheap-module-eval-source-map',
 	output: {
 		publicPath: $('dev.publicPath'),

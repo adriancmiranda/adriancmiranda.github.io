@@ -3,7 +3,7 @@ const nodeExternals = require('webpack-node-externals');
 const serverBase = require('../common/server-base');
 
 module.exports = $ => serverBase($).cfg({
-	name: 'server:dev',
+	name: '[server:dev]',
 	devtool: '#cheap-module-eval-source-map',
 	externals: [nodeExternals({ whitelist: [] })],
 	output: {
