@@ -5,8 +5,9 @@ html(lang="pt-br")
 		meta(http-equiv="X-UA-Compatible", content="IE=edge")
 		if htmlWebpackPlugin.options.mobile
 			meta(name="viewport", content="width=device-width, initial-scale=1")
-		title #{htmlWebpackPlugin.options.title || 'Adrian C. Miranda // v2'}
-		link(rel="shortcut icon", href=`${htmlWebpackPlugin.options.favicon || 'favicon.ico'}`, type="image/x-icon")
+		title #{htmlWebpackPlugin.options.title}
+		if htmlWebpackPlugin.options.favicon
+			link(rel="shortcut icon", href=`${htmlWebpackPlugin.options.favicon}`, type="image/x-icon")
 		each file in (htmlWebpackPlugin.files.styles || [])
 			link(rel="stylesheet", href=`${file}`)
 		each file in htmlWebpackPlugin.files.css
