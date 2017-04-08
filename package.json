@@ -64,6 +64,9 @@
     "moment": "2.18.1",
     "pirate-flag": "0.0.1"
   },
+  "engines": {
+    "node": ">=7.8.0",
+  },
   "browsers": [
     "> 1%",
     "last 2 versions",
