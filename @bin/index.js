@@ -48,16 +48,9 @@ module.exports = portfolio({
 	all.set('path.output.views', 'views');
 
 	// ~ aliases ~
-	all.set('alias.~', all.res('path.client'));
-	all.set('alias.@vendors', all.res('bowerrc.directory'));
 	all.set('alias.views', all.res('path.entry.views'));
 	all.set('alias.data', all.res('path.client', 'data'));
-	all.set('alias.eguru', all.res('path.client', 'eguru'));
 	all.set('alias.assets', all.res('path.client', all.res('path.assets')));
-
-	// ~ global vendors ~
-	all.set('provide.Modernizr', '@vendors/modernizr/modernizr');
-	all.set('provide.trace', '@vendors/trace');
 
 	// ~ dev lifecycle ~
 	all.set('dev.env.NODE_ENV', '"development"');
@@ -80,9 +73,13 @@ module.exports = portfolio({
 	all.set('build.bundleAnalyzerReport', process.env.npm_config_report);
 
 	// ~ server settings ~
+	api.set('alias.~', all.res('path.server'));
 	api.set('script.entry.server', './index.js');
 
 	// ~ client settings ~
+	cli.set('alias.~', all.res('path.client'));
+	cli.set('alias.@vendors', all.res('bowerrc.directory'));
+	cli.set('provide.trace', '@vendors/trace');
 	cli.set('script.entry.index', './index.js');
 	cli.set('style.entry', './index.scss');
 	cli.set('view.entry', './index.pug');
