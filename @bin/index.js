@@ -48,7 +48,7 @@ module.exports = tasks.setConfig((all, cli, api) => {
 	all.set('path.output.scripts', all.res('path.client', 'scripts'));
 	all.set('path.output.views', 'views');
 
-	// ~ aliases ~
+	// ~ common aliases ~
 	all.set('alias.views', all.res('path.entry.views'));
 	all.set('alias.data', all.res('path.client', 'data'));
 	all.set('alias.assets', all.res('path.client', all.res('path.assets')));
