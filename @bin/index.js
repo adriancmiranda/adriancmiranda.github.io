@@ -19,9 +19,10 @@ module.exports = www.setConfig((all, cli, api) => {
 	// ~ metadata ~
 	all.set('package', pkg);
 	all.set('bowerrc', bowerrc);
-	all.set('now', moment().format('LLLL'));
+	all.set('context', process.cwd());
 	all.set('cwd', process.cwd());
 	all.set('pwd', alias(__dirname));
+	all.set('now', moment().format('LLLL'));
 	all.set('git.commithash', git.commithash());
 	all.set('git.version', git.version());
 	all.set('lifecycle', process.env.npm_lifecycle_event);
