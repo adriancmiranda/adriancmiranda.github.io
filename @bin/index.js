@@ -30,13 +30,13 @@ module.exports = www.setConfig((all, cli, api) => {
 	// ~ structure folders ~
 	all.set('path.test', '@test');
 	all.set('path.client', 'public');
-	all.set('path.assets', 'assets');
+	all.set('path.asset', 'assets');
 	all.set('path.server', 'server');
 
 	// ~ entry ~
 	all.set('path.entry.static', 'static');
-	all.set('path.entry.media', all.res('path.assets', 'media'));
-	all.set('path.entry.font', all.res('path.assets', 'fonts'));
+	all.set('path.entry.media', all.res('path.asset', 'media'));
+	all.set('path.entry.font', all.res('path.asset', 'fonts'));
 	all.set('path.entry.style', 'styles');
 	all.set('path.entry.script', '');
 	all.set('path.entry.view', 'views');
@@ -53,7 +53,7 @@ module.exports = www.setConfig((all, cli, api) => {
 	// ~ common aliases ~
 	all.set('alias.view', all.res('path.entry.view'));
 	all.set('alias.data', all.res('path.client', 'data'));
-	all.set('alias.assets', all.res('path.client', all.res('path.assets')));
+	all.set('alias.asset', all.res('path.client', all.res('path.asset')));
 
 	// ~ dev lifecycle ~
 	all.set('dev.env.NODE_ENV', '"development"');
