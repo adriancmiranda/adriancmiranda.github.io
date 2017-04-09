@@ -1,6 +1,6 @@
 const webpack = require('webpack');
 const nodeExternals = require('webpack-node-externals');
-const serverBase = require('../base/server-base');
+const serverBase = require('../templates/server-base');
 
 module.exports = $ => serverBase($).cfg({
 	name: '[server:test]',

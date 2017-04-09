@@ -6,7 +6,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin');
 const pirateFlag = require('pirate-flag');
-const clientBase = require('../base/client-base');
+const clientBase = require('../templates/client-base');
 
 module.exports = $ => clientBase($).cfg({
 	name: '[client:build]',

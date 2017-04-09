@@ -1,8 +1,8 @@
 const webpack = require('webpack');
 const { contextEntries } = require('webpack-cfg/tools');
-const commonTemplate = require('./');
+const commonBase = require('./');
 
-module.exports = $ => commonTemplate($)
+module.exports = $ => commonBase($)
 .cfg('entry', $('path.server'), contextEntries)
 .cfg({
 	name: 'server:template',
