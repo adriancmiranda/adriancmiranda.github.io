@@ -1,7 +1,7 @@
 const webpack = require('webpack');
 const nodeExternals = require('webpack-node-externals');
 const pirateFlag = require('pirate-flag');
-const serverBase = require('../common/server-base');
+const serverBase = require('../base/server-base');
 
 module.exports = $ => serverBase($).cfg({
 	name: '[server:build]',

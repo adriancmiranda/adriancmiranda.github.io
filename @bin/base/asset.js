@@ -1,4 +1,4 @@
-module.exports = (assetType, $, options = {}) => {
+module.exports.resolve = ($, assetType, options = {}) => {
 	if ($(`${$('lifecycle')}.useRelativePath`)) {
 		options.useRelativePath = true;
 		options.outputPath = $(`path.output.${assetType}`);

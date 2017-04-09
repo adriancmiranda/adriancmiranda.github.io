@@ -11,8 +11,8 @@ const git = new GitRevisionPlugin({ lightweightTags: true });
 const pkg = fs.readJsonSync('package.json');
 const bowerrc = fs.readJsonSync('.bowerrc');
 const www = webpackCfg({
-  client: 'configs/client-*.js',
-  server: 'configs/server-*.js',
+  client: 'settings/client-*.js',
+  server: 'settings/server-*.js',
 });
 
 module.exports = www.setConfig((all, cli, api) => {

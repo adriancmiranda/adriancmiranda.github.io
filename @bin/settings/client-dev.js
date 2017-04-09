@@ -3,7 +3,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
 const { prependEntries } = require('webpack-cfg/tools');
-const clientBase = require('../common/client-base');
+const clientBase = require('../base/client-base');
 
 module.exports = $ => clientBase($).cfg('entry', [
 	$('pwd', 'pipeline/action'),

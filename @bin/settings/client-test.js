@@ -1,5 +1,5 @@
 const webpack = require('webpack');
-const clientBase = require('../common/client-base');
+const clientBase = require('../base/client-base');
 
 module.exports = $ => clientBase($).cfg({
 	name: '[client:test]',

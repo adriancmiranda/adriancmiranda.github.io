@@ -1,7 +1,7 @@
 const { contextEntries, prependEntries } = require('webpack-cfg/tools');
 const webpack = require('webpack');
 const commonBase = require('./');
-const assetResolve = require('./asset-resolve');
+const asset = require('./asset');
 
 module.exports = $ => commonBase($)
 .cfg('entry', $('path.client', $('path.entry.scripts')), contextEntries)
@@ -18,7 +18,7 @@ module.exports = $ => commonBase($)
 		rules: [{
 			loader: 'url-loader',
 			test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
-			query: assetResolve('font', $, {
+			query: asset.resolve($, 'font', {
 				mimetype: 'application/font-woff',
 				limit: 7000,
 			}),
@@ -30,7 +30,7 @@ module.exports = $ => commonBase($)
 		}, {
 			loader: 'url-loader',
 			test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
-			query: assetResolve('font', $, {
+			query: asset.resolve($, 'font', {
 				mimetype: 'application/font-woff2',
 				limit: 7000,
 			}),
@@ -42,7 +42,7 @@ module.exports = $ => commonBase($)
 		}, {
 			loader: 'url-loader',
 			test: /\.otf(\?v=\d+\.\d+\.\d+)?$/,
-			query: assetResolve('font', $, {
+			query: asset.resolve($, 'font', {
 				mimetype: 'application/x-font-opentype',
 				limit: 7000,
 			}),
@@ -54,7 +54,7 @@ module.exports = $ => commonBase($)
 		}, {
 			loader: 'url-loader',
 			test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
-			query: assetResolve('font', $, {
+			query: asset.resolve($, 'font', {
 				mimetype: 'application/x-font-truetype',
 				limit: 7000,
 			}),
@@ -66,7 +66,7 @@ module.exports = $ => commonBase($)
 		}, {
 			loader: 'url-loader',
 			test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
-			query: assetResolve('font', $, {
+			query: asset.resolve($, 'font', {
 				mimetype: 'application/vnd.ms-fontobject',
 				limit: 7000,
 			}),
@@ -78,7 +78,7 @@ module.exports = $ => commonBase($)
 		}, {
 			loader: 'url-loader',
 			test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-			query: assetResolve('font', $, {
+			query: asset.resolve($, 'font', {
 				mimetype: 'image/svg+xml',
 				limit: 7000,
 			}),
@@ -90,14 +90,14 @@ module.exports = $ => commonBase($)
 		}, {
 			loader: 'file-loader',
 			test: /\.(wav|mp3|mp4|ogg|ogv)/i,
-			query: assetResolve('media', $),
+			query: asset.resolve($, 'media'),
 			include: [
 				$('cwd', $('path.client'), $('path.entry.media')),
 			],
 		}, {
 			use: [{
 				loader: 'file-loader',
-				query: assetResolve('media', $, {
+				query: asset.resolve($, 'media', {
 					hash: 'sha512',
 					digest: 'hex',
 				}),
