@@ -43,12 +43,12 @@ module.exports = www.setConfig((all, cli, api) => {
 
 	// ~ output ~
 	all.set('path.output.bundle', 'bundle');
-	all.set('path.output.static', 'static');
-	all.set('path.output.media', all.res('path.client', 'media'));
-	all.set('path.output.font', all.res('path.client', 'fonts'));
-	all.set('path.output.style', all.res('path.client', 'styles'));
-	all.set('path.output.script', all.res('path.client', 'scripts'));
-	all.set('path.output.view', 'views');
+	all.set('path.output.static', '');
+	all.set('path.output.media', 'media');
+	all.set('path.output.font', 'fonts');
+	all.set('path.output.style', 'styles');
+	all.set('path.output.script', 'scripts');
+	all.set('path.output.view', '');
 
 	// ~ common aliases ~
 	all.set('alias.view', all.res('path.entry.view'));

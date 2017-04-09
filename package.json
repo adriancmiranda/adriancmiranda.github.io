@@ -10,7 +10,7 @@
   "browser": "client/index.js",
   "module": "index",
   "scripts": {
-    "postinstall": "bower install",
+    "postinstall": "bower i",
     "upgrade": "ncu -a --loglevel verbose --packageFile package.json && yarn",
     "test": "echo \"Error: no test specified\" && exit 0",
     "travis:test": "npm run test",
