@@ -1,16 +1,20 @@
-const { contextEntries } = require('webpack-cfg/tools');
+const { contextEntries, prependEntries } = require('webpack-cfg/tools');
 const webpack = require('webpack');
 const commonBase = require('./');
 const assetResolve = require('./asset-resolve');
 
 module.exports = $ => commonBase($)
 .cfg('entry', $('path.client', $('path.entry.scripts')), contextEntries)
+.cfg('resolve.modules', [
+	$('cwd', $('path.client')),
+	$('cwd', $('bowerrc.directory')),
+], prependEntries)
 .cfg({
 	name: 'client:template',
 	target: 'web',
 	resolve: {
 		descriptionFiles: ['bower.json'],
-		extensions: ['.scss', '.pug'],
+		extensions: ['.sass', '.scss', '.pug'],
 	},
 	module: {
 		rules: [{
@@ -21,9 +25,9 @@ module.exports = $ => commonBase($)
 				limit: 7000,
 			}),
 			include: [
-				$('cwd', 'node_modules'),
-				$('cwd', $('bowerrc.directory')),
 				$('cwd', $('path.client'), $('path.entry.fonts')),
+				$('cwd', $('bowerrc.directory')),
+				$('cwd', 'node_modules'),
 			],
 		}, {
 			loader: 'url-loader',
@@ -33,9 +37,9 @@ module.exports = $ => commonBase($)
 				limit: 7000,
 			}),
 			include: [
-				$('cwd', 'node_modules'),
-				$('cwd', $('bowerrc.directory')),
 				$('cwd', $('path.client'), $('path.entry.fonts')),
+				$('cwd', $('bowerrc.directory')),
+				$('cwd', 'node_modules'),
 			],
 		}, {
 			loader: 'url-loader',
@@ -45,9 +49,9 @@ module.exports = $ => commonBase($)
 				limit: 7000,
 			}),
 			include: [
-				$('cwd', 'node_modules'),
-				$('cwd', $('bowerrc.directory')),
 				$('cwd', $('path.client'), $('path.entry.fonts')),
+				$('cwd', $('bowerrc.directory')),
+				$('cwd', 'node_modules'),
 			],
 		}, {
 			loader: 'url-loader',
@@ -57,9 +61,9 @@ module.exports = $ => commonBase($)
 				limit: 7000,
 			}),
 			include: [
-				$('cwd', 'node_modules'),
-				$('cwd', $('bowerrc.directory')),
 				$('cwd', $('path.client'), $('path.entry.fonts')),
+				$('cwd', $('bowerrc.directory')),
+				$('cwd', 'node_modules'),
 			],
 		}, {
 			loader: 'url-loader',
@@ -69,9 +73,9 @@ module.exports = $ => commonBase($)
 				limit: 7000,
 			}),
 			include: [
-				$('cwd', 'node_modules'),
-				$('cwd', $('bowerrc.directory')),
 				$('cwd', $('path.client'), $('path.entry.fonts')),
+				$('cwd', $('bowerrc.directory')),
+				$('cwd', 'node_modules'),
 			],
 		}, {
 			loader: 'url-loader',
@@ -81,9 +85,9 @@ module.exports = $ => commonBase($)
 				limit: 7000,
 			}),
 			include: [
-				$('cwd', 'node_modules'),
-				$('cwd', $('bowerrc.directory')),
 				$('cwd', $('path.client'), $('path.entry.fonts')),
+				$('cwd', $('bowerrc.directory')),
+				$('cwd', 'node_modules'),
 			],
 		}, {
 			loader: 'file-loader',
