@@ -25,8 +25,8 @@ module.exports = $ => clientBase($).cfg('entry', [
 		new HtmlWebpackPlugin(Object.assign({}, $('view.data'), {
 			env: JSON.parse($('dev.env.NODE_ENV')),
 			title: `${$('package.author')} // ${$('package.description')}`,
-			template: `!!pug-loader!${$('path.entry.views', $('view.entry'))}`,
-			filename: $('path.output.views', `${parse($('view.entry')).name}.html`),
+			template: `!!pug-loader!${$('path.entry.view', $('view.entry'))}`,
+			filename: $('path.output.view', `${parse($('view.entry')).name}.html`),
 			minify: false,
 		})),
 		new webpack.HotModuleReplacementPlugin({ quiet: true }),

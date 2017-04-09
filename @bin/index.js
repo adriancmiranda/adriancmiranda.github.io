@@ -36,22 +36,22 @@ module.exports = www.setConfig((all, cli, api) => {
 	// ~ entry ~
 	all.set('path.entry.static', 'static');
 	all.set('path.entry.media', all.res('path.assets', 'media'));
-	all.set('path.entry.fonts', all.res('path.assets', 'fonts'));
-	all.set('path.entry.styles', 'styles');
-	all.set('path.entry.scripts', '');
-	all.set('path.entry.views', 'views');
+	all.set('path.entry.font', all.res('path.assets', 'fonts'));
+	all.set('path.entry.style', 'styles');
+	all.set('path.entry.script', '');
+	all.set('path.entry.view', 'views');
 
 	// ~ output ~
 	all.set('path.output.bundle', 'bundle');
 	all.set('path.output.static', 'static');
 	all.set('path.output.media', all.res('path.client', 'media'));
-	all.set('path.output.fonts', all.res('path.client', 'fonts'));
-	all.set('path.output.styles', all.res('path.client', 'styles'));
-	all.set('path.output.scripts', all.res('path.client', 'scripts'));
-	all.set('path.output.views', 'views');
+	all.set('path.output.font', all.res('path.client', 'fonts'));
+	all.set('path.output.style', all.res('path.client', 'styles'));
+	all.set('path.output.script', all.res('path.client', 'scripts'));
+	all.set('path.output.view', 'views');
 
 	// ~ common aliases ~
-	all.set('alias.views', all.res('path.entry.views'));
+	all.set('alias.view', all.res('path.entry.view'));
 	all.set('alias.data', all.res('path.client', 'data'));
 	all.set('alias.assets', all.res('path.client', all.res('path.assets')));
 

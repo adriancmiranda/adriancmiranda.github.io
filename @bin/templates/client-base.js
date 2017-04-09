@@ -4,10 +4,10 @@ const commonBase = require('./');
 const asset = require('./asset');
 
 module.exports = $ => commonBase($)
-.cfg('entry', $('path.client', $('path.entry.scripts')), contextEntries)
+.cfg('entry', $('path.client', $('path.entry.script')), contextEntries)
 .cfg('resolve.modules', $('cwd', $('path.client')), prependEntries)
 .cfg({
-	name: 'client:template',
+	name: 'client:base',
 	target: 'web',
 	resolve: {
 		descriptionFiles: ['bower.json'],
@@ -23,7 +23,7 @@ module.exports = $ => commonBase($)
 				limit: 7000,
 			}),
 			include: [
-				$('cwd', $('path.client'), $('path.entry.fonts')),
+				$('cwd', $('path.client'), $('path.entry.font')),
 				$('cwd', 'node_modules'),
 				$('cwd', $('bowerrc.directory')),
 			],
@@ -35,7 +35,7 @@ module.exports = $ => commonBase($)
 				limit: 7000,
 			}),
 			include: [
-				$('cwd', $('path.client'), $('path.entry.fonts')),
+				$('cwd', $('path.client'), $('path.entry.font')),
 				$('cwd', 'node_modules'),
 				$('cwd', $('bowerrc.directory')),
 			],
@@ -47,7 +47,7 @@ module.exports = $ => commonBase($)
 				limit: 7000,
 			}),
 			include: [
-				$('cwd', $('path.client'), $('path.entry.fonts')),
+				$('cwd', $('path.client'), $('path.entry.font')),
 				$('cwd', 'node_modules'),
 				$('cwd', $('bowerrc.directory')),
 			],
@@ -59,7 +59,7 @@ module.exports = $ => commonBase($)
 				limit: 7000,
 			}),
 			include: [
-				$('cwd', $('path.client'), $('path.entry.fonts')),
+				$('cwd', $('path.client'), $('path.entry.font')),
 				$('cwd', 'node_modules'),
 				$('cwd', $('bowerrc.directory')),
 			],
@@ -71,7 +71,7 @@ module.exports = $ => commonBase($)
 				limit: 7000,
 			}),
 			include: [
-				$('cwd', $('path.client'), $('path.entry.fonts')),
+				$('cwd', $('path.client'), $('path.entry.font')),
 				$('cwd', 'node_modules'),
 				$('cwd', $('bowerrc.directory')),
 			],
@@ -83,7 +83,7 @@ module.exports = $ => commonBase($)
 				limit: 7000,
 			}),
 			include: [
-				$('cwd', $('path.client'), $('path.entry.fonts')),
+				$('cwd', $('path.client'), $('path.entry.font')),
 				$('cwd', 'node_modules'),
 				$('cwd', $('bowerrc.directory')),
 			],

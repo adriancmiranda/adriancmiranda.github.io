@@ -5,7 +5,7 @@ const commonBase = require('./');
 module.exports = $ => commonBase($)
 .cfg('entry', $('path.server'), contextEntries)
 .cfg({
-	name: 'server:template',
+	name: 'server:base',
 	target: 'node',
 	devtool: 'sourcemap',
 	recordsPath: $('cwd', $('path.output.bundle', 'records')),

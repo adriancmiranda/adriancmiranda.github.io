@@ -14,9 +14,9 @@ module.exports = $ => clientBase($).cfg({
 	devtool: $('build.sourceMap') ? '#source-map' : false,
 	output: {
 		publicPath: $('build.assetsPublicPath'),
-		filename: $('path.output.scripts', '[name].[chunkhash].js'),
-		chunkFilename: $('path.output.scripts', '[id].[chunkhash].js'),
-		sourceMapFilename: $('path.output.scripts', '[name].[chunkhash].map'),
+		filename: $('path.output.script', '[name].[chunkhash].js'),
+		chunkFilename: $('path.output.script', '[id].[chunkhash].js'),
+		sourceMapFilename: $('path.output.script', '[name].[chunkhash].map'),
 	},
 	module: {
 		rules: [],
@@ -50,8 +50,8 @@ module.exports = $ => clientBase($).cfg({
 		new HtmlWebpackPlugin(Object.assign({}, $('view.data'), {
 			env: JSON.parse($('build.env.NODE_ENV')),
 			title: `${$('package.author')} // ${$('package.description')}`,
-			template: `!!pug-loader!${$('path.entry.views', $('view.entry'))}`,
-			filename: $('path.output.views', `${parse($('view.entry')).name}.html`),
+			template: `!!pug-loader!${$('path.entry.view', $('view.entry'))}`,
+			filename: $('path.output.view', `${parse($('view.entry')).name}.html`),
 			chunksSortMode: 'dependency',
 		})),
 		new webpack.optimize.CommonsChunkPlugin({
