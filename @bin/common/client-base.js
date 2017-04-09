@@ -5,16 +5,14 @@ const assetResolve = require('./asset-resolve');
 
 module.exports = $ => commonBase($)
 .cfg('entry', $('path.client', $('path.entry.scripts')), contextEntries)
-.cfg('resolve.modules', [
-	$('cwd', $('path.client')),
-	$('cwd', $('bowerrc.directory')),
-], prependEntries)
+.cfg('resolve.modules', $('cwd', $('path.client')), prependEntries)
 .cfg({
 	name: 'client:template',
 	target: 'web',
 	resolve: {
 		descriptionFiles: ['bower.json'],
 		extensions: ['.sass', '.scss', '.pug'],
+		modules: [$('cwd', $('bowerrc.directory'))],
 	},
 	module: {
 		rules: [{
@@ -26,8 +24,8 @@ module.exports = $ => commonBase($)
 			}),
 			include: [
 				$('cwd', $('path.client'), $('path.entry.fonts')),
-				$('cwd', $('bowerrc.directory')),
 				$('cwd', 'node_modules'),
+				$('cwd', $('bowerrc.directory')),
 			],
 		}, {
 			loader: 'url-loader',
@@ -38,8 +36,8 @@ module.exports = $ => commonBase($)
 			}),
 			include: [
 				$('cwd', $('path.client'), $('path.entry.fonts')),
-				$('cwd', $('bowerrc.directory')),
 				$('cwd', 'node_modules'),
+				$('cwd', $('bowerrc.directory')),
 			],
 		}, {
 			loader: 'url-loader',
@@ -50,8 +48,8 @@ module.exports = $ => commonBase($)
 			}),
 			include: [
 				$('cwd', $('path.client'), $('path.entry.fonts')),
-				$('cwd', $('bowerrc.directory')),
 				$('cwd', 'node_modules'),
+				$('cwd', $('bowerrc.directory')),
 			],
 		}, {
 			loader: 'url-loader',
@@ -62,8 +60,8 @@ module.exports = $ => commonBase($)
 			}),
 			include: [
 				$('cwd', $('path.client'), $('path.entry.fonts')),
-				$('cwd', $('bowerrc.directory')),
 				$('cwd', 'node_modules'),
+				$('cwd', $('bowerrc.directory')),
 			],
 		}, {
 			loader: 'url-loader',
@@ -74,8 +72,8 @@ module.exports = $ => commonBase($)
 			}),
 			include: [
 				$('cwd', $('path.client'), $('path.entry.fonts')),
-				$('cwd', $('bowerrc.directory')),
 				$('cwd', 'node_modules'),
+				$('cwd', $('bowerrc.directory')),
 			],
 		}, {
 			loader: 'url-loader',
@@ -86,8 +84,8 @@ module.exports = $ => commonBase($)
 			}),
 			include: [
 				$('cwd', $('path.client'), $('path.entry.fonts')),
-				$('cwd', $('bowerrc.directory')),
 				$('cwd', 'node_modules'),
+				$('cwd', $('bowerrc.directory')),
 			],
 		}, {
 			loader: 'file-loader',
