@@ -25,7 +25,6 @@ module.exports = $ => clientBase($).cfg('entry', [
 		new HtmlWebpackPlugin(Object.assign({}, $('view.data'), {
 			env: JSON.parse($('dev.env.NODE_ENV')),
 			title: `${$('package.author')} // ${$('package.description')}`,
-			favicon: $('path.output.static', 'favicon.ico'),
 			template: `!!pug-loader!${$('path.entry.views', $('view.entry'))}`,
 			filename: $('path.output.views', `${parse($('view.entry')).name}.html`),
 			minify: false,
