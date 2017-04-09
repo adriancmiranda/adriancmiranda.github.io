@@ -1,6 +1,7 @@
 const { contextEntries } = require('webpack-cfg/tools');
 const webpack = require('webpack');
 const commonBase = require('./');
+const assetResolve = require('./asset-resolve');
 
 module.exports = $ => commonBase($)
 .cfg('entry', $('path.client', $('path.entry.scripts')), contextEntries)
@@ -15,12 +16,10 @@ module.exports = $ => commonBase($)
 		rules: [{
 			loader: 'url-loader',
 			test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
-			query: {
+			query: assetResolve('font', $, {
 				mimetype: 'application/font-woff',
 				limit: 7000,
-				useRelativePath: true,
-				name: '[name].[ext]?[hash:7]',
-			},
+			}),
 			include: [
 				$('cwd', 'node_modules'),
 				$('cwd', $('bowerrc.directory')),
@@ -29,12 +28,10 @@ module.exports = $ => commonBase($)
 		}, {
 			loader: 'url-loader',
 			test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
-			query: {
+			query: assetResolve('font', $, {
 				mimetype: 'application/font-woff2',
 				limit: 7000,
-				useRelativePath: true,
-				name: '[name].[ext]?[hash:7]',
-			},
+			}),
 			include: [
 				$('cwd', 'node_modules'),
 				$('cwd', $('bowerrc.directory')),
@@ -43,12 +40,10 @@ module.exports = $ => commonBase($)
 		}, {
 			loader: 'url-loader',
 			test: /\.otf(\?v=\d+\.\d+\.\d+)?$/,
-			query: {
+			query: assetResolve('font', $, {
 				mimetype: 'application/x-font-opentype',
 				limit: 7000,
-				useRelativePath: true,
-				name: '[name].[ext]?[hash:7]',
-			},
+			}),
 			include: [
 				$('cwd', 'node_modules'),
 				$('cwd', $('bowerrc.directory')),
@@ -57,12 +52,10 @@ module.exports = $ => commonBase($)
 		}, {
 			loader: 'url-loader',
 			test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
-			query: {
+			query: assetResolve('font', $, {
 				mimetype: 'application/x-font-truetype',
 				limit: 7000,
-				useRelativePath: true,
-				name: '[name].[ext]?[hash:7]',
-			},
+			}),
 			include: [
 				$('cwd', 'node_modules'),
 				$('cwd', $('bowerrc.directory')),
@@ -71,12 +64,10 @@ module.exports = $ => commonBase($)
 		}, {
 			loader: 'url-loader',
 			test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
-			query: {
+			query: assetResolve('font', $, {
 				mimetype: 'application/vnd.ms-fontobject',
 				limit: 7000,
-				useRelativePath: true,
-				name: '[name].[ext]?[hash:7]',
-			},
+			}),
 			include: [
 				$('cwd', 'node_modules'),
 				$('cwd', $('bowerrc.directory')),
@@ -85,12 +76,10 @@ module.exports = $ => commonBase($)
 		}, {
 			loader: 'url-loader',
 			test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-			query: {
+			query: assetResolve('font', $, {
 				mimetype: 'image/svg+xml',
 				limit: 7000,
-				useRelativePath: true,
-				name: '[name].[ext]?[hash:7]',
-			},
+			}),
 			include: [
 				$('cwd', 'node_modules'),
 				$('cwd', $('bowerrc.directory')),
@@ -99,22 +88,17 @@ module.exports = $ => commonBase($)
 		}, {
 			loader: 'file-loader',
 			test: /\.(wav|mp3|mp4|ogg|ogv)/i,
-			query: {
-				useRelativePath: true,
-				name: '[name].[ext]?[hash:7]',
-			},
+			query: assetResolve('media', $),
 			include: [
 				$('cwd', $('path.client'), $('path.entry.media')),
 			],
 		}, {
 			use: [{
 				loader: 'file-loader',
-				query: {
+				query: assetResolve('media', $, {
 					hash: 'sha512',
 					digest: 'hex',
-					useRelativePath: true,
-					name: '[name].[ext]?[hash:7]',
-				},
+				}),
 			}, {
 				loader: 'image-webpack-loader',
 				query: Object.assign({
