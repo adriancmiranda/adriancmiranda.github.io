@@ -9,6 +9,7 @@ const web = require('./web');
 /*!
 |* Express middleware for universal application development with webpack.
 |* Based on `webpack-universal-middleware`
+|* @see https://github.com/webpack/docs/wiki/node.js-api
 |* @see https://expressjs.com/en/guide/writing-middleware.html
 |* @see https://expressjs.com/en/guide/using-middleware.html
 |* @see http://expressjs.com/pt-br/api.html#router
