@@ -14,7 +14,7 @@ module.exports = (compiler, options) => {
 	const publicPath = hasOutputPublicPath ? outputPublicPath : '/';
 
 	const dev = webpackDev(compiler, { publicPath, quiet: true });
-	dev.waitUntilValid(options.ready);
+	// dev.waitUntilValid(options.waitUntilValid);
 	app.use(dev);
 
 	const hot = webpackHot(compiler, { log: false });

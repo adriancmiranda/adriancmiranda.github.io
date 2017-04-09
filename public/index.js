@@ -1,1 +1,1 @@
-trace('client: up & running');
+console.log('client: up & running'); // eslint-disable-line

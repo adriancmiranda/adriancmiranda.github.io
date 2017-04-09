@@ -21,8 +21,8 @@ module.exports = (multiCompiler, options = {}) => {
 	if (!options.reporter) {
 		options.reporter = reporter(options);
 	}
-	if (is.primitive(options.proxyTable)) {
-		options.proxyTable = {};
+	if (is.primitive(options.proxy)) {
+		options.proxy = {};
 	}
 	if (!options.static) {
 		options.static = ['./static'];
@@ -46,8 +46,8 @@ module.exports = (multiCompiler, options = {}) => {
 		return (virtualPath || realPath) && { virtualPath, realPath };
 	});
 
-	Object.keys(options.proxyTable).forEach((context) => {
-		let target = options.proxyTable[context];
+	Object.keys(options.proxy).forEach((context) => {
+		let target = options.proxy[context];
 		if (is.string(target)) {
 			target = { target };
 		}
