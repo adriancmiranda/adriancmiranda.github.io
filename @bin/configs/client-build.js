@@ -85,14 +85,15 @@ module.exports = $ => clientBase($).cfg({
 // --------------------------------------------------------------------------
 // *optional: https://www.npmjs.com/package/compression-webpack-plugin
 // --------------------------------------------------------------------------
-.cfg('plugins', $('build.gzip') ? [(() => {
+.cfg('plugins', $('build.gzip.compress') ? [(() => {
 	const CompressionWebpackPlugin = require('compression-webpack-plugin');
 	return new CompressionWebpackPlugin({
-		test: new RegExp(`\\.(${$('build.gzipExtensions').join('|')})$`),
-		asset: '[path].gz[query]',
 		algorithm: 'gzip',
 		threshold: 10240,
 		minRatio: 0.8,
+	}, $('build.gzip.data'), {
+		test: new RegExp(`\\.(${$('build.gzip.extensions').join('|')})$`),
+		asset: '[path].gz[query]',
 	});
 })()] : [])
 
