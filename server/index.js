@@ -1,9 +1,9 @@
 import app from '~/app'; // eslint-disable-line
 
+console.log('app:', app);
 export default (request, response, next) => {
 	if (request.url === '/api') {
-		console.log('app:', app);
-		response.send('server: up & running');
+		response.send('server: up & running', request, response);
 	} else {
 		next();
 	}

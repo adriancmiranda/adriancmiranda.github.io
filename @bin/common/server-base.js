@@ -12,6 +12,9 @@ module.exports = $ => commonTemplate($)
 	output: {
 		libraryTarget: 'commonjs2',
 	},
+	module: {
+		exprContextCritical: false,
+	},
 	node: Object.assign({
 		global: true,
 		Buffer: true,

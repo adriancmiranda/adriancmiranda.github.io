@@ -5,7 +5,6 @@ const serverBase = require('../common/server-base');
 module.exports = $ => serverBase($).cfg({
 	name: '[server:dev]',
 	devtool: '#cheap-module-eval-source-map',
-	externals: [nodeExternals({ whitelist: [/\.(?!(?:jsx?|json)$).{1,5}$/i] })],
 	output: {
 		publicPath: $('dev.host'),
 		hotUpdateChunkFilename: '[id].[hash].hot-update.js',

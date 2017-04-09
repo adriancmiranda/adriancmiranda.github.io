@@ -5,7 +5,7 @@ const serverBase = require('../common/server-base');
 module.exports = $ => serverBase($).cfg({
 	name: '[server:test]',
 	devtool: '#inline-source-map',
-	externals: [nodeExternals()],
+	externals: [nodeExternals({ whitelist: [/\.(?!(?:jsx?|json)$).{1,5}$/i] })],
 	entry: undefined,
 	output: {
 		publicPath: $(`${$('argv.dev') ? 'dev' : 'build'}.host`),

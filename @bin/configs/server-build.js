@@ -4,7 +4,7 @@ const serverBase = require('../common/server-base');
 module.exports = $ => serverBase($).cfg({
 	name: '[server:build]',
 	devtool: '#source-map',
-	externals: [nodeExternals()],
+	externals: [nodeExternals({ whitelist: [/\.(?!(?:jsx?|json)$).{1,5}$/i] })],
 	output: {
 		publicPath: $('build.assetsPublicPath'),
 	},
