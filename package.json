@@ -21,7 +21,7 @@
     "dev": "node @bin/server --run client-dev,server-dev --debug 1 --log 1 --notify 1"
   },
   "optionalDependencies": {
-    "compression-webpack-plugin": "0.3.2",
+    "compression-webpack-plugin": "0.4.0",
     "webpack-bundle-analyzer": "2.3.1"
   },
   "devDependencies": {
@@ -68,7 +68,7 @@
     "sass-loader": "6.0.3",
     "url-loader": "0.5.8",
     "webpack": "2.3.3",
-    "webpack-cfg": "1.2.3",
+    "webpack-cfg": "1.2.4",
     "webpack-dev-middleware": "1.10.1",
     "webpack-hot-middleware": "2.18.0",
     "webpack-node-externals": "1.5.4",
