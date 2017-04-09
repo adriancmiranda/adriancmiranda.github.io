@@ -16,6 +16,7 @@ module.exports = $ => clientBase($).cfg({
 		publicPath: $('build.assetsPublicPath'),
 		filename: $('path.output.scripts', '[name].[chunkhash].js'),
 		chunkFilename: $('path.output.scripts', '[id].[chunkhash].js'),
+		sourceMapFilename: $('path.output.scripts', '[name].[chunkhash].map'),
 	},
 	module: {
 		rules: [],

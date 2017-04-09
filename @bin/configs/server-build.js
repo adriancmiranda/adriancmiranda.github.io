@@ -7,5 +7,6 @@ module.exports = $ => serverBase($).cfg({
 	externals: [nodeExternals({ whitelist: [/\.(?!(?:jsx?|json)$).{1,5}$/i] })],
 	output: {
 		publicPath: $('build.assetsPublicPath'),
+		sourceMapFilename: '[name].map',
 	},
 });
