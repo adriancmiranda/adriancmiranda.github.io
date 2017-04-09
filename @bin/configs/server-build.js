@@ -1,4 +1,6 @@
+const webpack = require('webpack');
 const nodeExternals = require('webpack-node-externals');
+const pirateFlag = require('pirate-flag');
 const serverBase = require('../common/server-base');
 
 module.exports = $ => serverBase($).cfg({
@@ -9,4 +11,14 @@ module.exports = $ => serverBase($).cfg({
 		publicPath: $('build.assetsPublicPath'),
 		sourceMapFilename: '[name].map',
 	},
+	plugins: [
+		new webpack.BannerPlugin({
+			banner: pirateFlag($('package'), {
+				moment: $('now'),
+				commit: $('git.commithash'),
+				homepage: $('package.homepage'),
+				author: $('package.author'),
+			}),
+		}),
+	],
 });

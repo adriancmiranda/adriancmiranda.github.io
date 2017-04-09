@@ -42,11 +42,11 @@ module.exports = $ => clientBase($).cfg({
 		}, $('script.uglify'), {
 			sourceMap: $('build.sourceMap'),
 		})),
-		new OptimizeCSSPlugin({
+		new OptimizeCSSPlugin(Object.assign({
 			cssProcessorOptions: {
 				safe: true,
 			},
-		}),
+		}, $('style.optimize'))),
 		new HtmlWebpackPlugin(Object.assign({}, $('view.data'), {
 			env: JSON.parse($('build.env.NODE_ENV')),
 			title: `${$('package.author')} // ${$('package.description')}`,
