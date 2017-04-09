@@ -1,5 +1,9 @@
 // http://eslint.org/docs/user-guide/configuring
 
+const OFF = 0;
+const WARN = 1;
+const ERROR = 2;
+
 const GSAPGlobals = {
   "TimelineLite": true,
   "TimelineMax": true,
@@ -76,7 +80,7 @@ module.exports = {
 		}
 	},
 	"rules": {
-		"no-debugger": process.env.NODE_ENV === "production" ? 2 : 0,
+		"no-debugger": process.env.NODE_ENV === "production" ? ERROR : OFF,
 		"no-console": "off", // <- trace.js takes care from this
 		"no-param-reassign": "off",
 		"no-tabs": "off",
@@ -87,7 +91,7 @@ module.exports = {
 		"import/no-extraneous-dependencies": ["error", {
 			"optionalDependencies": ["@test/unit/index.js"]
 		}],
-		"indent": [2, "tab", {
+		"indent": [ERROR, "tab", {
 			"SwitchCase": 1
 		}]
 	}
