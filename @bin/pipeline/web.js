@@ -1,5 +1,5 @@
-const { Router } = require('express');
 const is = require('is');
+const { Router } = require('express');
 const webpackDev = require('webpack-dev-middleware');
 const webpackHot = require('webpack-hot-middleware');
 const reporter = require('./reporter');
