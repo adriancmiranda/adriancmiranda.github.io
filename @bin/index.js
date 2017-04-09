@@ -24,6 +24,7 @@ module.exports = www.setConfig((all, cli, api) => {
 	all.set('pwd', alias(__dirname));
 	all.set('git.commithash', git.commithash());
 	all.set('git.version', git.version());
+	all.set('lifecycle', process.env.npm_lifecycle_event);
 
 	// ~ structure folders ~
 	all.set('path.test', '@test');

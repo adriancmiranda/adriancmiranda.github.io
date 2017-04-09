@@ -27,8 +27,8 @@ module.exports = $ => clientBase($).cfg({
 			verbose: true,
 		}),
 		new webpack.DefinePlugin({
-			'process.env': $('build.env'),
 			'process.type': '"renderer"',
+			'process.env': $('build.env'),
 			'git.version': `"${$('git.version')}"`,
 			'git.hash': `"${$('git.commithash')}"`,
 		}),
