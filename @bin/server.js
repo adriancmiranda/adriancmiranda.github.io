@@ -14,13 +14,12 @@ const proxy = config.common.get('dev.proxy');
 const testing = /^testing$/i.test(NODE_ENV);
 const webpackConfig = config({ dev: !testing, run: argv.run });
 const multiCompiler = webpack(webpackConfig);
-const apiOptions = { log: argv.log, notify: argv.notify, proxy };
-const api = pipeline(multiCompiler, apiOptions);
+const pipe = pipeline(multiCompiler, { log: argv.log, notify: argv.notify, proxy });
 const app = express();
 
 app.set('env', NODE_ENV);
-app.use(api);
+app.use(pipe);
 
 module.exports = app.listen(PORT, HOST, (err) => {
-	console.log(err || 'Wait for it...');
+	process.stdout.write(`${err || 'Wait for it...'}\n`);
 });

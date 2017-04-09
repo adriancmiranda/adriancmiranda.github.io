@@ -10,12 +10,12 @@ moment.locale();
 const git = new GitRevisionPlugin({ lightweightTags: true });
 const pkg = fs.readJsonSync('package.json');
 const bowerrc = fs.readJsonSync('.bowerrc');
-const tasks = webpackCfg({
+const www = webpackCfg({
   client: 'configs/client-*.js',
   server: 'configs/server-*.js',
 });
 
-module.exports = tasks.setConfig((all, cli, api) => {
+module.exports = www.setConfig((all, cli, api) => {
 	// ~ metadata ~
 	all.set('package', pkg);
 	all.set('bowerrc', bowerrc);
