@@ -5,7 +5,7 @@ const serverBase = require('../common/server-base');
 module.exports = $ => serverBase($).cfg({
 	name: '[server:dev]',
 	devtool: '#cheap-module-eval-source-map',
-	externals: [nodeExternals({ whitelist: [] })],
+	externals: [nodeExternals({ whitelist: [/\.(?!(?:jsx?|json)$).{1,5}$/i] })],
 	output: {
 		publicPath: $('dev.host'),
 		hotUpdateChunkFilename: '[id].[hash].hot-update.js',
@@ -18,7 +18,7 @@ module.exports = $ => serverBase($).cfg({
 				PORT: $('dev.port') + 1,
 			}),
 		}),
-		new webpack.HotModuleReplacementPlugin(),
+		new webpack.HotModuleReplacementPlugin({ quiet: true }),
 		new webpack.NoEmitOnErrorsPlugin(),
 		new webpack.NamedModulesPlugin(),
 	],

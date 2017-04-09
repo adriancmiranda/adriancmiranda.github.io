@@ -29,7 +29,7 @@ module.exports = $ => clientBase($).cfg('entry', [
 			filename: $('path.output.views', `${parse($('view.entry')).name}.html`),
 			minify: false,
 		})),
-		new webpack.HotModuleReplacementPlugin(),
+		new webpack.HotModuleReplacementPlugin({ quiet: true }),
 		new webpack.NoEmitOnErrorsPlugin(),
 		new webpack.NamedModulesPlugin(),
 		new FriendlyErrorsPlugin(),
