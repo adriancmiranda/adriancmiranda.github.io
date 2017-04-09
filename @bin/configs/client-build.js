@@ -91,7 +91,7 @@ module.exports = $ => clientBase($).cfg({
 		algorithm: 'gzip',
 		threshold: 10240,
 		minRatio: 0.8,
-	}, $('build.gzip.data'), {
+	}, $('build.gzip.options'), {
 		test: new RegExp(`\\.(${$('build.gzip.extensions').join('|')})$`),
 		asset: '[path].gz[query]',
 	});
@@ -100,8 +100,8 @@ module.exports = $ => clientBase($).cfg({
 // --------------------------------------------------------------------------
 // *optional: https://www.npmjs.com/package/webpack-bundle-analyzer
 // --------------------------------------------------------------------------
-.cfg('plugins', $('build.bundleAnalyzerReport') ? [(() => {
+.cfg('plugins', $('build.bundleAnalyzer.report') ? [(() => {
 	const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
-	return new BundleAnalyzerPlugin();
+	return new BundleAnalyzerPlugin(Object.assign({}, $('build.bundleAnalyzer.options')));
 })()] : [])
 ;
