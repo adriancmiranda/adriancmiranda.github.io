@@ -7,6 +7,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin');
 const pirateFlag = require('pirate-flag');
 const clientBase = require('../templates/client-base');
+const skinBase = require('../templates/skin-base');
 
 module.exports = $ => clientBase($).cfg({
 	name: '[client:build]',
@@ -19,7 +20,7 @@ module.exports = $ => clientBase($).cfg({
 		sourceMapFilename: $('path.output.script', '[name].[chunkhash].map'),
 	},
 	module: {
-		rules: [],
+		rules: skinBase.rules($),
 	},
 	plugins: [
 		new CleanWebpackPlugin([$('path.output.bundle')], {

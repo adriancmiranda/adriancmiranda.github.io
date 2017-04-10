@@ -4,6 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
 const { prependEntries } = require('webpack-cfg/tools');
 const clientBase = require('../templates/client-base');
+const skinBase = require('../templates/skin-base');
 
 module.exports = $ => clientBase($).cfg('entry', [
 	$('pwd', 'pipeline/action'),
@@ -15,7 +16,7 @@ module.exports = $ => clientBase($).cfg('entry', [
 		publicPath: $('dev.assetsPublicPath'),
 	},
 	module: {
-		rules: [],
+		rules: skinBase.rules($),
 	},
 	plugins: [
 		new webpack.DefinePlugin({
