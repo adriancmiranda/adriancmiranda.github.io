@@ -72,8 +72,8 @@ module.exports = www.setConfig((all, cli, api) => {
 	all.set('build.assetsPublicPath', '/');
 	all.set('build.sourceMap', true);
 	all.set('build.gzip', false);
-	all.set('build.gzipExtensions', ['js', 'css']);
-	all.set('build.bundleAnalyzerReport', process.env.npm_config_report);
+	all.set('build.gzip.extensions', ['js', 'css']);
+	all.set('build.bundleAnalyzer.report', process.env.npm_config_report);
 
 	// ~ server settings ~
 	api.set('alias.~', all.res('path.server'));
