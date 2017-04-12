@@ -1,13 +1,17 @@
-const { contextEntries, prependEntries } = require('webpack-cfg/tools');
+const { contextEntries, prependEntries, mergeEntries } = require('webpack-cfg/tools');
 const webpack = require('webpack');
-const commonBase = require('./');
+const commonTemplate = require('./common-template');
 const asset = require('./asset');
+const fileLoader = require.resolve('../loaders/file-loader');
+const urlLoader = require.resolve('../loaders/url-loader');
 
-module.exports = $ => commonBase($)
-.cfg('entry', $('path.client', $('path.entry.script')), contextEntries)
+module.exports = $ => commonTemplate($)
 .cfg('resolve.modules', $('cwd', $('path.client')), prependEntries)
+.cfg('entry', contextEntries($('path.client', $('path.entry.script')),
+	mergeEntries($('script.entry'), $('style.entry'))
+), val => val)
 .cfg({
-	name: 'client:base',
+	name: 'client:template',
 	target: 'web',
 	resolve: {
 		descriptionFiles: ['bower.json'],
@@ -16,7 +20,7 @@ module.exports = $ => commonBase($)
 	},
 	module: {
 		rules: [{
-			loader: 'url-loader',
+			loader: urlLoader,
 			test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
 			query: asset.resolve($, 'font', {
 				mimetype: 'application/font-woff',
@@ -28,7 +32,7 @@ module.exports = $ => commonBase($)
 				$('cwd', $('bowerrc.directory')),
 			],
 		}, {
-			loader: 'url-loader',
+			loader: urlLoader,
 			test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
 			query: asset.resolve($, 'font', {
 				mimetype: 'application/font-woff2',
@@ -40,7 +44,7 @@ module.exports = $ => commonBase($)
 				$('cwd', $('bowerrc.directory')),
 			],
 		}, {
-			loader: 'url-loader',
+			loader: urlLoader,
 			test: /\.otf(\?v=\d+\.\d+\.\d+)?$/,
 			query: asset.resolve($, 'font', {
 				mimetype: 'application/x-font-opentype',
@@ -52,7 +56,7 @@ module.exports = $ => commonBase($)
 				$('cwd', $('bowerrc.directory')),
 			],
 		}, {
-			loader: 'url-loader',
+			loader: urlLoader,
 			test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
 			query: asset.resolve($, 'font', {
 				mimetype: 'application/x-font-truetype',
@@ -64,7 +68,7 @@ module.exports = $ => commonBase($)
 				$('cwd', $('bowerrc.directory')),
 			],
 		}, {
-			loader: 'url-loader',
+			loader: urlLoader,
 			test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
 			query: asset.resolve($, 'font', {
 				mimetype: 'application/vnd.ms-fontobject',
@@ -76,7 +80,7 @@ module.exports = $ => commonBase($)
 				$('cwd', $('bowerrc.directory')),
 			],
 		}, {
-			loader: 'url-loader',
+			loader: urlLoader,
 			test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
 			query: asset.resolve($, 'font', {
 				mimetype: 'image/svg+xml',
@@ -88,7 +92,7 @@ module.exports = $ => commonBase($)
 				$('cwd', $('bowerrc.directory')),
 			],
 		}, {
-			loader: 'file-loader',
+			loader: fileLoader,
 			test: /\.(wav|mp3|mp4|ogg|ogv)/i,
 			query: asset.resolve($, 'media'),
 			include: [
@@ -96,7 +100,7 @@ module.exports = $ => commonBase($)
 			],
 		}, {
 			use: [{
-				loader: 'file-loader',
+				loader: fileLoader,
 				query: asset.resolve($, 'media', {
 					hash: 'sha512',
 					digest: 'hex',
