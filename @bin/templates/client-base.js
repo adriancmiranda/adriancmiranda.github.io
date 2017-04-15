@@ -126,7 +126,7 @@ module.exports = $ => commonTemplate($)
 					},
 				}, $('image.compress')),
 			}],
-			test: /\.(jpe?g|png|gif|svg)(\?v=\d+\.\d+\.\d+)?$/,
+			test: /\.(jpe?g|png|gif|svg|cur|webp)(\?v=\d+\.\d+\.\d+)?$/,
 			include: [
 				$('cwd', $('path.client'), $('path.entry.media')),
 			],
