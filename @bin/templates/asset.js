@@ -1,7 +1,7 @@
 module.exports.resolve = ($, assetType, options = {}) => {
 	if ($(`${$('lifecycle')}.useRelativePath`)) {
 		options.useRelativePath = true;
-		options.textOutputPath = $('path.output.style');
+		options.cssOutputPath = $('path.output.style');
 		options.outputPath = $(`path.output.${assetType}`);
 		options.name = '[name].[ext]?[hash:7]';
 	} else {
