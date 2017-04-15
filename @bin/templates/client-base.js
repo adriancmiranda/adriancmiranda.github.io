@@ -1,6 +1,6 @@
 const { contextEntries, prependEntries, mergeEntries } = require('webpack-cfg/tools');
 const webpack = require('webpack');
-const commonTemplate = require('./common-template');
+const commonTemplate = require('./');
 const asset = require('./asset');
 const fileLoader = require.resolve('../loaders/file-loader');
 const urlLoader = require.resolve('../loaders/url-loader');

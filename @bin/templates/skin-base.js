@@ -1,42 +1,48 @@
 const is = require('is');
 const autoprefixer = require('autoprefixer');
+const fileLoader = require.resolve('../loaders/file-loader');
+const asset = require('./asset');
 
-exports.parseEntry = ($, importStyle, filename) =>
-	`${importStyle} ~${$('path.entry.style', filename)};`
+exports.parseEntry = ($, tmpl, filename) =>
+	tmpl.replace('%s', $('path.entry.style', filename));
 ;
 
-exports.parseEntries = ($, importStyle) => {
-	const entry = $('style.entry');
+exports.parseEntries = ($, tmpl) => {
+	const parse = exports.parseEntry.bind(exports, $, tmpl);
+	const entry = $('style.entry') || [];
 	if (is.string(entry)) {
-		return exports.parseEntry($, importStyle, entry);
-	} else if (is.array(entry)) {
-		return entry.map((filename) =>
-			exports.parseEntry($, importStyle, filename)
-		).join(' ');
+		return parse(entry);
 	} else if (is.object(entry)) {
-		return Object.keys(entry).map((filename) =>
-			exports.parseEntry($, importStyle, entry[filename])
-		).join(' ');
+		entry = Object.keys(entry).map((name) => entry[name]);
+	} if (is.array(entry)) {
+		return entry.map(parse).join(' ');
 	}
 	throw new TypeError('Invalid style.entry');
 };
 
-const cssLoader = ($, type = '') => {
+const cssLoader = ($, publicPath, extract, fallback, prefix = '') => {
 	const action = $('lifecycle');
 	const sourceMap = $(`${action}.sourceMap`);
 	const minimize = $('argv.dev');
-	return {
-		css: {
-			loader: 'css-loader',
-			options: Object.assign({}, $(`style.${type}css`), {
-				minimize,
-				sourceMap,
-			}),
-		},
+	const cssLoader = {
+		loader: 'css-loader',
+		options: Object.assign({}, $(`style.${prefix}css`), {
+			minimize,
+			sourceMap,
+		}),
 	};
+	if (is.empty(fallback) || extract) {
+		return [{
+			loader: fileLoader,
+			options: asset.resolve($, 'style'),
+		}, {
+			loader: 'extract-loader',
+		}, cssLoader];
+	}
+	return [fallback, cssLoader];
 };
 
-exports.loaders = ($, fallback = 'style-loader') => {
+exports.style = ($, fallback = 'style-loader') => {
 	const action = $('lifecycle');
 	const parse = exports.parseEntries;
 	const env = $(`${action}.env.NODE_ENV`);
@@ -44,76 +50,53 @@ exports.loaders = ($, fallback = 'style-loader') => {
 	const publicPath = $(`${action}.publicPath`);
 	const extract = $('argv.dev');
 	return {
-		publicPath,
-		extract,
-		use: {
-			scss: [fallback, cssLoader($), {
-				loader: 'sass-loader',
-				options: Object.assign({}, $('style.scss'), {
-					sourceMap,
-					data: [
-						`$env: ${env || 'nil'};`,
-						`@import "${parse($, '@import')}";`
-					].join(' '),
-				}),
-			}],
-			sass: [fallback, cssLoader($), {
-				loader: 'sass-loader',
-				options: Object.assign({}, $('style.sass'), {
-					indentedSyntax: true,
-					sourceMap,
-					data: [
-						`$env: ${env || 'nil'};`,
-						`@import "${parse($, '@import')}";`
-					].join(' '),
-				}),
-			}],
-			stylus: [fallback, cssLoader($), {
-				loader: 'stylus-loader',
-				options: Object.assign({}, $('style.stylus'), {
-					sourceMap,
-				}),
-			}],
-			styl: [fallback, cssLoader($), {
-				loader: 'stylus-loader',
-				options: Object.assign({}, $('style.styl'), {
-					sourceMap,
-				}),
-			}],
-			less: [fallback, cssLoader($), {
-				loader: 'less-loader',
-				options: Object.assign({}, $('style.less'), {
-					sourceMap,
-				}),
-			}],
-		},
-		css: cssLoader($),
-		postcss: cssLoader($, 'post'),
+		scss: cssLoader($, publicPath, extract, fallback).concat({
+			loader: 'sass-loader',
+			options: Object.assign({}, $('style.scss'), {
+				sourceMap,
+				data: [
+					`$env: ${env || 'nil'};`,
+					`@import "${parse($, '@import "~%s"')}";`
+				].join(' '),
+			}),
+		}),
+		sass: cssLoader($, publicPath, extract, fallback).concat({
+			loader: 'sass-loader',
+			options: Object.assign({}, $('style.sass'), {
+				indentedSyntax: true,
+				sourceMap,
+				data: [
+					`$env: ${env || 'nil'};`,
+					`@import "${parse($, '@import ~%s')}";`
+				].join(' '),
+			}),
+		}),
+		stylus: cssLoader($, publicPath, extract, fallback).concat({
+			loader: 'stylus-loader',
+			options: Object.assign({}, $('style.stylus'), {
+				sourceMap,
+			}),
+		}),
+		styl: cssLoader($, publicPath, extract, fallback).concat({
+			loader: 'stylus-loader',
+			options: Object.assign({}, $('style.styl'), {
+				sourceMap,
+			}),
+		}),
+		less: cssLoader($, publicPath, extract, fallback).concat({
+			loader: 'less-loader',
+			options: Object.assign({}, $('style.less'), {
+				sourceMap,
+			}),
+		}),
+		css: cssLoader($, publicPath, extract, fallback),
+		postcss: cssLoader($, publicPath, extract, fallback, 'post'),
 	};
-};
-
-exports.style = ($, fallbackStyle) => {
-	const postcss = module.exports.postcss;
-	const options = exports.loaders($, fallbackStyle, postcss);
-	const publicPath = options.publicPath;
-	if (options.extract) {
-		Object.keys(options.use).map((name) => {
-			const fallback = options.use[name].shift();
-			// options.use[name].unshift({
-			// 	loader: options.use[name],
-			// 	options: {
-			// 		publicPath,
-			// 	},
-			// });
-			return options.use[name];
-		});
-	}
-	return {};
-	// return options.use;
 };
 
 exports.rules = ($, fallback) => {
 	const use = exports.style($, fallback);
+	console.log('use:\n', use);
 	return Object.keys(use).map((ext) => ({
 		test: new RegExp(`\\.${ext}$`),
 		use: use[ext],

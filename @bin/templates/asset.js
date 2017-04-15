@@ -3,7 +3,7 @@ module.exports.resolve = ($, assetType, options = {}) => {
 		options.useRelativePath = true;
 		options.cssOutputPath = $('path.output.style');
 		options.outputPath = $(`path.output.${assetType}`);
-		options.name = '[name].[ext]?[hash:7]';
+		options.name = '[name].[hash:7].[ext]';
 	} else {
 		options.name = $(`path.output.${assetType}`, '[name].[hash:7].[ext]');
 	}
