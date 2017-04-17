@@ -1,4 +1,5 @@
 const { contextEntries, prependEntries, mergeEntries } = require('webpack-cfg/tools');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const webpack = require('webpack');
 const commonTemplate = require('./');
 const asset = require('./asset');
@@ -7,8 +8,9 @@ const urlLoader = require.resolve('../loaders/url-loader');
 
 module.exports = $ => commonTemplate($)
 .cfg('resolve.modules', $('cwd', $('path.client')), prependEntries)
-.cfg('entry', contextEntries($('path.client', $('path.entry.script')),
-	mergeEntries($('script.entry'), $('style.entry'))
+.cfg('entry', contextEntries(
+	$('path.client', $('path.entry.script')),
+	$('script.entry')
 ), val => val)
 .cfg({
 	name: 'client:template',
@@ -134,5 +136,10 @@ module.exports = $ => commonTemplate($)
 	},
 	plugins: [
 		new webpack.ProvidePlugin(Object.assign({}, $('provide'))),
+		new ExtractTextPlugin({
+			filename: $('path.output.style', '[name].[contenthash].css'),
+			disable: !!$('argv.dev'),
+			allChunks: true,
+		}),
 	],
 });

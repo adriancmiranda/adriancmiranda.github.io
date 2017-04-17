@@ -52,8 +52,6 @@ module.exports = www.setConfig((all, cli, api) => {
 
 	// ~ common aliases ~
 	all.set('alias.view', all.res('path.entry.view'));
-	all.set('alias.data', all.res('path.client', 'data'));
-	all.set('alias.asset', all.res('path.client', all.res('path.asset')));
 
 	// ~ dev lifecycle ~
 	all.set('dev.env.NODE_ENV', '"development"');
@@ -81,6 +79,8 @@ module.exports = www.setConfig((all, cli, api) => {
 
 	// ~ client settings ~
 	cli.set('alias.~', all.res('path.client'));
+	cli.set('alias.data', all.res('path.client', 'data'));
+	cli.set('alias.asset', all.res('path.client', all.res('path.asset')));
 	cli.set('alias.@vendors', all.res('bowerrc.directory'));
 	cli.set('provide.trace', '@vendors/trace');
 	cli.set('script.entry.index', './index.js');
