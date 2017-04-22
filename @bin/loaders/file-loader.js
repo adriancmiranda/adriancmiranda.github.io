@@ -6,6 +6,8 @@ const path = require("path");
 const loaderUtils = require("loader-utils");
 
 module.exports = function(content) {
+	"use strict";
+
 	this.cacheable && this.cacheable();
 	if (!this.emitFile) throw new Error("emitFile is required from module system");
 
@@ -23,7 +25,7 @@ module.exports = function(content) {
 	}, options, query);
 
 	const context = config.context || this.options.context || process.cwd();
-	const issuerContext = (this._module && this._module.issuer && this._module.issuer.context) || context;
+	const issuer = (this._module && this._module.issuer) || {};
 	let url = loaderUtils.interpolateName(this, config.name, {
 		regExp: config.regExp,
 		context,
@@ -32,7 +34,7 @@ module.exports = function(content) {
 
 	if (config.outputPath) {
 		// support functions as outputPath to generate them dynamically
-		config.outputPath = parsePath("outputPath", url);
+		config.outputPath = parsePath(config.outputPath, url);
 	}
 
 	if (config.useRelativePath) {
@@ -40,14 +42,15 @@ module.exports = function(content) {
 		config.outputPath = config.outputPath.replace(url, "");
 
 		// We have access only to entry point relationships. So we work with this relations.
-		const relation = { path: issuerContext && path.relative(issuerContext, this.resourcePath) };
+		issuer.context = issuer.context || context;
+		const relation = { path: issuer.context && path.relative(issuer.context, this.resourcePath) };
 		relation.path = relation.path ? path.dirname(relation.path) : config.outputPath;
 
 		// Output path
 		// If the `output.dirname` is pointing to up in relation to the `config.outputPath`.
 		// We forced him to the webpack output path config. Even though it is empty.
 		const output = this.options.output || {};
-		output.dirname = relation.path.replace(/\.\.(\/|\\)/g, "").split(path.sep).join("/");
+		output.dirname = relation.path.replace(/^(\.\.(\/|\\))+/g, "").split(path.sep).join("/");
 		if (output.dirname.indexOf(config.outputPath) !== 0) output.dirname = config.outputPath;
 		config.outputPath = path.join(output.dirname, url).split(path.sep).join("/");
 
@@ -73,7 +76,7 @@ module.exports = function(content) {
 
 	if (config.publicPath !== false) {
 		// support functions as publicPath to generate them dynamically
-		config.publicPath = JSON.stringify(parsePath("publicPath", url));
+		config.publicPath = JSON.stringify(parsePath(config.publicPath, url));
 	} else {
 		config.publicPath = `__webpack_public_path__ + ${JSON.stringify(url)}`;
 	}
@@ -84,12 +87,12 @@ module.exports = function(content) {
 
 	return `module.exports = ${config.publicPath};`;
 	function parsePath(property, slug) {
-		if (!config[property]) {
+		if (!property) {
 			return slug;
-		} else if (typeof config[property] === 'function') {
-			return config[property](slug);
+		} else if (typeof property === 'function') {
+			return property(slug);
 		}
-		return config[property] + slug;
+		return property + slug;
 	}
 };
 
