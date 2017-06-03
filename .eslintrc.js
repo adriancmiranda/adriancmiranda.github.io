@@ -40,19 +40,9 @@ const GSAPGlobals = {
   "BezierPlugin": true,
 };
 
-const CommonGlobals = {
+const ClientGlobals = {
 	"Modernizr": true,
-	"module": true,
-	"process": true,
 	"trace": true,
-};
-
-const TestGlobals = {
-	"beforeEach": true,
-	"describe": true,
-	"request": true,
-	"expect": true,
-	"it": true
 };
 
 module.exports = {
@@ -61,6 +51,7 @@ module.exports = {
 	"extends": "airbnb-base",
 	"env": {
 		"browser": true,
+		"node": true,
 	},
 	"ecmaFeatures": {
 		"modules": true,
@@ -68,7 +59,7 @@ module.exports = {
 	"parserOptions": {
 		"sourceType": "module",
 	},
-	"globals": Object.assign(GSAPGlobals, CommonGlobals, TestGlobals),
+	"globals": Object.assign(GSAPGlobals, ClientGlobals),
 	"plugins": [
 		"html"
 	],
@@ -81,14 +72,13 @@ module.exports = {
 	},
 	"rules": {
 		"no-debugger": process.env.NODE_ENV === "production" ? ERROR : OFF,
-		"no-console": "off", // <- trace.js takes care from this
-		"no-param-reassign": "off",
-		"no-tabs": "off",
-		"import/extensions": ["error", "always", {
-			"vue": "never",
+		"no-console": OFF, // <- trace.js takes care from this
+		"no-param-reassign": OFF,
+		"no-tabs": OFF,
+		"import/extensions": [ERROR, "always", {
 			"js": "never",
 		}],
-		"import/no-extraneous-dependencies": ["error", {
+		"import/no-extraneous-dependencies": [ERROR, {
 			"optionalDependencies": ["@test/unit/index.js"]
 		}],
 		"indent": [ERROR, "tab", {
