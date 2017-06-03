@@ -48,7 +48,7 @@ module.exports = www.setConfig((all, cli, api) => {
 	all.set('path.entry.font', all.res('path.asset', 'fonts'));
 	all.set('path.entry.style', 'styles');
 	all.set('path.entry.script', '');
-	all.set('path.entry.view', all.res('path.client'));
+	all.set('path.entry.view', 'views');
 
 	// ~ output ~
 	all.set('path.output.bundle', 'bundle');

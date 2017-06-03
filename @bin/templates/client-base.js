@@ -29,7 +29,7 @@ module.exports = $ => commonTemplate($)
 	module: {
 		rules: [{
 			loader: 'imports-loader?this=>window!exports-loader?window.Modernizr',
-			test: /modernizr/,
+			test: /\bmodernizr\b/,
 		}, {
 			loader: urlLoader,
 			test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
