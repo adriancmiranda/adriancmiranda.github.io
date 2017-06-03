@@ -53,7 +53,7 @@ module.exports = (options) => {
 
 			state.stats.compilation.errors.forEach((compilationError, i) => {
 				const message = compilationError && compilationError.message;
-				const source = compilationError && compilationError.module.resource;
+				const source = compilationError && compilationError.module && compilationError.module.resource;
 				const errorToken = source + message;
 				if (!options.dedupErrors || !errors.find(error => error === errorToken)) {
 					errors.push(errorToken);

@@ -10,7 +10,6 @@ module.exports.postcss = $ => [
 
 module.exports.style = ($, fallbackStyle = 'style-loader') => {
 	const options = styleLoaders($, fallbackStyle, module.exports.postcss);
-	console.log(options.use.scss)
 	if (options.extract) {
 		Object.keys(options.use).map((name) => {
 			const fallback = options.use[name].shift();

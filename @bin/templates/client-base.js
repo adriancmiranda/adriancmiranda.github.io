@@ -8,9 +8,15 @@ const urlLoader = require.resolve('../loaders/url-loader');
 
 module.exports = $ => commonTemplate($)
 .cfg('resolve.modules', $('cwd', $('path.client')), prependEntries)
-.cfg('entry', contextEntries(
-	$('path.client', $('path.entry.script')),
-	$('script.entry')
+.cfg('entry', mergeEntries(
+	contextEntries(
+		$('path.client', $('path.entry.script')),
+		$('script.entry')
+	),
+	contextEntries(
+		$('path.client', $('path.entry.style')),
+		$('style.entry')
+	)
 ), val => val)
 .cfg({
 	name: 'client:template',
@@ -22,6 +28,9 @@ module.exports = $ => commonTemplate($)
 	},
 	module: {
 		rules: [{
+			loader: 'imports-loader?this=>window!exports-loader?window.Modernizr',
+			test: /modernizr/,
+		}, {
 			loader: urlLoader,
 			test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
 			query: asset.resolve($, 'font', {
@@ -99,6 +108,16 @@ module.exports = $ => commonTemplate($)
 			query: asset.resolve($, 'media'),
 			include: [
 				$('cwd', $('path.client'), $('path.entry.media')),
+			],
+		}, {
+			use: [{
+				loader: 'babel-loader',
+			}, {
+				loader: 'pug-loader',
+			}],
+			test: /\.(pug|jade)$/,
+			include: [
+				$('cwd', $('path.entry.view')),
 			],
 		}, {
 			use: [{

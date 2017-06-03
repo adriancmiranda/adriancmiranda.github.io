@@ -10,15 +10,24 @@ moment.locale();
 const git = new GitRevisionPlugin({ lightweightTags: true });
 const pkg = fs.readJsonSync('package.json');
 const bowerrc = fs.readJsonSync('.bowerrc');
+const babelrc = fs.readJsonSync('.babelrc');
 const www = webpackCfg({
-  client: 'settings/client-*.js',
-  server: 'settings/server-*.js',
+	client: 'settings/client-*.js',
+	server: 'settings/server-*.js',
 });
 
 module.exports = www.setConfig((all, cli, api) => {
+
+	// --------------------------------------------------------------------------
+	//
+	// COMMON
+	//
+	// --------------------------------------------------------------------------
+
 	// ~ metadata ~
 	all.set('package', pkg);
 	all.set('bowerrc', bowerrc);
+	all.set('babelrc', babelrc);
 	all.set('context', process.cwd());
 	all.set('cwd', process.cwd());
 	all.set('pwd', alias(__dirname));
@@ -39,7 +48,7 @@ module.exports = www.setConfig((all, cli, api) => {
 	all.set('path.entry.font', all.res('path.asset', 'fonts'));
 	all.set('path.entry.style', 'styles');
 	all.set('path.entry.script', '');
-	all.set('path.entry.view', 'views');
+	all.set('path.entry.view', all.res('path.client'));
 
 	// ~ output ~
 	all.set('path.output.bundle', 'bundle');
@@ -53,11 +62,16 @@ module.exports = www.setConfig((all, cli, api) => {
 	// ~ common aliases ~
 	all.set('alias.view', all.res('path.entry.view'));
 
+	// ~ common providers ~
+	all.set('provide.$', 'jquery');
+	all.set('provide.jQuery', 'jquery');
+
 	// ~ dev lifecycle ~
 	all.set('dev.env.NODE_ENV', '"development"');
-	all.set('dev.assetsPublicPath', '/');
 	all.set('dev.host', 'localhost');
 	all.set('dev.port', 3000);
+	all.set('dev.assetsPublicPath', '');
+	all.set('dev.useRelativePath', true);
 	all.set('dev.autoOpenBrowser', true);
 	all.set('dev.sourceMap', false);
 	all.set('dev.proxy[/api/*]', `http://${all.get('dev.host')}:${all.get('dev.port') + 1}`);
@@ -67,24 +81,51 @@ module.exports = www.setConfig((all, cli, api) => {
 
 	// ~ build lifecycle ~
 	all.set('build.env.NODE_ENV', '"production"');
-	all.set('build.assetsPublicPath', '/');
+	all.set('build.assetsPublicPath', '');
+	all.set('build.useRelativePath', true);
 	all.set('build.sourceMap', true);
 	all.set('build.gzip', false);
 	all.set('build.gzip.extensions', ['js', 'css']);
 	all.set('build.bundleAnalyzer.report', process.env.npm_config_report);
 
-	// ~ server settings ~
+
+	// --------------------------------------------------------------------------
+	//
+	// SERVER
+	//
+	// --------------------------------------------------------------------------
+
+	// ~ server aliases settings ~
 	api.set('alias.~', all.res('path.server'));
+
+	// ~ server script settings ~
 	api.set('script.entry.server', './index.js');
 
-	// ~ client settings ~
+
+	// --------------------------------------------------------------------------
+	//
+	// CLIENT
+	//
+	// --------------------------------------------------------------------------
+
+	// ~ client aliases settings ~
 	cli.set('alias.~', all.res('path.client'));
 	cli.set('alias.data', all.res('path.client', 'data'));
 	cli.set('alias.asset', all.res('path.client', all.res('path.asset')));
-	cli.set('alias.@vendors', all.res('bowerrc.directory'));
-	cli.set('provide.trace', '@vendors/trace');
+	cli.set('alias.@vendors', all.res('bowerrc.directory') || 'bower_components');
+
+	// ~ client providers settings ~
+	cli.set('provide.Proto', 'Proto');
+	cli.set('provide.Modernizr', 'Modernizr');
+	cli.set('provide.trace', 'trace');
+
+	// ~ client script settings ~
 	cli.set('script.entry.index', './index.js');
+
+	// ~ client style settings ~
 	cli.set('style.entry', './index.scss');
+
+	// ~ client view settings ~
 	cli.set('view.entry', './index.pug');
 	cli.set('view.data.minify.removeAttributeQuotes', false);
 	cli.set('view.data.minify.collapseWhitespace', false);

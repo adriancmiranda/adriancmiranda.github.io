@@ -86,7 +86,7 @@ module.exports = function(content) {
 	}
 
 	return `module.exports = ${config.publicPath};`;
-	
+
 	function is(expected, value) {
 		return new RegExp(`(${expected})`).test(toString.call(value));
 	}
@@ -94,7 +94,7 @@ module.exports = function(content) {
 	function parsePath(property, slug) {
 		if (!property) {
 			return slug;
-		} else if (typeof property === 'function') {
+		} else if (is('Function', property)) {
 			return property(slug);
 		}
 		return property + slug;

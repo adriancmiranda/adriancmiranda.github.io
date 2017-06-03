@@ -44,8 +44,12 @@ module.exports = $ => clientBase($).cfg({
 			sourceMap: $('build.sourceMap'),
 		})),
 		new OptimizeCSSPlugin(Object.assign({
+			canPrint: true,
 			cssProcessorOptions: {
 				safe: true,
+				discardComments: {
+					removeAll: true,
+				},
 			},
 		}, $('style.optimize'))),
 		new HtmlWebpackPlugin(Object.assign({}, $('view.data'), {

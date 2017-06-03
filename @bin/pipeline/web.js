@@ -17,7 +17,7 @@ module.exports = (compiler, options) => {
 	dev.waitUntilValid(options.waitUntilValid);
 	app.use(dev);
 
-	const hot = webpackHot(compiler, { log: false });
+	const hot = webpackHot(compiler, { log: false, heartbeat: 10 * 1000 });
 	compiler.plugin('compilation', (compilation) => {
 		compilation.plugin('html-webpack-plugin-after-emit', (data, next) => {
 			hot.publish({ action: 'reload' });
