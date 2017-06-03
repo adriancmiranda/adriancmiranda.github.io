@@ -1,5 +1,7 @@
 const { baseTemplate } = require('webpack-cfg/templates');
 const eslintFriendlyFormatter = require('eslint-friendly-formatter');
+const skinBase = require('./skin-base');
+const pirateLoader = require.resolve('../loaders/pirate-loader');
 
 module.exports = $ => baseTemplate($).cfg({
 	name: 'common:template',
@@ -33,6 +35,10 @@ module.exports = $ => baseTemplate($).cfg({
 				$('cwd', $('path.server')),
 				$('cwd', $('path.test')),
 			],
+		}, {
+			loader: pirateLoader,
+			test: /\.pirate$/,
+			options: skinBase.style($),
 		}, {
 			loader: 'json-loader',
 			test: /\.json$/,
