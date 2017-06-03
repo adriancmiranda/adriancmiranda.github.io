@@ -2,6 +2,6 @@
   "private": true,
   "name": "@vendors",
   "dependencies": {
-    "trace": "adriancmiranda/trace#1.0.9"
+    "trace": "adriancmiranda/trace#v1.0.11"
   }
 }
