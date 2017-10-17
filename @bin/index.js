@@ -8,9 +8,9 @@ const moment = require('moment');
 moment.locale();
 
 const git = new GitRevisionPlugin({ lightweightTags: true });
-const pkg = fs.readJsonSync('package.json');
-const bowerrc = fs.readJsonSync('.bowerrc');
-const babelrc = fs.readJsonSync('.babelrc');
+const pkg = fs.readJsonSync('package.json', { throws: false });
+const bowerrc = fs.readJsonSync('.bowerrc', { throws: false });
+const babelrc = fs.readJsonSync('.babelrc', { throws: false });
 const www = webpackCfg({
 	client: 'settings/client-*.js',
 	server: 'settings/server-*.js',
