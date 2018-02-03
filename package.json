@@ -1,0 +1,15 @@
+{
+  "private": true,
+  "name": "adriancmiranda",
+  "author": "Adrian C. Miranda",
+  "version": "1.0.0",
+  "description": "A personal folio",
+  "main": "index.js",
+  "license": "ISC",
+  "scripts": {
+    "start": "browser-sync start --cors -s . --startPath . --files \"**/*.*\""
+  },
+  "devDependencies": {
+    "browser-sync": "2.23.6"
+  }
+}
